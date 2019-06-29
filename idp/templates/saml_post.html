@@ -1,0 +1,25 @@
+<!-- Extends default Bootstrap Italia template -->
+{% extends 'main_page.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block page_title %}
+    SAML POST
+{% endblock page_title %}
+
+{% block content %}
+    <form method="post" action="{{ acs_url }}">
+        {% csrf_token %}
+        <div>
+        <input type="hidden" name="RelayState" value="{{ relay_state }}" />
+        <input type="hidden" name="SAMLResponse" value="{{ saml_response }}" />
+        </div>
+    </form>
+    {% if saml_response %}
+    <script type="text/javascript">
+        window.onload = function () {
+            document.forms[0].submit();
+        }
+    </script>
+    {% endif %}
+{% endblock content %}

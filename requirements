@@ -1,0 +1,22 @@
+django>2.1,<2.2
+mysqlclient
+uwsgi
+ipython
+
+# hint before: pip install -U setuptools
+git+https://github.com/peppelinux/pysaml2.git@pplnx-dev
+cffi
+
+# django saml2 idp
+git+https://github.com/peppelinux/djangosaml2.git@pplnx-dev
+
+# template
+git+https://github.com/UniversitaDellaCalabria/django-bootstrap-italia.git
+
+# ldap
+git+https://github.com/peppelinux/django-ldapdb.git
+git+https://github.com/peppelinux/pySSHA-slapd.git
+pycountry
+git+https://github.com/silentsokolov/django-admin-rangefilter.git
+git+https://github.com/peppelinux/django-ldap-academia-ou-manager.git
+

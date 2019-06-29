@@ -1,0 +1,23 @@
+<!-- Extends default Bootstrap Italia template -->
+{% extends 'main_page.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block page_title %}
+    {% trans "Error" %}
+{% endblock page_title %}
+
+{% block content %}
+    <h1 class="mb-4">{% trans "Error during SAML2 authentication" %}</h1>
+    {% if exception_type %}
+        <p class="mb-2"><strong>{{exception_type}}</strong><br></p>
+        {% if exception_msg %}
+            <p>{{exception_msg}}</p>
+        {% endif %}
+    {% endif %}
+    {% if extra_message %}
+        <p>{{extra_message}}</p>
+    {% endif %}
+
+</html>
+{% endblock content %}

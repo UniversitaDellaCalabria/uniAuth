@@ -1,0 +1,13 @@
+*/*.env
+easy-rsa
+certs/keys/*
+*.pyc
+*~
+*__pycache__*
+*/.~lock*
+*/settingslocal.py
+static/*
+certificates/*
+data/metadata/*
+!data/metadata/README.md
+django_idp/idp_pysaml2.py

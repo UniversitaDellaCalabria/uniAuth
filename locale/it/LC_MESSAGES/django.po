@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-04 08:11+0000\n"
+"PO-Revision-Date: 2019-04-04 10:11+0200\n"
+"Last-Translator: wert <wert@portatile-lenovo-cla>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: uniauth/decorators.py:35 uniauth/decorators.py:56
+msgid "not a valid SAMLRequest: {}"
+msgstr "non è una richiesta SAML (SAML Request) valida {}"
+
+#: uniauth/decorators.py:38 uniauth/decorators.py:59
+#: uniauth/decorators.py:76
+msgid "Please renew your SAML Request"
+msgstr "Perfavore rinnova la tua richiesta SAML"
+
+#: uniauth/decorators.py:39 uniauth/decorators.py:60
+#: uniauth/decorators.py:77 uniauth/views.py:434
+msgid ""
+"Not a valid SAML Session, Probably your request is expired or you refreshed "
+"your page getting in a stale request. Please come back to your SP and renew "
+"the authentication request"
+msgstr ""
+"Questa non risulta essere una sessione SAML valida. Probabilmente la tua "
+"richiesta è scaduta, hai rinnovato la pagina o altro. Ti preghiamo di "
+"tornare indietro presso il sito (Service Provider) dal quale provieni e di "
+"rinnovare la tua richiesta di autenticazione."
+
+#: uniauth/decorators.py:75
+msgid "You cannot access to this service directly"
+msgstr "Non puoi accedere a questo servizio"
+
+#: uniauth/forms.py:10
+msgid "Desidero rivalutare il mio consenso al trattamento dei dati personali"
+msgstr ""
+
+#: uniauth/forms.py:17
+msgid "Do il mio consenso"
+msgstr ""
+
+#: uniauth/forms.py:18
+msgid "Nego il mio consenso"
+msgstr ""
+
+#: uniauth/forms.py:21
+msgid "Ricorda questa decisione per la prossima volta che effettuerò l'accesso"
+msgstr ""
+
+#: uniauth/models.py:19
+msgid "Agreement Record"
+msgstr "Consenso al trattamento dei dati"
+
+#: uniauth/models.py:20
+msgid "Agreement Records"
+msgstr ""
+
+#: uniauth/models.py:32
+msgid "No settings defined for this SP."
+msgstr ""
+
+#: uniauth/templates/uniauth/user_agreement.html:7
+#: idp/templates/user_agreement.html:7
+msgid "User Agreement"
+msgstr "Consenso al trattamento dei dati"
+
+#: uniauth/templates/uniauth/user_agreement.html:15
+msgid "Agreement Screen"
+msgstr "Consenso al trattamento dei dati"
+
+#: uniauth/templates/uniauth/user_agreement.html:38
+#: idp/templates/user_agreement.html:92
+msgid "Do you agree to transmit to "
+msgstr "Dai il tuo consenso a trasmatterle presso "
+
+#: uniauth/templates/uniauth/user_agreement.html:40
+#: idp/templates/user_agreement.html:94
+msgid "the previous personal attributes"
+msgstr "i precedenti dati personali"
+
+#: uniauth/templates/uniauth/user_agreement.html:50
+#: idp/templates/saml_login.html:103
+msgid "Submit"
+msgstr "Invia"
+
+#: uniauth/views.py:49
+msgid "SAML_IDP_SPCONFIG not defined in settings."
+msgstr ""
+
+#: uniauth/views.py:99
+msgid "No config for SP {} defined in SAML_IDP_SPCONFIG"
+msgstr ""
+
+#: uniauth/views.py:114
+msgid "Failed to instantiate processor: {} - {}"
+msgstr ""
+
+#: uniauth/views.py:128
+msgid "Message signature verification failure"
+msgstr "La verifica autenticità della firma digitale è fallita"
+
+#: uniauth/views.py:134
+msgid "You do not have access to this resource"
+msgstr "Non hai accesso a questa risorsa"
+
+#: uniauth/views.py:158
+msgid "SP requested a name_id_format that is not supported in the IDP"
+msgstr ""
+
+#: uniauth/views.py:299 uniauth/views.py:462
+msgid "You cannot access to this service"
+msgstr "Non puoi accedere a questo servizio"
+
+#: uniauth/views.py:300
+msgid ""
+"Your Username or Password is invalid, your account could be expired or been "
+"disabled due to many login attempts."
+msgstr ""
+"Il tuo username o la tua password non risultano valide. E' possibile che "
+"siano scadute o siano state temporaneamente disabilitate a seguito di "
+"numerosi tentativi di accesso."
+
+#: uniauth/views.py:303
+msgid ""
+"Please access to 'Forgot your Password' procedure, before contact the help "
+"desk."
+msgstr ""
+"Perfavore accedi alla sezione 'Password Dimenticata' del servizio di "
+"gestione di Identità Digitali, prima di contattare l'helpdesk"
+
+#: uniauth/views.py:453
+msgid "Invalid submission"
+msgstr "Invio invalido dei dati"
+
+#: uniauth/views.py:501
+#, python-format
+msgid "MultiFactor failed; %s will not be able to log in"
+msgstr ""
+
+#: uniauth/views.py:503
+msgid "MultiFactor authentication factor failed"
+msgstr ""
+
+#: idp/templates/error.html:7
+msgid "Error"
+msgstr "Errore"
+
+#: idp/templates/error.html:11
+msgid "Error during SAML2 authentication"
+msgstr "Errore durante la autenticazione SAML2"
+
+#: idp/templates/main_page.html:12 idp/templates/saml_login.html:7
+msgid "Auth login"
+msgstr "Accesso"
+
+#: idp/templates/saml_login.html:24
+msgid "Single Sign-On"
+msgstr "Servizio Unificato di Autenticazione"
+
+#: idp/templates/saml_login.html:84
+msgid "Forgot your password?"
+msgstr "Hai dimenticato la Password?"
+
+#: idp/templates/saml_login.html:89 idp/templates/user_agreement.html:36
+msgid "Additional informations"
+msgstr "Informazioni sul servizio e sul trattamento dei dati"
+
+#: idp/templates/user_agreement.html:24
+msgid "Welcome"
+msgstr "Benvenuto"
+
+#: idp/templates/user_agreement.html:31
+msgid ""
+"the web service you are coming from, has requested some of your personal "
+"information. We therefore ask you to read the information regarding the "
+"processing of data and to give your consent if you agree."
+msgstr ""
+"il servizio web dal quale provieni, ha chiesto di accedere ad alcune delle "
+"tue informazioni personali. Ti chiediamo pertanto di leggere le informazioni "
+"riguardanti il trattamento dei dati e fornirci il tuo consenso se sei "
+"d'accordo"
+
+#: idp/templates/user_agreement.html:43
+msgid "Data consent"
+msgstr "Consenso al trattamento dei dati"
+
+#: idp/templates/user_agreement.html:56
+msgid "requested the following informations"
+msgstr "ha richiesto le seguenti informazioni"
+
+#: idp/templates/user_agreement.html:63
+msgid "attribute name"
+msgstr "nome dell'attributo"
+
+#: idp/templates/user_agreement.html:64
+msgid "value"
+msgstr "valore"
+
+#: idp/templates/user_agreement.html:165
+msgid "Invia"
+msgstr ""
+
+#~ msgid "Forget my last agreement"
+#~ msgstr "Desidero rivalutare il mio consenso al trattamento dei dati"
+
+#~ msgid "I Agree"
+#~ msgstr "Do il mio consenso"
+
+#~ msgid "I do not Agree"
+#~ msgstr "Non do il mio consenso"
+
+#~ msgid "Remember my choice for the next login"
+#~ msgstr "Ricorda la mia scelta al prossimo login (non chiedere nuovamente)"

@@ -2,7 +2,7 @@
 
 Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
 
-At this moment it only supports SAML2, soon as possibile also OIDC will be implemented.
+It supports SAML2, OIDC will be available soon.
 
 #### Features
 

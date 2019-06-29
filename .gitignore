@@ -8,6 +8,7 @@ certs/keys/*
 */settingslocal.py
 static/*
 certificates/*
+!certificates/README.md
 data/metadata/*
 !data/metadata/README.md
 django_idp/idp_pysaml2.py

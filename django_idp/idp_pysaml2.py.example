@@ -83,8 +83,8 @@ SAML_IDP_CONFIG = {
             'sign_assertion': True,
             'logout_requests_signed': True,
 
-            # this must be a cert, not a boolean
-            #'verify_ssl_cert': None,
+            # the following if set should be a cert filename, not a boolean
+            # 'verify_ssl_cert': None,
             # 'verify_encrypt_cert_assertion': None,
             # 'verify_encrypt_cert_advice': None,
 
@@ -100,17 +100,9 @@ SAML_IDP_CONFIG = {
                     # "entity_categories": ["refeds", "edugain"],
 
                     "name_form": NAME_FORMAT_URI,
-                    # "name_form": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
 
+                    # global pysaml2 restrictions, useless with custom AttributeProcessors
                     # "attribute_restrictions": {
-                        # ## defaults Django User Account attributes (better do not show)
-                        # "date_joined": None,
-                        # "last_login": None,
-                        # "password": None, # it's not readable but do not show by default
-                        # "id": None,
-                        # "user_permissions": None,
-
-                        # ## only these will be showed
                         # 'username': None,
                         # 'first_name': None,
                         # 'last_name': None,
@@ -127,7 +119,6 @@ SAML_IDP_CONFIG = {
                     # "name_form": NAME_FORMAT_BASIC
                 # }
             },
-            # } # end attribute policy
 
         },
     },
@@ -153,9 +144,6 @@ SAML_IDP_CONFIG = {
             # }]
 
     },
-
-    # avoids exception: HTTPSConnectionPool(host='satosa.testunical.it', port=443): Max retries exceeded with url: /idp/shibboleth (Caused by SSLError(SSLError("bad handshake: Error([('SSL routines', 'tls_process_server_certificate', 'certificate verify failed')],)",),))
-    # 'ca_certs' : "/opt/satosa-saml2/pki/http_certificates/ca.crt",
 
     # Signing
     'key_file': BASE_DIR + '/certificates/private_key.pem',

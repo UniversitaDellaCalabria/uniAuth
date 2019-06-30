@@ -30,9 +30,11 @@ Configure the software
     # copy and modify SAML2 IDP paramenters
     cp idp_pysaml2.py.example idp_pysaml2.py
 
-    You can use metadata and SP definitions in ``idp_pysaml2.py`` for
-    pysaml2 compatibility otherwise you can create and manage them via
-    Django Admin backend.
+
+You can use metadata and SP definitions in ``idp_pysaml2.py`` for
+pysaml2 compatibility otherwise you can create and manage them via
+Django Admin backend. See dedicated section for a better view.
+
 
 Create Database
 ^^^^^^^^^^^^^^^

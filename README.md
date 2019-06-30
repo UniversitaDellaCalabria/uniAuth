@@ -102,7 +102,9 @@ GRANT ALL PRIVILEGES ON ${DB}.* TO '${USER}'@'${HOST}';"
 #### LDAP or not?
 Link to a LDAP if needed, multiple database support is also available as Django feature.
 If you do not need a LDAP data source please remove `ldap_peoples` from `uniauth.settings.INSTALLED_APPS`.
-If you need a fully compliant LDAP configuration with `ldap_peoples` configuration please try the [dedicated playbook]() for it.
+If you need a fully compliant LDAP configuration with `ldap_peoples` please try the [dedicated playbook]() for it.
+
+
 See readthedocs documentation for have an idea for multiple LDAP data sources.
 
 
@@ -134,7 +136,7 @@ See `uwsgi_setup` examples.
 
 ## Contribute
 
-Feel free to contribute creating separate PR from dedicated brancheds for each feature.
+Feel free to contribute creating separate PR from dedicated branches for each feature.
 Open an Issue if you want to talk before develop to reduce the risk to be unmerged for some latest reason.
 All the things will be collected in a new roadmap to the next release candidate.
 

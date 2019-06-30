@@ -17,7 +17,7 @@ As a long date Python Programmer I was also looking for something more hacky to 
 I put some contributions in [djangosaml2idp](https://github.com/OTA-Insight/djangosaml2idp) and I was not the only one (thank you @askvortsov1).
 Soon these contributions became a distinct fork, so uniAuth was born as a djangosaml2idp fork, because that project won't need some of the features that we found today in uniAuth and that I also needed in reasonable time.
 
-> Why these great softwares still doesn't have a human management UI and other helpers tools was another of my question. 
+> Why these great softwares still doesn't have a human management UI and other helpers tools was another of my questions. 
 
 uniAuth wants to bring the IDentity management to smart users without give up smartness.
 Probably you noticed that uniAuth not come as a Django app but as an entire project, this is because we want to offer a ready-to-use software and not a software too much linked to programming skills of users.

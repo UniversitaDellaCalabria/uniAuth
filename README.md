@@ -3,7 +3,7 @@
 Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
 Used in Research & Scholarship context, in Università della Calabria.
 
-This Release Candidate supports a SAML2 IDP, an OIDC Provider will be available in sooner releases.
+This Release Candidate supports a SAML2 IDP, an OIDC Provider will be available in the next release.
 
 ## Why?
 
@@ -34,7 +34,7 @@ uniAuth, as a SAML2 IDP, supports HTTP-REDIRECT and POST bindings, AuthnRequest 
 - Interactive Metadata Store definitions through the Admin Backend UI;
 - Interactive ServiceProvider Federation through the Admin Backend UI;
 - Customizable Template and style based on [AGID guidelines](https://www.agid.gov.it/it/argomenti/linee-guida-design-pa);
-- Metadata and SP validations on save, to prevent faulty configurations in production environment;
+- MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
 - Optional and quite granular Agreement Screen;
 - Many options definable for every SP, like:
     - signature and digest algorithms;
@@ -43,7 +43,7 @@ uniAuth, as a SAML2 IDP, supports HTTP-REDIRECT and POST bindings, AuthnRequest 
     - selectable hashing algorithm for Computed NameID;
     - agreement screen message, availability, data consent form. 
 - Configurable log rotation through uwsgi;
-- Importable stored StoredPersistentID for each user;
+- Importable StoredPersistentID for each user, for migrations from other IDP;
 - An LDAP web manager with a configurable app (`ldap_peoples`); 
 - Multifactor support, as available in djangosaml2idp;
 - Detailed but not huge logs.

@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Requirements and enviroment &mdash; uniAuth  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MetadataStore definitions" href="metadatastore.html" />
+    <link rel="prev" title="General Description" href="general_description.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> uniAuth
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Author's notes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="why.html">Why I decided to develop this IDP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">General Description:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="general_description.html">General Description</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation and Configuration:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Requirements and enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#get-uniauth-and-install-dependencies">Get uniauth and install dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#configure-the-software">Configure the software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#create-database">Create Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#ldap-or-not">LDAP or not?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#create-your-own-saml-certificates">Create your own SAML certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#create-schemas-and-superuser">Create schemas and superuser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#run">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#production-environment">Production Environment</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Common tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="metadatastore.html">MetadataStore definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">uniAuth</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Requirements and enviroment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/contents/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="requirements-and-enviroment">
+<h1>Requirements and enviroment<a class="headerlink" href="#requirements-and-enviroment" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">xmlsec1</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span> <span class="n">libmariadbclient</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span> <span class="n">libssl</span><span class="o">-</span><span class="n">dev</span> <span class="n">libmariadb</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">compat</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="n">virtualenv</span>
+<span class="n">virtualenv</span> <span class="o">-</span><span class="n">ppython3</span> <span class="n">uniauth</span><span class="o">.</span><span class="n">env</span>
+<span class="n">source</span> <span class="n">uniauth</span><span class="o">.</span><span class="n">env</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-uniauth-and-install-dependencies">
+<h1>Get uniauth and install dependencies<a class="headerlink" href="#get-uniauth-and-install-dependencies" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">UniversitaDellaCalabria</span><span class="o">/</span><span class="n">uniAuth</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">uniAuth</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-the-software">
+<h1>Configure the software<a class="headerlink" href="#configure-the-software" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd django_idp
+
+# copy and modify as your needs
+cp settingslocal.py.example settingslocal.py
+
+# copy and modify SAML2 IDP paramenters
+cp idp_pysaml2.py.example idp_pysaml2.py
+
+You can use metadata and SP definitions in ``idp_pysaml2.py`` for
+pysaml2 compatibility otherwise you can create and manage them via
+Django Admin backend.
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-database">
+<h1>Create Database<a class="headerlink" href="#create-database" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create your MysqlDB</span>
+<span class="n">export</span> <span class="n">USER</span><span class="o">=</span><span class="s1">&#39;that-user&#39;</span>
+<span class="n">export</span> <span class="n">PASS</span><span class="o">=</span><span class="s1">&#39;that-password&#39;</span>
+<span class="n">export</span> <span class="n">HOST</span><span class="o">=</span><span class="s1">&#39;%&#39;</span>
+<span class="n">export</span> <span class="n">DB</span><span class="o">=</span><span class="s1">&#39;uniauth&#39;</span>
+
+<span class="c1"># tested on Debian 10</span>
+<span class="n">sudo</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;</span><span class="se">\</span>
+<span class="s2">CREATE USER IF NOT EXISTS &#39;$</span><span class="si">{USER}</span><span class="s2">&#39;@&#39;$</span><span class="si">{HOST}</span><span class="s2">&#39; IDENTIFIED BY &#39;$</span><span class="si">{PASS}</span><span class="s2">&#39;;</span><span class="se">\</span>
+<span class="s2">CREATE DATABASE IF NOT EXISTS $</span><span class="si">{DB}</span><span class="s2"> CHARACTER SET = &#39;utf8&#39; COLLATE = &#39;utf8_general_ci&#39;;</span><span class="se">\</span>
+<span class="s2">GRANT ALL PRIVILEGES ON $</span><span class="si">{DB}</span><span class="s2">.* TO &#39;$</span><span class="si">{USER}</span><span class="s2">&#39;@&#39;$</span><span class="si">{HOST}</span><span class="s2">&#39;;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ldap-or-not">
+<h1>LDAP or not?<a class="headerlink" href="#ldap-or-not" title="Permalink to this headline">¶</a></h1>
+<p>Link to a LDAP if needed, multiple database support is also available as
+Django feature. If you do not need a LDAP data source please remove
+<code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> from <code class="docutils literal notranslate"><span class="pre">uniauth.settings.INSTALLED_APPS</span></code>. If you need a
+fully compliant LDAP configuration with <code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> please try the
+<a class="reference external" href="https://github.com/peppelinux/ansible-slapd-eduperson2016">dedicated playbook</a> for it.</p>
+<p>See readthedocs documentation for have an idea for multiple LDAP data
+sources.</p>
+</div>
+<div class="section" id="create-your-own-saml-certificates">
+<h1>Create your own SAML certificates<a class="headerlink" href="#create-your-own-saml-certificates" title="Permalink to this headline">¶</a></h1>
+<p>Then copy them to <code class="docutils literal notranslate"><span class="pre">certificates</span></code> folder and define them in
+idp_pysaml2.py (<code class="docutils literal notranslate"><span class="pre">key_file</span></code> and <code class="docutils literal notranslate"><span class="pre">cert_file</span></code>, even in
+<code class="docutils literal notranslate"><span class="pre">encryption_keypairs</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">nodes</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">x509</span> <span class="o">-</span><span class="n">days</span> <span class="mi">3650</span> <span class="o">-</span><span class="n">keyout</span> <span class="n">private</span><span class="o">.</span><span class="n">key</span> <span class="o">-</span><span class="n">out</span> <span class="n">public</span><span class="o">.</span><span class="n">cert</span> <span class="o">-</span><span class="n">subj</span> <span class="s1">&#39;/CN=your.own.fqdn.com&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-schemas-and-superuser">
+<h1>Create schemas and superuser<a class="headerlink" href="#create-schemas-and-superuser" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+<span class="o">./</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">createsuperuser</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span>
+</pre></div>
+</div>
+<p>…need a SP for a preliminar tests? see djangosaml2_sp here:
+<a class="reference external" href="https://github.com/peppelinux/Django-Identity">https://github.com/peppelinux/Django-Identity</a></p>
+</div>
+<div class="section" id="production-environment">
+<h1>Production Environment<a class="headerlink" href="#production-environment" title="Permalink to this headline">¶</a></h1>
+<p>See <cite>uwsgi_setup</cite> examples.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="metadatastore.html" class="btn btn-neutral float-right" title="MetadataStore definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="general_description.html" class="btn btn-neutral float-left" title="General Description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Giuseppe De Marco
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

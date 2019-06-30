@@ -1,10 +1,5 @@
-# Django uniAuth
-
-Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
-
-This Release Candidate supports a SAML2 IDP, an OIDC Provider will be available in the next release.
-
-## Features
+General Description
+^^^^^^^^^^^^^^^^^^^
 
 uniAuth, as a SAML2 IDP, supports HTTP-REDIRECT and POST bindings, AuthnRequest with ForceAuthn but not AllowCreate NameIDPolicy, it simply ignore AllowCreate. Features set are:
 
@@ -26,19 +21,3 @@ uniAuth, as a SAML2 IDP, supports HTTP-REDIRECT and POST bindings, AuthnRequest 
 - An LDAP web manager with a configurable app (`ldap_peoples`); 
 - Multifactor support, as available in djangosaml2idp;
 - Detailed but not huge logs.
-
-
-## Documentation 
- - [Official Documentation @readthedocs]()
-
-## Contribute
-
-Feel free to contribute creating separate PR from dedicated branches for each feature.
-Open an Issue if you want to talk before develop to reduce the risk to be unmerged for some latest reason.
-All the things will be collected in a new roadmap to the next release candidate.
-
-Still need to handle Continuous Integration with unit test.
-
-## Author
-
-Giuseppe De Marco

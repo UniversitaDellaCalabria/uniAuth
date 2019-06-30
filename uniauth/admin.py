@@ -48,8 +48,12 @@ class MetadataStoreAdmin(admin.ModelAdmin):
         js = ('textarea_autosize.js',)
     
     def metadata_element_preview(self, obj):
-        dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
-                           indent=4)
+        try:
+            dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
+                               indent=4)
+        except:
+            # for newly created
+            return
         return  mark_safe(dumps.replace('\n', '<br>').replace('\s', '&nbsp'))
     metadata_element_preview.short_description = 'Metadata element preview'
 

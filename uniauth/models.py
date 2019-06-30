@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.module_loading import import_string
 
+from . exceptions import NotYetImplemented
+
 
 class AgreementRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

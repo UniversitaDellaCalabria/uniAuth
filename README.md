@@ -1,7 +1,6 @@
 # Django uniAuth
 
 Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
-Used in Università della Calabria.
 
 This Release Candidate supports a SAML2 IDP, an OIDC Provider will be available in the next release.
 

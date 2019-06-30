@@ -187,6 +187,12 @@ class IdPHandlerViewMixin(ErrorHandler):
         if 'encrypt_saml_responses' in self.sp['config'].keys():
             encrypt_response = self.sp['config'].get('encrypt_saml_responses')
 
+        encrypt_advice_attributes = getattr(settings,
+                                            'SAML_ENCRYPT_ADV_ATTRIBUTES',
+                                             False)
+        if 'encrypt_advice_attributes' in self.sp['config'].keys():
+            encrypt_advice_attributes = self.sp['config'].get('encrypt_advice_attributes')
+
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
             identity=user_attrs,
@@ -209,7 +215,7 @@ class IdPHandlerViewMixin(ErrorHandler):
 
             # Encryption
             encrypt_assertion=encrypt_response,
-            encrypted_advice_attributes=encrypt_response,
+            encrypt_advice_attributes=encrypt_advice_attributes,
             **resp_args
         )
         return authn_resp

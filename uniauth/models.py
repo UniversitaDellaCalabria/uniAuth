@@ -56,6 +56,7 @@ class ServiceProvider(models.Model):
                                         default=settings.SAML_AUTHN_DIGEST_ALG,
                                         max_length=256)
     encrypt_saml_responses = models.BooleanField(default=False)
+    encrypt_advice_attributes = models.BooleanField(default=False)
     attribute_processor = models.CharField(default=settings.DEFAULT_SPCONFIG['processor'],
                                            help_text=_('"package.file.classname", '
                                                        'example: "idp.processors.LdapAcademiaProcessor"'),

@@ -95,7 +95,8 @@ class ServiceProviderAdmin(admin.ModelAdmin):
     fieldsets = (
                 (None, {'fields': (('entity_id', 'display_name',),
                                    ('metadata_url',),
-                                   ('signing_algorithm', 'digest_algorithm', 'encrypt_saml_responses'),
+                                   ('signing_algorithm', 'digest_algorithm'),
+                                   ('encrypt_saml_responses', 'encrypt_advice_attributes'),
                                    ('is_active',),
                                    )}),
                 (_('Agreement and Description'), {'fields': (('agreement_screen', 'agreement_consent_form',),

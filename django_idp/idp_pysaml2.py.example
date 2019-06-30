@@ -154,8 +154,7 @@ SAML_IDP_CONFIG = {
         'cert_file': BASE_DIR + '/certificates/public_key.pem',
     }],
 
-    # How many hours this configuration is expected to be accurate.
-    # This of course is only used by make_metadata.py. The server will not stop working when this amount of time has elapsed :-).
+    # How many hours this configuration is expected to be accurate as eposed in metadata
     'valid_for': 24 * 10,
 
     # own metadata settings
@@ -205,6 +204,7 @@ SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
 
 # Encrypt authn response
 SAML_ENCRYPT_AUTHN_RESPONSE = True
+SAML_ENCRYPT_ADV_ATTRIBUTES = True
 
 # SP configurations
 SAML_IDP_SPCONFIG = {}
@@ -227,6 +227,7 @@ DEFAULT_SPCONFIG = {
     'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,
     'digest_algorithm': saml2.xmldsig.DIGEST_SHA256,
     # 'encrypt_saml_responses': False,
+    # 'encrypt_advice_attributes': False,
     # 'show_user_agreement_screen': SAML_IDP_SHOW_USER_AGREEMENT_SCREEN
 }
 

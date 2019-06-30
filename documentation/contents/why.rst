@@ -2,12 +2,12 @@ Why I decided to develop this IDP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Many SAML2 IDP OpenSource softwares come as mature, I used them and also appreciate them.
-However I didn't understand why there come always the need to have high sysadmin skills to work with them, data definitions still need to be
+As a long date Python Programmer I was also looking for something more hacky to me.
+
+I noticied that there come always the need to have high sysadmin skills to work with them, data definitions still need to be
 stored and handled in multiple files and in a way that, I think, there's too much management costs in time, with repetitive and boring actions handled via console. In addition to this the learning curve related to SAML2 implementations proves itself very slow,  often many users preferred to get out of all this.
 
-  I found a lot of python projects developed from scratch and I thought that a Django implementation of them would be a better solution.
-
-As a long date Python Programmer I was also looking for something more hacky to me.
+I also found a lot of python projects developed from scratch and I thought that a Django implementation of them would be a better solution.
 
 .. figure:: backend.png
 

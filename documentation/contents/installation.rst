@@ -13,7 +13,7 @@ Get uniauth and install dependencies
 
 ::
 
-    git clone https://github.com/UniversitaDellaCalabria/uniAuth.git 
+    git clone https://github.com/UniversitaDellaCalabria/uniAuth.git
     cd uniAuth
     pip3 install -r requirements
 
@@ -98,3 +98,8 @@ Production Environment
 ^^^^^^^^^^^^^^^^^^^^^^
 
 See `uwsgi_setup` examples.
+
+Remember to run ``collectstatic`` to copy all the static files in the production static folder:
+
+::
+    ./manage.py collectstatic

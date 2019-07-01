@@ -91,7 +91,7 @@ class ServiceProvider(models.Model):
         # if it have syntax errors (try json.loads).
         # Dict must do not have a trailing "," at last element
         json.loads(self.attribute_mapping)
-    
+
     @classmethod
     def as_idpspconfig_dict(cls):
         d = dict()
@@ -178,10 +178,9 @@ class MetadataStore(models.Model):
                 d.update(kwargs)
             return d
         elif self.type == 'local':
-            if not self.file: return (self.url)
-            # test mdstore.inline
-            if self.file:
-                return (self.file.path)
+            res = (self.url) if not self.file else (self.file.path)
+            if os.path.exists(res):
+                return res
         raise NotYetImplemented('see models.MetadataStore.as_pysaml2_mdstore_row')
 
     def validate(self):
@@ -204,7 +203,7 @@ class MetadataStore(models.Model):
             self.is_active = self.is_valid
         self.save()
         return self.is_valid
-        
+
     # TODO
     # def save(...
     # validate content otherwise save it as is_valid = False

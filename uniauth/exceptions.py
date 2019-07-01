@@ -8,3 +8,7 @@ class MetadataCorruption(Exception):
 
 class NotYetImplemented(Exception):
     pass
+
+
+class SPConfigurationMissing(Exception):
+    pass

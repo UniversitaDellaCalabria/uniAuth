@@ -87,6 +87,7 @@
 <p class="caption"><span class="caption-text">General Description:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="general_description.html">General Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general_description.html#implementation-specific-features">Implementation specific Features</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Installation and Configuration:</span></p>
 <ul class="current">
@@ -104,6 +105,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="metadatastore.html">MetadataStore definitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
 </ul>
 
             
@@ -187,19 +190,45 @@
 </div>
 <div class="section" id="configure-the-software">
 <h1>Configure the software<a class="headerlink" href="#configure-the-software" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd django_idp
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">django_idp</span>
 
-# copy and modify as your needs
-cp settingslocal.py.example settingslocal.py
+<span class="c1"># copy and modify as your needs</span>
+<span class="n">cp</span> <span class="n">settingslocal</span><span class="o">.</span><span class="n">py</span><span class="o">.</span><span class="n">example</span> <span class="n">settingslocal</span><span class="o">.</span><span class="n">py</span>
 
-# copy and modify SAML2 IDP paramenters
-cp idp_pysaml2.py.example idp_pysaml2.py
-
-You can use metadata and SP definitions in ``idp_pysaml2.py`` for
-pysaml2 compatibility otherwise you can create and manage them via
-Django Admin backend.
+<span class="c1"># copy and modify SAML2 IDP paramenters</span>
+<span class="n">cp</span> <span class="n">idp_pysaml2</span><span class="o">.</span><span class="n">py</span><span class="o">.</span><span class="n">example</span> <span class="n">idp_pysaml2</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
+<p>djangosaml2 parameters:</p>
+<dl class="simple">
+<dt>SAML_IDP_DJANGO_USERNAME_FIELD = ‘email’</dt><dd><p>which returned attribute should be considered as username.</p>
+</dd>
+</dl>
+<p>Platform specific parameters, all the <cite>Global behaviour</cite> can be overriden in ServiceProvider configurations:</p>
+<dl class="simple">
+<dt>SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = True</dt><dd><p>Global behaviour, show or not the agreement screen.</p>
+</dd>
+<dt>SAML_IDP_SHOW_CONSENT_FORM = False</dt><dd><p>Global behaviour, show or not the form for the consent to transmit the attributes.</p>
+</dd>
+<dt>SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []</dt><dd><p>Global behaviour, if for some reason some attribute should be hidden in the agreement screen (discouraged!).</p>
+</dd>
+<dt>SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365</dt><dd><p>User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire.</p>
+</dd>
+<dt>SAML_COMPUTEDID_HASHALG = ‘sha256’</dt><dd><p>Global behaviour, which algorithm should be used to produce the computedID of a user.</p>
+</dd>
+<dt>SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG</dt><dd><p>Global behaviour, which algorithms should be used for SAML signature and digest.</p>
+</dd>
+<dt>SAML_ENCRYPT_AUTHN_RESPONSE = True</dt><dd><p>Global behaviour, Encrypt authn response or not.</p>
+</dd>
+<dt>DEFAULT_SPCONFIG = {</dt><dd><p>Default configuration that will be preloaded on every ServiceProvider configurations.
+Put here your favourite Attribute Processor or choose another one, from one of your custom application.
+See examples.</p>
+</dd>
+</dl>
+<p>To configure new Metadata stores and federate new Service Providers
+you can use metadata and SP definitions in <code class="docutils literal notranslate"><span class="pre">idp_pysaml2.py</span></code> for
+pysaml2 compatibility, otherwise you can create and manage them via
+Django Admin backend. See dedicated sections for examples.</p>
 </div>
 <div class="section" id="create-database">
 <h1>Create Database<a class="headerlink" href="#create-database" title="Permalink to this headline">¶</a></h1>
@@ -224,8 +253,9 @@ Django feature. If you do not need a LDAP data source please remove
 <code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> from <code class="docutils literal notranslate"><span class="pre">uniauth.settings.INSTALLED_APPS</span></code>. If you need a
 fully compliant LDAP configuration with <code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> please try the
 <a class="reference external" href="https://github.com/peppelinux/ansible-slapd-eduperson2016">dedicated playbook</a> for it.</p>
-<p>See readthedocs documentation for have an idea for multiple LDAP data
-sources.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> is not a mandatory dependency, it is only a fancy app to integrate a R&amp;S LDAP manager.
+On top of it you’ll find a custom authentication backend and a custom attribute processor but you can even write your custom auth backend and processor with your preferred LDAP library.</p>
+<p>If you want instead to have multiple LDAP data sources following <code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code> approach then you’ll have to create your own django application and use types and methods found in <code class="docutils literal notranslate"><span class="pre">ldap_peoples</span></code>.</p>
 </div>
 <div class="section" id="create-your-own-saml-certificates">
 <h1>Create your own SAML certificates<a class="headerlink" href="#create-your-own-saml-certificates" title="Permalink to this headline">¶</a></h1>
@@ -254,6 +284,11 @@ idp_pysaml2.py (<code class="docutils literal notranslate"><span class="pre">key
 <div class="section" id="production-environment">
 <h1>Production Environment<a class="headerlink" href="#production-environment" title="Permalink to this headline">¶</a></h1>
 <p>See <cite>uwsgi_setup</cite> examples.</p>
+<p>Remember to run <code class="docutils literal notranslate"><span class="pre">collectstatic</span></code> to copy all the static files in the production static folder:</p>
+<dl class="simple">
+<dt>::</dt><dd><p>./manage.py collectstatic</p>
+</dd>
+</dl>
 </div>
 
 

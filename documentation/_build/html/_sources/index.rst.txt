@@ -6,6 +6,8 @@
 uniAuth's documentation
 ===================================
 
+.. figure:: contents/login.png
+
 .. toctree::
    :maxdepth: 2
    :caption: Author's notes:
@@ -24,7 +26,7 @@ uniAuth's documentation
    :caption: Installation and Configuration:
 
    contents/installation.rst
-    
+
 
 .. toctree::
    :maxdepth: 2
@@ -32,7 +34,8 @@ uniAuth's documentation
 
    contents/metadatastore.rst
    contents/serviceprovider.rst
-   
+   contents/attribute_release.rst
+   contents/customize_platform.rst
 
 Indices and tables
 ==================

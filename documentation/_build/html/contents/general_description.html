@@ -87,6 +87,7 @@
 <p class="caption"><span class="caption-text">General Description:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">General Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#implementation-specific-features">Implementation specific Features</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Installation and Configuration:</span></p>
 <ul>
@@ -104,6 +105,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="metadatastore.html">MetadataStore definitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
 </ul>
 
             
@@ -170,17 +173,25 @@
             
   <div class="section" id="general-description">
 <h1>General Description<a class="headerlink" href="#general-description" title="Permalink to this headline">¶</a></h1>
-<p>uniAuth, as a SAML2 IDP, supports HTTP-REDIRECT and POST bindings, AuthnRequest with ForceAuthn but not AllowCreate NameIDPolicy, it simply ignore AllowCreate. Features set are:</p>
+<p>uniAuth, as a SAML2 IDP, is based on <a class="reference external" href="https://github.com/IdentityPython/pysaml2">pysaml2</a> and it supports:</p>
 <ul class="simple">
-<li><p>All already availables in [pysaml2](<a class="reference external" href="https://github.com/IdentityPython/pysaml2">https://github.com/IdentityPython/pysaml2</a>);</p></li>
+<li><p>HTTP-REDIRECT and POST bindings;</p></li>
+<li><p>AuthnRequest with or without ForceAuthn;</p></li>
+<li><p>Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards.</p></li>
+</ul>
+<p>uniAuth do not support AllowCreate NameIDPolicy, this behaviour is completely demanded to uniAuth AttributeProcessors.</p>
+</div>
+<div class="section" id="implementation-specific-features">
+<h1>Implementation specific Features<a class="headerlink" href="#implementation-specific-features" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
 <li><p>Full Internazionalization support (i18n);</p></li>
 <li><p>Interactive Metadata Store definitions through the Admin Backend UI;</p></li>
 <li><p>Interactive ServiceProvider Federation through the Admin Backend UI;</p></li>
-<li><p>Customizable Template and style based on [AGID guidelines](<a class="reference external" href="https://www.agid.gov.it/it/argomenti/linee-guida-design-pa">https://www.agid.gov.it/it/argomenti/linee-guida-design-pa</a>);</p></li>
+<li><p>Customizable Template and style based on <a class="reference external" href="https://www.agid.gov.it/it/argomenti/linee-guida-design-pa">AGID guidelines</a>;</p></li>
 <li><p>MetadataStore and SP validations on save, to prevent faulty configurations in production environment;</p></li>
 <li><p>Optional and quite granular Agreement Screen;</p></li>
 <li><dl class="simple">
-<dt>Many options definable for every SP, like:</dt><dd><ul>
+<dt>Many configurable options, for every SP we can decide:</dt><dd><ul>
 <li><p>signature and digest algorithms;</p></li>
 <li><p>attributes release policies;</p></li>
 <li><p>attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;</p></li>

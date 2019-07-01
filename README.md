@@ -2,7 +2,9 @@
 
 Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
 
-Please consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for Setup instructions.
+Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for specifications.
+
+![Alt text](documentation/contents/login.png)
 
 This Release implements a SAML2 IDP.
 An OIDC Provider will be also available in the next release.
@@ -31,10 +33,10 @@ Implementation specific Features are the following:
     - attributes release policies;
     - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;
     - selectable hashing algorithm for Computed NameID;
-    - agreement screen message, availability, data consent form. 
+    - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
 - Importable StoredPersistentID for each user, for migrations from other IDP;
-- An LDAP web manager with a configurable app (`ldap_peoples`); 
+- An LDAP web manager with a configurable app (`ldap_peoples`);
 - Multifactor support, as available in djangosaml2idp;
 - Detailed but not huge logs.
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Service Providers Federation &mdash; uniAuth  documentation</title>
+  <title>Customize uniAuth &mdash; uniAuth  documentation</title>
   
 
   
@@ -35,8 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Attribute releases" href="attribute_release.html" />
-    <link rel="prev" title="MetadataStore definitions" href="metadatastore.html" /> 
+    <link rel="prev" title="Attribute releases" href="attribute_release.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -104,9 +103,9 @@
 <p class="caption"><span class="caption-text">Common tasks:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="metadatastore.html">MetadataStore definitions</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Service Providers Federation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customize uniAuth</a></li>
 </ul>
 
             
@@ -152,13 +151,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Service Providers Federation</li>
+      <li>Customize uniAuth</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/contents/serviceprovider.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/contents/customize_platform.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,11 +170,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="service-providers-federation">
-<h1>Service Providers Federation<a class="headerlink" href="#service-providers-federation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="customize-uniauth">
+<h1>Customize uniAuth<a class="headerlink" href="#customize-uniauth" title="Permalink to this headline">¶</a></h1>
+<p>In the projects tree there’s an application called <cite>idp</cite>, in it we configured the customization of some AttributeProcessors, and AuthenticationBackend based on LDAP and the template to use.
+Use it as an example to to your customization, you can even put there another Authentication backend and your customized Attribute Processors.</p>
+<p>Remember also to put it in django_idp.settings.INSTALLED_APPS and in case of a custom Autherntication Backend, to configure it also in django_idp.settings.AUTHENTICATION_BACKENDS.</p>
 <div class="figure align-center" id="id1">
-<img alt="../_images/sp.png" src="../_images/sp.png" />
-<p class="caption"><span class="caption-text">A Service Provider federation means that at least one of the metadatastore have its entity definition.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<img alt="../_images/custom_app.png" src="../_images/custom_app.png" />
+<p class="caption"><span class="caption-text">This is the structure of <cite>idp</cite></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -187,10 +189,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="attribute_release.html" class="btn btn-neutral float-right" title="Attribute releases" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="metadatastore.html" class="btn btn-neutral float-left" title="MetadataStore definitions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="attribute_release.html" class="btn btn-neutral float-left" title="Attribute releases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

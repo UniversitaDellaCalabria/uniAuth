@@ -1,3 +1,4 @@
+import defusedxml
 import os
 import json
 import requests
@@ -178,9 +179,7 @@ class MetadataStore(models.Model):
                 d.update(kwargs)
             return d
         elif self.type == 'local':
-            res = (self.url) if not self.file else (self.file.path)
-            if os.path.exists(res):
-                return res
+            return (self.url) if not self.file else (self.file.path)
         raise NotYetImplemented('see models.MetadataStore.as_pysaml2_mdstore_row')
 
     def validate(self):
@@ -192,7 +191,20 @@ class MetadataStore(models.Model):
                     self.is_valid = False
                 self.is_valid = True
         elif self.type == 'local':
-            if self.file or self.url:
+            # check that is a valid XML file, avoids: pysaml2 Exception on parse
+            try:
+                if self.file:
+                    defusedxml.ElementTree.fromstring(open(self.file.path).read())
+                if self.url:
+                    files = [os.path.join(self.url, f) for f in os.listdir(self.url)]
+                    for f in files:
+                        defusedxml.ElementTree.fromstring(open(f).read())
+            except Exception as excp:
+                self.is_active = False
+                self.save()
+                raise Exception('found an invalid XML')
+            res = (self.url) if not self.file else (self.file.path)
+            if os.path.exists(res):
                 self.is_valid = True
         try:
             json.loads(self.kwargs)

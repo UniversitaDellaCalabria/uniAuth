@@ -7,20 +7,20 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
 ![Alt text](documentation/contents/login.png)
 
 This Release implements a SAML2 IDP.
+
 An OIDC Provider will be also available in the next release.
 
-
-## Features
+## SAML2 Features
 
 uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2) and it supports:
 
 - HTTP-REDIRECT and POST bindings;
 - AuthnRequest with or without ForceAuthn;
-- Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards.
+- Encrypted assertions, customizable sign/digest algorithms and, in general, a good posture in terms of security and data integrity regarding SAML standards.
 
-uniAuth do not support AllowCreate NameIDPolicy, it simply ignore AllowCreate.
+uniAuth doesn't support AllowCreate NameIDPolicy, this behaviour is completely demanded to uniAuth AttributeProcessors.
 
-Implementation specific Features are the following:
+## Implementation specific Features
 
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;

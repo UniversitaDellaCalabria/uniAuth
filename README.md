@@ -1,26 +1,28 @@
 # Django uniAuth
 
-Django Unified Authentication System is an IDentity Provider built on top of [IdentityPython](https://idpy.org) stack.
+**Django Unified Authentication System** is an *IDentity Provider* built on top of [IdentityPython](https://idpy.org) stack.
+It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangosaml2idp/) project of which very little has by now remained.
 
-Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for specifications.
+Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
 
 ![Alt text](documentation/contents/login.png)
 
 This Release implements a SAML2 IDP.
-An OIDC Provider will be also available in the next release.
 
+An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also available in the next releases.
 
-## Features
+## SAML2 Features
 
 uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2) and it supports:
 
 - HTTP-REDIRECT and POST bindings;
 - AuthnRequest with or without ForceAuthn;
-- Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards.
+- SLO, SAML Single Logout, Support;
+- Encrypted assertions, customizable sign/digest algorithms and, in general, a good posture in terms of security and data integrity regarding SAML standards.
 
-uniAuth do not support AllowCreate NameIDPolicy, it simply ignore AllowCreate.
+uniAuth doesn't support AllowCreate NameIDPolicy, this behaviour is completely demanded to uniAuth AttributeProcessors.
 
-Implementation specific Features are the following:
+## Implementation specific Features
 
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
@@ -35,11 +37,28 @@ Implementation specific Features are the following:
     - selectable hashing algorithm for Computed NameID;
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
-- Importable StoredPersistentID for each user, for migrations from other IDP;
+- Importable StoredPersistentID for each user, from migrations from another IDP;
 - An LDAP web manager with a configurable app (`ldap_peoples`);
-- Multifactor support, as available in djangosaml2idp;
+- Multifactor support, as originally available in djangosaml2idp;
 - Detailed but not huge logs.
 
+
+## Characteristics
+
+uniauth will let us to configure metadata stores and federate new Service Providers directly from the Admin backend interface, via Web.
+See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
+
+---
+
+![Alt text](documentation/contents/md_search.png)
+![Alt text](documentation/contents/mdstore.png)
+*Every Metadata store, during creation or update, will be validated to avoid faulty configurations in production environment*
+
+---
+
+![Alt text](documentation/contents/sp_search.png)
+![Alt text](documentation/contents/sp.png)
+*To federate a new SP is just needed to have its entityID in some of the metadata handled by a metadata store. All the other options and informations regards security, agreement, data consent policy and Attribute releases through Attribute Processors.*
 
 ## Contribute
 

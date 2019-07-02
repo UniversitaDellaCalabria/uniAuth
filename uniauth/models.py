@@ -87,14 +87,13 @@ class ServiceProvider(models.Model):
         pass
 
     def validate(self):
-        is_active = self.is_active
         error = None
         try:
             # check if class Processor exists and is importable
             import_string(self.attribute_processor)
         except Exception as e:
             error = '{}'.format(e)
-            is_active = False
+            self.is_active = False
 
         try:
             # check if mapping is a real dict or
@@ -103,7 +102,7 @@ class ServiceProvider(models.Model):
             json.loads(self.attribute_mapping)
         except Exception as e:
             error = 'Attribute Mapping is not a valid JSON format: {}'.format(e)
-            is_active = False
+            self.is_active = False
 
         # test if its entityID is available in metadatastore
         try:
@@ -113,10 +112,10 @@ class ServiceProvider(models.Model):
                                               'assertion_consumer_service')
         except Exception as e:
             error = '{} is not present in any Metadata'.format(e)
+            self.is_active = False
 
         if error:
-            self.is_active = False
-            self.is_valid = False
+            self.is_valid = self.is_active
             self.save()
             raise Exception(error)
 
@@ -214,13 +213,17 @@ class MetadataStore(models.Model):
         raise NotYetImplemented('see models.MetadataStore.as_pysaml2_mdstore_row')
 
     def validate(self):
-        self.is_valid = False
+        error = None
         if self.type in ('remote', 'mdq'):
             if self.url:
-                r = requests.get(self.url)
-                if r.status_code != 200:
-                    self.is_valid = False
-                self.is_valid = True
+                try:
+                    r = requests.get(self.url)
+                    if r.status_code != 200:
+                        self.is_active = False
+                except Exception as e:
+                    error = 'Endpoint is not reachable: {}'.format(e)
+                    self.is_active = False
+
         elif self.type == 'local':
             # check that is a valid XML file, avoids: pysaml2 Exception on parse
             try:
@@ -230,20 +233,27 @@ class MetadataStore(models.Model):
                     files = [os.path.join(self.url, f) for f in os.listdir(self.url)]
                     for f in files:
                         defusedxml.ElementTree.fromstring(open(f).read())
-            except Exception as excp:
+            except Exception as e:
                 self.is_active = False
-                self.save()
-                raise Exception('found an invalid XML')
+                error = 'found an invalid XML: {}'.format(e)
+
             res = (self.url) if not self.file else (self.file.path)
-            if os.path.exists(res):
-                self.is_valid = True
+            if not os.path.exists(res):
+                self.is_active = False
+                error = 'Path is not existent: {}'.format(res)
+
         try:
             json.loads(self.kwargs)
-        except:
-            self.is_valid = False
-        # deactivate unvalid mdstore
-        if self.is_active:
-            self.is_active = self.is_valid
+        except Exception as e:
+            self.is_active = False
+            error = "kwargs JSON format error: {}".format(e)
+
+        if error:
+            self.is_valid = self.is_active
+            self.save()
+            raise Exception(error)
+
+        self.is_valid = True
         self.save()
         return self.is_valid
 

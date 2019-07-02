@@ -11,6 +11,22 @@ from . models import (AgreementRecord,
                       ServiceProvider)
 
 
+def valida_elemento(modeladmin, request, queryset):
+    """
+    i.calcolo_punteggio_domanda va a riepire il campo a questo dedicato
+    all'interno della domanda
+    """
+    for i in queryset:
+        try:
+            i.validate()
+            messages.add_message(request, messages.SUCCESS,
+                                 '{} validato con successo'.format(i))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 '{} : {}'.format(i, e))
+valida_elemento.short_description = _("Validate")
+
+
 @admin.register(AgreementRecord)
 class AgreementRecordAdmin(admin.ModelAdmin):
     list_display = ('user',
@@ -32,7 +48,8 @@ class MetadataStoreAdmin(admin.ModelAdmin):
     search_fields = ('name', 'url')
     readonly_fields = ('created', 'updated', 'is_valid',
                        'metadata_element_preview')
-
+    actions = (valida_elemento,)
+    list_editable = ('is_active',)
     fieldsets = (
                 (None, {'fields': (('name', 'type'),
                                    ('url', 'file'),
@@ -71,9 +88,9 @@ class MetadataStoreAdmin(admin.ModelAdmin):
 
         if not res:
             messages.set_level(request, messages.ERROR)
-            _msg = _("Storage not valid, if 'mdq' at least a "
+            _msg = _("Storage {} is not valid, if 'mdq' at least a "
                      "valid url must be inserted. "
-                     "If local: at least a file or a valid path")
+                     "If local: at least a file or a valid path").format(obj.name)
             if msg: _msg = _msg + '. ' + msg
             messages.add_message(request, messages.ERROR, _msg)
 
@@ -97,7 +114,8 @@ class ServiceProviderAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'updated',
                        'as_idpspconfig_dict_element_html',
                        'is_valid')
-
+    actions = (valida_elemento,)
+    list_editable = ('is_active',)
     fieldsets = (
                 (None, {'fields': (('entity_id', 'display_name',),
                                    ('metadata_url',),

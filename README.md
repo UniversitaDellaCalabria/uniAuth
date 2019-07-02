@@ -1,5 +1,8 @@
 # Django uniAuth
 
+![Python version](https://img.shields.io/badge/license-Apache%202-blue.svg)
+![License](https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue.svg)
+
 **Django Unified Authentication System** is an *IDentity Provider* built on top of [IdentityPython](https://idpy.org) stack.
 It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangosaml2idp/) project of which very little has by now remained.
 

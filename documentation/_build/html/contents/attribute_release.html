@@ -25,6 +25,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -33,10 +36,14 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Customize uniAuth" href="customize_platform.html" />
-    <link rel="prev" title="Service Providers Federation" href="serviceprovider.html" /> 
+    <link rel="prev" title="Service Providers Federation" href="serviceprovider.html" />
+    <link href="../_static/custom.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,19 +56,22 @@
         <div class="wy-side-nav-search" >
           
 
-          
-            <a href="../index.html" class="icon icon-home"> uniAuth
-          
 
-          
-          </a>
+    
+    <a href="../index.html" id="logo_main"><img src="../_static/logo_unical.png" class="logo" alt="Logo" /></a>
 
-          
-            
-            
-          
 
-          
+
+    <a id="title_under_logo" href="../index.html"> uniAuth
+
+</a>
+
+
+    
+    
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -70,7 +80,7 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -107,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Attribute releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html#localization-i18n">Localization i18n</a></li>
 </ul>
 
             
@@ -120,9 +131,14 @@
       
       <nav class="wy-nav-top" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">uniAuth</a>
-        
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="../index.html">
+        <img src="../_static/logo_unical.png" class="logo" alt="Logo"/>
+        </a>
+    <a href="../index.html">
+        uniAuth
+    </a>
+
       </nav>
 
 
@@ -173,11 +189,21 @@
             
   <div class="section" id="attribute-releases">
 <h1>Attribute releases<a class="headerlink" href="#attribute-releases" title="Permalink to this headline">¶</a></h1>
-<div class="figure align-center" id="id1">
-<img alt="../_images/agreement.png" src="../_images/agreement.png" />
-<p class="caption"><span class="caption-text">The AttributeProcessors apply all the policy and the filters to attributes, the user will see in the agreement screen the preview of the passing attributes.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-</div>
+<p>Every SP can use a specific Attribute Processor, you can even customize a brand new one in an application that can be easily installed into <code class="docutils literal notranslate"><span class="pre">django_idp.settings.INSTALLED_APPS</span></code>.
+You can see how these <code class="docutils literal notranslate"><span class="pre">processors</span></code> works simply looking at <code class="docutils literal notranslate"><span class="pre">uniauth.processors</span></code> and <code class="docutils literal notranslate"><span class="pre">idp.processors</span></code>.</p>
+<p>There also a special class named <code class="docutils literal notranslate"><span class="pre">NameIdBuilder</span></code>, the nameID policy relies on it, it should be very easy to inherit and customize as needed.</p>
+<p>In every <code class="docutils literal notranslate"><span class="pre">processors</span></code> there’s a special method called <code class="docutils literal notranslate"><span class="pre">extra_attr_processing</span></code> where to put additional conditions and values processing. See <code class="docutils literal notranslate"><span class="pre">idp.processors.LdapUnicalAcademiaProcessor</span></code> for an example of inheritance with the use of this method.</p>
+<a class=""
+               data-lightbox="group-63d14c15-d4c3-46fb-9538-45deac61d415"
+               href="../_images/agreement1.png"
+               title="The AttributeProcessors apply all the policies and the filters to attributes, the user will see in the agreement screen the preview of the passing attributes. This screen can be highly customized directly via ServiceProvider configuration screen."
+               data-title="The AttributeProcessors apply all the policies and the filters to attributes, the user will see in the agreement screen the preview of the passing attributes. This screen can be highly customized directly via ServiceProvider configuration screen."
+               ><img src="../_images/agreement1.png"
+                     class=""
+                     width="100%"
+                     height="auto"
+                     alt=""/>
+                </a></div>
 
 
            </div>
@@ -190,7 +216,7 @@
         <a href="customize_platform.html" class="btn btn-neutral float-right" title="Customize uniAuth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="serviceprovider.html" class="btn btn-neutral float-left" title="Service Providers Federation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="serviceprovider.html" class="btn btn-neutral" title="Service Providers Federation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -199,14 +225,17 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Giuseppe De Marco
+        2019, Giuseppe De Marco.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
+  <span style="font-size:0.8em">
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>.
+  <br>Last update 03/07/2019
+  
+   </span>
 </footer>
-
         </div>
       </div>
 

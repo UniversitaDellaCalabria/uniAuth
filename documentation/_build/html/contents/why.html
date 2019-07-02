@@ -25,6 +25,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -33,10 +36,14 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="General Description" href="general_description.html" />
-    <link rel="prev" title="uniAuth’s documentation" href="../index.html" /> 
+    <link rel="prev" title="uniAuth’s documentation" href="../index.html" />
+    <link href="../_static/custom.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,19 +56,22 @@
         <div class="wy-side-nav-search" >
           
 
-          
-            <a href="../index.html" class="icon icon-home"> uniAuth
-          
 
-          
-          </a>
+    
+    <a href="../index.html" id="logo_main"><img src="../_static/logo_unical.png" class="logo" alt="Logo" /></a>
 
-          
-            
-            
-          
 
-          
+
+    <a id="title_under_logo" href="../index.html"> uniAuth
+
+</a>
+
+
+    
+    
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -70,7 +80,7 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -107,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html#localization-i18n">Localization i18n</a></li>
 </ul>
 
             
@@ -120,9 +131,14 @@
       
       <nav class="wy-nav-top" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">uniAuth</a>
-        
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="../index.html">
+        <img src="../_static/logo_unical.png" class="logo" alt="Logo"/>
+        </a>
+    <a href="../index.html">
+        uniAuth
+    </a>
+
       </nav>
 
 
@@ -174,18 +190,20 @@
   <div class="section" id="why-i-decided-to-develop-this-idp">
 <h1>Why I decided to develop this IDP<a class="headerlink" href="#why-i-decided-to-develop-this-idp" title="Permalink to this headline">¶</a></h1>
 <p>Many SAML2 IDP OpenSource softwares come as mature, I used them and also appreciate them.
-As a long date Python Programmer I was also looking for something more hacky to me.</p>
-<p>I noticied that there come always the need to have high sysadmin skills to work with SAML integrated systems, data definitions still need to be
+As a long date Python Programmer I was also looking for something more smart for my needs, at the same time it should have been also very compliant to the standards. For these reasons I choosed to start development on top of Django Framework and pySAML2.</p>
+<p>I also noticied that there come always the need to have high sysadmin skills to work with SAML integrated systems, data definitions still need to be
 stored and handled in multiple files and in a way that, I think, there’s too much management costs in time, with repetitive and boring actions handled via console. In addition to this the learning curve related to SAML2 implementations proves itself very slow, often many users preferred to get out of all this.</p>
-<p>I also found a lot of python projects developed from scratch and I thought that a Django implementation of them would be a better solution.</p>
-<div class="figure align-center" id="id1">
+<p>I also found a lot of python projects developed from scratch and I thought that a Django implementation of them would be a better solution. I decided then to develop an application that would let simple users to do an applicative administration of the platform, create new metadata store and federate new Service Provider, without handle high sysadmin tasks.</p>
+<p>Why these great softwares still doesn’t have a human management UI and other helpers tools was therefore another of my important questions.</p>
+<div class="figure" id="id1">
 <img alt="../_images/backend.png" src="../_images/backend.png" />
-<p class="caption"><span class="caption-text">Admin backend preview, a daily IDP administration will give you everything you need without touching the console.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Admin backend preview, a daily IDP administration will give you everything you need without touching the console.</span></p>
 </div>
-<p>I put some contributions in [djangosaml2idp](<a class="reference external" href="https://github.com/OTA-Insight/djangosaml2idp">https://github.com/OTA-Insight/djangosaml2idp</a>) and I was not the only one (thank you &#64;askvortsov1).
-Soon these contributions became a distinct fork, so uniAuth was born as a djangosaml2idp fork, because that project won’t need some of the features that we found today in uniAuth and that I also needed in reasonable time.</p>
-<p>Why these great softwares still doesn’t have a human management UI and other helpers tools was another of my questions.</p>
-<p>uniAuth wants to bring the IDentity management to smart users without give up smartness.
+<p>I put some contributions in <a class="reference external" href="https://github.com/OTA-Insight/djangosaml2idp">djangosaml2idp</a> and I was not the only one (thank you &#64;askvortsov1).
+Soon those contributions became a distinct fork, so uniAuth was born as a djangosaml2idp fork, because that project won’t need some of the features that we found today in uniAuth,
+of which I also needed within a reasonable time.</p>
+<p>So my attempt with uniAuth is that to bring the IDentity management to smart users without give up smartness,
+in the innovation of ordinary management processes.
 Probably you noticed that uniAuth not come as a Django app but as an entire project, this is because we want to offer a ready-to-use software and not a software too much linked to programming skills of users.</p>
 <p>This is only our first shot, hopefully we’ll do even better in the time, never give up.</p>
 </div>
@@ -201,7 +219,7 @@ Probably you noticed that uniAuth not come as a Django app but as an entire proj
         <a href="general_description.html" class="btn btn-neutral float-right" title="General Description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral float-left" title="uniAuth’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral" title="uniAuth’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -210,14 +228,17 @@ Probably you noticed that uniAuth not come as a Django app but as an entire proj
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Giuseppe De Marco
+        2019, Giuseppe De Marco.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
+  <span style="font-size:0.8em">
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>.
+  <br>Last update 03/07/2019
+  
+   </span>
 </footer>
-
         </div>
       </div>
 

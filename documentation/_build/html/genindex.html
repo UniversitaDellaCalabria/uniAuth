@@ -26,6 +26,9 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -34,8 +37,12 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link href="_static/custom.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="_static/favicon.ico">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,19 +55,22 @@
         <div class="wy-side-nav-search" >
           
 
-          
-            <a href="index.html" class="icon icon-home"> uniAuth
-          
 
-          
-          </a>
+    
+    <a href="index.html" id="logo_main"><img src="_static/logo_unical.png" class="logo" alt="Logo" /></a>
 
-          
-            
-            
-          
 
-          
+
+    <a id="title_under_logo" href="index.html"> uniAuth
+
+</a>
+
+
+    
+    
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -69,7 +79,7 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -106,6 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contents/serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/attribute_release.html">Attribute releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/customize_platform.html#localization-i18n">Localization i18n</a></li>
 </ul>
 
             
@@ -119,9 +130,14 @@
       
       <nav class="wy-nav-top" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">uniAuth</a>
-        
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="index.html">
+        <img src="_static/logo_unical.png" class="logo" alt="Logo"/>
+        </a>
+    <a href="index.html">
+        uniAuth
+    </a>
+
       </nav>
 
 
@@ -186,14 +202,17 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Giuseppe De Marco
+        2019, Giuseppe De Marco.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
+  <span style="font-size:0.8em">
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>.
+  <br>Last update 03/07/2019
+  
+   </span>
 </footer>
-
         </div>
       </div>
 

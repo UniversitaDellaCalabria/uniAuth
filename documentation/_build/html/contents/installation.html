@@ -25,6 +25,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -33,10 +36,14 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MetadataStore definitions" href="metadatastore.html" />
-    <link rel="prev" title="General Description" href="general_description.html" /> 
+    <link rel="prev" title="General Description" href="general_description.html" />
+    <link href="../_static/custom.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,19 +56,22 @@
         <div class="wy-side-nav-search" >
           
 
-          
-            <a href="../index.html" class="icon icon-home"> uniAuth
-          
 
-          
-          </a>
+    
+    <a href="../index.html" id="logo_main"><img src="../_static/logo_unical.png" class="logo" alt="Logo" /></a>
 
-          
-            
-            
-          
 
-          
+
+    <a id="title_under_logo" href="../index.html"> uniAuth
+
+</a>
+
+
+    
+    
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -70,7 +80,7 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -107,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html#localization-i18n">Localization i18n</a></li>
 </ul>
 
             
@@ -120,9 +131,14 @@
       
       <nav class="wy-nav-top" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">uniAuth</a>
-        
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="../index.html">
+        <img src="../_static/logo_unical.png" class="logo" alt="Logo"/>
+        </a>
+    <a href="../index.html">
+        uniAuth
+    </a>
+
       </nav>
 
 
@@ -200,30 +216,30 @@
 </pre></div>
 </div>
 <p>djangosaml2 parameters:</p>
-<dl class="simple">
-<dt>SAML_IDP_DJANGO_USERNAME_FIELD = ‘email’</dt><dd><p>which returned attribute should be considered as username.</p>
-</dd>
+<dl class="docutils">
+<dt>SAML_IDP_DJANGO_USERNAME_FIELD = ‘email’</dt>
+<dd>which returned attribute should be considered as username.</dd>
 </dl>
 <p>Platform specific parameters, all the <cite>Global behaviour</cite> can be overriden in ServiceProvider configurations:</p>
-<dl class="simple">
-<dt>SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = True</dt><dd><p>Global behaviour, show or not the agreement screen.</p>
-</dd>
-<dt>SAML_IDP_SHOW_CONSENT_FORM = False</dt><dd><p>Global behaviour, show or not the form for the consent to transmit the attributes.</p>
-</dd>
-<dt>SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []</dt><dd><p>Global behaviour, if for some reason some attribute should be hidden in the agreement screen (discouraged!).</p>
-</dd>
-<dt>SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365</dt><dd><p>User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire.</p>
-</dd>
-<dt>SAML_COMPUTEDID_HASHALG = ‘sha256’</dt><dd><p>Global behaviour, which algorithm should be used to produce the computedID of a user.</p>
-</dd>
-<dt>SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG</dt><dd><p>Global behaviour, which algorithms should be used for SAML signature and digest.</p>
-</dd>
-<dt>SAML_ENCRYPT_AUTHN_RESPONSE = True</dt><dd><p>Global behaviour, Encrypt authn response or not.</p>
-</dd>
-<dt>DEFAULT_SPCONFIG = {</dt><dd><p>Default configuration that will be preloaded on every ServiceProvider configurations.
+<dl class="docutils">
+<dt>SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = True</dt>
+<dd>Global behaviour, show or not the agreement screen.</dd>
+<dt>SAML_IDP_SHOW_CONSENT_FORM = False</dt>
+<dd>Global behaviour, show or not the form for the consent to transmit the attributes.</dd>
+<dt>SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []</dt>
+<dd>Global behaviour, if for some reason some attribute should be hidden in the agreement screen (discouraged!).</dd>
+<dt>SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365</dt>
+<dd>User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire.</dd>
+<dt>SAML_COMPUTEDID_HASHALG = ‘sha256’</dt>
+<dd>Global behaviour, which algorithm should be used to produce the computedID of a user.</dd>
+<dt>SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG</dt>
+<dd>Global behaviour, which algorithms should be used for SAML signature and digest.</dd>
+<dt>SAML_ENCRYPT_AUTHN_RESPONSE = True</dt>
+<dd>Global behaviour, Encrypt authn response or not.</dd>
+<dt>DEFAULT_SPCONFIG = {</dt>
+<dd>Default configuration that will be preloaded on every ServiceProvider configurations.
 Put here your favourite Attribute Processor or choose another one, from one of your custom application.
-See examples.</p>
-</dd>
+See examples.</dd>
 </dl>
 <p>To configure new Metadata stores and federate new Service Providers
 you can use metadata and SP definitions in <code class="docutils literal notranslate"><span class="pre">idp_pysaml2.py</span></code> for
@@ -285,10 +301,9 @@ idp_pysaml2.py (<code class="docutils literal notranslate"><span class="pre">key
 <h1>Production Environment<a class="headerlink" href="#production-environment" title="Permalink to this headline">¶</a></h1>
 <p>See <cite>uwsgi_setup</cite> examples.</p>
 <p>Remember to run <code class="docutils literal notranslate"><span class="pre">collectstatic</span></code> to copy all the static files in the production static folder:</p>
-<dl class="simple">
-<dt>::</dt><dd><p>./manage.py collectstatic</p>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">collectstatic</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -302,7 +317,7 @@ idp_pysaml2.py (<code class="docutils literal notranslate"><span class="pre">key
         <a href="metadatastore.html" class="btn btn-neutral float-right" title="MetadataStore definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="general_description.html" class="btn btn-neutral float-left" title="General Description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="general_description.html" class="btn btn-neutral" title="General Description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -311,14 +326,17 @@ idp_pysaml2.py (<code class="docutils literal notranslate"><span class="pre">key
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Giuseppe De Marco
+        2019, Giuseppe De Marco.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
+  <span style="font-size:0.8em">
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>.
+  <br>Last update 03/07/2019
+  
+   </span>
 </footer>
-
         </div>
       </div>
 

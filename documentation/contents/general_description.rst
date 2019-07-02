@@ -15,6 +15,7 @@ Implementation specific Features
 
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
+- MetadataStore supports local file (upload), local folder, remote url and MDQ service;
 - Interactive ServiceProvider Federation through the Admin Backend UI;
 - Customizable Template and style based on `AGID guidelines <https://www.agid.gov.it/it/argomenti/linee-guida-design-pa>`__;
 - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;

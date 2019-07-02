@@ -25,6 +25,9 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -33,10 +36,14 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Service Providers Federation" href="serviceprovider.html" />
-    <link rel="prev" title="Requirements and enviroment" href="installation.html" /> 
+    <link rel="prev" title="Requirements and enviroment" href="installation.html" />
+    <link href="../_static/custom.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,19 +56,22 @@
         <div class="wy-side-nav-search" >
           
 
-          
-            <a href="../index.html" class="icon icon-home"> uniAuth
-          
 
-          
-          </a>
+    
+    <a href="../index.html" id="logo_main"><img src="../_static/logo_unical.png" class="logo" alt="Logo" /></a>
 
-          
-            
-            
-          
 
-          
+
+    <a id="title_under_logo" href="../index.html"> uniAuth
+
+</a>
+
+
+    
+    
+
+
+
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -70,7 +80,7 @@
   </form>
 </div>
 
-          
+
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -107,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize_platform.html">Customize uniAuth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize_platform.html#localization-i18n">Localization i18n</a></li>
 </ul>
 
             
@@ -120,9 +131,14 @@
       
       <nav class="wy-nav-top" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">uniAuth</a>
-        
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="../index.html">
+        <img src="../_static/logo_unical.png" class="logo" alt="Logo"/>
+        </a>
+    <a href="../index.html">
+        uniAuth
+    </a>
+
       </nav>
 
 
@@ -173,11 +189,28 @@
             
   <div class="section" id="metadatastore-definitions">
 <h1>MetadataStore definitions<a class="headerlink" href="#metadatastore-definitions" title="Permalink to this headline">¶</a></h1>
-<div class="figure align-center" id="id1">
-<img alt="../_images/mdstore.png" src="../_images/mdstore.png" />
-<p class="caption"><span class="caption-text">Defining a Metadata Store, everytime you save the entrie will be validated to avoid faulty configurations in Production Environment.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-</div>
+<a class=""
+               data-lightbox="group-6cec16b2-356b-4cec-8b47-c4bca575bea3"
+               href="../_images/mdstore1.png"
+               title="Defining a Metadata Store, everytime you save the entrie will be validated to avoid faulty configurations in Production Environment."
+               data-title="Defining a Metadata Store, everytime you save the entrie will be validated to avoid faulty configurations in Production Environment."
+               ><img src="../_images/mdstore1.png"
+                     class=""
+                     width="100%"
+                     height="auto"
+                     alt=""/>
+                </a><hr class="docutils" />
+<a class=""
+               data-lightbox="group-8cda4040-11c8-4a32-9efd-38406045d1b6"
+               href="../_images/validate_md1.png"
+               title="On save: if MetadataStore type is remote or mdq it will be validated upon the reachablility of its endpoint and the validity of its https certificate. If type is local instead, the validation will check the existence of the file path and the validity of the XML syntax. If one of the previous checks will fail the resource will be automatically disactivated."
+               data-title="On save: if MetadataStore type is remote or mdq it will be validated upon the reachablility of its endpoint and the validity of its https certificate. If type is local instead, the validation will check the existence of the file path and the validity of the XML syntax. If one of the previous checks will fail the resource will be automatically disactivated."
+               ><img src="../_images/validate_md1.png"
+                     class=""
+                     width="100%"
+                     height="auto"
+                     alt=""/>
+                </a></div>
 
 
            </div>
@@ -190,7 +223,7 @@
         <a href="serviceprovider.html" class="btn btn-neutral float-right" title="Service Providers Federation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral float-left" title="Requirements and enviroment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Requirements and enviroment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -199,14 +232,17 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Giuseppe De Marco
+        2019, Giuseppe De Marco.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
+  <span style="font-size:0.8em">
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>.
+  <br>Last update 03/07/2019
+  
+   </span>
 </footer>
-
         </div>
       </div>
 

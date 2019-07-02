@@ -6,7 +6,14 @@
 uniAuth's documentation
 ===================================
 
-.. figure:: contents/login.png
+.. thumbnail:: contents/login.png
+
+
+**Github official page** is at `https://github.com/UniversitaDellaCalabria/uniAuth <https://github.com/UniversitaDellaCalabria/uniAuth>`__
+
+
+------------
+
 
 .. toctree::
    :maxdepth: 2
@@ -36,6 +43,7 @@ uniAuth's documentation
    contents/serviceprovider.rst
    contents/attribute_release.rst
    contents/customize_platform.rst
+   contents/backup_restore.rst
 
 Indices and tables
 ==================

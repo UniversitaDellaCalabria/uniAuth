@@ -69,6 +69,7 @@ class ServiceProvider(models.Model):
                                                             indent=4),
                                          blank=True, null=True,
                                          help_text=_('Attribute that would be release to this SP, in JSON format.'))
+    is_valid = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -86,12 +87,42 @@ class ServiceProvider(models.Model):
         pass
 
     def validate(self):
-        # check if class Processor exists and is importable
-        import_string(self.attribute_processor)
-        # check if mapping is a real dict or
-        # if it have syntax errors (try json.loads).
-        # Dict must do not have a trailing "," at last element
-        json.loads(self.attribute_mapping)
+        is_active = self.is_active
+        error = None
+        try:
+            # check if class Processor exists and is importable
+            import_string(self.attribute_processor)
+        except Exception as e:
+            error = '{}'.format(e)
+            is_active = False
+
+        try:
+            # check if mapping is a real dict or
+            # if it have syntax errors (try json.loads).
+            # Dict must do not have a trailing "," at last element
+            json.loads(self.attribute_mapping)
+        except Exception as e:
+            error = 'Attribute Mapping is not a valid JSON format: {}'.format(e)
+            is_active = False
+
+        # test if its entityID is available in metadatastore
+        try:
+            get_idp_config = import_string('uniauth.utils.get_idp_config')
+            get_idp_config().metadata.service(self.entity_id,
+                                              "spsso_descriptor",
+                                              'assertion_consumer_service')
+        except Exception as e:
+            error = '{} is not present in any Metadata'.format(e)
+
+        if error:
+            self.is_active = False
+            self.is_valid = False
+            self.save()
+            raise Exception(error)
+
+        self.is_valid = True
+        self.save()
+        return self.is_valid
 
     @classmethod
     def as_idpspconfig_dict(cls):

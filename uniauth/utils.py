@@ -34,9 +34,9 @@ def encode_http_redirect_saml(saml_envelope):
     return base64.b64encode(zlib.compress(saml_envelope.encode()))
 
 
-def get_idp_config(SAML_IDP_CONFIG):
+def get_idp_config(saml_idp_config=settings.SAML_IDP_CONFIG):
     conf = IdPConfig()
-    idp_config = copy.deepcopy(settings.SAML_IDP_CONFIG)
+    idp_config = copy.deepcopy(saml_idp_config)
 
     # this is only used for merge DB metadatastores configurations
     db_mdstores = MetadataStore.as_pysaml_mdstore_dict()

@@ -42,7 +42,7 @@ def store_params_in_session(request):
                                                       'request. Please come back to your SP and renew '
                                                       'the authentication request')},
                                    status=403)
-    
+
     # try to parse an authn request to get force_authn if available
     try:
         # force_authn check
@@ -58,7 +58,7 @@ def store_params_in_session(request):
         # it's a SLO request...
         pass
     # end force_authn check
-    
+
     request.session['SAMLRequest'] = saml_request
     request.session['Binding'] = binding
     request.session['RelayState'] = passed_data.get('RelayState', '')

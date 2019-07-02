@@ -140,4 +140,5 @@ See `uwsgi_setup` examples.
 Remember to run ``collectstatic`` to copy all the static files in the production static folder:
 
 ::
+
     ./manage.py collectstatic

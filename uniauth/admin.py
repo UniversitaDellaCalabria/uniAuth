@@ -46,7 +46,7 @@ class MetadataStoreAdmin(admin.ModelAdmin):
 
     class Media:
         js = ('textarea_autosize.js',)
-    
+
     def metadata_element_preview(self, obj):
         try:
             dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
@@ -68,7 +68,7 @@ class MetadataStoreAdmin(admin.ModelAdmin):
             obj.is_valid = False
             obj.save()
             msg = str(excp)
-            
+
         if not res:
             messages.set_level(request, messages.ERROR)
             _msg = _("Storage not valid, if 'mdq' at least a "
@@ -85,23 +85,26 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                     'signing_algorithm',
                     'digest_algorithm',
                     'encrypt_saml_responses',
-                    'is_active',
+                    'is_active', 'is_valid',
                     'updated')
     list_filter = ('created',
                    'signing_algorithm',
                    'digest_algorithm',
                    'encrypt_saml_responses',
-                   'is_active',
+                   'is_active', 'is_valid',
                    'updated')
     search_fields = ('entity_id', 'display_name', 'metadata_url')
-    readonly_fields = ('created', 'updated', 'as_idpspconfig_dict_element_html')
+    readonly_fields = ('created', 'updated',
+                       'as_idpspconfig_dict_element_html',
+                       'is_valid')
 
     fieldsets = (
                 (None, {'fields': (('entity_id', 'display_name',),
                                    ('metadata_url',),
                                    ('signing_algorithm', 'digest_algorithm'),
                                    ('encrypt_saml_responses', 'encrypt_advice_attributes'),
-                                   ('is_active',),
+                                   ('is_active'),
+                                   'is_valid',
                                    )}),
                 (_('Agreement and Description'), {'fields': (('agreement_screen', 'agreement_consent_form',),
                                                              ('agreement_message', 'description'),
@@ -135,7 +138,5 @@ class ServiceProviderAdmin(admin.ModelAdmin):
             super(ServiceProviderAdmin, self).save_model(request, obj, form, change)
         except Exception as e:
             messages.set_level(request, messages.ERROR)
-            msg = _("AttributeProcessor or Attribute mapping "
-                    "is not valid: {}").format(e)
+            msg = "{}".format(e)
             messages.add_message(request, messages.ERROR, msg)
-        

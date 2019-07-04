@@ -41,6 +41,10 @@ SAML_IDP_CONFIG = {
     'debug' : True,
     'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
     'entityid': '%s/metadata' % BASE_URL,
+
+    'entity_category_support': [edugain.COCO, # "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"
+                                refeds.RESEARCH_AND_SCHOLARSHIP],
+
     'attribute_map_dir': 'data/attribute-maps',
     'description': 'SAML2 IDP',
 
@@ -96,8 +100,9 @@ SAML_IDP_CONFIG = {
                 "default": {
                     "lifetime": {"minutes": 15},
 
-                    # if the sp is not conform to entity_categories the attributes will not be released
+                    # if the sp are not conform to entity_categories (in our metadata) the attributes will not be released
                     # "entity_categories": ["refeds", "edugain"],
+                    # "entity_categories": ["refeds",],
 
                     "name_form": NAME_FORMAT_URI,
 
@@ -113,6 +118,13 @@ SAML_IDP_CONFIG = {
                         # "mail": [".*\.umu\.se$"],
                     # },
                 },
+
+                # attributes will be released only if this SP have refeds in out entity_categories in its metadata.
+                # "https://sp1.testunical.it/saml2/metadata/": {
+                    # "entity_categories": ["refeds",]
+                # }
+
+
                 # "https://example.com/sp": {
                     # "lifetime": {"minutes": 5},
                     # "nameid_format": NAMEID_FORMAT_PERSISTENT,

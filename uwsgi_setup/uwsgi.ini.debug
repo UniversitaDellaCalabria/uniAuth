@@ -1,0 +1,44 @@
+[uwsgi]
+project     = unicalauth
+base        = /opt
+
+chdir       = %(base)/%(project)
+
+uid         = wert
+gid         = wert
+
+socket      = 127.0.0.1:3000
+master      = true
+processes   = 4
+#threads     = 2
+
+# se installato con pip non serve il plugin perchè embedded
+#plugins    = python
+# con virtualenv non serve
+#pythonpath     = %(base)/%(project)/%(project)
+
+virtualenv  = %(base)/django-idp.env
+
+honour-stdin = True
+#logto = /var/log/uwsgi/%(project).log
+log-maxsize = 100000000
+log-backupname = /var/log/uwsgi/%(project).old.log
+
+module      = django_idp.wsgi:application
+vacuum      = True
+
+# respawn processes after serving ... requests
+max-requests    = 1000
+
+# respawn processes taking more than takes more then ... seconds (12 minutes!!)
+harakiri = 3660
+
+# SAML over https needs a greater buffersize, instead: "invalid request block size: 5843 (max 4096)...skip"
+buffer-size=32768
+
+env         = DJANGO_SETTINGS_MODULE = %(project).settings
+
+pidfile     = /var/log/uwsgi/%(project).pid
+touch-reload    = %(base)/%(project)/django_idp/settings.py
+stats       = 127.0.0.1:9191
+stats-http = True

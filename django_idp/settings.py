@@ -34,24 +34,6 @@ if not DEBUG:
 
 # Application definition
 
-INSTALLED_APPS = [
-    'unical_accounts',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'sass_processor',
-    'bootstrap_italia_template',
-    'unical_agid_template',
-    'uniauth',
-    'idp',
-    'ldap_peoples',
-    'rangefilter']
-
-AUTH_USER_MODEL = "unical_accounts.User"
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

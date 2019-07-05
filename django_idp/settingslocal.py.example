@@ -8,6 +8,24 @@ SESSION_COOKIE_AGE = 60 * 10 # minutes
 
 ALLOWED_HOSTS = ['*']
 
+INSTALLED_APPS = [
+    'unical_accounts',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'sass_processor',
+    'bootstrap_italia_template',
+    'unical_agid_template',
+    'uniauth',
+    'idp',
+    'ldap_peoples',
+    'rangefilter']
+
+AUTH_USER_MODEL = "unical_accounts.User"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

@@ -6,6 +6,7 @@ from saml2 import (BINDING_HTTP_POST,
                    BINDING_HTTP_ARTIFACT,
                    BINDING_HTTP_REDIRECT,
                    BINDING_PAOS)
+from saml2.entity_category import refeds, edugain
 from saml2.saml import (NAMEID_FORMAT_TRANSIENT,
                         NAMEID_FORMAT_PERSISTENT)
 from saml2.saml import (NAME_FORMAT_URI,
@@ -223,15 +224,24 @@ SAML_IDP_SPCONFIG = {}
 DEFAULT_SPCONFIG = {
     'processor': 'idp.processors.LdapAcademiaProcessor',
     'attribute_mapping': {
-        'eduPersonTargetedID': 'eduPersonTargetedID',
-        'schacPersonalUniqueID': 'schacPersonalUniqueID',
-        'eduPersonPrincipalName': 'eduPersonPrincipalName',
-        'eduPersonEntitlement': 'eduPersonEntitlement',
-        'eduPersonScopedAffiliation': 'eduPersonScopedAffiliation',
-        'schacPersonalUniqueCode': 'schacPersonalUniqueCode',
-        'cn': 'cn',
-        'sn': 'sn',
-        'mail': 'mail',
+        # refeds + edugain Entities
+        "cn": "cn",
+        "eduPersonEntitlement": "eduPersonEntitlement",
+        "eduPersonPrincipalName": "eduPersonPrincipalName",
+        "schacHomeOrganization": "schacHomeOrganization",
+        "eduPersonHomeOrganization": "eduPersonHomeOrganization",
+        "eduPersonAffiliation": "eduPersonAffiliation",    "eduPersonTargetedID": "eduPersonTargetedID",
+        "mail": "mail",
+        "schacPersonalUniqueCode": "schacPersonalUniqueCode",
+        "schacPersonalUniqueID": "schacPersonalUniqueID",
+        "sn": "sn",
+        "givenName": "givenName",
+        "displayName": "displayName",
+
+        # custom attributes
+        "codice_fiscale": "codice_fiscale",
+        "matricola_studente": "matricola_studente",
+        "matricola_dipendente": "matricola_dipendente"
     },
     'display_name': 'Unical SP',
     'display_description': 'This is for test purpose',

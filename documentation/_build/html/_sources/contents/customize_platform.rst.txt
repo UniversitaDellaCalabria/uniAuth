@@ -21,4 +21,5 @@ It relies to `Django documentation <https://docs.djangoproject.com/en/2.2/ref/dj
 You'll find gettext .po files into ``locale/`` folder, then you can translate messages before compiling them with:
 
 ::
+
     ./manage.py compilemessage

@@ -1,5 +1,6 @@
 <!-- Extends default Bootstrap Italia template -->
-{% extends 'main_page.html' %}
+{% extends 'idp_base.html' %}
+
 {% load i18n %}
 {% load static %}
 
@@ -7,61 +8,51 @@
     {% trans "User Agreement" %}
 {% endblock page_title %}
 
+{% block header_center_search %}{% endblock header_center_search %}
+{% block header_slim_right_zone %}{% endblock header_slim_right_zone %}
+{% block main_menu %}{% endblock main_menu %}
 
-{% block content %}
-<div class="u-padding-all-xl">
-
-    <div class="main-header__inner Grid Grid--fill Grid--withGutter Grid--equalHeight Grid--alignMiddle mb-4">
-            <div class="u-size2of2">
-                <div class="it-brand-wrapper">
-                    <img src="{% static 'img/logo_header_tracciato.svg' %}" class="img-fluid" style="max-width: 100%;" alt="IDP Logo" >
-                </div>
-            </div>
-    </div>
-    <br>
-    <div class="mb-2">
-        <p>
-            <b>{% trans "Welcome" %} {{ request.user.username }}</b>,
-        </p>
-
-        <p class="text-justify">
-            <b>
-                {{sp_display_name}}
-            </b>,
+{% block centered_container %}
+<div class="mb-2">
+    <p>
+        <b>{% trans "Welcome" %} {{ request.user.username }}</b>,
+    </p>
+    <p class="text-justify">
+        <b>{{sp_display_name}}</b>,
         {% trans "the web service you are coming from, has requested the following informations. We therefore ask you to read these informations and give your consent if you agree." %}
-        </p>
+    </p>
 
-        {% if sp_display_description %}
-        <p class="text-justify pt-3">
-            <b>{{sp_display_description}}</b>
-        </p>
+    {% if sp_display_description %}
+    <p class="text-justify pt-3">
+        <b>{{sp_display_description}}</b>
+    </p>
+    {% endif %}
+</div>
+
+<div class="mb-4">
+<!--
+    <h3>
+        {% trans "Data consent" %}
+    </h3>
+-->
+    <p class="text-justify text-justify pt-3">
+        {% if sp_display_agreement_message %}
+            {{ sp_display_agreement_message }}
+        {% else %}
+            {% include "data_consent.html" %}
         {% endif %}
-    </div>
+    </p>
+</div>
 
-    <div class="mb-4">
+<div class="mb-4">
 <!--
-        <h3>
-            {% trans "Data consent" %}
-        </h3>
--->
-        <p class="text-justify text-justify pt-3">
-            {% if sp_display_agreement_message %}
-                {{ sp_display_agreement_message }}
-            {% else %}
-                {% include "data_consent.html" %}
-            {% endif %}
-        </p>
-    </div>
-
-    <div class="mb-4">
-<!--
-        <p>
-            {{sp_display_name}} {% trans "requested the following informations" %}:
-        </p>
+    <p>
+        {{sp_display_name}} {% trans "requested the following informations" %}:
+    </p>
 -->
 
-        <div>
-        <table class="table">
+    <div style="overflow-x:auto;">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">{% trans "attribute name" %}</th>
@@ -71,112 +62,108 @@
             <tbody>
             {% for attr, value in attrs_passed_to_sp.items %}
             <tr>
+                <td>{{ attr }}</td>
                 <td>
-                    {{ attr }}
-                </td>
-
-                <td>
-                    {% if value.capitalize %}
-                        {{ value }}
-                    {% else %}
-                        <ul class="list-unstyled">
-                        {% for ele in value %}
-                            <li>{{ ele }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
+                {% if value.capitalize %}
+                    {{ value }}
+                {% else %}
+                    <ul class="list-unstyled">
+                    {% for ele in value %}
+                        <li>{{ ele }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
                 </td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
-        </div>
-
-
-        {% if sp_display_agreement_consent_form  %}
-        <div class="pt-4 mb-2">
-            <p>{% trans "Do you agree to transmit to " %}
-                <b>{{ sp_display_name }}</b>
-               {% trans "the previous personal attributes" %}?</p>
-        </div>
-        {% endif %}
-        
-        <form method="post" action="" class="pb-4">
-
-            {% csrf_token %}
-                {% for form_field in form %}
-                <div>
-                    {% if form_field.field.widget.input_type == "checkbox"%}
-                    <div class="Form-field form-check ">
-                        <div class="form-check">
-                            <input id="id_{{ form_field.html_name }}"
-                             type="{{ form_field.field.widget.input_type }}"
-                             name="{{ form_field.name }}"
-                             {% if form_field.field.required %} aria-required required {% endif %}>
-                            <label for="id_{{ form_field.html_name }}"
-                                class="Form-label is-required u-text-r-xs u-textWeight-400 u-color-grey-40">
-                                {{ form_field.label }}
-                            </label>
-                        </div>
-                    </div>
-                    {% elif form_field.field.widget.input_type == 'radio' %}
-                        <div>
-<!--
-                        <p class="pt-3">
-                            {{form_field.name|title}}
-                        </p>
--->
-                        {% if sp_display_agreement_consent_form %}
-                        {% for k,v in form_field.field.widget.choices %}
-                              <div class="form-check">
-                                <input
-                                       type="radio"
-                                       name="{{ form_field.html_name}}"
-                                       value="{{k}}"
-                                       {% if form_field.field.required %} required {% endif %}
-                                       id="id_{{ form_field.html_name }}_{{ forloop.counter0}}"
-                                       {% if forloop.first %} checked {% endif %}>
-                                {% if sp_display_agreement_consent_form  %}
-                                <label for="id_{{ form_field.html_name }}_{{ forloop.counter0}}">
-                                    <p style="font-size: 1.8rem;">{{ v }}</p>
-                                </label>
-                                {% endif %}
-                              </div>
-                        {% endfor %}
-                        {% else %}
-                            <input type="hidden" name="confirm" value="1">
-                        {% endif %}
-                        </div>
-                    {% else %}
-                    <div class="Form-field form-animate-fields">
-                        <input class="Form-input"
-                               id="id_{{ form_field.html_name }}"
-                               name="{{ form_field.name }}"
-                               minlength="{{ form_field.field.min_length }}"
-                               type="{{ form_field.field.widget.input_type }}"
-                               {% comment %}
-                                    {% if forloop.first %} autofocus {% endif %}
-                               {% endcomment %}
-                               {% if form_field.field.required %} required {% endif %}
-                               disabled>
-
-                        <label class="Form-label is-required u-text-r-xs u-textWeight-400 u-color-grey-40 "
-                               for="{{ form_field.name }}">
-                            <span class="form-label-content">
-                                {{ form_field.label }}
-                            </span>
-                        </label>
-
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
-
-
-                <button type="submit" class="u-padding-all-s u-text-xs u-textWeight-600 u-borderRadius-m u-sizeFull u-btn u-btn-primary u-margin-bottom-xs js-cta mt-4">
-                    {% trans "Invia" %}
-                </button>
-        </form>
     </div>
+
+    {% if sp_display_agreement_consent_form  %}
+    <div class="pt-4">
+        <p>{% trans "Do you agree to transmit to " %}
+            <b>{{ sp_display_name }}</b>
+           {% trans "the previous personal attributes" %}?<
+        /p>
+    </div>
+    {% endif %}
+
+    <form class="pt-4 needs-validation" method="post" action="" class="pb-4">
+        {% csrf_token %}
+        {% for form_field in form %}
+            {% if form_field.field.widget.input_type == "checkbox"%}
+            <div class="form-check">
+                <input name="{{ form_field.name }}"
+                       type="checkbox" value=""
+                       id="id_{{ form_field.html_name }}"
+                       {% if form_field.field.required %}
+                       class="form-check-input"
+                       required
+                       {% endif %}>
+                <label class="form-check-label"
+                       for="id_{{ form_field.html_name }}">
+                    {{ form_field.label }}
+                </label>
+            </div>
+
+            {% elif form_field.field.widget.input_type == 'radio' %}
+            <div>
+<!--
+                <p class="pt-3">
+                    {{form_field.name|title}}
+                </p>
+-->
+                {% if sp_display_agreement_consent_form %}
+                    {% for k,v in form_field.field.widget.choices %}
+                        <div class="form-check">
+                            <input type="radio"
+                                   name="{{ form_field.name}}"
+                                   value="{{k}}"
+                                   {% if form_field.field.required %}required{% endif %}
+                                   id="id_{{ form_field.html_name }}_{{ forloop.counter0}}"
+                                   {% if forloop.first %}checked{% endif %}>
+                            {% if sp_display_agreement_consent_form  %}
+                            <label for="id_{{ form_field.html_name }}_{{ forloop.counter0}}">
+                                <p style="font-size: 1.8rem;">{{ v }}</p>
+                            </label>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <input type="hidden" name="confirm" value="1">
+                {% endif %}
+            </div>
+
+            {% else %}
+            <div class="form-row">
+                <div class="col-12 form-group my-3">
+                    <input type="{{ form_field.field.widget.input_type }}"
+                           class="form-control"
+                           id="id_{{ form_field.html_name }}"
+                           name="{{ form_field.name }}"
+                           minlength="{{ form_field.field.min_length }}"
+                           {% comment %}
+                           {% if forloop.first %} autofocus {% endif %}
+                           {% endcomment %}
+                           {% if form_field.field.required %}required{% endif %}>
+                    <label for="id_{{ form_field.html_name }}">
+                        <span class="form-label-content">
+                            {{ form_field.label }}
+                        </span>
+                    </label>
+                    {% comment %}
+                    <div class="valid-feedback">Validato!</div>
+                    {% endcomment %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <input type="submit"
+               name="submit"
+               class="mt-5 btn btn-lg btn-success btn-block unical-background"
+               value="{% trans 'Invia' %}"/>
+    </form>
 </div>
-{% endblock content %}
+{% endblock centered_container %}

@@ -11,7 +11,15 @@ cffi
 git+https://github.com/peppelinux/djangosaml2.git@pplnx-dev
 
 # template
-git+https://github.com/UniversitaDellaCalabria/django-bootstrap-italia.git
+# OLD REPO git+https://github.com/UniversitaDellaCalabria/django-bootstrap-italia.git
+
+#Bootstrap Italia + Unical template
+git+https://github.com/italia/design-django-theme.git
+git+https://github.com/UniversitaDellaCalabria/django-unical-agid-template.git
+
+# SASS dynamic compiler
+libsass
+django_sass_processor
 
 # ldap
 git+https://github.com/peppelinux/django-ldapdb.git

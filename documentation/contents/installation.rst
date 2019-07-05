@@ -140,6 +140,17 @@ See `uwsgi_setup` examples.
 
 Remember to run ``collectstatic`` to copy all the static files in the production static folder:
 
+
 ::
 
     ./manage.py collectstatic
+
+
+If you need more debug control with the same production configuration, using uwsgi you could run the following commands (absolute paths as examples):
+
+
+::
+
+
+    /etc/init.d/unicalauth stop
+    uwsgi --ini /opt/unicalauth/uwsgi_setup/uwsgi.ini.debug

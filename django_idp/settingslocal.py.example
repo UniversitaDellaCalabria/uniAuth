@@ -37,6 +37,11 @@ DATABASES = {
     }
 }
 
+#################
+# LDAP, optional
+#################
+
+# generic LDAP paramenters
 LDAP_CONNECTION_USER = 'admin'
 LDAP_CONNECTION_PASSWD = 'slapdsecret'
 LDAP_DB_URL = 'ldap://ldap1.testunical.it/'

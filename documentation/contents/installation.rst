@@ -3,7 +3,8 @@ Requirements and enviroment
 
 ::
 
-    sudo apt install xmlsec1 mariadb-server libmariadbclient-dev python3-dev python3-pip libssl-dev libmariadb-dev-compat
+    sudo apt install xmlsec1 mariadb-server libmariadbclient-dev python3-dev python3-pip libssl-dev libmariadb-dev-compat libsasl2-dev libldap2-dev
+
     pip3 install virtualenv
     virtualenv -ppython3 uniauth.env
     source uniauth.env/bin/activate

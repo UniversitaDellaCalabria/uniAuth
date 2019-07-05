@@ -1,110 +1,88 @@
-<!-- Extends default Bootstrap Italia template -->
-{% extends 'main_page.html' %}
+<!-- Extends default Bootstrap Unical Italia template -->
+{% extends 'idp_base.html' %}
+
 {% load i18n %}
 {% load static %}
 
 {% block page_title %}
-    : {% trans "Auth login" %}
+: {% trans "Auth login" %}
 {% endblock page_title %}
 
-{% block content %}
-<main class="main u-layout u-layout-extrasmall u-layoutCenter">
-    <article class="main-bodytext u-padding-all-xl">
+{% block header_wrapper %}{% endblock header_wrapper %}
+{% block footer %}{% endblock footer %}
 
-        <div class="main-header__inner Grid Grid--fill Grid--withGutter Grid--equalHeight Grid--alignMiddle mb-4">
-                <div class="u-size2of2">
-                    <div class="it-brand-wrapper">
-                        <img src="{% static 'img/logo_header_tracciato.svg' %}" class="img-fluid" style="max-width: 100%;" alt="IDP Logo" >
-                    </div>
-                </div>
-        </div>
+{% block container %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 p-5 offset-md-3 align-self-center">
+            <svg style="width:100%;">
+                <image xlink:href="{% static 'images/unical_logo.svg' %}" style="width:100%;"/>
+            </svg>
 
-        <div class="pt-1">
-            <p>
-                {% trans "Single Sign-On" %}
-            </p>
-        </div>
+            <h5 class="mb-4">{% trans "Single Sign-On" %}</h5>
 
-        {% for i in messages %}
-            <h1>{{ i }}</h1>
-        {% endfor %}
+            <form class="needs-validation" name="login" method="post" action="{{ acs_url }}">
+                {% csrf_token %}
+                {% for form_field in form %}
 
-        {% for i in form.fields %}
-            <h1>{{ i.errors }}</h1>
-        {% endfor %}
-
-        <form class="Form Form--spaced u-margin-bottom-l" name="login" method="post" action="{{ acs_url }}">
-            {% csrf_token %}
-
-            <div>
-            {% for form_field in form %}
-                <div>
                     {% ifequal form_field.field.widget.input_type "checkbox" %}
-                    <div class="Form-field form-check ">
-                        <div class="form-check">
-                            <input id="id_{{ form_field.html_name }}"
-                             type="checkbox"
-                             name="{{ form_field.name }}">
-                            <label for="id_{{ form_field.html_name }}"
-                                class="Form-label is-required u-text-r-xs u-textWeight-400 u-color-grey-40">
-                                {{ form_field.label }}
+                    <div class="form-check">
+                        <input name="{{ form_field.name }}"
+                               type="checkbox" value=""
+                               id="id_{{ form_field.html_name }}"
+                               {% if form_field.field.required %}
+                               class="form-check-input"
+                               required
+                               {% endif %}>
+                        <label class="form-check-label"
+                               for="id_{{ form_field.html_name }}">
+                            {{ form_field.label }}
+                        </label>
+                    </div>
+                    {% else %}
+                    <div class="form-row">
+                        <div class="col-12 form-group my-3">
+                            <input type="{{ form_field.field.widget.input_type }}"
+                                   class="form-control"
+                                   id="id_{{ form_field.html_name }}"
+                                   name="{{ form_field.name }}"
+                                   minlength="{{ form_field.field.min_length }}"
+                                   {% comment %}
+                                   {% if forloop.first %} autofocus {% endif %}
+                                   {% endcomment %}
+                                   {% if form_field.field.required %}required{% endif %}>
+                            <label for="id_{{ form_field.html_name }}">
+                                <span class="form-label-content">
+                                    {{ form_field.label }}
+                                </span>
                             </label>
+                            {% comment %}
+                            <div class="valid-feedback">Validato!</div>
+                            {% endcomment %}
                         </div>
                     </div>
-
-                    {% else %}
-                    <div class="Form-field form-animate-fields">
-                        <input class="Form-input"
-                               id="id_{{ form_field.html_name }}"
-                               name="{{ form_field.name }}"
-                               minlength="{{ form_field.field.min_length }}"
-                               type="{{ form_field.field.widget.input_type }}"
-                               {% comment %}
-                                    {% if forloop.first %} autofocus {% endif %}
-                               {% endcomment %}
-                               {% if form_field.field.required %} aria-required required {% endif %}>
-
-                        <label class="Form-label is-required u-text-r-xs u-textWeight-400 u-color-grey-40 "
-                               for="{{ form_field.name }}">
-                            <span class="form-label-content">
-                                {{ form_field.label }}
-                            </span>
-                        </label>
-
-                    </div>
                     {% endifequal %}
-                </div>
-            {% endfor %}
-
-                <div class="px-3 mb-4">
+                {% endfor %}
+                <div class="py-3">
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="#" class="grey-color">
                                 {% trans "Forgot your password?" %}
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" class="grey-color">
                                 {% trans "Additional informations" %}
                             </a>
                         </li>
                     </ul>
                 </div>
-
-            <div>
-
-            </div>
-
-            <div class="form-row">
-                <button type="submit"
-                        name="confirm"
-                        class="u-padding-all-s u-text-xs u-textWeight-600 u-borderRadius-m u-sizeFull u-btn u-btn-primary u-margin-bottom-xs js-cta" >
-                            {% trans 'Submit' %}
-                </button>
-
-            </div>
-        </form>
-
-    </article>
-</main>
-{% endblock content %}
+                <input type="submit"
+                       name="confirm"
+                       class="btn btn-lg btn-success btn-block unical-background"
+                       value="{% trans 'Submit' %}"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock container %}

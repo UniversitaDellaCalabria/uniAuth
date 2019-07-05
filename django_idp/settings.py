@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'sass_processor',
+    'bootstrap_italia_template',
+    'unical_agid_template',
     'uniauth',
     'idp',
     'ldap_peoples',
@@ -115,7 +117,7 @@ AUTHENTICATION_BACKENDS = [
 #################
 if 'ldap_peoples' in INSTALLED_APPS:
     LDAP_BASEDN = 'dc='+',dc='.join(LDAP_BASE_DOMAIN.split('.'))
-    
+
     # load default and overrides as you prefer
     from ldap_peoples.settings import *
     DEFAULT_EDUPERSON_ENTITLEMENT = ['urn:mace:terena.org:tcs:personal-user',
@@ -123,7 +125,7 @@ if 'ldap_peoples' in INSTALLED_APPS:
     SCHAC_HOMEORGANIZATIONTYPE_DEFAULT = ['educationInstitution',
                                           'university']
     SCHAC_HOMEORGANIZATION_DEFAULT = LDAP_BASE_DOMAIN
-    
+
     LDAP_CONNECTION_OPTIONS = {ldap.OPT_PROTOCOL_VERSION: 3,
                                ldap.OPT_NETWORK_TIMEOUT: 10.0,
                                # ldap.OPT_DEBUG_LEVEL: 255,
@@ -136,7 +138,7 @@ if 'ldap_peoples' in INSTALLED_APPS:
                                # ldap.OPT_X_TLS: ldap.OPT_X_TLS_NEVER,
                                # ldap.OPT_X_TLS_DEMAND: False,
                               }
-    
+
     DATABASES['ldap'] = {
         'ENGINE': 'ldapdb.backends.ldap',
         # only in localhost
@@ -149,7 +151,7 @@ if 'ldap_peoples' in INSTALLED_APPS:
         'RETRY_MAX': 3,
         'CONNECTION_OPTIONS': LDAP_CONNECTION_OPTIONS
      }
-    
+
     DATABASE_ROUTERS = ['ldapdb.router.Router']
 
     AUTHENTICATION_BACKENDS.append('idp.ldap_auth.LdapAcademiaAuthBackend')

@@ -565,7 +565,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
             return render_to_response('error.html',
                                       {'exception_type':_("Invalid submission")},
                                       status=403)
-        
+
         confirm = int(form.cleaned_data['confirm'])
         dont_show_again = form.cleaned_data['dont_show_again']
 

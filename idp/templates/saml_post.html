@@ -1,5 +1,5 @@
-<!-- Extends default Bootstrap Italia template -->
-{% extends 'main_page.html' %}
+{% extends 'idp_base.html' %}
+
 {% load i18n %}
 {% load static %}
 
@@ -7,7 +7,11 @@
     SAML POST
 {% endblock page_title %}
 
-{% block content %}
+{% block header_center_search %}{% endblock header_center_search %}
+{% block header_slim_right_zone %}{% endblock header_slim_right_zone %}
+{% block main_menu %}{% endblock main_menu %}
+
+{% block centered_container %}
     <form method="post" action="{{ acs_url }}">
         {% csrf_token %}
         <div>
@@ -22,4 +26,6 @@
         }
     </script>
     {% endif %}
-{% endblock content %}
+{% endblock centered_container %}
+
+{% block bootstrap_italia_validation %}{% endblock bootstrap_italia_validation %}

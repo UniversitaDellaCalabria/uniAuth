@@ -1,5 +1,6 @@
 <!-- Extends default Bootstrap Italia template -->
-{% extends 'main_page.html' %}
+{% extends 'idp_base.html' %}
+
 {% load i18n %}
 {% load static %}
 
@@ -7,17 +8,32 @@
     {% trans "Error" %}
 {% endblock page_title %}
 
-{% block content %}
-    <h1 class="mb-4">{% trans "Error during SAML2 authentication" %}</h1>
-    {% if exception_type %}
-        <p class="mb-2"><strong>{{exception_type}}</strong><br></p>
-        {% if exception_msg %}
-            <p>{{exception_msg}}</p>
-        {% endif %}
-    {% endif %}
-    {% if extra_message %}
-        <p>{{extra_message}}</p>
-    {% endif %}
+{% block header_center_search %}{% endblock header_center_search %}
+{% block header_slim_right_zone %}{% endblock header_slim_right_zone %}
+{% block main_menu %}{% endblock main_menu %}
 
+{% block centered_container %}
+    <div class="callout danger">
+        <div class="callout-title">
+            <svg class="icon">
+                <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-close-circle"></use>
+            </svg>{% trans "Error during SAML2 authentication" %}</div>
+        <p>
+            {% if exception_type %}
+                <p class="mb-2">
+                    <strong>{{exception_type}}</strong>
+                    <br>
+                </p>
+                {% if exception_msg %}
+                    <p>{{exception_msg}}</p>
+                {% endif %}
+            {% endif %}
+            {% if extra_message %}
+                <p>{{extra_message}}</p>
+            {% endif %}
+        </p>
+    </div>
 </html>
-{% endblock content %}
+{% endblock centered_container %}
+
+{% block bootstrap_italia_validation %}{% endblock bootstrap_italia_validation %}

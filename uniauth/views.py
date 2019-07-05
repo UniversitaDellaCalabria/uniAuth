@@ -237,10 +237,23 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # entity categories and other pysaml2 policies could filter out some attributes
         policy = Policy(restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
-        self.request.session['identity'] = policy.filter(self.request.session['identity'],
-                                                         self.sp['id'],
-                                                         self.IDP.config.metadata,
-                                                         required=[])
+        ava = policy.filter(self.request.session['identity'],
+                            self.sp['id'],
+                            self.IDP.config.metadata,
+                            required=[])
+
+        # talking logs
+        self.request.session['authn_log'] = ('SSO AuthnResponse to {} [{}]:'
+                                             ' {} attrs ({}) on {} '
+                                             'filtered by policy').format(self.sp['id'],
+                                                                          self.request.session.get('message_id'),
+                                                                          len(ava),
+                                                                          ','.join(ava.keys()),
+                                                                          len(self.request.session['identity']))
+        logger.info(self.request.session['authn_log'])
+        #
+
+        self.request.session['identity'] = ava
 
         return authn_resp
 
@@ -492,9 +505,11 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             relay_state=request.session['RelayState'])
 
         logger.debug("SAML Authn Response [\n{}]".format(repr_saml(self.authn_resp)))
-        logger.info("SAML Authn Response to {} [{}] in response of: {}.".format(self.resp_args['sp_entity_id'],
-                                                                               self.resp_args['destination'],
-                                                                               self.resp_args['in_response_to']))
+        # already logged in build_auth_response
+        # logger.info("SAML Authn Response to {} [{}] in response of: {}.".format(self.resp_args['sp_entity_id'],
+                                                                               # self.resp_args['destination'],
+                                                                               # self.resp_args['in_response_to']))
+
         return self.render_response(request, html_response)
 
 

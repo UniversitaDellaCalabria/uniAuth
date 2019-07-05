@@ -34,7 +34,7 @@ def store_params_in_session(request):
 
     saml_request = passed_data.get('SAMLRequest')
     if saml_request:
-        msg = "--- SAML request [\n{}] ---"
+        msg = "SAML request [\n{}]"
         logger.debug(msg.format(repr_saml(saml_request,
                                 b64=True)))
     else:
@@ -56,6 +56,7 @@ def store_params_in_session(request):
 
         logger.info("SSO AuthnRequest: {} [{}]".format(req_info.message.issuer.text,
                                                        req_info.message.id))
+        request.session['message_id'] = req_info.message.id
     except Exception as e:
         # it's a SLO request...
         pass

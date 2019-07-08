@@ -70,7 +70,3 @@ Open an Issue if you want to talk before develop to reduce the risk to be unmerg
 All the things will be collected in a new roadmap to the next release candidate.
 
 Still need to handle Continuous Integration with unit test.
-
-## Author
-
-Giuseppe De Marco

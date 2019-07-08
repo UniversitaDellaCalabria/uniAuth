@@ -3,7 +3,8 @@ Requirements and enviroment
 
 ::
 
-    sudo apt install xmlsec1 mariadb-server libmariadbclient-dev python3-dev python3-pip libssl-dev libmariadb-dev-compat
+    sudo apt install xmlsec1 mariadb-server libmariadbclient-dev python3-dev python3-pip libssl-dev libmariadb-dev-compat libsasl2-dev libldap2-dev
+
     pip3 install virtualenv
     virtualenv -ppython3 uniauth.env
     source uniauth.env/bin/activate
@@ -139,6 +140,17 @@ See `uwsgi_setup` examples.
 
 Remember to run ``collectstatic`` to copy all the static files in the production static folder:
 
+
 ::
 
     ./manage.py collectstatic
+
+
+If you need more debug control with the same production configuration, using uwsgi you could run the following commands (absolute paths as examples):
+
+
+::
+
+
+    /etc/init.d/unicalauth stop
+    uwsgi --ini /opt/unicalauth/uwsgi_setup/uwsgi.ini.debug

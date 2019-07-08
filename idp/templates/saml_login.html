@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block page_title %}
-: {% trans "Auth login" %}
+IDP: {% trans "Auth login" %}
 {% endblock page_title %}
 
 {% block header_wrapper %}{% endblock header_wrapper %}
@@ -17,7 +17,7 @@
         <div class="col-lg-6 p-5 offset-md-3 align-self-center">
             <image class="mb-5" src="{% static 'images/unical_logo.svg' %}" style="width:100%;"/>
 
-            <h5 class="mb-4">{% trans "Single Sign-On" %}</h5>
+            <p class="mb-4">{% trans "Single Sign-On" %}</p>
 
             <form class="needs-validation" name="login" method="post" action="{{ acs_url }}">
                 {% csrf_token %}
@@ -93,7 +93,7 @@
                     {% endif %}
                 {% endfor %}
                 <div class="py-3">
-                    <ul>
+                    <ul style="list-style: none; padding-inline-start: 37px;">
                         <li>
                             <a href="#" class="grey-color">
                                 {% trans "Forgot your password?" %}
@@ -105,6 +105,7 @@
                             </a>
                         </li>
                     </ul>
+
                 </div>
                 <input type="submit"
                        name="confirm"

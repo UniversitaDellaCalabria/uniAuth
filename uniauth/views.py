@@ -30,6 +30,7 @@ from saml2.authn_context import (PASSWORD,
                                  AuthnBroker,
                                  authn_context_class_ref)
 
+from saml2.assertion import Policy
 from saml2.config import IdPConfig
 from saml2.ident import NameID
 from saml2.metadata import entity_descriptor
@@ -40,7 +41,9 @@ from saml2.saml import NAMEID_FORMAT_UNSPECIFIED
 from saml2.response import (IncorrectlySigned,)
 from six import text_type
 
-from . decorators import *
+from . decorators import (_not_valid_saml_msg,
+                          store_params_in_session_func,
+                          require_saml_request)
 from . exceptions import MetadataNotFound, MetadataCorruption
 from . forms import AgreementForm, LoginForm
 from . models import AgreementRecord, ServiceProvider
@@ -178,7 +181,20 @@ class IdPHandlerViewMixin(ErrorHandler):
         name_id = NameID(format=name_id_format,
                          sp_name_qualifier=self.sp['id'],
                          text=user_id)
-        user_attrs = self.processor.create_identity(user, self.sp)
+
+        #user_attrs = self.processor.create_identity(user, self.sp)
+
+        # Generate request session stuff needed for user agreement screen
+        attrs_to_exclude = self.sp['config'].get('user_agreement_attr_exclude', []) + \
+                           getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
+
+        self.request.session['identity'] = {
+            k: v
+            for k, v in self.processor.create_identity(self.request.user,
+                                                       self.sp).items()
+            if k not in attrs_to_exclude
+        }
+
 
         # ASSERTION ENCRYPTED
         encrypt_response = getattr(settings,
@@ -195,7 +211,7 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
-            identity=user_attrs,
+            identity=self.request.session['identity'],
             userid=user_id,
             name_id=name_id,
 
@@ -218,6 +234,27 @@ class IdPHandlerViewMixin(ErrorHandler):
             encrypt_advice_attributes=encrypt_advice_attributes,
             **resp_args
         )
+
+        # entity categories and other pysaml2 policies could filter out some attributes
+        policy = Policy(restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
+        ava = policy.filter(self.request.session['identity'],
+                            self.sp['id'],
+                            self.IDP.config.metadata,
+                            required=[])
+
+        # talking logs
+        self.request.session['authn_log'] = ('SSO AuthnResponse to {} [{}]:'
+                                             ' {} attrs ({}) on {} '
+                                             'filtered by policy').format(self.sp['id'],
+                                                                          self.request.session.get('message_id'),
+                                                                          len(ava),
+                                                                          ','.join(ava.keys()),
+                                                                          len(self.request.session['identity']))
+        logger.info(self.request.session['authn_log'])
+        #
+
+        self.request.session['identity'] = ava
+
         return authn_resp
 
     def create_html_response(self, request, binding,
@@ -255,15 +292,6 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         request.session['saml_data'] = html_response
 
-        # Generate request session stuff needed for user agreement screen
-        attrs_to_exclude = self.sp['config'].get('user_agreement_attr_exclude', []) + \
-                           getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
-        request.session['identity'] = {
-            k: v
-            for k, v in self.processor.create_identity(request.user,
-                                                       self.sp).items()
-            if k not in attrs_to_exclude
-        }
         request.session['sp_display_info'] = {
             'display_name': self.sp['config'].get('display_name', self.sp['id']),
             'display_description': self.sp['config'].get('display_description'),
@@ -276,16 +304,17 @@ class IdPHandlerViewMixin(ErrorHandler):
         user_agreement_enabled_for_sp = self.sp['config'].get('show_user_agreement_screen',
                                                               getattr(settings,
                                                                       "SAML_IDP_SHOW_USER_AGREEMENT_SCREEN"))
-        try:
-            agreement_for_sp = AgreementRecord.objects.get(user=request.user,
-                                                           sp_entity_id=self.sp['id'])
+
+        agreement_for_sp = AgreementRecord.objects.filter(user=request.user,
+                                                          sp_entity_id=self.sp['id']).first()
+        if agreement_for_sp:
             if agreement_for_sp.is_expired() or \
                agreement_for_sp.wants_more_attrs(request.session['identity'].keys()):
                 agreement_for_sp.delete()
                 already_agreed = False
             else:
                 already_agreed = True
-        except AgreementRecord.DoesNotExist:
+        else:
             already_agreed = False
 
         # Multifactor goes before user agreement because might result in user not being authenticated
@@ -476,9 +505,11 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             relay_state=request.session['RelayState'])
 
         logger.debug("SAML Authn Response [\n{}]".format(repr_saml(self.authn_resp)))
-        logger.info("SAML Authn Response to {} [{}] in response of: {}.".format(self.resp_args['sp_entity_id'],
-                                                                               self.resp_args['destination'],
-                                                                               self.resp_args['in_response_to']))
+        # already logged in build_auth_response
+        # logger.info("SAML Authn Response to {} [{}] in response of: {}.".format(self.resp_args['sp_entity_id'],
+                                                                               # self.resp_args['destination'],
+                                                                               # self.resp_args['in_response_to']))
+
         return self.render_response(request, html_response)
 
 
@@ -547,10 +578,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         except Exception as excp:
             logout(request)
             logging.debug('{}'.format(excp))
-            msg = _('Not a valid SAML Session, Probably your request is '
-                    'expired or you refreshed your page getting in a stale '
-                    'request. Please come back to your SP and renew '
-                    'the authentication request')
+            msg = _not_valid_saml_msg
             return self.handle_error(request, exception=excp,
                                      extra_message=msg)
 
@@ -633,13 +661,13 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
 
     @method_decorator(store_params_in_session_func)
     def get(self, request, *args, **kwargs):
-        logger.debug("--- {} Service ---".format(self.__service_name))
+        logger.debug("{} Service".format(self.__service_name))
         # do not assign a variable that overwrite request object
         # if it will fail the return with HttpResponseBadRequest trows naturally
         # store_params_in_session(request) -> now is a decorator
         binding = request.session['Binding']
         relay_state = request.session['RelayState']
-        logger.debug("--- {} requested [\n{}] to IDP ---".format(self.__service_name, binding))
+        logger.debug("{} requested [\n{}] to IDP".format(self.__service_name, binding))
 
         # adapted from pysaml2 examples/idp2/idp_uwsgi.py
         try:
@@ -652,7 +680,7 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         logger.info("{} from {} for [{}]".format(self.__service_name,
                                                  req_info.message.name_id.sp_name_qualifier,
                                                  req_info.message.name_id.text))
-        logger.debug("--- {} SAML request [\n{}] ---".format(self.__service_name,
+        logger.debug("{} SAML request [\n{}]".format(self.__service_name,
                                                              repr_saml(req_info.xmlstr, b64=False)))
 
         # TODO
@@ -682,7 +710,7 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             return self.handle_error(request, exception=excp, status=400)
             # return resp(self.environ, self.start_response)
 
-        logger.debug("{} Response [\n{}] ---".format(self.__service_name,
+        logger.debug("{} Response [\n{}]".format(self.__service_name,
                                                          repr_saml(resp.__str__().encode())))
         logger.debug("binding: {} destination:{} relay_state:{}".format(binding,
                                                                         resp.destination,

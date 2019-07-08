@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Backup" href="backup_restore.html" />
     <link rel="prev" title="Attribute releases" href="attribute_release.html" />
     <link href="../_static/custom.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="../_static/favicon.ico">
@@ -115,8 +116,11 @@
 <li class="toctree-l1"><a class="reference internal" href="metadatastore.html">MetadataStore definitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serviceprovider.html">Service Providers Federation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="attribute_release.html">Attribute releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attribute_release.html#entity-categories">Entity Categories</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Customize uniAuth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#localization-i18n">Localization i18n</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backup_restore.html">Backup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backup_restore.html#restore">Restore</a></li>
 </ul>
 
             
@@ -201,10 +205,9 @@ Use it as an example to do your customizations, you can even create another Auth
 <h1>Localization i18n<a class="headerlink" href="#localization-i18n" title="Permalink to this headline">¶</a></h1>
 <p>It relies to <a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/django-admin/#django-admin-makemessages">Django documentation</a>.</p>
 <p>You’ll find gettext .po files into <code class="docutils literal notranslate"><span class="pre">locale/</span></code> folder, then you can translate messages before compiling them with:</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>./manage.py compilemessage</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">compilemessage</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -214,6 +217,8 @@ Use it as an example to do your customizations, you can even create another Auth
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="backup_restore.html" class="btn btn-neutral float-right" title="Backup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="attribute_release.html" class="btn btn-neutral" title="Attribute releases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

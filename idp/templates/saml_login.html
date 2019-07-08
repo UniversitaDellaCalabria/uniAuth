@@ -23,7 +23,7 @@
                 {% csrf_token %}
                 {% for form_field in form %}
 
-                    {% ifequal form_field.field.widget.input_type "checkbox" %}
+                    {% if form_field.field.widget.input_type == "checkbox" %}
                     <div class="form-check">
                         <input name="{{ form_field.name }}"
                                type="checkbox" value=""
@@ -36,6 +36,37 @@
                                for="id_{{ form_field.html_name }}">
                             {{ form_field.label }}
                         </label>
+                    </div>
+                    {% elif form_field.field.widget.input_type == "password" %}
+                    <div class="form-row">
+                        <div class="col-12 form-group my-3">
+                            <input type="{{ form_field.field.widget.input_type }}"
+                                   class="form-control input-password"
+                                   id="id_{{ form_field.html_name }}"
+                                   name="{{ form_field.name }}"
+                                   aria-labelledby="infoPassword"
+                                   minlength="{{ form_field.field.min_length }}"
+                                   {% comment %}
+                                   {% if forloop.first %} autofocus {% endif %}
+                                   {% endcomment %}
+                                   {% if form_field.field.required %}required{% endif %}>
+                            <span class="password-icon" aria-hidden="true">
+                                <svg class="password-icon-visible icon icon-sm">
+                                    <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-visible"></use>
+                                </svg>
+                                <svg class="password-icon-invisible icon icon-sm d-none">
+                                    <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-invisible"></use>
+                                </svg>
+                            </span>
+                            <label for="id_{{ form_field.html_name }}">
+                                <span class="form-label-content">
+                                    {{ form_field.label }}
+                                </span>
+                            </label>
+                            {% comment %}
+                            <div class="valid-feedback">Validato!</div>
+                            {% endcomment %}
+                        </div>
                     </div>
                     {% else %}
                     <div class="form-row">
@@ -59,7 +90,7 @@
                             {% endcomment %}
                         </div>
                     </div>
-                    {% endifequal %}
+                    {% endif %}
                 {% endfor %}
                 <div class="py-3">
                     <ul>

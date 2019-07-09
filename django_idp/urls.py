@@ -22,7 +22,8 @@ from uniauth.forms import LoginForm
 from uniauth.views import LoginAuthView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
+    path('admin_access/', admin.site.urls),
     path('logout/', LogoutView.as_view(),
          {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),

@@ -1,7 +1,7 @@
 Attribute releases
 ^^^^^^^^^^^^^^^^^^
 
-Every SP can use a specific Attribute Processor, you can even customize a brand new one in an application that can be easily installed into ``django_idp.settings.INSTALLED_APPS``.
+Every SP can use a specific Attribute Processor, you can even customize a brand new one in an application that can be easily installed into ``django_idp.settingslocal.INSTALLED_APPS``.
 You can see how these ``processors`` works simply looking at ``uniauth.processors`` and ``idp.processors``.
 
 There also a special class named ``NameIdBuilder``, the nameID policy relies on it, it should be very easy to inherit and customize as needed.

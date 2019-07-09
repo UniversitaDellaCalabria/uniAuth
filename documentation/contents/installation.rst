@@ -95,7 +95,7 @@ LDAP or not?
 
 Link to a LDAP if needed, multiple database support is also available as
 Django feature. If you do not need a LDAP data source please remove
-``ldap_peoples`` from ``uniauth.settings.INSTALLED_APPS``. If you need a
+``ldap_peoples`` from ``uniauth.settingslocal.INSTALLED_APPS``. If you need a
 fully compliant LDAP configuration with ``ldap_peoples`` please try the
 `dedicated playbook <https://github.com/peppelinux/ansible-slapd-eduperson2016>`__ for it.
 

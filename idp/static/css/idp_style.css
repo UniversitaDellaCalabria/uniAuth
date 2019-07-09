@@ -12,3 +12,16 @@ body {
 .unical-background {
     background:#b71e24;
 }
+
+.password-icon {
+    padding: 0 15px;
+}
+
+.input-password.is-invalid, .was-validated .input-password:invalid {
+    background-image: none;
+}
+
+.form-check [type=checkbox]:checked+label::after {
+    border-color: #b71e24;
+    background-color: #b71e24;
+}

@@ -61,7 +61,7 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 ![Alt text](documentation/contents/sp_search.png)
 ![Alt text](documentation/contents/sp.png)
-*To federate a new SP is just needed to have its entityID in some of the metadata handled by a metadata store. All the other options and informations regards security, agreement, data consent policy and Attribute releases through Attribute Processors.*
+*To federate a new SP is just needed to have its entityID in some of the metadata handled by a metadata store. All the other options and informations regards security, agreement, data consent policy and Attribute releases will be managed through Attribute Processors.*
 
 ## Contribute
 

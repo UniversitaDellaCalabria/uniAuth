@@ -10,7 +10,7 @@ We can export all the MetadataStores, the federated ServiceProviders and user's 
     ./manage.py dumpdata uniauth > /path/to/file.json
 
 
-If we had some users with legacy SAML persistent ID stored in out ``USER_MODEL`` we can also backup these with the following command:
+If we had some users with legacy SAML persistent ID stored in our ``USER_MODEL`` we can also backup these with the following command:
 
 ::
 

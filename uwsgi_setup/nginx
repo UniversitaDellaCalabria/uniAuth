@@ -26,7 +26,7 @@ server {
 }
 
 server {
-    server_name idp1.unical.it;
+    server_name idp1.testunical.it;
     listen 443 ssl;
 
     ssl_certificate /opt/unicalauth/certificates/public_key.pem;

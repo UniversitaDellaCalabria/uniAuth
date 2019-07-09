@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          django_unicalauth
+# Provides:          uniauth
 # Required-Start:    mysql nginx
 # Required-Stop:
 # Should-Start:
@@ -14,8 +14,8 @@
 ### END INIT INFO
 
 # and then
-# update-rc.d django_unicalauth defaults
-# update-rc.d django_unicalauth enable
+# update-rc.d uniauth defaults
+# update-rc.d uniauth enable
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 BASEDIR="/opt"

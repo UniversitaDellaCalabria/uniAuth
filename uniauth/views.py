@@ -753,3 +753,7 @@ def metadata(request):
     metadata = entity_descriptor(conf)
     return HttpResponse(content=text_type(metadata).encode('utf-8'),
                         content_type="text/xml; charset=utf8")
+
+
+def test500(request):
+    return test500_non_existent_value

@@ -54,6 +54,18 @@ DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S',
 
 DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y']
 
+# email notification on error 500
+DEFAULT_FROM_EMAIL = 'idp-noreply@DOMAIN'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_HOST = 'smtpservizi.unical.it'
+# EMAIL_HOST_USER = 'myemail@hotmail.com'
+# EMAIL_HOST_PASSWORD = 'mypassword'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+ADMINS = [('name surname', 'user1@DOMAIN'),
+          ('name surnale', 'user2@DOMAIN'),]
+
 # LOGGING
 LOGGING = {
     'version': 1,
@@ -85,19 +97,20 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
+        'django': {
+            'handlers': ['console', 'mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },
         'uniauth': {
-            'handlers': ['console'],
+            'handlers': ['console', 'mail_admins'],
             'level': 'INFO',
             'propagate': False,
         },
         'idp': {
-            'handlers': ['console'],
+            'handlers': ['console', 'mail_admins'],
             'level': 'INFO',
         },
     }
 }
+

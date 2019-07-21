@@ -104,8 +104,6 @@ AUTHENTICATION_BACKENDS = [
 # LDAP, optional
 #################
 if 'ldap_peoples' in INSTALLED_APPS:
-    LDAP_BASEDN = 'dc='+',dc='.join(LDAP_BASE_DOMAIN.split('.'))
-
     # load default and overrides as you prefer
     from ldap_peoples.settings import *
     DEFAULT_EDUPERSON_ENTITLEMENT = ['urn:mace:terena.org:tcs:personal-user',

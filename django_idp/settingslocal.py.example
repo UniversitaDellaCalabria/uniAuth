@@ -47,6 +47,7 @@ LDAP_CONNECTION_PASSWD = 'slapdsecret'
 LDAP_DB_URL = 'ldap://ldap1.testunical.it/'
 LDAP_BASE_DOMAIN = 'testunical.it'
 LDAP_OU = 'people'
+LDAP_BASEDN = 'dc='+',dc='.join(LDAP_BASE_DOMAIN.split('.'))
 
 # needed for ldap admin forms
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S',

@@ -12,10 +12,6 @@ from . models import (AgreementRecord,
 
 
 def valida_elemento(modeladmin, request, queryset):
-    """
-    i.calcolo_punteggio_domanda va a riepire il campo a questo dedicato
-    all'interno della domanda
-    """
     for i in queryset:
         try:
             i.validate()
@@ -25,6 +21,7 @@ def valida_elemento(modeladmin, request, queryset):
             messages.add_message(request, messages.ERROR,
                                  '{} : {}'.format(i, e))
 valida_elemento.short_description = _("Validate")
+
 
 
 @admin.register(AgreementRecord)

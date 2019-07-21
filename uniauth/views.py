@@ -751,6 +751,10 @@ def metadata(request):
     conf = IdPConfig()
     conf.load(copy.deepcopy(settings.SAML_IDP_CONFIG))
     metadata = entity_descriptor(conf)
+
+    # removed ...
+    # metadata.extensions = None
+
     return HttpResponse(content=text_type(metadata).encode('utf-8'),
                         content_type="text/xml; charset=utf8")
 

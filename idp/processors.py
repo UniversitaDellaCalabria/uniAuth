@@ -2,14 +2,18 @@ import hashlib
 import logging
 import random
 
+from django.conf import settings
 from django.contrib.auth.models import Group
 from uniauth.processors import (BaseProcessor,
                                 NameIdBuilder)
-from ldap_peoples.models import LdapAcademiaUser
 from . unical_attributes_generator import UnicalAttributeGenerator
 
 
 logger = logging.getLogger(__name__)
+
+
+if 'ldap_peoples' in settings.INSTALLED_APPS:
+	from ldap_peoples.models import LdapAcademiaUser
 
 
 class GroupProcessor(BaseProcessor):

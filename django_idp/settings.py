@@ -113,7 +113,7 @@ if 'ldap_peoples' in INSTALLED_APPS:
     SCHAC_HOMEORGANIZATION_DEFAULT = LDAP_BASE_DOMAIN
 
     LDAP_CONNECTION_OPTIONS = {ldap.OPT_PROTOCOL_VERSION: 3,
-                               ldap.OPT_NETWORK_TIMEOUT: 10.0,
+                               ldap.OPT_NETWORK_TIMEOUT: 5,
                                # ldap.OPT_DEBUG_LEVEL: 255,
                                # ldap.OPT_X_TLS_CACERTFILE: LDAP_CACERT,
                                # force /etc/ldap.conf configuration.
@@ -130,8 +130,7 @@ if 'ldap_peoples' in INSTALLED_APPS:
         # only in localhost
         #'NAME': 'ldapi://',
         'NAME': LDAP_DB_URL,
-        'USER': 'cn={},{}'.format(LDAP_CONNECTION_USER,
-                                  LDAP_BASEDN),
+        'USER': LDAP_CONNECTION_USER,
         'PASSWORD': LDAP_CONNECTION_PASSWD,
         'RETRY_DELAY': 8,
         'RETRY_MAX': 3,
@@ -139,8 +138,11 @@ if 'ldap_peoples' in INSTALLED_APPS:
      }
 
     DATABASE_ROUTERS = ['ldapdb.router.Router']
-
     AUTHENTICATION_BACKENDS.append('idp.ldap_auth.LdapAcademiaAuthBackend')
+
+if 'multildap' in INSTALLED_APPS:
+    AUTHENTICATION_BACKENDS.append('idp.multildap_auth.LdapUnicalMultiAcademiaAuthBackend')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

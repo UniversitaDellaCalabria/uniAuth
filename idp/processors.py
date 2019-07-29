@@ -13,7 +13,10 @@ logger = logging.getLogger(__name__)
 
 
 if 'ldap_peoples' in settings.INSTALLED_APPS:
-	from ldap_peoples.models import LdapAcademiaUser
+    from ldap_peoples.models import LdapAcademiaUser
+
+if 'multildap' in settings.INSTALLED_APPS:
+    from multildap.client import LdapClient
 
 
 class GroupProcessor(BaseProcessor):
@@ -35,7 +38,11 @@ class LdapAcademiaProcessor(BaseProcessor):
     """ Processor class used to retrieve attribute from LDAP server
         and user nameID (userID) with standard formats
     """
-    
+
+    def get_identity(self, username):
+        return LdapAcademiaUser.objects.filter(eduPersonPrincipalName=username).first()
+
+
     def create_identity(self, user, sp={}):
         """ Generate an identity dictionary of the user based on the
             given mapping of desired user attributes by the SP
@@ -45,7 +52,7 @@ class LdapAcademiaProcessor(BaseProcessor):
                                       default_mapping)
 
         # get ldap user
-        lu = LdapAcademiaUser.objects.filter(eduPersonPrincipalName=user.username).first()
+        lu = self.get_identity(username = user.username)
         logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
         results = {}
         for user_attr, out_attr in sp_mapping.items():
@@ -63,7 +70,7 @@ class LdapAcademiaProcessor(BaseProcessor):
 
         # add custom/legacy attribute made by processing
         results = self.extra_attr_processing(results, sp_mapping)
-        
+
         # if targetedID is available give it to sp
         if self.eduPersonTargetedID:
             results['eduPersonTargetedID'] = [self.eduPersonTargetedID]
@@ -78,3 +85,17 @@ class LdapUnicalAcademiaProcessor(LdapAcademiaProcessor):
     """
     def extra_attr_processing(self, results, sp_mapping):
         return UnicalAttributeGenerator.process(results, sp_mapping)
+
+
+class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
+    """
+    Uses pyMultiLDAP to gather an uid from multiple sources.
+    It will stop on the first occurrence.
+    """
+
+    def get_identity(self, username=''):
+        identity = None
+        for lc in settings.LDAP_CONNECTIONS:
+            identity = lc.get(search='(eduPersonPrincipalName={})'.format(username))
+            if identity:
+                return type('', (object,), list(identity.values())[0])()

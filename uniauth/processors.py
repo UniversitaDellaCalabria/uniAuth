@@ -53,7 +53,7 @@ class NameIdBuilder:
         if not user.persistent_id:
             # computed
             user_persistent_id = cls.get_nameid_opaque(user_id,
-                                                       salt=(str(user.pk)).encode()) 
+                                                       salt=(str(user.pk)).encode())
         else:
             user_persistent_id = user.persistent_id
         return '!'.join((idp_entityid,
@@ -145,7 +145,7 @@ class BaseProcessor:
            and be executed in create_identity
         """
         return results
-    
+
     def create_identity(self, user, sp={}):
         """ Generate an identity dictionary of the user based on the
             given mapping of desired user attributes by the SP
@@ -160,5 +160,5 @@ class BaseProcessor:
                 results[out_attr] = attr() if callable(attr) else attr
 
         results = self.extra_attr_processing(results, sp_mapping)
-        
+
         return results

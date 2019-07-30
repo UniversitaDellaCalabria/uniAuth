@@ -106,7 +106,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG").format(sp_entity_id)
             raise ImproperlyConfigured(msg)
 
-    def set_processor(self):
+    def set_processor(self,request=None):
         """ Instantiate user-specified processor or
             default to an all-access base processor.
             Raises an exception if the configured processor
@@ -115,7 +115,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         processor_string = self.sp['config'].get('processor', None)
         if processor_string:
             try:
-                self.processor = import_string(processor_string)(self.sp['id'])
+                self.processor = import_string(processor_string)(self.sp['id'], request=request)
                 return
             except Exception as e:
                 msg = _("Failed to instantiate processor: {} - {}")
@@ -123,7 +123,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                                         exc_info=True)
                 raise ImproperlyConfigured(_(msg.format(processor_string, e),
                                                         exc_info=True))
-        self.processor = BaseProcessor(self.sp['id'])
+        self.processor = BaseProcessor(self.sp['id'], request=request)
 
     def verify_request_signature(self, req_info):
         """ Signature verification
@@ -474,7 +474,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             self.resp_args = self.IDP.response_args(req_info.message)
             # Set SP and Processor
             self.set_sp(self.resp_args['sp_entity_id'])
-            self.set_processor()
+            self.set_processor(request=request)
             # Check if user has access
             self.check_access(request)
             # Construct SamlResponse message
@@ -528,7 +528,7 @@ class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         try:
             # get sp information from the parameters
             self.set_sp(passed_data['sp'])
-            self.set_processor()
+            self.set_processor(request=request)
             # Check if user has access to SP
             self.check_access(request)
         except (KeyError, ImproperlyConfigured) as excp:

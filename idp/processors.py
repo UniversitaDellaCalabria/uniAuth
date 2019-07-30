@@ -53,7 +53,7 @@ class LdapAcademiaProcessor(BaseProcessor):
 
         # get ldap user
         lu = self.get_identity(user)
-        logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
+        #logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
         results = {}
         for user_attr, out_attr in sp_mapping.items():
             if hasattr(user, user_attr):
@@ -94,6 +94,10 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
     """
 
     def get_identity(self, user):
+        if self.request.session.get('identity_attributes'):
+            return type('', (object,), self.request.session['identity_attributes'])()
+
+        # otherwise do another query ...
         identity = None
         for lc in settings.LDAP_CONNECTIONS:
             ldapfilter = '(uid={})'.format(user.original_uid)

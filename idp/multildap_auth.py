@@ -1,3 +1,4 @@
+import copy
 import logging
 
 from django.contrib.auth import get_user_model
@@ -48,11 +49,11 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
 
         # check if username exists and if it is active
         if not lc.authenticate(dn, password):
-            msg = "--- LDAP user {} seems to be unable to Auth to {}---"
+            msg = "--- LDAP user {} seems to be unable to Auth to {} ---"
             logger.info(msg.format(dn, lc))
             return None
         else:
-            msg = "--- LDAP user {} succesfully authenticated to {}---"
+            msg = "--- LDAP user {} succesfully authenticated to {} ---"
             logger.info(msg.format(dn, lc))
             attrs = ','.join([i for i in list(lu.values())[0]])
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
@@ -76,4 +77,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
                                                    last_name=lu_obj.sn[0],
                                                    origin = lc.__repr__(),
                                                    original_uid = username)
+
+        # avoids another LDAP query in Attributes processors
+        request.session['identity_attributes'] = lu[dn]
         return user

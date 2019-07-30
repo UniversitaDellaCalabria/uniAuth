@@ -98,9 +98,10 @@ class BaseProcessor:
         and to construct the identity dictionary which is sent to the SP
     """
 
-    def __init__(self, entity_id):
+    def __init__(self, entity_id, request=None):
         self._entity_id = entity_id
         self.eduPersonTargetedID = None
+        self.request = request
 
     def has_access(self, request):
         """ Check if this user is allowed to use this IDP
@@ -160,5 +161,4 @@ class BaseProcessor:
                 results[out_attr] = attr() if callable(attr) else attr
 
         results = self.extra_attr_processing(results, sp_mapping)
-
         return results

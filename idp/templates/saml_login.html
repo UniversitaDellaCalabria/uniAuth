@@ -26,7 +26,7 @@ IDP: {% trans "Auth login" %}
                     {% if form_field.field.widget.input_type == "checkbox" %}
                     <div class="form-check">
                         <input name="{{ form_field.name }}"
-                               type="checkbox" value=""
+                               type="checkbox"
                                id="id_{{ form_field.html_name }}"
                                {% if form_field.field.required %}
                                class="form-check-input"

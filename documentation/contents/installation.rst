@@ -104,8 +104,8 @@ On top of it you'll find a custom authentication backend and a custom attribute 
 
 If you want instead to have multiple LDAP data sources following ``ldap_peoples`` approach then you'll have to create your own django application and use types and methods found in ``ldap_peoples``.
 
-If you do not want to creare other apps and develop other things to manage multiple LDAP sources, you can use `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`.
-See `settingslocal.py.example' to have some usage examples.
+If you do not want to creare other apps and develop other things to manage multiple LDAP sources, you can use `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__.
+See `settingslocal.py.example` to have some usage examples.
 
 Create your own SAML certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

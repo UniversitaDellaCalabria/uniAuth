@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User
 from .admin_inlines import *
 
+
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     readonly_fields = ('date_joined', 'last_login',)
@@ -14,7 +15,8 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': (('username', 'is_active', 'is_staff', 'is_superuser', ),
                            ('password'),
-                           ('persistent_id')
+                           ('persistent_id'),
+                           ('original_uid', 'origin'),
                            )
                 }),
         (_('Angrafica'), {'fields': (('first_name', 'last_name'),

@@ -31,13 +31,14 @@ class User(AbstractUser):
     birth_date = models.DateField('Data di nascita',
                                   null=True, blank=True)
     persistent_id = models.CharField(_('SAML Persistent Stored ID'),
-                                     max_length=30,
+                                     max_length=254,
                                      blank=True, null=True)
-
-    # short_description = models.CharField(_('Descrizione breve'), max_length=33, blank=True, null=True)
-    # bio = models.TextField('Biografia, note', max_length=2048, blank=True, null=True)
-    # avatar  = models.ImageField('Avatar, foto', upload_to='avatars/', null=True, blank=True)
-    # webpage_url = models.CharField(_('Pagina web'), max_length=512, blank=True, null=True)
+    original_uid = models.CharField(_('Username used in connectors auth'),
+                                    max_length=254,
+                                    blank=True, null=True)
+    origin = models.CharField(_('from which conenctor this user come from'),
+                              max_length=254,
+                              blank=True, null=True)
 
     class Meta:
         ordering = ['username']

@@ -39,8 +39,8 @@ class LdapAcademiaProcessor(BaseProcessor):
         and user nameID (userID) with standard formats
     """
 
-    def get_identity(self, username):
-        return LdapAcademiaUser.objects.filter(eduPersonPrincipalName=username).first()
+    def get_identity(self, user):
+        return LdapAcademiaUser.objects.filter(eduPersonPrincipalName=user.username).first()
 
 
     def create_identity(self, user, sp={}):
@@ -52,7 +52,7 @@ class LdapAcademiaProcessor(BaseProcessor):
                                       default_mapping)
 
         # get ldap user
-        lu = self.get_identity(username = user.username)
+        lu = self.get_identity(user)
         logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
         results = {}
         for user_attr, out_attr in sp_mapping.items():
@@ -93,9 +93,13 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
     It will stop on the first occurrence.
     """
 
-    def get_identity(self, username=''):
+    def get_identity(self, user):
         identity = None
         for lc in settings.LDAP_CONNECTIONS:
-            identity = lc.get(search='(eduPersonPrincipalName={})'.format(username))
+            ldapfilter = '(uid={})'.format(user.original_uid)
+            logging.debug("Processor {} searches for {} in {}".format(self.__class__,
+                                                                      user.username,
+                                                                      lc))
+            identity = lc.get(search=ldapfilter, format='object')
             if identity:
-                return type('', (object,), list(identity.values())[0])()
+                return identity

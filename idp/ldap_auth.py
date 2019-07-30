@@ -58,12 +58,16 @@ class LdapAcademiaAuthBackend(ModelBackend):
             user.email = lu.mail[0]
             user.first_name = lu.cn
             user.last_name = lu.sn
+            user.origin = 'ldap_peoples'
+            user.original_uid = username
             user.save()
         except Exception as e:
             user = get_user_model().objects.create(username=scoped_username,
                                                    email=lu.mail[0],
                                                    first_name=lu.cn,
-                                                   last_name=lu.sn)
+                                                   last_name=lu.sn,
+                                                   origin = lc.__repr__(),
+                                                   original_uid = username)
 
         # TODO: Create a middleware for this
         # disconnect already created session, only a session per user is allowed

@@ -39,32 +39,17 @@ def store_params_in_session(request):
                                 b64=True)))
     else:
         msg = _('not a valid SAMLRequest: {}').format(_('AuthnRequest is missing. Please Retry'))
+        logger.info('SAML Request absent from {}'.format(request))
         return render_to_response('error.html',
                                   {'exception_type':msg,
                                    'exception_msg':_('Please renew your SAML Request'),
                                    'extra_message': _not_valid_saml_msg},
                                    status=403)
 
-    # try to parse an authn request to get force_authn if available
-    try:
-        # force_authn check
-        IDP = get_idp_config(settings.SAML_IDP_CONFIG)
-        req_info = IDP.parse_authn_request(saml_request,
-                                           binding)
-        if req_info.message.force_authn:
-            logout(request)
-
-        logger.info("SSO AuthnRequest: {} [{}]".format(req_info.message.issuer.text,
-                                                       req_info.message.id))
-        request.session['message_id'] = req_info.message.id
-    except Exception as e:
-        # it's a SLO request...
-        pass
-    # end force_authn check
-
-    request.session['SAMLRequest'] = saml_request
-    request.session['Binding'] = binding
-    request.session['RelayState'] = passed_data.get('RelayState', '')
+    request.session['SAML'] = {}
+    request.session['SAML']['SAMLRequest'] = saml_request
+    request.session['SAML']['Binding'] = binding
+    request.session['SAML']['RelayState'] = passed_data.get('RelayState', '')
 
 
 def store_params_in_session_func(func_to_decorate):
@@ -90,7 +75,8 @@ def require_saml_request(func_to_decorate):
     """
     def new_func(*original_args, **original_kwargs):
         request = original_args[0]
-        if not request.session.get('SAMLRequest'):
+        if not request.session.get('SAML') or \
+           not request.session['SAML'].get('SAMLRequest'):
             return render_to_response('error.html',
                                       {'exception_type':_("You cannot access to this service directly"),
                                        'exception_msg':_('Please renew your SAML Request'),

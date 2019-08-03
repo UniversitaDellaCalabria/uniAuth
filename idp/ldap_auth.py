@@ -66,7 +66,7 @@ class LdapAcademiaAuthBackend(ModelBackend):
                                                    email=lu.mail[0],
                                                    first_name=lu.cn,
                                                    last_name=lu.sn,
-                                                   origin = lc.__repr__(),
+                                                   origin = 'ldap_peoples',
                                                    original_uid = username)
 
         # TODO: Create a middleware for this

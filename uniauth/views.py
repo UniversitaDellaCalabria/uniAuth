@@ -42,6 +42,7 @@ from saml2.response import (IncorrectlySigned,)
 from six import text_type
 
 from . decorators import (_not_valid_saml_msg,
+                          store_params_in_session,
                           store_params_in_session_func,
                           require_saml_request)
 from . exceptions import MetadataNotFound, MetadataCorruption
@@ -81,6 +82,33 @@ class ErrorHandler(object):
         return self.error_view.as_view()(request, **kwargs)
 
 
+def get_IDP():
+    # Check if SP is federated
+    try:
+        IDP = get_idp_config(settings.SAML_IDP_CONFIG)
+    except MetadataNotFound as exp:
+        return render_to_response('error.html',
+                                  {'exception_type': _("Unable to find Service "
+                                                       "Provider Metadata"),
+                                   'exception_msg': "",
+                                   'extra_message': _('SP Metadata are expired '
+                                                      'or not found. Please contact '
+                                                      'IDP technical support for '
+                                                      'better acknowledge')},
+                                   status=403)
+
+    except MetadataCorruption as exp:
+        logger.debug(exp)
+        return render_to_response('error.html',
+                                  {'exception_type': _("Some Metadata "
+                                                       "seems to be corrupted"),
+                                   'exception_msg': "",
+                                   'extra_message': _('This is a security exception. '
+                                                      'Please contact IdP staff.')},
+                                   status=403)
+    return IDP
+
+
 class IdPHandlerViewMixin(ErrorHandler):
     """ Contains some methods used by multiple views
     """
@@ -89,9 +117,9 @@ class IdPHandlerViewMixin(ErrorHandler):
         """ Construct IDP server with config from settings dict
         """
         try:
-            self.IDP = get_idp_config(settings.SAML_IDP_CONFIG)
-        except Exception as e:
-            return self.handle_error(request, exception=e)
+            self.IDP = get_IDP()
+        except Exception as excp:
+            return self.handle_error(request, exception=excp)
         return super().dispatch(request, *args, **kwargs)
 
     def set_sp(self, sp_entity_id):
@@ -243,14 +271,14 @@ class IdPHandlerViewMixin(ErrorHandler):
                             required=[])
 
         # talking logs
-        self.request.session['authn_log'] = ('SSO AuthnResponse to {} [{}]:'
-                                             ' {} attrs ({}) on {} '
-                                             'filtered by policy').format(self.sp['id'],
-                                                                          self.request.session.get('message_id'),
+        self.request.session['SAML']['authn_log'] = ('SSO AuthnResponse to {} [{}]:'
+                                                     ' {} attrs ({}) on {} '
+                                                     'filtered by policy').format(self.sp['id'],
+                                                                          self.request.session['SAML'].get('message_id'),
                                                                           len(ava),
                                                                           ','.join(ava.keys()),
                                                                           len(self.request.session['identity']))
-        logger.info(self.request.session['authn_log'])
+        logger.info(self.request.session['SAML']['authn_log'])
         #
 
         self.request.session['identity'] = ava
@@ -290,15 +318,15 @@ class IdPHandlerViewMixin(ErrorHandler):
             # In case of SLO, where processor isn't relevant
             return HttpResponse(html_response)
 
-        request.session['saml_data'] = html_response
+        request.session['SAML']['response'] = html_response
 
-        request.session['sp_display_info'] = {
+        request.session['SAML']['sp_display_info'] = {
             'display_name': self.sp['config'].get('display_name', self.sp['id']),
             'display_description': self.sp['config'].get('display_description'),
             'display_agreement_message': self.sp['config'].get('display_agreement_message'),
             'display_agreement_consent_form': self.sp['config'].get('display_agreement_consent_form')
             }
-        request.session['sp_entity_id'] = self.sp['id']
+        request.session['SAML']['sp_entity_id'] = self.sp['id']
 
         # Conditions for showing user agreement screen
         user_agreement_enabled_for_sp = self.sp['config'].get('show_user_agreement_screen',
@@ -342,37 +370,33 @@ class LoginAuthView(LoginView):
     def dispatch(self, request, *args, **kwargs):
         """ Check if the SP is in metadata and have required attr mapping
         """
-        binding = request.session.get('Binding', BINDING_HTTP_POST)
-
-        # Check if SP is federated
+        binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
+        
+        IDP = get_IDP()
+        
         try:
-            IDP = get_idp_config(settings.SAML_IDP_CONFIG)
-        except MetadataNotFound as exp:
-            return render_to_response('error.html',
-                                      {'exception_type': _("Unable to find Service "
-                                                           "Provider Metadata"),
-                                       'exception_msg': "",
-                                       'extra_message': _('SP Metadata are expired '
-                                                          'or not found. Please contact '
-                                                          'IDP technical support for '
-                                                          'better acknowledge')},
-                                       status=403)
-
-        except MetadataCorruption as exp:
-            logger.debug(exp)
-            return render_to_response('error.html',
-                                      {'exception_type': _("Some Metadata "
-                                                           "seems to be corrupted"),
-                                       'exception_msg': "",
-                                       'extra_message': _('This is a security exception. '
-                                                          'Please contact IdP staff.')},
-                                       status=403)
-
-        try:
-            req_info = IDP.parse_authn_request(request.session['SAMLRequest'],
+            req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
                                                binding)
             # later we'll check if the authnrequest is older then the IDP session age
-            request.session['issue_instant'] = req_info.message.issue_instant
+            request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+            # these are not serializable ...
+            #request.session['SAML']['IDP'] = IDP
+            #request.session['SAML']['req_info'] = req_info
+
+            # Force Authn check
+            if req_info.message.force_authn:
+                # copy required params
+                saml_session = copy.deepcopy(request.session['SAML'])
+                logout(request)
+                msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
+                                                                            req_info.message.id)
+                logger.info(msg)
+
+                # reload saml params in session
+                request.session['SAML'] = saml_session
+                request.session['SAML']['message_id'] = req_info.message.id
+
+            
         except IncorrectlySigned as exp:
             return render_to_response('error.html',
                                       {'exception_type': exp,
@@ -424,7 +448,7 @@ class LoginAuthView(LoginView):
         issue_instant = now
         for tformat in settings.SAML2_DATETIME_FORMATS:
             try:
-                issue_instant = timezone.datetime.strptime(self.request.session['issue_instant'],
+                issue_instant = timezone.datetime.strptime(self.request.session['SAML']['issue_instant'],
                                                            tformat)
                 break
             except:
@@ -462,13 +486,14 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        binding = request.session.get('Binding', BINDING_HTTP_POST)
+        binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
         try:
             # Parse incoming request
-            req_info = self.IDP.parse_authn_request(request.session['SAMLRequest'],
+            req_info = self.IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
                                                     binding)
+            # do it in pysaml2
             # check SAML request signature
-            self.verify_request_signature(req_info)
+            #self.verify_request_signature(req_info)
 
             # Compile Response Arguments
             self.resp_args = self.IDP.response_args(req_info.message)
@@ -492,8 +517,8 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                      exception=excp,
                                      exception_msg=_('This SP needs attribute mappings'),
                                      status=403)
-        except PermissionDenied as e:
-            return self.handle_error(request, exception=e, status=403)
+        except PermissionDenied as excp:
+            return self.handle_error(request, exception=excp, status=403)
         except Exception as excp:
             return self.handle_error(request, exception=excp, status=500)
 
@@ -502,14 +527,9 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             binding=self.resp_args['binding'],
             authn_resp=self.authn_resp,
             destination=self.resp_args['destination'],
-            relay_state=request.session['RelayState'])
+            relay_state=request.session['SAML']['RelayState'])
 
         logger.debug("SAML Authn Response [\n{}]".format(repr_saml(self.authn_resp)))
-        # already logged in build_auth_response
-        # logger.info("SAML Authn Response to {} [{}] in response of: {}.".format(self.resp_args['sp_entity_id'],
-                                                                               # self.resp_args['destination'],
-                                                                               # self.resp_args['in_response_to']))
-
         return self.render_response(request, html_response)
 
 
@@ -570,10 +590,10 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         context = dict()
         try:
             # prevents KeyError at /login/process_user_agreement/: 'sp_display_info'
-            context['sp_display_name'] = request.session['sp_display_info']['display_name']
-            context['sp_display_description'] = request.session['sp_display_info']['display_description']
-            context['sp_display_agreement_message'] = request.session['sp_display_info'].get('display_agreement_message')
-            context['sp_display_agreement_consent_form'] = request.session['sp_display_info'].get('display_agreement_consent_form')
+            context['sp_display_name'] = request.session['SAML']['sp_display_info']['display_name']
+            context['sp_display_description'] = request.session['SAML']['sp_display_info']['display_description']
+            context['sp_display_agreement_message'] = request.session['SAML']['sp_display_info'].get('display_agreement_message')
+            context['sp_display_agreement_consent_form'] = request.session['SAML']['sp_display_info'].get('display_agreement_consent_form')
             context['attrs_passed_to_sp'] = request.session['identity']
         except Exception as excp:
             logout(request)
@@ -606,12 +626,12 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         if dont_show_again:
             record = AgreementRecord(
                 user=request.user,
-                sp_entity_id=request.session['sp_entity_id'],
+                sp_entity_id=request.session['SAML']['sp_entity_id'],
                 attrs=",".join(request.session['identity'].keys())
             )
             record.save()
 
-        saml_response_data = request.session.get('saml_data')
+        saml_response_data = request.session['SAML'].get('response')
         if request.session.get('forget_login'):
             logout(request)
         return HttpResponse(saml_response_data)
@@ -638,10 +658,10 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
             logger.debug('MultiFactor succeeded for %s' % request.user)
 
             # Check if user agreement redirect needed
-            if request.session.get('sp_display_info'):
+            if request.session['SAML'].get('sp_display_info'):
                 # Arbitrary value that's only set if user agreement needed.
                 return HttpResponseRedirect(reverse('uniauth:saml_user_agreement'))
-            return HttpResponse(request.session['saml_data'])
+            return HttpResponse(request.session['SAML']['response'])
         logger.debug(_("MultiFactor failed; %s will not be able to log in") % request.user)
         logout(request)
         raise PermissionDenied(_("MultiFactor authentication factor failed"))
@@ -665,13 +685,13 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         # do not assign a variable that overwrite request object
         # if it will fail the return with HttpResponseBadRequest trows naturally
         # store_params_in_session(request) -> now is a decorator
-        binding = request.session['Binding']
-        relay_state = request.session['RelayState']
+        binding = request.session['SAML']['Binding']
+        relay_state = request.session['SAML']['RelayState']
         logger.debug("{} requested [\n{}] to IDP".format(self.__service_name, binding))
 
         # adapted from pysaml2 examples/idp2/idp_uwsgi.py
         try:
-            req_info = self.IDP.parse_logout_request(request.session['SAMLRequest'], binding)
+            req_info = self.IDP.parse_logout_request(request.session['SAML']['SAMLRequest'], binding)
         except Exception as excp:
             expc_msg = "{} Bad request: {}".format(self.__service_name, excp)
             logger.error(expc_msg)
@@ -685,20 +705,8 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
 
         # TODO
         # check SAML request signature by hands?
-        self.verify_request_signature(req_info)
+        # self.verify_request_signature(req_info)
         resp = self.IDP.create_logout_response(req_info.message, [binding])
-
-        '''
-        # TODO: SOAP
-        # if binding == BINDING_SOAP:
-            # destination = ""
-            # response = False
-        # else:
-            # binding, destination = IDP.pick_binding(
-                # "single_logout_service", [binding], "spsso", req_info
-            # )
-            # response = True
-        # END TODO SOAP'''
 
         try:
             # hinfo returns request or response, it depends by request arg

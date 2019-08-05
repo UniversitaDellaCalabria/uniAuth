@@ -82,10 +82,10 @@ class ErrorHandler(object):
         return self.error_view.as_view()(request, **kwargs)
 
 
-def get_IDP():
+def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
     # Check if SP is federated
     try:
-        IDP = get_idp_config(settings.SAML_IDP_CONFIG)
+        IDP = get_idp_config(idp_conf)
     except MetadataNotFound as exp:
         return render_to_response('error.html',
                                   {'exception_type': _("Unable to find Service "
@@ -371,14 +371,14 @@ class LoginAuthView(LoginView):
         """ Check if the SP is in metadata and have required attr mapping
         """
         binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
-        
         IDP = get_IDP()
-        
+
         try:
             req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
                                                binding)
             # later we'll check if the authnrequest is older then the IDP session age
             request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+
             # these are not serializable ...
             #request.session['SAML']['IDP'] = IDP
             #request.session['SAML']['req_info'] = req_info
@@ -395,8 +395,9 @@ class LoginAuthView(LoginView):
                 # reload saml params in session
                 request.session['SAML'] = saml_session
                 request.session['SAML']['message_id'] = req_info.message.id
+                request.session['SAML']['issue_instant'] = req_info.message.issue_instant
 
-            
+
         except IncorrectlySigned as exp:
             return render_to_response('error.html',
                                       {'exception_type': exp,

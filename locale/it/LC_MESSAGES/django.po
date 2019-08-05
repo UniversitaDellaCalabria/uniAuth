@@ -5,17 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-25 12:28+0000\n"
-"PO-Revision-Date: 2019-04-04 10:11+0200\n"
+"POT-Creation-Date: 2019-07-31 10:21+0000\n"
+"PO-Revision-Date: 2019-07-31 12:25+0200\n"
 "Last-Translator: wert <wert@portatile-lenovo-cla>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: documentation/_templates/unical_template/footer.html:5
 msgid "Next"
@@ -64,11 +65,6 @@ msgid "Welcome"
 msgstr "Benvenuto"
 
 #: idp/templates/user_agreement.html:22
-#, fuzzy
-#| msgid ""
-#| "the web service you are coming from, has requested some of your personal "
-#| "information. We therefore ask you to read the information regarding the "
-#| "processing of data and to give your consent if you agree."
 msgid ""
 "the web service you are coming from, has requested the following "
 "informations. We therefore ask you to read these informations and give your "
@@ -111,7 +107,7 @@ msgstr ""
 
 #: uniauth/admin.py:23
 msgid "Validate"
-msgstr ""
+msgstr "Valida"
 
 #: uniauth/admin.py:88
 msgid ""
@@ -120,22 +116,16 @@ msgid ""
 msgstr ""
 
 #: uniauth/admin.py:124
-#, fuzzy
-#| msgid "Agreement Record"
 msgid "Agreement and Description"
 msgstr "Consenso al trattamento dei dati"
 
 #: uniauth/admin.py:129
-#, fuzzy
-#| msgid "attribute name"
 msgid "Attributes"
-msgstr "nome dell'attributo"
+msgstr "Attributi"
 
 #: uniauth/admin.py:134
-#, fuzzy
-#| msgid "attribute name"
 msgid "Attributes preview"
-msgstr "nome dell'attributo"
+msgstr "Anteprima attributi"
 
 #: uniauth/decorators.py:16
 msgid ""
@@ -154,7 +144,7 @@ msgstr "non è una richiesta SAML (SAML Request) valida {}"
 
 #: uniauth/decorators.py:41
 msgid "AuthnRequest is missing. Please Retry"
-msgstr ""
+msgstr "AuthnRequest risulta mancante, preghiamo di riprovare"
 
 #: uniauth/decorators.py:44 uniauth/decorators.py:82 uniauth/decorators.py:96
 msgid "Please renew your SAML Request"
@@ -363,15 +353,15 @@ msgstr ""
 msgid "MultiFactor authentication factor failed"
 msgstr ""
 
-#: unical_accounts/admin.py:20
+#: unical_accounts/admin.py:22
 msgid "Angrafica"
 msgstr ""
 
-#: unical_accounts/admin.py:28
+#: unical_accounts/admin.py:30
 msgid "Permissions"
 msgstr ""
 
-#: unical_accounts/admin.py:33
+#: unical_accounts/admin.py:35
 msgid "Date accessi sistema"
 msgstr ""
 
@@ -411,7 +401,15 @@ msgstr ""
 msgid "SAML Persistent Stored ID"
 msgstr ""
 
-#: unical_accounts/models.py:44
+#: unical_accounts/models.py:36
+msgid "Username used in connectors auth"
+msgstr ""
+
+#: unical_accounts/models.py:39
+msgid "from which conenctor this user come from"
+msgstr ""
+
+#: unical_accounts/models.py:45
 msgid "Users"
 msgstr ""
 

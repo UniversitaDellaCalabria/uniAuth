@@ -69,6 +69,64 @@ def sso_entry(request, binding):
     """
     # decoratos do the most
     logger.info("SSO req from client {}".format(get_client_id(request)))
+
+    binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
+    IDP = get_IDP()
+
+    try:
+        req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
+                                           binding)
+        # later we'll check if the authnrequest is older then the IDP session age
+        request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+
+        # these are not serializable ...
+        #request.session['SAML']['IDP'] = IDP
+        #request.session['SAML']['req_info'] = req_info
+
+        # Force Authn check
+        if req_info.message.force_authn:
+            # copy required params
+            saml_session = copy.deepcopy(request.session['SAML'])
+            logout(request)
+            msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
+                                                                        req_info.message.id)
+            logger.info(msg)
+
+            # reload saml params in session
+            request.session['SAML'] = saml_session
+            request.session['SAML']['message_id'] = req_info.message.id
+            request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+
+
+    except IncorrectlySigned as exp:
+        return render_to_response('error.html',
+                                  {'exception_type': exp,
+                                   'exception_msg': _("Incorrectly signed"),
+                                   'extra_message': _('SP Metadata '
+                                                      'is changed, expired '
+                                                      'or unavailable.')},
+                                   status=403)
+    except Exception as exp:
+        return render_to_response('error.html',
+                                  {'exception_type': exp},
+                                   status=403)
+
+    try:
+        resp_args = IDP.response_args(req_info.message)
+    except UnknownSystemEntity as exp:
+        return render_to_response('error.html',
+                                  {'exception_type': exp,
+                                   'exception_msg': _("This SP is not federated"),
+                                   'extra_message': _('Metadata is missing')},
+                                   status=403)
+    if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
+        return render_to_response('error.html',
+                                  {'exception_type': _("This SP is not federated yet"),
+                                   'exception_msg': _("Attribute Processor needs "
+                                                      "to be configured ")},
+                                  status=403)
+    # end check
+
     return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
 
 
@@ -366,67 +424,6 @@ class LoginAuthView(LoginView):
     """
     template_name = "saml_login.html"
     form_class = LoginForm
-
-    def dispatch(self, request, *args, **kwargs):
-        """ Check if the SP is in metadata and have required attr mapping
-        """
-        binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
-        IDP = get_IDP()
-
-        try:
-            req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
-                                               binding)
-            # later we'll check if the authnrequest is older then the IDP session age
-            request.session['SAML']['issue_instant'] = req_info.message.issue_instant
-
-            # these are not serializable ...
-            #request.session['SAML']['IDP'] = IDP
-            #request.session['SAML']['req_info'] = req_info
-
-            # Force Authn check
-            if req_info.message.force_authn:
-                # copy required params
-                saml_session = copy.deepcopy(request.session['SAML'])
-                logout(request)
-                msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
-                                                                            req_info.message.id)
-                logger.info(msg)
-
-                # reload saml params in session
-                request.session['SAML'] = saml_session
-                request.session['SAML']['message_id'] = req_info.message.id
-                request.session['SAML']['issue_instant'] = req_info.message.issue_instant
-
-
-        except IncorrectlySigned as exp:
-            return render_to_response('error.html',
-                                      {'exception_type': exp,
-                                       'exception_msg': _("Incorrectly signed"),
-                                       'extra_message': _('SP Metadata '
-                                                          'is changed, expired '
-                                                          'or unavailable.')},
-                                       status=403)
-        except Exception as exp:
-            return render_to_response('error.html',
-                                      {'exception_type': exp},
-                                       status=403)
-
-        try:
-            resp_args = IDP.response_args(req_info.message)
-        except UnknownSystemEntity as exp:
-            return render_to_response('error.html',
-                                      {'exception_type': exp,
-                                       'exception_msg': _("This SP is not federated"),
-                                       'extra_message': _('Metadata is missing')},
-                                       status=403)
-        if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
-            return render_to_response('error.html',
-                                      {'exception_type': _("This SP is not federated yet"),
-                                       'exception_msg': _("Attribute Processor needs "
-                                                          "to be configured ")},
-                                      status=403)
-        # end check
-        return super().dispatch(request, *args, **kwargs)
 
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message

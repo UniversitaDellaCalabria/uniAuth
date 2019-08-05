@@ -85,14 +85,14 @@ def sso_entry(request, binding):
 
         # Force Authn check
         if req_info.message.force_authn:
-            # copy required params
+            ## copy required params
             saml_session = copy.deepcopy(request.session['SAML'])
             logout(request)
             msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
                                                                         req_info.message.id)
             logger.info(msg)
 
-            # reload saml params in session
+            ## reload saml params in session
             request.session['SAML'] = saml_session
             request.session['SAML']['message_id'] = req_info.message.id
             request.session['SAML']['issue_instant'] = req_info.message.issue_instant

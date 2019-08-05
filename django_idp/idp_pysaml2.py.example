@@ -67,13 +67,17 @@ SAML_IDP_CONFIG = {
             'endpoints': {
                 'single_sign_on_service': [
                     ('%s/sso/post' % BASE_URL, BINDING_HTTP_POST),
-                    ('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
+
+                    # HTTP-REDIRECT could introduce troubles with signing verifications ...
+                    #('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
+
                     # TODO
                     # ("%s/sso/art" % BASE, BINDING_HTTP_ARTIFACT),
                 ],
                 "single_logout_service": [
                     ("%s/slo/post" % BASE, BINDING_HTTP_POST),
-                    ("%s/slo/redirect" % BASE, BINDING_HTTP_REDIRECT)
+
+                    #("%s/slo/redirect" % BASE, BINDING_HTTP_REDIRECT)
                     # ("%s/slo/soap" % BASE, BINDING_SOAP),
                 ],
             },
@@ -81,15 +85,19 @@ SAML_IDP_CONFIG = {
             'name_id_format': [NAMEID_FORMAT_TRANSIENT,
                                NAMEID_FORMAT_PERSISTENT],
 
-            'validate_certificate': True,
-            "want_authn_requests_only_with_valid_cert": True,
+                        'validate_certificate': True,
             # this is default
             'only_use_keys_in_metadata': True,
 
+            # these needs to change a standard shibboleth sp configuration
+            # because in GET binding the signature is in the url and not in the XML ...
+            # solution: disable HTTP-REDIRECT bind
+            "want_authn_requests_only_with_valid_cert": True,
             'want_authn_requests_signed': True,
+            'logout_requests_signed': True,
+
             'sign_response': True,
             'sign_assertion': True,
-            'logout_requests_signed': True,
 
             # the following if set should be a cert filename, not a boolean
             # 'verify_ssl_cert': None,

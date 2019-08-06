@@ -1,7 +1,6 @@
-django==2.2.2
+django==2.2.4
 mysqlclient
 uwsgi
-ipython
 
 # hint before: pip install -U setuptools
 git+https://github.com/peppelinux/pysaml2.git@pplnx-dev

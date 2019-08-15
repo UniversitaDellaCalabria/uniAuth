@@ -35,11 +35,19 @@ Configure the software
 djangosaml2 parameters:
 
 SAML_IDP_DJANGO_USERNAME_FIELD = 'email'
-    which returned attribute should be considered as username.
+    Which returned attribute should be considered as username. It must be a field name, a @property or a callable of a Django User model.
+
+SAML_COMPUTEDID_HASHALG = 'sha256'
+    Global behaviour, which algorithm should be used to produce the computedID of a user.
+    Used only for TRANSIET and PERSISTENT nameid format.
+
+SAML_COMPUTEDID_SALT = b'87sdf+ybDS+FDSFsdf__7yb'
+    Salt used to produce the computed id. Use ``b''`` to disable salt.
+    Used only for TRANSIET and PERSISTENT nameid format.
 
 
 
-Platform specific parameters, all the `Global behaviour` can be overriden in ServiceProvider configurations:
+Platform specific parameters, all these `Global behaviour` can be overriden in ServiceProvider configurations:
 
 SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = True
     Global behaviour, show or not the agreement screen.
@@ -52,9 +60,6 @@ SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []
 
 SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
     User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire.
-
-SAML_COMPUTEDID_HASHALG = 'sha256'
-    Global behaviour, which algorithm should be used to produce the computedID of a user.
 
 SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG
     Global behaviour, which algorithms should be used for SAML signature and digest.

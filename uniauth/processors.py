@@ -33,7 +33,8 @@ class NameIdBuilder:
                        NAMEID_FORMAT_ENCRYPTED : None}
 
     @classmethod
-    def get_nameid_opaque(cls, user_id, salt=b'', **kwargs):
+    def get_nameid_opaque(cls, user_id,
+                          salt=settings.SAML_COMPUTEDID_SALT, **kwargs):
         """ Returns opaque salted unique identifiers
         """
         salted_value = user_id.encode()+salt
@@ -50,15 +51,20 @@ class NameIdBuilder:
             see: http://software.internet2.edu/eduperson/internet2-mace-dir-eduperson-201602.html#eduPersonTargetedID
         """
 
-        if not user.persistent_id:
+        #
+        # TODO allowCreate and store every newly created computedID if persistentID is True
+        #
+        
+        pid = user.persistent_id(sp_entityid)
+        if user and not pid:
             # computed
-            user_persistent_id = cls.get_nameid_opaque(user_id,
-                                                       salt=(str(user.pk)).encode())
+            user_persistent_id = cls.get_nameid_opaque('!'.join((sp_entityid,
+                                                                 user_id)),
+                                                       salt=settings.SAML_COMPUTEDID_SALT)
         else:
-            user_persistent_id = user.persistent_id
-        return '!'.join((idp_entityid,
-                         sp_entityid,
-                         user_persistent_id))
+            user_persistent_id = pid
+        return user_persistent_id
+
     @classmethod
     def get_nameid_email(cls, user_id, **kwargs):
         assert '@' in user_id
@@ -71,7 +77,8 @@ class NameIdBuilder:
         # random
         # return cls.get_nameid_opaque(user_id,
                                      # salt=str(random.random()).encode())
-        return cls.get_nameid_opaque(user_id)
+        return cls.get_nameid_opaque('!'.join((sp_entityid,
+                                               user_id)))
 
     @classmethod
     def get_nameid_unspecified(cls, user_id):
@@ -123,14 +130,14 @@ class BaseProcessor:
             getattr(settings, 'SAML_IDP_DJANGO_USERNAME_FIELD', None) or \
             getattr(user, 'USERNAME_FIELD', 'username')
         user_field = getattr(user, user_field_str)
-
+        
         if callable(user_field):
-            user_id = str(user_field())
+            user_uid = str(user_field())
         else:
-            user_id = str(user_field)
+            user_uid = str(user_field)
 
         # returns in a real name_id format
-        user_id =  NameIdBuilder.get_nameid(user_id,
+        user_id =  NameIdBuilder.get_nameid(user_uid,
                                             sp['name_id_format'],
                                             sp_entityid=sp['id'],
                                             idp_entityid=idp_config.entityid,

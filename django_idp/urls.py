@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-# from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from django.urls import include, path
-from uniauth.forms import LoginForm
-from uniauth.views import LoginAuthView
+#from uniauth.views import LoginAuthView
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -32,7 +30,7 @@ urlpatterns = [
 if 'uniauth' in settings.INSTALLED_APPS:
     import uniauth.urls
     urlpatterns += path('', include((uniauth.urls, 'uniauth',))),
-    urlpatterns += path('login/', LoginAuthView.as_view(), name='login'),
+    #urlpatterns += path('login/', LoginAuthView.as_view(), name='login'),
 
 if 'idp' in settings.INSTALLED_APPS:
     import idp.urls

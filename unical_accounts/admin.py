@@ -3,7 +3,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 
 from .models import User
-from .admin_inlines import *
+from .admin_inlines import PersistentIdInline
 
 
 @admin.register(User)
@@ -12,10 +12,10 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'is_active',
                     'is_staff', 'is_superuser', )
     list_editable = ('is_active', 'is_staff', 'is_superuser',)
+    inlines = [PersistentIdInline,]
     fieldsets = (
         (None, {'fields': (('username', 'is_active', 'is_staff', 'is_superuser', ),
                            ('password'),
-                           ('persistent_id'),
                            ('original_uid', 'origin'),
                            )
                 }),

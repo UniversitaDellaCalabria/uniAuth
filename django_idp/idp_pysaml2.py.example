@@ -22,7 +22,7 @@ LOGIN_URL = '/login/'
 
 # idp protocol:fqdn:port
 HOST = 'idp1.testunical.it'
-PORT = 9000
+PORT = 9000 #None if 80 or 443...
 HTTPS = False
 
 BASE = "https://{}".format(HOST) if HTTPS else "http://{}".format(HOST)
@@ -36,6 +36,7 @@ IDP_CONF_PATH = os.path.join(BASE_DIR, 'idp')
 IDP_SP_METADATA_PATH = os.path.join(IDP_CONF_PATH, 'saml2_config/metadata')
 
 # please check [Refactor datetime](https://github.com/IdentityPython/pysaml2/pull/518)
+# only used to parse issue_instant in a try...
 SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ','%Y%m%d%H%M%SZ']
 
 SAML_IDP_CONFIG = {
@@ -76,7 +77,7 @@ SAML_IDP_CONFIG = {
                 ],
                 "single_logout_service": [
                     ("%s/slo/post" % BASE, BINDING_HTTP_POST),
-
+                    
                     #("%s/slo/redirect" % BASE, BINDING_HTTP_REDIRECT)
                     # ("%s/slo/soap" % BASE, BINDING_SOAP),
                 ],
@@ -146,14 +147,16 @@ SAML_IDP_CONFIG = {
 
         },
 
+        # TODO
         # AttributeAuthorityDescriptor is needed for legacy SP
         # this adds the needed attributes in metadata ...!
-        'aq': {
-
-            }
+        #'aq': {
+        #
+        #    }
 
     },
 
+    # Quite useless, you can even configure metadata store through admin backend!
     'metadata': {
         'local': [
                  # (os.path.join(IDP_SP_METADATA_PATH, 'sp_metadata.xml'),),
@@ -164,6 +167,8 @@ SAML_IDP_CONFIG = {
         # "remote": [{
             # "url": 'https://satosa.testunical.it/Saml2/metadata',
             # "cert": "/opt/satosa-saml2/pki/frontend.cert",
+
+            # working only with pplx-dev fork:
             # "disable_ssl_certificate_validation": True,
              # }],
 
@@ -171,6 +176,8 @@ SAML_IDP_CONFIG = {
             # "url": "http://localhost:8001",
             ## "url": "https://ds.testunical.it",
             # "cert": "certficates/others/ds.testunical.it.cert",
+
+            # working only with pplx-dev fork:
             # "disable_ssl_certificate_validation": True,
             # }]
 
@@ -186,7 +193,7 @@ SAML_IDP_CONFIG = {
     }],
 
     # How many hours this configuration is expected to be accurate as eposed in metadata
-    'valid_for': 24 * 10,
+    #'valid_for': 24 * 10,
 
     # own metadata settings
     'contact_person': [
@@ -227,18 +234,22 @@ SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []
 # User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire
 SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
 
-#SAML_IDP_DJANGO_USERNAME_FIELD = 'username'
-
+SAML_IDP_DJANGO_USERNAME_FIELD = 'username'
+# alg, salt and arguments used for computed user identifier used in opaque, transient and persistent nameid_format
 SAML_COMPUTEDID_HASHALG = 'sha256'
+SAML_COMPUTEDID_SALT = b'87sdfybDSFDSFsdf__7yb'
+
 SAML_AUTHN_SIGN_ALG = saml2.xmldsig.SIG_RSA_SHA256
 SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
 
 # Encrypt authn response
-SAML_ENCRYPT_AUTHN_RESPONSE = True
-SAML_ENCRYPT_ADV_ATTRIBUTES = True
+SAML_ENCRYPT_AUTHN_RESPONSE = False
+SAML_ENCRYPT_ADV_ATTRIBUTES = False
 
 # SP configurations
 SAML_IDP_SPCONFIG = {}
+
+# This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
     'processor': 'idp.processors.LdapAcademiaProcessor',
     'attribute_mapping': {
@@ -271,6 +282,7 @@ DEFAULT_SPCONFIG = {
     # 'show_user_agreement_screen': SAML_IDP_SHOW_USER_AGREEMENT_SCREEN
 }
 
+# Quite useless, you can even configure SP through admin backend!
 # shibboleth test SP
 # SAML_IDP_SPCONFIG['https://sp.testunical.it/shibboleth'] = DEFAULT_SPCONFIG
 # SAML_IDP_SPCONFIG['https://sp1.testunical.it/saml2/metadata/'] = DEFAULT_SPCONFIG

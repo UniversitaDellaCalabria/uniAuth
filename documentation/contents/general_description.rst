@@ -20,14 +20,15 @@ Implementation specific Features
 - Customizable Template and style based on `AGID guidelines <https://www.agid.gov.it/it/argomenti/linee-guida-design-pa>`__;
 - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
 - Optional and quite granular Agreement Screen;
+- Configurable hashing algorithm and salt for Computed NameID;
 - Many configurable options, for every SP we can decide:
     - signature and digest algorithms;
     - attributes release policies;
     - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;
-    - selectable hashing algorithm for Computed NameID;
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
 - Importable StoredPersistentID for each user, for migrations from other IDP;
-- An LDAP web manager with a configurable app (`ldap_peoples`);
+- An optional LDAP web manager with a configurable app (`ldap_peoples`);
+- Multiple LDAP sources though `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
 - Multifactor support, as available in djangosaml2idp;
 - Detailed but not huge logs.

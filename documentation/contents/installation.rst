@@ -34,12 +34,12 @@ Configure the software
 
 djangosaml2 parameters:
 
-SAML_IDP_DJANGO_USERNAME_FIELD = 'email'
-    Which returned attribute should be considered as username. It must be a field name, a @property or a callable of a Django User model.
+SAML_IDP_DJANGO_USERNAME_FIELD = 'uid'
+    Attribute used for SAML nameid. It must be a field name, a @property or a callable of the Django User model.
 
-SAML_COMPUTEDID_HASHALG = 'sha256'
+SAML_COMPUTEDID_HASHALG = 'sha1'
     Global behaviour, which algorithm should be used to produce the computedID of a user.
-    Used only for TRANSIET and PERSISTENT nameid format.
+    Used only for OPAQUE, TRANSIENT and PERSISTENT nameid format.
 
 SAML_COMPUTEDID_SALT = b'87sdf+ybDS+FDSFsdf__7yb'
     Salt used to produce the computed id. Use ``b''`` to disable salt.
@@ -47,7 +47,7 @@ SAML_COMPUTEDID_SALT = b'87sdf+ybDS+FDSFsdf__7yb'
 
 
 
-Platform specific parameters, all these `Global behaviour` can be overriden in ServiceProvider configurations:
+Platform specific parameters, each of these can be overriden in ServiceProvider configurations:
 
 SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = True
     Global behaviour, show or not the agreement screen.
@@ -98,18 +98,20 @@ Create Database
 LDAP or not?
 ^^^^^^^^^^^^
 
-Link to a LDAP if needed, multiple database support is also available as
-Django feature. If you do not need a LDAP data source please remove
-``ldap_peoples`` from ``uniauth.settingslocal.INSTALLED_APPS``. If you need a
-fully compliant LDAP configuration with ``ldap_peoples`` please try the
+You can use LDAP data source with at least two strategy ``ldap_peoples`` ldap manager or ``pyMultiLDAP``.
+If you do not need a LDAP data source remove ``ldap_peoples`` or ``multildap`` from ``uniauth.settingslocal.INSTALLED_APPS``.
+
+``ldap_peoples`` is a fancy app to integrate a R&S LDAP manager.
+On top of it you'll find a custom authentication backend and a custom attribute processor,
+you can even write your custom auth backend and processor with your preferred LDAP library.
+If you need a fully compliant LDAP configuration with ``ldap_peoples`` please try the
 `dedicated playbook <https://github.com/peppelinux/ansible-slapd-eduperson2016>`__ for it.
 
-``ldap_peoples`` is not a mandatory dependency, it is only a fancy app to integrate a R&S LDAP manager.
-On top of it you'll find a custom authentication backend and a custom attribute processor but you can even write your custom auth backend and processor with your preferred LDAP library.
+If you need multiple LDAP data sources following ``ldap_peoples`` approach
+you'll have to create your own django application and use types and methods found in ``ldap_peoples``.
 
-If you want instead to have multiple LDAP data sources following ``ldap_peoples`` approach then you'll have to create your own django application and use types and methods found in ``ldap_peoples``.
-
-If you do not want to creare other apps and develop other things to manage multiple LDAP sources, you can use `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__.
+If you do not want to create other django application or develop other things to manage multiple LDAP sources,
+you can use `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__ as a  proxy, through slapd-sock, or as a python LDAP Client.
 See `settingslocal.py.example` to have some usage examples.
 
 Create your own SAML certificates

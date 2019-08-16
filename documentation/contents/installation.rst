@@ -95,8 +95,8 @@ Create Database
     CREATE DATABASE IF NOT EXISTS ${DB} CHARACTER SET = 'utf8' COLLATE = 'utf8_general_ci';\
     GRANT ALL PRIVILEGES ON ${DB}.* TO '${USER}'@'${HOST}';"
 
-LDAP or not?
-^^^^^^^^^^^^
+LDAP connection
+^^^^^^^^^^^^^^^
 
 You can use LDAP data source with at least two strategy ``ldap_peoples`` ldap manager or ``pyMultiLDAP``.
 If you do not need a LDAP data source remove ``ldap_peoples`` or ``multildap`` from ``uniauth.settingslocal.INSTALLED_APPS``.

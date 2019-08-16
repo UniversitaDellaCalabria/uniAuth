@@ -61,3 +61,15 @@ could define them in ``SAML_IDP_CONFIG['service']['idp']['policy']``
                 }
 
             }
+
+Name ID Format
+^^^^^^^^^^^^^^
+
+This uniAuth release only supports these Name ID formats:
+
+- NAMEID_FORMAT_UNSPECIFIED
+- NAMEID_FORMAT_TRANSIENT
+- NAMEID_FORMAT_PERSISTENT
+- NAMEID_FORMAT_EMAILADDRESS
+
+See ``uniauth.processors.NameIdBuilder`` if you need to implement other formats, it's trivial.

@@ -37,10 +37,11 @@ from saml2.metadata import entity_descriptor
 from saml2.s_utils import (UnknownPrincipal,
                            UnsupportedBinding,
                            UnknownSystemEntity)
-from saml2.saml import NAMEID_FORMAT_UNSPECIFIED
+from saml2.saml import NAMEID_FORMAT_UNSPECIFIED, NAMEID_FORMAT_PERSISTENT
 from saml2.response import (IncorrectlySigned,)
 from six import text_type
 
+from unical_accounts.models import PersistentId
 from . decorators import (_not_valid_saml_msg,
                           store_params_in_session,
                           store_params_in_session_func,
@@ -268,8 +269,6 @@ class IdPHandlerViewMixin(ErrorHandler):
                          sp_name_qualifier=self.sp['id'],
                          text=user_id)
 
-        #user_attrs = self.processor.create_identity(user, self.sp)
-
         # Generate request session stuff needed for user agreement screen
         attrs_to_exclude = self.sp['config'].get('user_agreement_attr_exclude', []) + \
                            getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
@@ -281,8 +280,18 @@ class IdPHandlerViewMixin(ErrorHandler):
             if k not in attrs_to_exclude
         }
 
+        # allow create support
+        if self.resp_args['name_id_policy'].allow_create == 'true' and \
+           self.resp_args['name_id_policy'].format == NAMEID_FORMAT_PERSISTENT:
+            if not PersistentId.objects.filter(user=self.request.user,
+                                               recipient_id=self.sp['id']):
+                PersistentId.objects.create(user=self.request.user,
+                                            persistent_id=self.processor.eduPersonTargetedID,
+                                            recipient_id=self.sp['id'])
+        # allow create support end
 
         # ASSERTION ENCRYPTED
+        # TODO: ENCRYPT only if SP encryption keyDescriptor is available into sp metadata
         encrypt_response = getattr(settings,
                                    'SAML_ENCRYPT_AUTHN_RESPONSE',
                                    False)
@@ -329,13 +338,12 @@ class IdPHandlerViewMixin(ErrorHandler):
                             required=[])
 
         # talking logs
-        self.request.session['SAML']['authn_log'] = ('SSO AuthnResponse to {} [{}]:'
-                                                     ' {} attrs ({}) on {} '
-                                                     'filtered by policy').format(self.sp['id'],
-                                                                          self.request.session['SAML'].get('message_id'),
-                                                                          len(ava),
-                                                                          ','.join(ava.keys()),
-                                                                          len(self.request.session['identity']))
+        msg = ('SSO AuthnResponse to {} [{}]: {} attrs ({}) on {} filtered by policy')
+        self.request.session['SAML']['authn_log'] = msg.format(self.sp['id'],
+                                                               self.request.session['SAML'].get('message_id'),
+                                                               len(ava),
+                                                               ','.join(ava.keys()),
+                                                               len(self.request.session['identity']))
         logger.info(self.request.session['SAML']['authn_log'])
         #
 

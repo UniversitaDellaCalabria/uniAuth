@@ -67,4 +67,14 @@ class PersistentId(models.Model):
     recipient_id = models.CharField(_('SAML ServiceProvider entityID'),
                                  max_length=254,
                                  blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
     
+    class Meta:
+        verbose_name = _('Persistent Id')
+        verbose_name_plural = _('Persistent Id')
+
+    def __str__(self):
+        return '{}: {} to {} [{}]'.format(self.user,
+                                          self.persistent_id,
+                                          self.recipient_id,
+                                          self.created)

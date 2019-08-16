@@ -6,9 +6,9 @@ uniAuth, as a SAML2 IDP, is based on `pysaml2 <https://github.com/IdentityPython
 - HTTP-REDIRECT and POST bindings;
 - AuthnRequest with or without ForceAuthn;
 - SLO, SAML Single Logout;
-- Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards.
+- Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards;
+- AllowCreate, nameid is stored if nameid format is persistent.
 
-uniAuth do not support AllowCreate NameIDPolicy, this behaviour is completely demanded to uniAuth AttributeProcessors.
 
 Implementation specific Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -34,7 +34,8 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'django-idp',
         'PASSWORD': 'django-saml2-idp78',
-        'PORT': ''
+        'PORT': '',
+        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
     }
 }
 

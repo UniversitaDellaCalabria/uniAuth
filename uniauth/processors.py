@@ -32,6 +32,11 @@ class NameIdBuilder:
                        NAMEID_FORMAT_ENTITY : None,
                        NAMEID_FORMAT_ENCRYPTED : None}
 
+    @staticmethod
+    def get_nameid_prefix(user_id, sp_entityid, idp_entityid, user):
+        """ Inherit and customize as your needs"""
+        return '!'.join((sp_entityid, user_id))
+
     @classmethod
     def get_nameid_opaque(cls, user_id,
                           salt=settings.SAML_COMPUTEDID_SALT, **kwargs):
@@ -58,8 +63,10 @@ class NameIdBuilder:
         pid = user.persistent_id(sp_entityid)
         if user and not pid:
             # computed
-            user_persistent_id = cls.get_nameid_opaque('!'.join((sp_entityid,
-                                                                 user_id)),
+            user_persistent_id = cls.get_nameid_opaque(cls.get_nameid_prefix(user_id,
+                                                                             sp_entityid,
+                                                                             idp_entityid,
+                                                                             user),
                                                        salt=settings.SAML_COMPUTEDID_SALT)
         else:
             user_persistent_id = pid

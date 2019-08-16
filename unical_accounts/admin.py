@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User
+from .models import User, PersistentId
 from .admin_inlines import PersistentIdInline
 
 
@@ -45,3 +45,9 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+
+@admin.register(PersistentId)
+class PersistentIdAdmin(admin.ModelAdmin):
+    list_display = ('user', 'persistent_id', 'recipient_id', 'created')
+    list_filter = ('created',)

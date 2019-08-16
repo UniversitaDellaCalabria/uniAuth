@@ -246,6 +246,9 @@ SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
 SAML_ENCRYPT_AUTHN_RESPONSE = False
 SAML_ENCRYPT_ADV_ATTRIBUTES = False
 
+# if enabled and nameid format is persistent the nameid related to user:recipient_id will be stored in PersistentId model
+SAML_ALLOWCREATE = True
+
 # SP configurations
 SAML_IDP_SPCONFIG = {}
 

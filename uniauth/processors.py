@@ -71,7 +71,7 @@ class NameIdBuilder:
         return user_id
 
     @classmethod
-    def get_nameid_transient(cls, user_id, **kwargs):
+    def get_nameid_transient(cls, user_id, sp_entityid='', **kwargs):
         """ This would an opaque and reusable
         """
         # random

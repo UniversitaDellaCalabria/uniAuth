@@ -19,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
                            ('original_uid', 'origin'),
                            )
                 }),
-        (_('Angrafica'), {'fields': (('first_name', 'last_name'),
+        (_('Anagrafica'), {'fields': (('first_name', 'last_name'),
                                           'email',
                                          ('taxpayer_id',),
                                          ('gender',

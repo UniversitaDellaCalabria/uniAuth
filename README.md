@@ -23,8 +23,6 @@ uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython
 - SLO, SAML Single Logout;
 - Encrypted assertions, customizable sign/digest algorithms and, in general, a good posture in terms of security and data integrity regarding SAML standards.
 
-uniAuth doesn't support AllowCreate NameIDPolicy, this behaviour is completely demanded to uniAuth AttributeProcessors.
-
 ## Implementation specific Features
 
 - Full Internazionalization support (i18n);
@@ -33,17 +31,18 @@ uniAuth doesn't support AllowCreate NameIDPolicy, this behaviour is completely d
 - Customizable Template and style based on [AGID guidelines](https://www.agid.gov.it/it/argomenti/linee-guida-design-pa);
 - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
 - Optional and quite granular Agreement Screen;
+- Configurable digest algorithm and salt for Computed NameID;
 - Many configurable options, for every SP we can decide:
     - signature and digest algorithms;
     - attributes release policies;
     - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;
-    - selectable hashing algorithm for Computed NameID;
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
 - Importable StoredPersistentID for each user, from migrations from another IDP;
-- An LDAP web manager with a configurable app (`ldap_peoples`);
+- An optional LDAP web manager with a configurable app (`ldap_peoples`);
+- Multiple LDAP sources though `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
 - Multifactor support, as originally available in djangosaml2idp;
-- Detailed but not huge logs.
+- Detailed logs.
 
 
 ## Characteristics

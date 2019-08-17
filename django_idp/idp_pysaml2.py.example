@@ -39,6 +39,9 @@ IDP_SP_METADATA_PATH = os.path.join(IDP_CONF_PATH, 'saml2_config/metadata')
 # only used to parse issue_instant in a try...
 SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ','%Y%m%d%H%M%SZ']
 
+# this will keep xml signed/encrypted files in /tmp
+#os.environ['PYSAML2_DELETE_XMLSEC_TMP'] = "False"
+
 SAML_IDP_CONFIG = {
     'debug' : True,
     'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),

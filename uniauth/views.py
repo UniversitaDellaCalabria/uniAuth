@@ -293,17 +293,23 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # ASSERTION ENCRYPTED
         # TODO: ENCRYPT only if SP encryption keyDescriptor is available into sp metadata
-        encrypt_response = getattr(settings,
-                                   'SAML_ENCRYPT_AUTHN_RESPONSE',
-                                   False)
-        if 'encrypt_saml_responses' in self.sp['config'].keys():
-            encrypt_response = self.sp['config'].get('encrypt_saml_responses')
+        encrypt_assertion = getattr(settings,
+                                    'SAML_ENCRYPT_ASSERTION',
+                                    False)
+        if 'encrypt_assertion' in self.sp['config'].keys():
+            encrypt_assertion = self.sp['config'].get('encrypt_assertion')
 
         encrypt_advice_attributes = getattr(settings,
                                             'SAML_ENCRYPT_ADV_ATTRIBUTES',
                                              False)
         if 'encrypt_advice_attributes' in self.sp['config'].keys():
             encrypt_advice_attributes = self.sp['config'].get('encrypt_advice_attributes')
+
+        encrypt_assertion_self_contained = getattr(settings,
+                                                   'SAML_ENCRYPT_ASSERTION_SELFCONTAINED',
+                                                    False)
+        if 'encrypt_assertion_self_contained' in self.sp['config'].keys():
+            encrypt_assertion_self_contained = self.sp['config'].get('encrypt_assertion_self_contained')
 
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
@@ -326,8 +332,9 @@ class IdPHandlerViewMixin(ErrorHandler):
                        getattr(settings, 'SAML_AUTHN_DIGEST_ALG', False),
 
             # Encryption
-            encrypt_assertion=encrypt_response,
+            encrypt_assertion=encrypt_assertion,
             encrypt_advice_attributes=encrypt_advice_attributes,
+            encrypt_assertion_self_contained=encrypt_assertion_self_contained,
             **resp_args
         )
 

@@ -98,13 +98,14 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                     'agreement_message',
                     'signing_algorithm',
                     'digest_algorithm',
-                    'encrypt_saml_responses',
                     'is_active', 'is_valid',
                     'updated')
     list_filter = ('created',
                    'signing_algorithm',
                    'digest_algorithm',
-                   'encrypt_saml_responses',
+                   'encrypt_assertion',
+                   'encrypt_advice_attributes',
+                   'encrypt_assertion_self_contained',
                    'is_active', 'is_valid',
                    'updated')
     search_fields = ('entity_id', 'display_name', 'metadata_url')
@@ -117,7 +118,8 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                 (None, {'fields': (('entity_id', 'display_name',),
                                    ('metadata_url',),
                                    ('signing_algorithm', 'digest_algorithm'),
-                                   ('encrypt_saml_responses', 'encrypt_advice_attributes'),
+                                   ('encrypt_assertion', 'encrypt_advice_attributes',
+                                    'encrypt_assertion_self_contained'),
                                    ('is_active'),
                                    'is_valid',
                                    )}),

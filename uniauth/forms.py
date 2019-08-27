@@ -8,9 +8,11 @@ class LoginForm(AuthenticationForm):
     # username = forms.CharField()
     # password = forms.CharField(widget=forms.PasswordInput())
     forget_agreement = forms.BooleanField(label=_("Delete previous agreement"),
-                                          required=False)
+                                          required=False,
+                                          localize=True)
     forget_login = forms.BooleanField(label=_("Forget access"),
-                                      required=False)
+                                      required=False,
+                                      localize=True)
 
 class AgreementForm(forms.Form):
     CHOICES = ((1, _('I give my consent')),
@@ -19,4 +21,5 @@ class AgreementForm(forms.Form):
     confirm = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
     dont_show_again = forms.BooleanField(label=_("Don't show this screen "
                                                  "on next login."),
-                                         required=False)
+                                         required=False,
+                                         localize=True)

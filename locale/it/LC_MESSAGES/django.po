@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-27 12:25+0000\n"
+"POT-Creation-Date: 2019-08-27 12:30+0000\n"
 "PO-Revision-Date: 2019-08-27 13:01+0200\n"
 "Last-Translator: Giuseppe De Marco <giuseppe.demarco@unical.it>\n"
 "Language-Team: \n"
@@ -154,19 +154,19 @@ msgstr "Non puoi accedere a questo servizio"
 msgid "Delete previous agreement"
 msgstr "Cancella precedente consenso ai dati"
 
-#: uniauth/forms.py:12
+#: uniauth/forms.py:13
 msgid "Forget access"
 msgstr "Dimentica l'accesso"
 
-#: uniauth/forms.py:16
+#: uniauth/forms.py:18
 msgid "I give my consent"
 msgstr "Do il mio consenso"
 
-#: uniauth/forms.py:17
+#: uniauth/forms.py:19
 msgid "I deny my consent"
 msgstr "Nego il mio consenso"
 
-#: uniauth/forms.py:20
+#: uniauth/forms.py:22
 msgid "Don't show this screen on next login."
 msgstr "Non mostrare questa schermata al prossimo accesso."
 

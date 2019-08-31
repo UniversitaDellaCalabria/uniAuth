@@ -84,7 +84,7 @@ server {
     location / {
         uwsgi_pass  unicalauth;
         uwsgi_param HTTP_X_FORWARDED_PROTOCOL https;
-        uwsgi_read_timeout 724;
+        uwsgi_read_timeout 33;
         include     /opt/unicalauth/uwsgi_setup/uwsgi_params; # the uwsgi_params file you installed
     }
 

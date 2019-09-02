@@ -12,3 +12,4 @@ certificates/*
 data/metadata/*
 !data/metadata/satosa.xml
 django_idp/idp_pysaml2.py
+documentation/_build/

@@ -65,8 +65,10 @@ SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
 SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG
     Global behaviour, which algorithms should be used for SAML signature and digest.
 
-SAML_ENCRYPT_AUTHN_RESPONSE = True
-    Global behaviour, Encrypt authn response or not.
+SAML_ENCRYPT_ASSERTION = False
+SAML_ENCRYPT_ADV_ATTRIBUTES = False
+SAML_ENCRYPT_ASSERTION_SELFCONTAINED = False
+    Global behaviour, authn response encryption.
 
 DEFAULT_SPCONFIG = {
     Default configuration that will be preloaded on every ServiceProvider configurations.

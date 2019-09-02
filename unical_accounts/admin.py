@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': (('username', 'is_active', 'is_staff', 'is_superuser', ),
                            ('password'),
-                           ('original_uid', 'origin'),
+                           ('origin'),
                            )
                 }),
         (_('Anagrafica'), {'fields': (('first_name', 'last_name'),

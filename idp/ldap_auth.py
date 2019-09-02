@@ -11,8 +11,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from ldap_peoples.models import LdapAcademiaUser
-from . utils import get_encoded_username
-
 
 logger = logging.getLogger(__name__)
 
@@ -51,23 +49,21 @@ class LdapAcademiaAuthBackend(ModelBackend):
             return None
 
         # username would be like an EPPN
-        scoped_username = get_encoded_username(lu.uid)
+        username = lu.uid
         try:
-            user = get_user_model().objects.get(username=scoped_username)
+            user = get_user_model().objects.get(username=username)
             # update attrs:
             user.email = lu.mail[0]
             user.first_name = lu.cn
             user.last_name = lu.sn
             user.origin = 'ldap_peoples'
-            user.original_uid = username
             user.save()
         except Exception as e:
-            user = get_user_model().objects.create(username=scoped_username,
+            user = get_user_model().objects.create(username=username,
                                                    email=lu.mail[0],
                                                    first_name=lu.cn,
                                                    last_name=lu.sn,
-                                                   origin = 'ldap_peoples',
-                                                   original_uid = username)
+                                                   origin = 'ldap_peoples')
 
         # TODO: Create a middleware for this
         # disconnect already created session, only a session per user is allowed

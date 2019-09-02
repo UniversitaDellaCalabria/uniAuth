@@ -11,7 +11,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from multildap.client import LdapClient
-from . utils import get_encoded_username
 
 
 logger = logging.getLogger(__name__)
@@ -58,25 +57,22 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             attrs = ','.join([i for i in list(lu.values())[0]])
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
 
-        # username would be like an EPPN
-        scoped_username = get_encoded_username(lu_obj.uid)
+        username = lu_obj.uid
         try:
-            user = get_user_model().objects.get(username=scoped_username)
+            user = get_user_model().objects.get(username=username)
             # update attrs:
             user.email = lu_obj.mail[0]
             user.first_name = lu_obj.givenName[0]
             user.last_name = lu_obj.sn[0]
             user.origin = lc.__repr__()
-            user.original_uid = username
             user.save()
         except Exception as e:
-            logger.info("--- Create user: []".format(scoped_username))
-            user = get_user_model().objects.create(username=scoped_username,
+            logger.info("--- Create user: []".format(username))
+            user = get_user_model().objects.create(username=username,
                                                    email=lu_obj.mail[0],
                                                    first_name=lu_obj.givenName[0],
                                                    last_name=lu_obj.sn[0],
-                                                   origin = lc.__repr__(),
-                                                   original_uid = username)
+                                                   origin = lc.__repr__())
 
         # avoids another LDAP query in Attributes processors
         request.session['identity_attributes'] = lu[dn]

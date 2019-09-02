@@ -31,9 +31,6 @@ class User(AbstractUser):
                                       choices=[(i.name, i.name) for i in pycountry.countries])
     birth_date = models.DateField('Data di nascita',
                                   null=True, blank=True)
-    original_uid = models.CharField(_('Username used in connectors auth'),
-                                    max_length=254,
-                                    blank=True, null=True)
     origin = models.CharField(_('from which conenctor this user come from'),
                               max_length=254,
                               blank=True, null=True)

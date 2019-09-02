@@ -40,7 +40,7 @@ class LdapAcademiaProcessor(BaseProcessor):
     """
 
     def get_identity(self, user):
-        return LdapAcademiaUser.objects.filter(eduPersonPrincipalName=user.username).first()
+        return LdapAcademiaUser.objects.filter(uid=user.username).first()
 
 
     def create_identity(self, user, sp={}):

@@ -54,19 +54,12 @@ class LdapAcademiaProcessor(BaseProcessor):
         # get ldap user
         lu = self.get_identity(user)
         #logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
-        results = {}
-        for user_attr, out_attr in sp_mapping.items():
-            if hasattr(user, user_attr):
-                attr = getattr(user, user_attr)
-                results[out_attr] = attr() if callable(attr) else attr
+        results = self.process_attributes(user, sp_mapping)
 
         if not lu:
             return results
 
-        for user_attr, out_attr in sp_mapping.items():
-            if hasattr(lu, user_attr):
-                attr = getattr(lu, user_attr)
-                results[out_attr] = attr() if callable(attr) else attr
+        results = self.process_attributes(lu, sp_mapping)
 
         # add custom/legacy attribute made by processing
         results = self.extra_attr_processing(results, sp_mapping)

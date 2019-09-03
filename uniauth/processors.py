@@ -59,7 +59,7 @@ class NameIdBuilder:
         #
         # TODO allowCreate and store every newly created computedID if persistentID is True
         #
-        
+
         pid = user.persistent_id(sp_entityid)
         if user and not pid:
             # computed
@@ -137,7 +137,7 @@ class BaseProcessor:
             getattr(settings, 'SAML_IDP_DJANGO_USERNAME_FIELD', None) or \
             getattr(user, 'USERNAME_FIELD', 'username')
         user_field = getattr(user, user_field_str)
-        
+
         if callable(user_field):
             user_uid = str(user_field())
         else:
@@ -161,6 +161,18 @@ class BaseProcessor:
         """
         return results
 
+    def process_attributes(self, user, sp_mapping):
+        results = {}
+        for user_attr, out_attr in sp_mapping.items():
+            if not isinstance(out_attr, list):
+                out_attr = [out_attr]
+            for item in out_attr:
+                if hasattr(user, item):
+                    attr = getattr(user, item)
+                    results[user_attr] = attr() if callable(attr) else attr
+                    break
+        return results
+
     def create_identity(self, user, sp={}):
         """ Generate an identity dictionary of the user based on the
             given mapping of desired user attributes by the SP
@@ -168,11 +180,6 @@ class BaseProcessor:
         default_mapping = {'username': 'username'}
         sp_mapping = sp['config'].get('attribute_mapping', default_mapping)
 
-        results = {}
-        for user_attr, out_attr in sp_mapping.items():
-            if hasattr(user, user_attr):
-                attr = getattr(user, user_attr)
-                results[out_attr] = attr() if callable(attr) else attr
-
+        results = self.process_attributes(user, sp_mapping)
         results = self.extra_attr_processing(results, sp_mapping)
         return results

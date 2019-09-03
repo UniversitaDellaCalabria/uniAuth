@@ -266,12 +266,13 @@ DEFAULT_SPCONFIG = {
         "eduPersonPrincipalName": "eduPersonPrincipalName",
         "schacHomeOrganization": "schacHomeOrganization",
         "eduPersonHomeOrganization": "eduPersonHomeOrganization",
-        "eduPersonAffiliation": "eduPersonAffiliation",    "eduPersonTargetedID": "eduPersonTargetedID",
+        "eduPersonAffiliation": "eduPersonAffiliation",
+        "eduPersonTargetedID": "eduPersonTargetedID",
         "mail": "mail",
         "schacPersonalUniqueCode": "schacPersonalUniqueCode",
         "schacPersonalUniqueID": "schacPersonalUniqueID",
         "sn": "sn",
-        "givenName": "givenName",
+        "givenName": ["givenName", "another_possible_occourrence"],
         "displayName": "displayName",
 
         # custom attributes

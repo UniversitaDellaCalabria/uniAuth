@@ -2,6 +2,7 @@ import base64
 import datetime
 import copy
 import logging
+import json
 
 from django.conf import settings
 from django.contrib.auth import logout, login as auth_login
@@ -46,7 +47,10 @@ from . decorators import (_not_valid_saml_msg,
                           store_params_in_session,
                           store_params_in_session_func,
                           require_saml_request)
-from . exceptions import MetadataNotFound, MetadataCorruption
+from . exceptions import (MetadataNotFound,
+                          MetadataCorruption,
+                          UnavailableRequiredAttributes,
+                          DisabledSP)
 from . forms import AgreementForm, LoginForm
 from . models import AgreementRecord, ServiceProvider
 from . processors import BaseProcessor
@@ -120,12 +124,14 @@ def sso_entry(request, binding):
                                    'exception_msg': _("This SP is not federated"),
                                    'extra_message': _('Metadata is missing')},
                                    status=403)
-    if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
-        return render_to_response('error.html',
-                                  {'exception_type': _("This SP is not federated yet"),
-                                   'exception_msg': _("Attribute Processor needs "
-                                                      "to be configured ")},
-                                  status=403)
+
+    if settings.SAML_DISALLOW_UNDEFINED_SP:
+        if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
+            return render_to_response('error.html',
+                                      {'exception_type': _("This SP is not allowed to access to this Service"),
+                                       'exception_msg': _("Attribute Processor needs "
+                                                          "to be configured and undefined SP are not Allowed.")},
+                                      status=403)
     # end check
 
     return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
@@ -181,17 +187,104 @@ class IdPHandlerViewMixin(ErrorHandler):
             return self.handle_error(request, exception=excp)
         return super().dispatch(request, *args, **kwargs)
 
+    def convert_attributes(self, attr_name_list):
+        converted_attrs = []
+        for attr_id in attr_name_list:
+            for acs in self.IDP.config.attribute_converters:
+                if attr_id in acs._fro:
+                    converted_attrs.append(acs._fro[attr_id])
+                elif attr_id in acs._to:
+                    converted_attrs.append(attr_id)
+        return converted_attrs
+
     def set_sp(self, sp_entity_id):
         """ Saves SP info to instance variable
             Raises an exception if sp matching
             the given entity id cannot be found.
+
+            If undefined SP are allowed it handles its presence in metadatastore
+            and the attribute release policy.
         """
         self.sp = {'id': sp_entity_id}
-        try:
-            self.sp['config'] = get_idp_sp_config()[sp_entity_id]
-        except KeyError:
-            msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG").format(sp_entity_id)
-            raise ImproperlyConfigured(msg)
+        self.sp['config'] = get_idp_sp_config().get(sp_entity_id)
+
+        sp = ServiceProvider.objects.filter(entity_id = sp_entity_id).first()
+
+        if not self.sp['config']:
+            if settings.SAML_DISALLOW_UNDEFINED_SP:
+                msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG").format(sp_entity_id)
+                raise ImproperlyConfigured(msg)
+            else:
+                if not self.IDP.config.metadata.service(sp_entity_id,
+                                                        "spsso_descriptor",
+                                                        'assertion_consumer_service'):
+                    msg = _("{} is not present in any Metadata").format(sp_entity_id)
+                    raise MetadataNotFound(msg)
+
+                self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
+                self.sp['config']['display_name'] = sp_entity_id
+                self.sp['config']['display_description'] = ''
+                self.sp['config']['force_attribute_release'] = False
+
+        if not sp:
+            sp = ServiceProvider.objects.create(entity_id = sp_entity_id,
+                                                display_name = sp_entity_id,
+                                                is_valid=True,
+                                                is_active = True,
+                                                last_seen = timezone.localtime())
+        elif not sp.is_active:
+            msg = _("{} was disabled. "
+                    "Please contact technical staff for informations").format(sp_entity_id)
+            raise DisabledSP(msg)
+        else:
+            sp.last_seen = timezone.localtime()
+            sp.save()
+
+        if self.sp['config']['force_attribute_release']:
+            # IdP ignores what SP requests for and release what it wants
+            return
+
+        # check if SP asks for required attributes
+        req_attrs = self.IDP.config.metadata.attribute_requirement(sp_entity_id)
+        if not req_attrs: return
+
+        # clean up unrequested attributes
+        # TODO a bettere generalization with SAML2 attr mapping here
+        to_be_removed = []
+        req_attr_list = [entry['name'] for entry in req_attrs['required']]
+        opt_attr_list = [entry['name'] for entry in req_attrs['optional']]
+
+        # conversion: avoids that some attrs have identifiers instead of names
+        req_attr_list = self.convert_attributes(req_attr_list)
+        opt_attr_list = self.convert_attributes(opt_attr_list)
+
+        attr_list = req_attr_list
+        attr_list.extend(opt_attr_list)
+
+        # updates newly requested attrs
+        for attr in attr_list:
+            if attr in settings.DEFAULT_SPCONFIG['attribute_mapping']:
+                self.sp['config']['attribute_mapping'][attr] = settings.DEFAULT_SPCONFIG['attribute_mapping'][attr]
+
+        # clean up unrequired
+        for attr in self.sp['config']['attribute_mapping']:
+            if attr not in attr_list:
+                to_be_removed.append(attr)
+        for rattr in to_be_removed:
+            del self.sp['config']['attribute_mapping'][rattr]
+
+        # update SP's attribute map
+        sp.attribute_mapping = json.dumps(self.sp['config']['attribute_mapping'], indent=2)
+        sp.save()
+
+        # check if some required are unavailable...
+        if req_attrs['required']:
+            # if some required attributes are unavailable the IdP give this warning
+            for req in req_attr_list:
+                if req not in self.sp['config']['attribute_mapping']:
+                    msg = _("{} requested unavailable attributes to this IdP."
+                            "Please contat SP technical staff for support.").format(sp_entity_id)
+                    raise UnavailableRequiredAttributes(msg)
 
     def set_processor(self,request=None):
         """ Instantiate user-specified processor or

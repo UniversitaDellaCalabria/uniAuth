@@ -111,7 +111,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
     search_fields = ('entity_id', 'display_name', 'metadata_url')
     readonly_fields = ('created', 'updated',
                        'as_idpspconfig_dict_element_html',
-                       'is_valid')
+                       'is_valid', 'last_seen')
     actions = (valida_elemento,)
     list_editable = ('is_active',)
     fieldsets = (
@@ -131,6 +131,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                 (_('Attributes'), {'fields': (
                                             ('attribute_processor',),
                                             ('attribute_mapping',),
+                                            ('force_attribute_release',),
                                            ),
                                     }),
                 (_('Attributes preview'), {'fields': (
@@ -138,7 +139,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                                                      ),
                                            'classes': ('collapse',),
                                             }),
-                (None, {'fields': (('created', 'updated'),)})
+                (None, {'fields': (('created', 'updated', 'last_seen'),)})
                 )
 
     class Media:

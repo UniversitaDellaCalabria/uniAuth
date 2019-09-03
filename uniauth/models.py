@@ -77,10 +77,14 @@ class ServiceProvider(models.Model):
                                                             indent=4),
                                          blank=True, null=True,
                                          help_text=_('Attribute that would be release to this SP, in JSON format.'))
+    force_attribute_release = models.BooleanField(default=False,
+                                                   help_text=_("Release the configured attribute mapping "
+                                                               "regardless of what SP asks for."))
     is_valid = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True,null=True, blank=True)
+    last_seen = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name = _('Service Provider')
@@ -141,6 +145,7 @@ class ServiceProvider(models.Model):
     def as_idpspconfig_dict_element(self):
         d = {'processor': self.attribute_processor,
              'attribute_mapping': json.loads(self.attribute_mapping),
+             'force_attribute_release': self.force_attribute_release,
              'display_name': self.display_name,
              'display_description': self.description,
              'display_agreement_message': self.agreement_message,

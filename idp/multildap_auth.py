@@ -57,7 +57,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             attrs = ','.join([i for i in list(lu.values())[0]])
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
 
-        username = lu_obj.uid
+        username = lu_obj.uid[0]
         try:
             user = get_user_model().objects.get(username=username)
             # update attrs:

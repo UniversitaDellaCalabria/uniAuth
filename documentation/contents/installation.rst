@@ -70,6 +70,10 @@ SAML_ENCRYPT_ADV_ATTRIBUTES = False
 SAML_ENCRYPT_ASSERTION_SELFCONTAINED = False
     Global behaviour, authn response encryption.
 
+SAML_DISALLOW_UNDEFINED_SP = True
+    Only configured SP are allowed to do Authentication requests.
+    If ``False`` all the SP available in the MetadataStore can request an authentication.
+
 DEFAULT_SPCONFIG = {
     Default configuration that will be preloaded on every ServiceProvider configurations.
     Put here your favourite Attribute Processor or choose another one, from one of your custom application.

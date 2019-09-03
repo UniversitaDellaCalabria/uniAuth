@@ -256,9 +256,12 @@ SAML_ALLOWCREATE = True
 # SP configurations
 SAML_IDP_SPCONFIG = {}
 
+# Disable unconfigured SP even if they are in MetadataStore
+SAML_DISALLOW_UNDEFINED_SP = False
+
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'idp.processors.LdapAcademiaProcessor',
+    'processor': 'idp.processors.LdapUnicalMultiAcademiaProcessor',
     'attribute_mapping': {
         # refeds + edugain Entities
         "cn": "cn",
@@ -268,7 +271,8 @@ DEFAULT_SPCONFIG = {
         "eduPersonHomeOrganization": "eduPersonHomeOrganization",
         "eduPersonAffiliation": "eduPersonAffiliation",
         "eduPersonTargetedID": "eduPersonTargetedID",
-        "mail": "mail",
+        "mail": ["mail", "email"],
+        "email": ["mail", "email"],
         "schacPersonalUniqueCode": "schacPersonalUniqueCode",
         "schacPersonalUniqueID": "schacPersonalUniqueID",
         "sn": "sn",

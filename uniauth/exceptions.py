@@ -12,3 +12,11 @@ class NotYetImplemented(Exception):
 
 class SPConfigurationMissing(Exception):
     pass
+
+
+class UnavailableRequiredAttributes(Exception):
+    pass
+
+
+class DisabledSP(Exception):
+    pass

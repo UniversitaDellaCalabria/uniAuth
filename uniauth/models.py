@@ -58,16 +58,8 @@ class ServiceProvider(models.Model):
     digest_algorithm = models.CharField(choices=[(y,x) for x,y in saml2.xmldsig.DIGEST_ALLOWED_ALG],
                                         default=settings.SAML_AUTHN_DIGEST_ALG,
                                         max_length=256)
-    encrypt_assertion = models.BooleanField(default=False,
-                                            help_text=('encrypt assertion'))
-    encrypt_advice_attributes = models.BooleanField(default=True,
-                                                    help_text=('advice element '
-                                                               'should be encrypted. '
-                                                               'Only valid if encrypt assertion is True'))
-    encrypt_assertion_self_contained = models.BooleanField(default=True,
-                                                           help_text=('encrypted assertions '
-                                                                      'should have all namespaces. '
-                                                                      'Only valid if encrypt assertion is True'))
+    disable_encrypted_assertions = models.BooleanField(default=False,
+                                                       help_text=('disable encryption'))
     attribute_processor = models.CharField(default=settings.DEFAULT_SPCONFIG['processor'],
                                            help_text=_('"package.file.classname", '
                                                        'example: "idp.processors.LdapAcademiaProcessor"'),
@@ -151,9 +143,7 @@ class ServiceProvider(models.Model):
              'display_agreement_message': self.agreement_message,
              'signing_algorithm': self.signing_algorithm,
              'digest_algorithm': self.digest_algorithm,
-             'encrypt_assertion': self.encrypt_assertion,
-             'encrypt_advice_attributes': self.encrypt_advice_attributes,
-             'encrypt_assertion_self_contained': self.encrypt_assertion_self_contained,
+             'disable_encrypted_assertions': self.disable_encrypted_assertions,
              'show_user_agreement_screen': self.agreement_screen,
              'display_agreement_consent_form': self.agreement_consent_form}
         return d

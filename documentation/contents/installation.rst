@@ -65,10 +65,8 @@ SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
 SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG
     Global behaviour, which algorithms should be used for SAML signature and digest.
 
-SAML_ENCRYPT_ASSERTION = False
-SAML_ENCRYPT_ADV_ATTRIBUTES = False
-SAML_ENCRYPT_ASSERTION_SELFCONTAINED = False
-    Global behaviour, authn response encryption.
+SAML_FORCE_ENCRYPTED_ASSERTION = False
+    It will only release encryoted assertion, default = False. SP without encryption key will not works with this configuration.
 
 SAML_DISALLOW_UNDEFINED_SP = True
     Only configured SP are allowed to do Authentication requests.

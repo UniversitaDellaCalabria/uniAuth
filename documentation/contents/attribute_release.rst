@@ -1,11 +1,13 @@
 Attribute releases
 ^^^^^^^^^^^^^^^^^^
 
-By default IdP will only release required Attributes defined in each SP metadata, if they are available. Otherwise IdP will release a default attribute map, defined in settings parameters.
+By default IdP will only release required Attributes defined in each SP metadata (isRequired=True), if they are available. Otherwise IdP will release a default attribute map, defined in settings parameters.
 It can also force some attribute release by checking ``force_attribute_release`` into each SP configuration.
 
 Every SP can use a specific Attribute Processor, you can even customize a brand new one in an application that can be easily installed into ``django_idp.settingslocal.INSTALLED_APPS``.
 You can see how these ``processors`` works simply looking at ``uniauth.processors`` and ``idp.processors``.
+
+The Attribute Processor can fetch data from third-party sources and manipulate attributes as well.
 
 There also a special class named ``NameIdBuilder``, the nameID policy relies on it, it should be very easy to inherit and customize as needed.
 

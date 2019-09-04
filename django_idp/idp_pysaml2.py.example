@@ -245,10 +245,8 @@ SAML_COMPUTEDID_SALT = b'87sdfybDSFDSFsdf__7yb'
 SAML_AUTHN_SIGN_ALG = saml2.xmldsig.SIG_RSA_SHA256
 SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
 
-# Encrypt authn response
-SAML_ENCRYPT_ASSERTION = False
-SAML_ENCRYPT_ADV_ATTRIBUTES = False
-SAML_ENCRYPT_ASSERTION_SELFCONTAINED = False
+# Encrypt authn response by default (will not work with SP that doesn't have enc keys in their metadata)
+SAML_FORCE_ENCRYPTED_ASSERTION = False
 
 # if enabled and nameid format is persistent the nameid related to user:recipient_id will be stored in PersistentId model
 SAML_ALLOWCREATE = True
@@ -289,9 +287,7 @@ DEFAULT_SPCONFIG = {
     'display_agreement_message': 'Some information about you has been requested', # Only for SP externals to our organization
     'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,
     'digest_algorithm': saml2.xmldsig.DIGEST_SHA256,
-    # 'encrypt_assertion': False,
-    # 'encrypt_advice_attributes': False,
-    # 'encrypt_assertion_self_contained': False,
+    # 'disable_encrypted_assertion': False,
     # 'show_user_agreement_screen': SAML_IDP_SHOW_USER_AGREEMENT_SCREEN
 }
 

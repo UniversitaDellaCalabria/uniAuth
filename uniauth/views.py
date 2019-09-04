@@ -212,8 +212,8 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         if not self.sp['config']:
             if settings.SAML_DISALLOW_UNDEFINED_SP:
-                msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG").format(sp_entity_id)
-                raise ImproperlyConfigured(msg)
+                msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
+                raise ImproperlyConfigured(msg.format(sp_entity_id))
             else:
                 if not self.IDP.config.metadata.service(sp_entity_id,
                                                         "spsso_descriptor",
@@ -234,8 +234,8 @@ class IdPHandlerViewMixin(ErrorHandler):
                                                 last_seen = timezone.localtime())
         elif not sp.is_active:
             msg = _("{} was disabled. "
-                    "Please contact technical staff for informations").format(sp_entity_id)
-            raise DisabledSP(msg)
+                    "Please contact technical staff for informations")
+            raise DisabledSP(msg.format(sp_entity_id))
         else:
             sp.last_seen = timezone.localtime()
             sp.save()
@@ -283,7 +283,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             for req in req_attr_list:
                 if req not in self.sp['config']['attribute_mapping']:
                     msg = _("{} requested unavailable attributes to this IdP."
-                            "Please contat SP technical staff for support.").format(sp_entity_id)
+                            "Please contat SP technical staff for support.".format(sp_entity_id))
                     raise UnavailableRequiredAttributes(msg)
 
     def set_processor(self,request=None):
@@ -386,23 +386,16 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # ASSERTION ENCRYPTED
         # TODO: ENCRYPT only if SP encryption keyDescriptor is available into sp metadata
-        encrypt_assertion = getattr(settings,
-                                    'SAML_ENCRYPT_ASSERTION',
-                                    False)
-        if 'encrypt_assertion' in self.sp['config'].keys():
-            encrypt_assertion = self.sp['config'].get('encrypt_assertion')
+        # check if the SP supports encryption
+        if self.IDP.config.metadata.certs(self.sp['id'], "spsso", use="encryption"):
+            encrypt_assertion = True
 
-        encrypt_advice_attributes = getattr(settings,
-                                            'SAML_ENCRYPT_ADV_ATTRIBUTES',
-                                             False)
-        if 'encrypt_advice_attributes' in self.sp['config'].keys():
-            encrypt_advice_attributes = self.sp['config'].get('encrypt_advice_attributes')
+        elif getattr(settings, 'SAML_FORCE_ENCRYPTED_ASSERTION', False):
+            encrypt_assertion = True
 
-        encrypt_assertion_self_contained = getattr(settings,
-                                                   'SAML_ENCRYPT_ASSERTION_SELFCONTAINED',
-                                                    False)
-        if 'encrypt_assertion_self_contained' in self.sp['config'].keys():
-            encrypt_assertion_self_contained = self.sp['config'].get('encrypt_assertion_self_contained')
+        if self.sp['config'].get('disable_encrypted_assertions', False):
+            encrypt_assertion = False
+        # END ASSERTION ENCRYPTED
 
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
@@ -426,8 +419,8 @@ class IdPHandlerViewMixin(ErrorHandler):
 
             # Encryption
             encrypt_assertion=encrypt_assertion,
-            encrypt_advice_attributes=encrypt_advice_attributes,
-            encrypt_assertion_self_contained=encrypt_assertion_self_contained,
+            encrypt_advice_attributes=encrypt_assertion,
+            encrypt_assertion_self_contained=encrypt_assertion,
             **resp_args
         )
 

@@ -103,9 +103,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
     list_filter = ('created',
                    'signing_algorithm',
                    'digest_algorithm',
-                   'encrypt_assertion',
-                   'encrypt_advice_attributes',
-                   'encrypt_assertion_self_contained',
+                   'disable_encrypted_assertions',
                    'is_active', 'is_valid',
                    'updated')
     search_fields = ('entity_id', 'display_name', 'metadata_url')
@@ -118,8 +116,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                 (None, {'fields': (('entity_id', 'display_name',),
                                    ('metadata_url',),
                                    ('signing_algorithm', 'digest_algorithm'),
-                                   ('encrypt_assertion', 'encrypt_advice_attributes',
-                                    'encrypt_assertion_self_contained'),
+                                   ('disable_encrypted_assertions'),
                                    ('is_active'),
                                    'is_valid',
                                    )}),

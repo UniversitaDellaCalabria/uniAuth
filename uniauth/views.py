@@ -234,7 +234,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                                                 last_seen = timezone.localtime())
         elif not sp.is_active:
             msg = _("{} was disabled. "
-                    "Please contact technical staff for informations")
+                    "Please contact technical staff for informations.")
             raise DisabledSP(msg.format(sp_entity_id))
         else:
             sp.last_seen = timezone.localtime()
@@ -274,7 +274,8 @@ class IdPHandlerViewMixin(ErrorHandler):
             del self.sp['config']['attribute_mapping'][rattr]
 
         # update SP's attribute map
-        sp.attribute_mapping = json.dumps(self.sp['config']['attribute_mapping'], indent=2)
+        sp.attribute_mapping = json.dumps(self.sp['config']['attribute_mapping'],
+                                          indent=2)
         sp.save()
 
         # check if some required are unavailable...
@@ -283,8 +284,8 @@ class IdPHandlerViewMixin(ErrorHandler):
             for req in req_attr_list:
                 if req not in self.sp['config']['attribute_mapping']:
                     msg = _("{} requested unavailable attribute '{}' to this IdP. "
-                            "Please contact SP technical staff for support.".format(sp_entity_id, req))
-                    raise UnavailableRequiredAttributes(msg)
+                            "Please contact SP technical staff for support.")
+                    raise UnavailableRequiredAttributes(msg.format(sp_entity_id, req))
 
     def set_processor(self,request=None):
         """ Instantiate user-specified processor or

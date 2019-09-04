@@ -250,7 +250,6 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # clean up unrequested attributes
         # TODO a bettere generalization with SAML2 attr mapping here
-        to_be_removed = []
         req_attr_list = [entry['name'] for entry in req_attrs['required']]
         opt_attr_list = [entry['name'] for entry in req_attrs['optional']]
 
@@ -258,7 +257,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         req_attr_list = self.convert_attributes(req_attr_list)
         opt_attr_list = self.convert_attributes(opt_attr_list)
 
-        attr_list = req_attr_list
+        attr_list = [attr for attr in req_attr_list]
         attr_list.extend(opt_attr_list)
 
         # updates newly requested attrs
@@ -267,11 +266,12 @@ class IdPHandlerViewMixin(ErrorHandler):
                 self.sp['config']['attribute_mapping'][attr] = settings.DEFAULT_SPCONFIG['attribute_mapping'][attr]
 
         # clean up unrequired
+        to_be_removed = []
         for attr in self.sp['config']['attribute_mapping']:
             if attr not in attr_list:
                 to_be_removed.append(attr)
-        for rattr in to_be_removed:
-            del self.sp['config']['attribute_mapping'][rattr]
+        for attr in to_be_removed:
+            del self.sp['config']['attribute_mapping'][attr]
 
         # update SP's attribute map
         sp.attribute_mapping = json.dumps(self.sp['config']['attribute_mapping'],

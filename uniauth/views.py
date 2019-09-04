@@ -283,7 +283,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             for req in req_attr_list:
                 if req not in self.sp['config']['attribute_mapping']:
                     msg = _("{} requested unavailable attribute '{}' to this IdP. "
-                            "Please contat SP technical staff for support.".format(sp_entity_id, req))
+                            "Please contact SP technical staff for support.".format(sp_entity_id, req))
                     raise UnavailableRequiredAttributes(msg)
 
     def set_processor(self,request=None):

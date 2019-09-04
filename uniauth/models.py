@@ -58,7 +58,7 @@ class ServiceProvider(models.Model):
     digest_algorithm = models.CharField(choices=[(y,x) for x,y in saml2.xmldsig.DIGEST_ALLOWED_ALG],
                                         default=settings.SAML_AUTHN_DIGEST_ALG,
                                         max_length=256)
-    disable_encrypted_assertions = models.BooleanField(default=False,
+    disable_encrypted_assertions = models.BooleanField(default=True,
                                                        help_text=('disable encryption'))
     attribute_processor = models.CharField(default=settings.DEFAULT_SPCONFIG['processor'],
                                            help_text=_('"package.file.classname", '

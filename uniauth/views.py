@@ -442,8 +442,9 @@ class IdPHandlerViewMixin(ErrorHandler):
                             required=[])
 
         # talking logs
-        msg = ('SSO AuthnResponse to {} [{}]: {} attrs ({}) on {} filtered by policy')
-        self.request.session['SAML']['authn_log'] = msg.format(self.sp['id'],
+        msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
+        self.request.session['SAML']['authn_log'] = msg.format(name_id_format,
+                                                               self.sp['id'],
                                                                self.request.session['SAML'].get('message_id'),
                                                                len(ava),
                                                                ','.join(ava.keys()),

@@ -376,8 +376,8 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # allow create support
         if settings.SAML_ALLOWCREATE and \
-           self.resp_args['name_id_policy'].allow_create == 'true' and \
-           self.resp_args['name_id_policy'].format == NAMEID_FORMAT_PERSISTENT:
+           self.resp_args['name_id_policy'].allow_create.lower() in ['true', '1'] and \
+           name_id_format == NAMEID_FORMAT_PERSISTENT:
             if not PersistentId.objects.filter(user=self.request.user,
                                                recipient_id=self.sp['id']):
                 PersistentId.objects.create(user=self.request.user,

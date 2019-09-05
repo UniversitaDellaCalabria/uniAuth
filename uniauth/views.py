@@ -386,17 +386,26 @@ class IdPHandlerViewMixin(ErrorHandler):
         # allow create support end
 
         # ASSERTION ENCRYPTED
-        # TODO: ENCRYPT only if SP encryption keyDescriptor is available into sp metadata
+        # TODO: WHY Pysaml2 do not use SP cert available in its metadata...?
         # check if the SP supports encryption
-        if self.IDP.config.metadata.certs(self.sp['id'], "spsso", use="encryption"):
-            encrypt_assertion = True
+        if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
+            sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
+                                                         "spsso", use="encryption")
+            if sp_enc_cert:
+                encrypt_assertion = True
 
-        elif getattr(settings, 'SAML_FORCE_ENCRYPTED_ASSERTION', False):
-            encrypt_assertion = True
+            elif getattr(settings, 'SAML_FORCE_ENCRYPTED_ASSERTION', False):
+                encrypt_assertion = True
 
-        if self.sp['config'].get('disable_encrypted_assertions', False):
-            encrypt_assertion = False
-        # END ASSERTION ENCRYPTED
+            if self.sp['config'].get('disable_encrypted_assertions', False):
+                encrypt_assertion = False
+            # END ASSERTION ENCRYPTED
+
+            # TODO: investigate here
+            if encrypt_assertion:
+                resp_args['encrypt_cert_assertion'] = sp_enc_cert[0]
+                resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
+                resp_args['pefim'] = 1
 
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
@@ -412,7 +421,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                            self.IDP.config.getattr("sign_assertion", "idp") or \
                            False,
 
-            # default will be sha1 in pySAML2
+            # default is sha1 in pySAML2
             sign_alg=self.sp['config'].get("signing_algorithm") or \
                      getattr(settings, 'SAML_AUTHN_SIGN_ALG', False),
             digest_alg=self.sp['config'].get("digest_algorithm") or \

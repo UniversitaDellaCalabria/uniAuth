@@ -84,8 +84,7 @@ class NameIdBuilder:
         # random
         # return cls.get_nameid_opaque(user_id,
                                      # salt=str(random.random()).encode())
-        return cls.get_nameid_opaque('!'.join((sp_entityid,
-                                               user_id)))
+        return cls.get_nameid_prefix(sp_entityid, user_id)
 
     @classmethod
     def get_nameid_unspecified(cls, user_id):

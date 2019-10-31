@@ -33,7 +33,7 @@ class NameIdBuilder:
                        NAMEID_FORMAT_ENCRYPTED : None}
 
     @staticmethod
-    def get_nameid_prefix(user_id, sp_entityid, idp_entityid, user):
+    def get_nameid_prefix(user_id, sp_entityid, idp_entityid='', user=''):
         """ Inherit and customize as your needs"""
         return '!'.join((sp_entityid, user_id))
 

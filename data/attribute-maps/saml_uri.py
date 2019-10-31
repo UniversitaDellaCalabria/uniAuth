@@ -187,6 +187,7 @@ MAP = {
         X500ATTR_OID+'53': 'deltaRevocationList',
         X500ATTR_OID+'54': 'dmdName',
         X500ATTR_OID+'65': 'pseudonym',
+#        SCHAC+'15': 'codice_fiscale',
     },
     'to': {
         'LegalPersonIdentifier': EIDAS_LEGALPERSON+'LegalPersonIdentifier',
@@ -350,5 +351,6 @@ MAP = {
         'userSMIMECertificate': NETSCAPE_LDAP+'40',
         'x121Address': X500ATTR_OID+'24',
         'x500UniqueIdentifier': X500ATTR_OID+'45',
+#        'codice_fiscale': SCHAC+'15',
     }
 }

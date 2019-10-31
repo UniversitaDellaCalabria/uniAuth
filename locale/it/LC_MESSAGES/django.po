@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-27 12:33+0000\n"
+"POT-Creation-Date: 2019-10-04 09:59+0000\n"
 "PO-Revision-Date: 2019-08-27 13:01+0200\n"
 "Last-Translator: Giuseppe De Marco <giuseppe.demarco@unical.it>\n"
 "Language-Team: \n"
@@ -46,11 +46,19 @@ msgstr "Servizio Unificato di Autenticazione"
 msgid "Forgot your password?"
 msgstr "Hai dimenticato la Password?"
 
-#: idp/templates/saml_login.html:108
+#: idp/templates/saml_login.html:105
+msgid "Students"
+msgstr "Studenti"
+
+#: idp/templates/saml_login.html:109
+msgid "Employees"
+msgstr "Personale"
+
+#: idp/templates/saml_login.html:115
 msgid "Additional informations"
 msgstr "Informazioni sul servizio e sul trattamento dei dati"
 
-#: idp/templates/saml_login.html:117 idp/templates/user_agreement.html:168
+#: idp/templates/saml_login.html:124 idp/templates/user_agreement.html:168
 #: uniauth/templates/uniauth/user_agreement.html:55
 msgid "Submit"
 msgstr "Invia"
@@ -111,15 +119,15 @@ msgid ""
 "local: at least a file or a valid path"
 msgstr ""
 
-#: uniauth/admin.py:126
+#: uniauth/admin.py:123
 msgid "Agreement and Description"
 msgstr "Consenso al trattamento dei dati"
 
-#: uniauth/admin.py:131
+#: uniauth/admin.py:128
 msgid "Attributes"
 msgstr "Attributi"
 
-#: uniauth/admin.py:136
+#: uniauth/admin.py:134
 msgid "Attributes preview"
 msgstr "Anteprima attributi"
 
@@ -182,53 +190,58 @@ msgstr ""
 msgid "optional, usually this is the same of entityID"
 msgstr ""
 
-#: uniauth/models.py:72
+#: uniauth/models.py:64
 msgid ""
 "\"package.file.classname\", example: \"idp.processors.LdapAcademiaProcessor\""
 msgstr ""
 
-#: uniauth/models.py:79
+#: uniauth/models.py:71
 msgid "Attribute that would be release to this SP, in JSON format."
 msgstr ""
 
-#: uniauth/models.py:86
+#: uniauth/models.py:73
+msgid ""
+"Release the configured attribute mapping regardless of what SP asks for."
+msgstr ""
+
+#: uniauth/models.py:82
 msgid "Service Provider"
 msgstr ""
 
-#: uniauth/models.py:87
+#: uniauth/models.py:83
 msgid "Service Providers"
 msgstr ""
 
-#: uniauth/models.py:165
+#: uniauth/models.py:160
 msgid "for \"remote\" and \"mdq\", use path if \"local\"."
 msgstr ""
 
-#: uniauth/models.py:169
+#: uniauth/models.py:164
 msgid ""
 "https cert if type==mdq https cert if type==remote xml file if type==file"
 msgstr ""
 
-#: uniauth/models.py:173
+#: uniauth/models.py:168
 msgid "A dictionary"
 msgstr ""
 
-#: uniauth/models.py:175
+#: uniauth/models.py:170
 msgid "if sign validation was succesfull"
 msgstr ""
 
-#: uniauth/models.py:176
+#: uniauth/models.py:171
 msgid "enable/disable this metadata source"
 msgstr ""
 
-#: uniauth/models.py:179
+#: uniauth/models.py:174
 msgid "when last download/validation occourred"
 msgstr ""
 
-#: uniauth/models.py:182
+#: uniauth/models.py:177
 msgid "Metadata Store"
 msgstr ""
 
-#: uniauth/models.py:183
+#: uniauth/models.py:178
 msgid "Metadatas Store"
 msgstr ""
 
@@ -236,73 +249,90 @@ msgstr ""
 msgid "Agreement Screen"
 msgstr "Consenso al trattamento dei dati"
 
-#: uniauth/views.py:105
+#: uniauth/views.py:109
 msgid "Incorrectly signed"
 msgstr ""
 
-#: uniauth/views.py:106
+#: uniauth/views.py:110
 msgid "SP Metadata is changed, expired or unavailable."
 msgstr ""
 
-#: uniauth/views.py:120
+#: uniauth/views.py:124
 msgid "This SP is not federated"
 msgstr ""
 
-#: uniauth/views.py:121
+#: uniauth/views.py:125
 msgid "Metadata is missing"
 msgstr ""
 
-#: uniauth/views.py:125
-msgid "This SP is not federated yet"
+#: uniauth/views.py:131
+#, fuzzy
+#| msgid "You cannot access to this service"
+msgid "This SP is not allowed to access to this Service"
+msgstr "Non puoi accedere a questo servizio"
+
+#: uniauth/views.py:132
+msgid ""
+"Attribute Processor needs to be configured and undefined SP are not Allowed."
 msgstr ""
 
-#: uniauth/views.py:126
-msgid "Attribute Processor needs to be configured "
-msgstr ""
-
-#: uniauth/views.py:150
+#: uniauth/views.py:156
 msgid "Unable to find Service Provider Metadata"
 msgstr ""
 
-#: uniauth/views.py:153
+#: uniauth/views.py:159
 msgid ""
 "SP Metadata are expired or not found. Please contact IDP technical support "
 "for better acknowledge"
 msgstr ""
 
-#: uniauth/views.py:162
+#: uniauth/views.py:168
 msgid "Some Metadata seems to be corrupted"
 msgstr ""
 
-#: uniauth/views.py:165
+#: uniauth/views.py:171
 msgid "This is a security exception. Please contact IdP staff."
 msgstr ""
 
-#: uniauth/views.py:193
+#: uniauth/views.py:215
 msgid "No config for SP {} was defined in SAML_IDP_SPCONFIG"
 msgstr ""
 
-#: uniauth/views.py:208
+#: uniauth/views.py:221
+msgid "{} is not present in any Metadata"
+msgstr ""
+
+#: uniauth/views.py:236
+msgid "{} was disabled. Please contact technical staff for informations."
+msgstr ""
+
+#: uniauth/views.py:286
+msgid ""
+"{} requested unavailable attribute '{}' to this IdP. Please contact SP "
+"technical staff for support."
+msgstr ""
+
+#: uniauth/views.py:302
 msgid "Failed to instantiate processor: {} - {}"
 msgstr ""
 
-#: uniauth/views.py:222
+#: uniauth/views.py:316
 msgid "Message signature verification failure"
 msgstr "La verifica autenticità della firma digitale è fallita"
 
-#: uniauth/views.py:228
+#: uniauth/views.py:322
 msgid "You do not have access to this resource"
 msgstr "Non hai accesso a questa risorsa"
 
-#: uniauth/views.py:255
+#: uniauth/views.py:349
 msgid "SP requested a name_id_format that is not supported in the IDP"
 msgstr ""
 
-#: uniauth/views.py:449 uniauth/views.py:637
+#: uniauth/views.py:546 uniauth/views.py:734
 msgid "You cannot access to this service"
 msgstr "Non puoi accedere a questo servizio"
 
-#: uniauth/views.py:450
+#: uniauth/views.py:547
 msgid ""
 "Your Username or Password is invalid, your account could be expired or been "
 "disabled due to many login attempts."
@@ -311,7 +341,7 @@ msgstr ""
 "siano scadute o siano state temporaneamente disabilitate a seguito di "
 "numerosi tentativi di accesso."
 
-#: uniauth/views.py:453
+#: uniauth/views.py:550
 msgid ""
 "Please access to 'Forgot your Password' procedure, before contact the help "
 "desk."
@@ -319,32 +349,32 @@ msgstr ""
 "Perfavore accedi alla sezione 'Password Dimenticata' del servizio di "
 "gestione di Identità Digitali, prima di contattare l'helpdesk"
 
-#: uniauth/views.py:476
+#: uniauth/views.py:573
 msgid "You take too long to authenticate!"
 msgstr ""
 
-#: uniauth/views.py:477
+#: uniauth/views.py:574
 msgid "Your request is expired"
 msgstr ""
 
-#: uniauth/views.py:478
+#: uniauth/views.py:575
 msgid "{} minutes are passed"
 msgstr ""
 
-#: uniauth/views.py:532
+#: uniauth/views.py:629
 msgid "This SP needs attribute mappings"
 msgstr ""
 
-#: uniauth/views.py:628
+#: uniauth/views.py:725
 msgid "Invalid submission"
 msgstr "Invio invalido dei dati"
 
-#: uniauth/views.py:679
+#: uniauth/views.py:776
 #, python-format
 msgid "MultiFactor failed; %s will not be able to log in"
 msgstr ""
 
-#: uniauth/views.py:681
+#: uniauth/views.py:778
 msgid "MultiFactor authentication factor failed"
 msgstr ""
 
@@ -393,25 +423,21 @@ msgid "Genere"
 msgstr ""
 
 #: unical_accounts/models.py:34
-msgid "Username used in connectors auth"
-msgstr ""
-
-#: unical_accounts/models.py:37
 msgid "from which conenctor this user come from"
 msgstr ""
 
-#: unical_accounts/models.py:43
+#: unical_accounts/models.py:40
 msgid "Users"
 msgstr ""
 
-#: unical_accounts/models.py:64
+#: unical_accounts/models.py:61
 msgid "SAML Persistent Stored ID"
 msgstr ""
 
-#: unical_accounts/models.py:67
+#: unical_accounts/models.py:64
 msgid "SAML ServiceProvider entityID"
 msgstr ""
 
-#: unical_accounts/models.py:73 unical_accounts/models.py:74
+#: unical_accounts/models.py:70 unical_accounts/models.py:71
 msgid "Persistent Id"
 msgstr ""

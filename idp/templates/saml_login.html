@@ -95,12 +95,19 @@ IDP: {% trans "Auth login" %}
                 <div class="py-3">
                     <ul style="list-style: none; padding-inline-start: 37px;">
                         <li>
-                            <a href="#" class="grey-color">
-                                {% trans "Forgot your password?" %}
+			    <p style="margin-bottom: 5px;">
+                                {% trans "Forgot your password?" %} (
+                            <a href="https://unical.esse3.cineca.it/Anagrafica/PasswordDimenticata.do" class="grey-color">
+				{% trans "Students" %}
                             </a>
+			    |
+                            <a href="https://soldi.unical.it/dipendenti/login/login.php" class="grey-color">
+				{% trans "Employees" %}
+                            </a>
+			    )
                         </li>
                         <li>
-                            <a href="#" class="grey-color">
+                            <a href="https://ds.auth.unical.it/info_page/federazione-di-identita-delluniversita-della-calabria/" class="grey-color">
                                 {% trans "Additional informations" %}
                             </a>
                         </li>

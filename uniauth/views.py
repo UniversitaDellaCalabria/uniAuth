@@ -597,8 +597,8 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
         try:
+            binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
             # Parse incoming request
             req_info = self.IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
                                                     binding)
@@ -617,6 +617,8 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             self.authn_resp = self.build_authn_response(request.user,
                                                         self.get_authn(),
                                                         self.resp_args)
+        except KeyError as excp:
+            return self.handle_error(request, exception=excp, status=400)
         except ValueError as excp:
             return self.handle_error(request, exception=excp, status=400)
         except (UnknownPrincipal, UnsupportedBinding) as excp:

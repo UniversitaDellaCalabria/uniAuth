@@ -1,4 +1,4 @@
-django==2.2.4
+django==2.2.8
 mysqlclient
 uwsgi
 

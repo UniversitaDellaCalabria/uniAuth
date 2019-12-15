@@ -81,10 +81,11 @@ class NameIdBuilder:
     def get_nameid_transient(cls, user_id, sp_entityid='', **kwargs):
         """ This would an opaque and reusable
         """
-        # random
-        # return cls.get_nameid_opaque(user_id,
-                                     # salt=str(random.random()).encode())
-        return cls.get_nameid_prefix(sp_entityid, user_id)
+        return cls.get_nameid_opaque(cls.get_nameid_prefix(user_id,
+                                                           sp_entityid,
+                                                           idp_entityid,
+                                                           user),
+                                     salt=settings.SAML_COMPUTEDID_SALT)
 
     @classmethod
     def get_nameid_unspecified(cls, user_id):

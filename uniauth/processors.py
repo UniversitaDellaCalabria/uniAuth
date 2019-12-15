@@ -83,8 +83,8 @@ class NameIdBuilder:
         """
         return cls.get_nameid_opaque(cls.get_nameid_prefix(user_id,
                                                            sp_entityid,
-                                                           idp_entityid,
-                                                           user),
+                                                           kwargs.get('idp_entityid', ''),
+                                                           kwargs.get('user', '')),
                                      salt=settings.SAML_COMPUTEDID_SALT)
 
     @classmethod
@@ -142,7 +142,7 @@ class BaseProcessor:
             user_uid = str(user_field())
         else:
             user_uid = str(user_field)
-
+        
         # returns in a real name_id format
         user_id =  NameIdBuilder.get_nameid(user_uid,
                                             sp['name_id_format'],

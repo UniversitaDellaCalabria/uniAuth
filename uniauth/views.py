@@ -25,7 +25,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
 from saml2.authn_context import (PASSWORD,
                                  AuthnBroker,
@@ -102,36 +102,56 @@ def sso_entry(request, binding):
         request.session['SAML']['message_id'] = req_info.message.id
         request.session['SAML']['issue_instant'] = req_info.message.issue_instant
 
+        sp_id = req_info.message.issuer.text
+        sp = get_idp_sp_config().get(sp_id, {})
+
+        mduui = {}
+        try:
+            mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
+                     .get('extensions', {}).get('extension_elements', [{}])[0]
+        except KeyError as excp:
+            logger.error('MDUUI not available: "{}"'.format(excp))
+
+        if sp_id and mduui:
+            request.session['SAML']['sp_display_name'] = sp.get('display_name') or \
+                                                         mduui.get('display_name', [{}])[0].get('text')
+            request.session['SAML']['sp_display_description'] = sp.get('display_description', '') or \
+                                                                mduui.get('description', [{}])[0].get('text')
+            request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
+
 
     except IncorrectlySigned as exp:
-        return render_to_response('error.html',
-                                  {'exception_type': exp,
-                                   'exception_msg': _("Incorrectly signed"),
-                                   'extra_message': _('SP Metadata '
-                                                      'is changed, expired '
-                                                      'or unavailable.')},
-                                   status=403)
+        logger.error('{}'.format(exp))
+        return render(request, 'error.html',
+                      {'exception_type': exp,
+                       'exception_msg': _("Incorrectly signed"),
+                       'extra_message': _('SP Metadata '
+                                          'is changed, expired '
+                                          'or unavailable.')},
+                       status=403)
     except Exception as exp:
-        return render_to_response('error.html',
-                                  {'exception_type': exp},
-                                   status=403)
+        logger.error('{}'.format(exp))
+        return render(request, 'error.html',
+                      {'exception_type': exp},
+                       status=403)
 
     try:
         resp_args = IDP.response_args(req_info.message)
     except UnknownSystemEntity as exp:
-        return render_to_response('error.html',
-                                  {'exception_type': exp,
-                                   'exception_msg': _("This SP is not federated"),
-                                   'extra_message': _('Metadata is missing')},
-                                   status=403)
+        logger.error('{}'.format(exp))
+        return render(request, 'error.html',
+                      {'exception_type': exp,
+                       'exception_msg': _("This SP is not federated"),
+                       'extra_message': _('Metadata is missing')},
+                       status=403)
 
     if settings.SAML_DISALLOW_UNDEFINED_SP:
         if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
-            return render_to_response('error.html',
-                                      {'exception_type': _("This SP is not allowed to access to this Service"),
-                                       'exception_msg': _("Attribute Processor needs "
-                                                          "to be configured and undefined SP are not Allowed.")},
-                                      status=403)
+            return render(request, 'error.html',
+                          {'exception_type': _("This SP is not allowed to access to this Service"),
+                           'exception_msg': _("Attribute Processor needs "
+                                              "to be configured and undefined SP are not Allowed.")},
+                          status=403)
     # end check
 
     return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
@@ -152,25 +172,26 @@ def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
     try:
         IDP = get_idp_config(idp_conf)
     except MetadataNotFound as exp:
-        return render_to_response('error.html',
-                                  {'exception_type': _("Unable to find Service "
-                                                       "Provider Metadata"),
-                                   'exception_msg': "",
-                                   'extra_message': _('SP Metadata are expired '
-                                                      'or not found. Please contact '
-                                                      'IDP technical support for '
-                                                      'better acknowledge')},
-                                   status=403)
+        logger.error('{}'.format(exp))
+        return render(request, 'error.html',
+                      {'exception_type': _("Unable to find Service "
+                                           "Provider Metadata"),
+                       'exception_msg': "",
+                       'extra_message': _('SP Metadata are expired '
+                                          'or not found. Please contact '
+                                          'IDP technical support for '
+                                          'better acknowledge')},
+                       status=403)
 
     except MetadataCorruption as exp:
-        logger.debug(exp)
-        return render_to_response('error.html',
-                                  {'exception_type': _("Some Metadata "
-                                                       "seems to be corrupted"),
-                                   'exception_msg': "",
-                                   'extra_message': _('This is a security exception. '
-                                                      'Please contact IdP staff.')},
-                                   status=403)
+        logger.error('{}'.format(exp))
+        return render(request, 'error.html',
+                      {'exception_type': _("Some Metadata "
+                                           "seems to be corrupted"),
+                       'exception_msg': "",
+                       'extra_message': _('This is a security exception. '
+                                          'Please contact IdP staff.')},
+                       status=403)
     return IDP
 
 
@@ -184,6 +205,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         try:
             self.IDP = get_IDP()
         except Exception as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp)
         return super().dispatch(request, *args, **kwargs)
 
@@ -222,6 +244,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                     raise MetadataNotFound(msg)
 
                 self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
+
                 self.sp['config']['display_name'] = sp_entity_id
                 self.sp['config']['display_description'] = ''
                 self.sp['config']['force_attribute_release'] = False
@@ -299,6 +322,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                 self.processor = import_string(processor_string)(self.sp['id'], request=request)
                 return
             except Exception as e:
+                logger.error('{}'.format(e))
                 msg = _("Failed to instantiate processor: {} - {}")
                 logger.error(msg.format(processor_string,e),
                                         exc_info=True)
@@ -538,18 +562,25 @@ class LoginAuthView(LoginView):
     template_name = "saml_login.html"
     form_class = LoginForm
 
+    # def get(self, request, *args, **kwargs):
+        # """Handle GET requests: instantiate a blank version of the form."""
+        # import pdb; pdb.set_trace()
+        # data = self.get_context_data()
+        # data['sp_logo']
+        # return self.render_to_response(data)
+
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message
         status code 200 to prevent brute force attack based to response code!
         """
-        return render_to_response('error.html',
-                                  {'exception_type':_("You cannot access to this service"),
-                                   'exception_msg':_("Your Username or Password is invalid, "
-                                                     "your account could be expired or been "
-                                                     "disabled due to many login attempts."),
-                                   'extra_message':_("Please access to 'Forgot your Password' "
-                                                     "procedure, before contact the help desk.")},
-                                  status=200)
+        return render(request, 'error.html',
+                      {'exception_type':_("You cannot access to this service"),
+                       'exception_msg':_("Your Username or Password is invalid, "
+                                         "your account could be expired or been "
+                                         "disabled due to many login attempts."),
+                       'extra_message':_("Please access to 'Forgot your Password' "
+                                         "procedure, before contact the help desk.")},
+                      status=200)
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
@@ -569,11 +600,11 @@ class LoginAuthView(LoginView):
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
         if issue_instant < timezone.make_naive((now-datetime.timedelta(minutes=mins)),
                                                timezone.get_current_timezone()):
-            return render_to_response('error.html',
-                                      {'exception_type': _("You take too long to authenticate!"),
-                                       'exception_msg': _("Your request is expired"),
-                                       'extra_message': _('{} minutes are passed').format(mins)},
-                                       status=403)
+            return render(request, 'error.html',
+                          {'exception_type': _("You take too long to authenticate!"),
+                           'exception_msg': _("Your request is expired"),
+                           'extra_message': _('{} minutes are passed').format(mins)},
+                           status=403)
         # end check issue instant
 
         user = form.get_user()
@@ -618,21 +649,28 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                                         self.get_authn(),
                                                         self.resp_args)
         except KeyError as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=400)
         except ValueError as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=400)
         except (UnknownPrincipal, UnsupportedBinding) as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=400)
         except ImproperlyConfigured as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=500)
         except UnknownSystemEntity as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request,
                                      exception=excp,
                                      exception_msg=_('This SP needs attribute mappings'),
                                      status=403)
         except PermissionDenied as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=403)
         except Exception as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=500)
 
         html_response = self.create_html_response(
@@ -642,7 +680,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             destination=self.resp_args['destination'],
             relay_state=request.session['SAML']['RelayState'])
 
-        logger.debug("SAML Authn Response [\n{}]".format(repr_saml(self.authn_resp)))
+        logger.debug("SAML Authn request Response [\n{}]".format(repr_saml(self.authn_resp)))
         return self.render_response(request, html_response)
 
 
@@ -665,8 +703,10 @@ class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             # Check if user has access to SP
             self.check_access(request)
         except (KeyError, ImproperlyConfigured) as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=400)
         except PermissionDenied as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=403)
 
         binding_out, destination = self.IDP.pick_binding(
@@ -685,6 +725,7 @@ class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                                    self.get_authn(),
                                                    passed_data)
         except Exception as excp:
+            logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp, status=500)
 
         html_response = self.create_html_response(request, binding_out,
@@ -710,7 +751,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
             context['attrs_passed_to_sp'] = request.session['identity']
         except Exception as excp:
             logout(request)
-            logging.debug('{}'.format(excp))
+            logging.error('{}'.format(excp))
             msg = _not_valid_saml_msg
             return self.handle_error(request, exception=excp,
                                      extra_message=msg)
@@ -723,18 +764,18 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = AgreementForm(request.POST)
         if not form.is_valid():
-            return render_to_response('error.html',
-                                      {'exception_type':_("Invalid submission")},
-                                      status=403)
+            return render(request, 'error.html',
+                          {'exception_type':_("Invalid submission")},
+                          status=403)
 
         confirm = int(form.cleaned_data['confirm'])
         dont_show_again = form.cleaned_data['dont_show_again']
 
         if not confirm:
             logout(request)
-            return render_to_response('error.html',
-                                      {'exception_type':_("You cannot access to this service")},
-                                      status=403)
+            return render(request, 'error.html',
+                          {'exception_type':_("You cannot access to this service")},
+                          status=403)
 
         if dont_show_again:
             record = AgreementRecord(

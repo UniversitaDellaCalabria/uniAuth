@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseBadRequest
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.translation import gettext as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
 
 from .utils import repr_saml, get_idp_config
@@ -40,11 +40,11 @@ def store_params_in_session(request):
     else:
         msg = _('not a valid SAMLRequest: {}').format(_('AuthnRequest is missing. Please Retry'))
         logger.info('SAML Request absent from {}'.format(request))
-        return render_to_response('error.html',
-                                  {'exception_type':msg,
-                                   'exception_msg':_('Please renew your SAML Request'),
-                                   'extra_message': _not_valid_saml_msg},
-                                   status=403)
+        return render(request, 'error.html',
+                      {'exception_type':msg,
+                       'exception_msg':_('Please renew your SAML Request'),
+                       'extra_message': _not_valid_saml_msg},
+                       status=403)
 
     request.session['SAML'] = {}
     request.session['SAML']['SAMLRequest'] = saml_request
@@ -62,11 +62,11 @@ def store_params_in_session_func(func_to_decorate):
             return func_to_decorate(*original_args, **original_kwargs)
         except Exception as e:
             msg = _('not a valid SAMLRequest: {}').format(e)
-            return render_to_response('error.html',
-                                      {'exception_type':msg,
-                                       'exception_msg':_('Please renew your SAML Request'),
-                                       'extra_message': _not_valid_saml_msg},
-                                      status=403)
+            return render(request, 'error.html',
+                          {'exception_type':msg,
+                           'exception_msg':_('Please renew your SAML Request'),
+                           'extra_message': _not_valid_saml_msg},
+                          status=403)
     return new_func
 
 
@@ -76,11 +76,11 @@ def require_saml_request(func_to_decorate):
     def new_func(*original_args, **original_kwargs):
         request = original_args[0]
         if not request.session.get('SAML') or \
-           not request.session['SAML'].get('SAMLRequest'):
-            return render_to_response('error.html',
-                                      {'exception_type':_("You cannot access to this service directly"),
-                                       'exception_msg':_('Please renew your SAML Request'),
-                                       'extra_message': _not_valid_saml_msg},
-                                      status=403)
+           not request.session.get('SAML', {}).get('SAMLRequest'):
+            return render(request, 'error.html',
+                          {'exception_type':_("You cannot access to this service directly"),
+                           'exception_msg':_('Please renew your SAML Request'),
+                           'extra_message': _not_valid_saml_msg},
+                          status=403)
         return func_to_decorate(*original_args, **original_kwargs)
     return new_func

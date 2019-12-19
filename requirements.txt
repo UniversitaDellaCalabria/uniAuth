@@ -13,6 +13,9 @@ git+https://github.com/peppelinux/djangosaml2.git@pplnx-dev
 git+https://github.com/italia/design-django-theme.git
 git+https://github.com/UniversitaDellaCalabria/django-unical-agid-template.git
 
+pycountry
+git+https://github.com/silentsokolov/django-admin-rangefilter.git
+
 # SASS dynamic compiler
 libsass
 django_sass_processor
@@ -20,7 +23,5 @@ django_sass_processor
 # ldap
 git+https://github.com/peppelinux/django-ldapdb.git
 git+https://github.com/peppelinux/pySSHA-slapd.git
-pycountry
-git+https://github.com/silentsokolov/django-admin-rangefilter.git
 git+https://github.com/peppelinux/django-ldap-academia-ou-manager.git
 git+https://github.com/peppelinux/pyMultiLDAP.git

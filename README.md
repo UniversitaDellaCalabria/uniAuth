@@ -67,6 +67,18 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.
 Open an Issue if you want to talk before develop to reduce the risk to be unmerged for some latest reason.
-All the things will be collected in a new roadmap to the next release candidate.
 
-Still need to handle Continuous Integration with unit test.
+## Tests
+
+````
+pip install -r requirements-dev.txt
+pytest tests/ -x --pdb
+````
+
+## Troubleshooting
+
+````
+AttributeError: module 'enum' has no attribute 'IntFlag'
+
+pip uninstall -y enum34
+```

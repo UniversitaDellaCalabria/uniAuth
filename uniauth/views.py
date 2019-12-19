@@ -68,7 +68,7 @@ logger = logging.getLogger(__name__)
 @require_http_methods(["GET", "POST"])
 @csrf_exempt
 @store_params_in_session_func
-def sso_entry(request, binding):
+def sso_entry(request, binding='POST'):
     """ Entrypoint view for SSO. Build the saml session and redirects
         the requester to the login_process view.
     """
@@ -922,4 +922,7 @@ def metadata(request):
 
 
 def test500(request):
-    return test500_non_existent_value
+    # this avoid conflicts with unit tests
+    if not hasattr(request, 'META'):
+        return HttpResponse(status=500)
+    raise Exception()

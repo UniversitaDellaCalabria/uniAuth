@@ -3,7 +3,7 @@ General Description
 
 uniAuth, as a SAML2 IDP, is based on `pysaml2 <https://github.com/IdentityPython/pysaml2>`__ and it supports:
 
-- HTTP-REDIRECT and POST bindings;
+- HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
 - AuthnRequest with or without ForceAuthn;
 - SLO, SAML Single Logout;
 - Encrypted assertions, customizable sign/digest algorithms and, in general, it presents a good posture in terms of security regarding SAML standards;

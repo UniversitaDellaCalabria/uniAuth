@@ -157,9 +157,9 @@ SAML_IDP_CONFIG = {
 
     # Quite useless, you can even configure metadata store through admin backend!
     'metadata': {
-        'local': [
-                 IDP_SP_METADATA_PATH,
-                 ],
+        # 'local': [
+                 # IDP_SP_METADATA_PATH,
+                 # ],
         #
         # "remote": [{
             # "url": 'https://satosa.testunical.it/Saml2/metadata',

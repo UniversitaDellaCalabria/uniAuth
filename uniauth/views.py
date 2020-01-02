@@ -145,12 +145,21 @@ def sso_entry(request, binding='POST'):
                        'extra_message': _('Metadata is missing')},
                        status=403)
 
+    sp_id = resp_args.get('sp_entity_id', sp_id)
     if settings.SAML_DISALLOW_UNDEFINED_SP:
-        if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
+        if sp_id not in get_idp_sp_config().keys():
             return render(request, 'error.html',
                           {'exception_type': _("This SP is not allowed to access to this Service"),
                            'exception_msg': _("Attribute Processor needs "
                                               "to be configured and undefined SP are not Allowed.")},
+                          status=403)
+
+    # check if the SP was defined but disabled
+    if ServiceProvider.objects.filter(entity_id=sp_id,
+                                      is_active=0):
+        return render(request, 'error.html',
+                          {'exception_type': _("This SP is not allowed to access to this Service"),
+                           'exception_msg': _("{} was disabled".format(sp_id))},
                           status=403)
     # end check
 

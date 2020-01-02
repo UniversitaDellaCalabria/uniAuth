@@ -85,11 +85,6 @@ class ServiceProvider(models.Model):
     def __str__(self):
         return '{}'.format(self.entity_id)
 
-    def in_metadata_store(self):
-        """Check if its entityID is in one of the metadata loaded
-        """
-        pass
-
     def validate(self):
         error = None
         try:

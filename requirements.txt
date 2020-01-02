@@ -24,3 +24,7 @@ pycountry
 git+https://github.com/silentsokolov/django-admin-rangefilter.git
 git+https://github.com/peppelinux/django-ldap-academia-ou-manager.git
 git+https://github.com/peppelinux/pyMultiLDAP.git
+
+# diagrams
+django-extensions
+pydotplus

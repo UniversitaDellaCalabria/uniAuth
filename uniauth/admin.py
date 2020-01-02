@@ -91,6 +91,7 @@ class MetadataStoreAdmin(admin.ModelAdmin):
             if msg: _msg = _msg + '. ' + msg
             messages.add_message(request, messages.ERROR, _msg)
 
+
 @admin.register(ServiceProvider)
 class ServiceProviderAdmin(admin.ModelAdmin):
     list_display = ('display_name',

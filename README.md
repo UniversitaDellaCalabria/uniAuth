@@ -70,6 +70,14 @@ pip install -r requirements-dev.txt
 pytest tests/ -x --pdb
 ````
 
+code coverage
+````
+coverage run -m pytest tests/
+coverage report
+
+coverage report -m | grep -E "^uniauth|^idp" | grep -v migrations
+````
+
 ## Contribute
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.

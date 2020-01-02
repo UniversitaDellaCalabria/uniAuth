@@ -16,10 +16,10 @@ An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also avail
 
 ## SAML2 Features
 
-uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2) and it supports:
+uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2). Features:
 
-- HTTP-REDIRECT and POST bindings;
-- AuthnRequest with or without ForceAuthn;
+- HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
+- SAML2 ForceAuthn;
 - SLO, SAML Single Logout;
 - Encrypted assertions, customizable sign/digest algorithms and, in general, a good posture in terms of security and data integrity regarding SAML standards;
 - AllowCreate, nameid is stored if nameid format is persistent.
@@ -48,25 +48,38 @@ uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython
 
 ## Characteristics
 
-uniauth will let us to configure metadata stores and federate new Service Providers directly from the Admin backend interface, via Web.
+uniauth will let us configure metadata store and federate new Service Providers directly from the Admin backend interface, via Web.
 See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
 
 ---
 
 ![Alt text](documentation/contents/md_search.png)
 ![Alt text](documentation/contents/mdstore.png)
-*Every Metadata store, during creation or update, will be validated to avoid faulty configurations in production environment*
+*Every Metadata store, during creation or update, will be validated to avoid faulty configurations in production environment.*
 
 ---
 
 ![Alt text](documentation/contents/sp_search.png)
 ![Alt text](documentation/contents/sp.png)
-*To federate a new SP is just needed to have its entityID in some of the metadata handled by a metadata store. All the other options and informations regards security, agreement, data consent policy and Attribute releases will be managed through Attribute Processors.*
+*Define a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise just store the sp metadata.*
+
+## Tests
+
+````
+pip install -r requirements-dev.txt
+pytest tests/ -x --pdb
+````
 
 ## Contribute
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.
 Open an Issue if you want to talk before develop to reduce the risk to be unmerged for some latest reason.
-All the things will be collected in a new roadmap to the next release candidate.
 
-Still need to handle Continuous Integration with unit test.
+
+## Troubleshooting
+
+````
+AttributeError: module 'enum' has no attribute 'IntFlag'
+
+pip uninstall -y enum34
+````

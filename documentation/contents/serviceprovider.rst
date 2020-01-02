@@ -4,6 +4,7 @@ Service Providers Federation
 .. thumbnail:: sp.png
 
   A Service Provider federation means that at least one of the metadatastore have its entity definition.
+  If `SAML_DISALLOW_UNDEFINED_SP` is True this SP configuration is mandatory, otherwise just store the sp metadata.
 
 
 ------------

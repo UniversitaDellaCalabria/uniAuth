@@ -15,9 +15,9 @@ class User(AbstractUser):
                 ( 'other', _('Altro')),
             )
 
-    first_name = models.CharField(_('Name'), max_length=30,
+    first_name = models.CharField(_('Name'), max_length=56,
                                   blank=True, null=True)
-    last_name = models.CharField(_('Surname'), max_length=30,
+    last_name = models.CharField(_('Surname'), max_length=56,
                                  blank=True, null=True)
     is_active = models.BooleanField(_('active'), default=True)
     email = models.EmailField('email address', blank=True, null=True)
@@ -26,7 +26,7 @@ class User(AbstractUser):
                                       blank=True, null=True)
     gender    = models.CharField(_('Genere'), choices=GENDER,
                                  max_length=12, blank=True, null=True)
-    place_of_birth = models.CharField('Luogo di nascita', max_length=30,
+    place_of_birth = models.CharField('Luogo di nascita', max_length=56,
                                       blank=True, null=True,
                                       choices=[(i.name, i.name) for i in pycountry.countries])
     birth_date = models.DateField('Data di nascita',

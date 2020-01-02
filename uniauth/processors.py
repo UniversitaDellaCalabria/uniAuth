@@ -33,7 +33,7 @@ class NameIdBuilder:
                        NAMEID_FORMAT_ENCRYPTED : None}
 
     @staticmethod
-    def get_nameid_prefix(user_id, sp_entityid, idp_entityid, user):
+    def get_nameid_prefix(user_id, sp_entityid, idp_entityid='', user=''):
         """ Inherit and customize as your needs"""
         return '!'.join((sp_entityid, user_id))
 
@@ -81,10 +81,11 @@ class NameIdBuilder:
     def get_nameid_transient(cls, user_id, sp_entityid='', **kwargs):
         """ This would an opaque and reusable
         """
-        # random
-        # return cls.get_nameid_opaque(user_id,
-                                     # salt=str(random.random()).encode())
-        return cls.get_nameid_prefix(sp_entityid, user_id)
+        return cls.get_nameid_opaque(cls.get_nameid_prefix(user_id,
+                                                           sp_entityid,
+                                                           kwargs.get('idp_entityid', ''),
+                                                           kwargs.get('user', '')),
+                                     salt=settings.SAML_COMPUTEDID_SALT)
 
     @classmethod
     def get_nameid_unspecified(cls, user_id):
@@ -141,7 +142,7 @@ class BaseProcessor:
             user_uid = str(user_field())
         else:
             user_uid = str(user_field)
-
+        
         # returns in a real name_id format
         user_id =  NameIdBuilder.get_nameid(user_uid,
                                             sp['name_id_format'],

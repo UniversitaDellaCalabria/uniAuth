@@ -93,7 +93,7 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
         # otherwise do another query ...
         identity = None
         for lc in settings.LDAP_CONNECTIONS:
-            ldapfilter = '(uid={})'.format(user.original_uid)
+            ldapfilter = '(uid={})'.format(user.username)
             logging.debug("Processor {} searches for {} in {}".format(self.__class__,
                                                                       user.username,
                                                                       lc))

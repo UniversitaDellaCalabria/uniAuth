@@ -22,7 +22,7 @@ LOGIN_URL = '/login/'
 
 # idp protocol:fqdn:port
 HOST = 'idp1.testunical.it'
-PORT = 9000 #None if 80 or 443...
+PORT = None #None if 80 or 443...
 HTTPS = False
 
 BASE = "https://{}".format(HOST) if HTTPS else "http://{}".format(HOST)
@@ -32,14 +32,11 @@ if PORT:
 BASE_URL = '{}/idp'.format(BASE)
 # end
 
-IDP_SP_METADATA_PATH = os.path.join(BASE_DIR, 'data/metadata')
+IDP_SP_METADATA_PATH = 'tests/data/metadata'
 
 # please check [Refactor datetime](https://github.com/IdentityPython/pysaml2/pull/518)
 # only used to parse issue_instant in a try...
 SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ','%Y%m%d%H%M%SZ']
-
-# this will keep xml signed/encrypted files in /tmp
-#os.environ['PYSAML2_DELETE_XMLSEC_TMP'] = "False"
 
 SAML_IDP_CONFIG = {
     'debug' : True,
@@ -161,9 +158,7 @@ SAML_IDP_CONFIG = {
     # Quite useless, you can even configure metadata store through admin backend!
     'metadata': {
         'local': [
-                 # (os.path.join(IDP_SP_METADATA_PATH, 'sp_metadata.xml'),),
-                 # (os.path.join(IDP_SP_METADATA_PATH, 'sp_shib_metadata.xml'),),
-                 # (os.path.join(IDP_SP_METADATA_PATH, 'satosa_backend.xml'),),
+                 IDP_SP_METADATA_PATH,
                  ],
         #
         # "remote": [{
@@ -186,12 +181,12 @@ SAML_IDP_CONFIG = {
     },
 
     # Signing
-    'key_file': BASE_DIR + '/certificates/private.key',
-    'cert_file': BASE_DIR + '/certificates/public.cert',
+    'key_file': BASE_DIR + '/tests/data/certificates/private.pem',
+    'cert_file': BASE_DIR + '/tests/data/certificates/public.pem',
     # Encryption
     'encryption_keypairs': [{
-        'key_file': BASE_DIR + '/certificates/private.key',
-        'cert_file': BASE_DIR + '/certificates/public.cert',
+        'key_file': BASE_DIR + '/tests/data/certificates/private.pem',
+        'cert_file': BASE_DIR + '/tests/data/certificates/public.pem',
     }],
 
     # How many hours this configuration is expected to be accurate as eposed in metadata
@@ -258,29 +253,37 @@ SAML_DISALLOW_UNDEFINED_SP = False
 
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'idp.processors.LdapUnicalMultiAcademiaProcessor',
+    'processor': 'idp.processors.BaseProcessor',
     'attribute_mapping': {
+
+        'email': 'email',
+        'first_name': 'first_name',
+        'last_name': 'last_name',
+        'username': 'username',
+        'is_staff': 'is_staff',
+        'is_superuser':  'is_superuser',
+
         # refeds + edugain Entities
-        "cn": "cn",
-        "eduPersonEntitlement": "eduPersonEntitlement",
-        "eduPersonPrincipalName": "eduPersonPrincipalName",
-        "schacHomeOrganization": "schacHomeOrganization",
-        "eduPersonHomeOrganization": "eduPersonHomeOrganization",
-        "eduPersonAffiliation": "eduPersonAffiliation",
-        "eduPersonScopedAffiliation": "eduPersonScopedAffiliation",
-        "eduPersonTargetedID": "eduPersonTargetedID",
-        "mail": ["mail", "email"],
-        "email": ["mail", "email"],
-        "schacPersonalUniqueCode": "schacPersonalUniqueCode",
-        "schacPersonalUniqueID": "schacPersonalUniqueID",
-        "sn": "sn",
-        "givenName": ["givenName", "another_possible_occourrence"],
-        "displayName": "displayName",
+        # "cn": "cn",
+        # "eduPersonEntitlement": "eduPersonEntitlement",
+        # "eduPersonPrincipalName": "eduPersonPrincipalName",
+        # "schacHomeOrganization": "schacHomeOrganization",
+        # "eduPersonHomeOrganization": "eduPersonHomeOrganization",
+        # "eduPersonAffiliation": "eduPersonAffiliation",
+        # "eduPersonScopedAffiliation": "eduPersonScopedAffiliation",
+        # "eduPersonTargetedID": "eduPersonTargetedID",
+        # "mail": ["mail", "email"],
+        # "email": ["mail", "email"],
+        # "schacPersonalUniqueCode": "schacPersonalUniqueCode",
+        # "schacPersonalUniqueID": "schacPersonalUniqueID",
+        # "sn": "sn",
+        # "givenName": ["givenName", "another_possible_occourrence"],
+        # "displayName": "displayName",
 
         # custom attributes
-        "codice_fiscale": "codice_fiscale",
-        "matricola_studente": "matricola_studente",
-        "matricola_dipendente": "matricola_dipendente"
+        # "codice_fiscale": "codice_fiscale",
+        # "matricola_studente": "matricola_studente",
+        # "matricola_dipendente": "matricola_dipendente"
     },
     'display_name': 'Unical SP',
     'display_description': 'This is for test purpose',

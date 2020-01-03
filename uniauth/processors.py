@@ -142,7 +142,7 @@ class BaseProcessor:
             user_uid = str(user_field())
         else:
             user_uid = str(user_field)
-        
+
         # returns in a real name_id format
         user_id =  NameIdBuilder.get_nameid(user_uid,
                                             sp['name_id_format'],

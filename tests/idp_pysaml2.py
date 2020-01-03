@@ -260,8 +260,8 @@ DEFAULT_SPCONFIG = {
         'first_name': 'first_name',
         'last_name': 'last_name',
         'username': 'username',
-        'is_staff': 'is_staff',
-        'is_superuser':  'is_superuser',
+        # 'is_staff': 'is_staff',
+        # 'is_superuser':  'is_superuser',
 
         # refeds + edugain Entities
         # "cn": "cn",

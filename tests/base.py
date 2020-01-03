@@ -86,14 +86,19 @@ class BaseTestRP(TestCase):
         logger.info('{} SP: {}'.format(self.__class__.__name__,
                                        self.client))
 
-    def _superuser_login(self):
+    def _get_superuser_user(self):
         data = dict(username='admin',
-                    password='admin',
                     email='test@test.org',
                     is_superuser=1,
                     is_staff=1)
-        user = get_user_model().objects.get_or_create(**data)
-        self.client.force_login(user[0])
+        user = get_user_model().objects.get_or_create(**data)[0]
+        user.set_password('admin')
+        user.save()
+        return user
+
+    def _superuser_login(self):
+        user = self._get_superuser_user()
+        self.client.force_login(user)
 
     def _add_sp_md(self):
         self._superuser_login()

@@ -34,7 +34,7 @@ class User(AbstractUser):
     origin = models.CharField(_('from which conenctor this user come from'),
                               max_length=254,
                               blank=True, null=True)
-    
+
     class Meta:
         ordering = ['username']
         verbose_name_plural = _("Users")
@@ -50,8 +50,14 @@ class User(AbstractUser):
                                           recipient_id=entityid).last()
         if pid:
             return pid.persistent_id
-        
-    
+
+    def set_persistent_id(self, recipient_id, persistent_id):
+
+        d = dict(user = self,
+                 recipient_id = recipient_id,
+                 persistent_id = persistent_id)
+        persistent_id = self.persistentid_set.get_or_create(**d)
+
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -65,7 +71,7 @@ class PersistentId(models.Model):
                                  max_length=254,
                                  blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name = _('Persistent Id')
         verbose_name_plural = _('Persistent Id')

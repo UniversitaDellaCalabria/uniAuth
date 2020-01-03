@@ -76,11 +76,13 @@ coverage run -m pytest tests/
 coverage report -m
 ````
 
+Still need to tests LDAP attribute processors, have to create a dummy LDAP server:
+https://ldaptor.readthedocs.io/en/latest/quickstart.html#ldap-server-quick-start
+
 ## Contribute
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.
-Open an Issue if you want to talk before develop to reduce the risk to be unmerged for some latest reason.
-
+Please open an Issue if you want to talk before develop, to reduce the risk to be unmerged for some reason.
 
 ## Troubleshooting
 

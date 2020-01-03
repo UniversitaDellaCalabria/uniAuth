@@ -578,11 +578,15 @@ class LoginAuthView(LoginView):
         # data['sp_logo']
         # return self.render_to_response(data)
 
+    # def post(self, request, *args, **kwargs):
+        # import pdb; pdb.set_trace()
+        # return super().post(request, *args, **kwargs)
+
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message
         status code 200 to prevent brute force attack based to response code!
         """
-        return render(request, 'error.html',
+        return render(self.request, 'error.html',
                       {'exception_type':_("You cannot access to this service"),
                        'exception_msg':_("Your Username or Password is invalid, "
                                          "your account could be expired or been "
@@ -593,7 +597,6 @@ class LoginAuthView(LoginView):
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-
         # check issue instant
         now = timezone.localtime()
         issue_instant = now
@@ -625,6 +628,7 @@ class LoginAuthView(LoginView):
 
         if self.request.POST.get('forget_login'):
             self.request.session['forget_login'] = 1
+
         return HttpResponseRedirect(self.get_success_url())
 
 

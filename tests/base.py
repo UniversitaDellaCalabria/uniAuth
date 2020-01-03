@@ -128,3 +128,11 @@ class BaseTestRP(TestCase):
                     is_active=1)
         response = self.client.post(create_url, data, follow=True)
         assert 'was added successfully' in response.content.decode()
+
+    def _get_sp_authn_request(self):
+        session_id, result = self.sp_client.prepare_for_authenticate(
+                                             entityid=idp_eid,
+                                             relay_state='/',
+                                             binding=BINDING_HTTP_POST)
+        url, data = extract_saml_authn_data(result)
+        return url, data

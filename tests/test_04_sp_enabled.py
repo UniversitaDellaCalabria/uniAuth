@@ -19,11 +19,8 @@ class TestEnabledRP(BaseTestRP):
     def test_authn_def_sp(self):
         self.sp.is_active = 1
         self.sp.save()
-        session_id, result = self.sp_client.prepare_for_authenticate(
-                                             entityid=idp_eid,
-                                             relay_state='/',
-                                             binding=BINDING_HTTP_POST)
-        url, data = extract_saml_authn_data(result)
+
+        url, data = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'id_username' in response.content.decode()
@@ -32,11 +29,7 @@ class TestEnabledRP(BaseTestRP):
         self.sp.is_active = 0
         self.sp.save()
 
-        session_id, result = self.sp_client.prepare_for_authenticate(
-                                             entityid=idp_eid,
-                                             relay_state='/',
-                                             binding=BINDING_HTTP_POST)
-        url, data = extract_saml_authn_data(result)
+        url, data = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'was disabled' in response.content.decode()
@@ -45,11 +38,7 @@ class TestEnabledRP(BaseTestRP):
         self.sp.is_active = 1
         self.sp.save()
 
-        session_id, result = self.sp_client.prepare_for_authenticate(
-                                             entityid=idp_eid,
-                                             relay_state='/',
-                                             binding=BINDING_HTTP_POST)
-        url, data = extract_saml_authn_data(result)
+        url, data = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'id_username' in response.content.decode()
@@ -93,5 +82,14 @@ class TestEnabledRP(BaseTestRP):
         self.sp.agreement_screen = 1
         self.sp.save()
         login_response = self.client.post(login_url, data=login_data, follow=True)
-
         assert 'has requested the following informations' in login_response.content.decode()
+
+        # don't show again
+        agr_data = dict(dont_show_again=1, confirm=1)
+        agr_url = reverse('uniauth:saml_user_agreement')
+        agr_response = self.client.post(agr_url, data=agr_data, follow=True)
+
+        # login again, agreement screen should not be displayed anymore
+        login_response = self.client.post(login_url, data=login_data, follow=True)
+        saml_resp = re.findall(resp_regexp, login_response.content.decode())
+        assert saml_resp

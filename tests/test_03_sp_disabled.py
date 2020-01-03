@@ -15,11 +15,7 @@ class TestUndefinedRP(BaseTestRP):
         """
         a signed saml request from an UNDEFINED SP
         """
-        session_id, result = self.sp_client.prepare_for_authenticate(
-                                             entityid=idp_eid,
-                                             relay_state='/',
-                                             binding=BINDING_HTTP_POST)
-        url, data = extract_saml_authn_data(result)
+        url, data = self._get_sp_authn_request()
 
         # client = Client()
         response = self.client.post(url, data, follow=True)

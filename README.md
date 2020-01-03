@@ -73,9 +73,7 @@ pytest tests/ -x --pdb
 code coverage
 ````
 coverage run -m pytest tests/
-coverage report
-
-coverage report -m | grep -E "^uniauth|^idp" | grep -v migrations
+coverage report -m
 ````
 
 ## Contribute

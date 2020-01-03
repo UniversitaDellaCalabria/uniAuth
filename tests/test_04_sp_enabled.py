@@ -90,6 +90,16 @@ class TestEnabledRP(BaseTestRP):
         agr_response = self.client.post(agr_url, data=agr_data, follow=True)
 
         # login again, agreement screen should not be displayed anymore
+        # purge persistent_id from storage
+        user.persistentid_set.all().delete()
         login_response = self.client.post(login_url, data=login_data, follow=True)
         saml_resp = re.findall(resp_regexp, login_response.content.decode())
         assert saml_resp
+
+        # transient name_id format, remove persistent_id
+        sp_conf = copy.deepcopy(SAML_SP_CONFIG)
+        del(sp_conf['service']['sp']['name_id_format'][0])
+        self.sp_conf.load(sp_conf)
+        url, data = self._get_sp_authn_request()
+        response = self.client.post(url, data, follow=True)
+        login_response = self.client.post(login_url, data=login_data, follow=True)

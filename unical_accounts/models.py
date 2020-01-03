@@ -43,6 +43,10 @@ class User(AbstractUser):
     def uid(self):
         return self.username.split('@')[0]
 
+    def persistent_ids(self):
+        return [i.persistent_id
+                for i in self.persistentid_set.filter(user=self)]
+
     def persistent_id(self, entityid):
         """ returns persistent id related to a recipient (sp) entity id
         """

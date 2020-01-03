@@ -256,6 +256,8 @@ DEFAULT_SPCONFIG = {
     'processor': 'idp.processors.BaseProcessor',
     'attribute_mapping': {
 
+        'uid': 'uid',
+        'persistent_ids': 'persistent_ids',
         'email': 'email',
         'first_name': 'first_name',
         'last_name': 'last_name',

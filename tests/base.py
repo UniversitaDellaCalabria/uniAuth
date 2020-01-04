@@ -35,9 +35,11 @@ logger = logging.getLogger('django_test')
 
 # clean up sp metadata folder
 idp_md_path = 'tests/data/metadata'
-mds = ['tests/sp/metadata/idp.xml', idp_md_path+'/sp.xml']
-if not os.path.exists(idp_md_path):
-    os.mkdir(idp_md_path)
+sp_md_path = 'tests/sp/metadata'
+mds = [sp_md_path+'/idp.xml', idp_md_path+'/sp.xml']
+for md_path in (idp_md_path, sp_md_path):
+    if not os.path.exists(md_path):
+        os.mkdir(md_path)
 
 
 def cleanup_metadata():

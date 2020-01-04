@@ -72,6 +72,7 @@ pytest tests/ -x --pdb
 
 code coverage
 ````
+coverage erase
 coverage run -m pytest tests/
 coverage report -m
 ````

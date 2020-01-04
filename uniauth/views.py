@@ -60,7 +60,6 @@ from . utils import (repr_saml,
                      get_client_id)
 
 
-# already registered into decorators
 logger = logging.getLogger(__name__)
 
 
@@ -109,16 +108,15 @@ def sso_entry(request, binding='POST'):
         try:
             mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
                      .get('extensions', {}).get('extension_elements', [{}])[0]
-        except KeyError as excp:
+        except IndexError as excp:
             logger.error('MDUUI not available: "{}"'.format(excp))
 
-        if sp_id and mduui:
+        if sp_id:
             request.session['SAML']['sp_display_name'] = sp.get('display_name') or \
                                                          mduui.get('display_name', [{}])[0].get('text')
             request.session['SAML']['sp_display_description'] = sp.get('display_description', '') or \
                                                                 mduui.get('description', [{}])[0].get('text')
             request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
-
 
     except IncorrectlySigned as exp:
         logger.error('{}'.format(exp))

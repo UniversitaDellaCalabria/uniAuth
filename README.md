@@ -78,10 +78,13 @@ coverage report -m
 ````
 
 A test LDAP server is available in `tests/ldaptord.py`.
-You can run it manually and test a query with `ldapsearch`
+You can run it manually and test a query with `ldapsearch`.
 
 ```
 ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" -x uid=mario
+
+# auth bind
+ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" uid=mario -D "uid=mario,ou=people,dc=testunical,dc=it" -w cimpa12
 ```
 
 

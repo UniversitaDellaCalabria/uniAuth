@@ -17,7 +17,6 @@ class TestUndefinedRP(BaseTestRP):
         """
         url, data = self._get_sp_authn_request()
 
-        # client = Client()
         response = self.client.post(url, data, follow=True)
         assert response.status_code == 403 and \
                'This SP is not allowed to access to this Service' in \

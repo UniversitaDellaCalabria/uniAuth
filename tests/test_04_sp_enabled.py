@@ -17,10 +17,6 @@ class TestEnabledRP(BaseTestRP):
         self.sp = ServiceProvider.objects.first()
         self.login_data = dict(username='admin',
                                password='ingoalla')
-        self.resp_regexp = 'name="SAMLResponse" value="(?P<value>[a-zA-Z0-9+=]*)"'
-        login_process = reverse('uniauth:saml_login_process')
-        self.login_url = reverse('uniauth:login')+'?next={}'.format(login_process)
-
         # create a dummy user
         self.user = self._get_superuser_user()
         
@@ -64,8 +60,6 @@ class TestEnabledRP(BaseTestRP):
 
     def test_invalid_session(self):
         # authentication with invalid form, wrong password
-        login_process = reverse('uniauth:saml_login_process')
-        login_url = reverse('uniauth:login')+'?next={}'.format(login_process)
         login_response = self.client.post(login_url, data=self.login_data, follow=True)
         assert 'Not a valid SAML Session' in login_response.content.decode()
 
@@ -73,7 +67,7 @@ class TestEnabledRP(BaseTestRP):
         url, data = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         # authentication with invalid form, wrong password
-        login_response = self.client.post(self.login_url, data=self.login_data, follow=True)
+        login_response = self.client.post(login_url, data=self.login_data, follow=True)
         assert 'is invalid' in login_response.content.decode()
 
     def test_valid_form(self):
@@ -82,16 +76,16 @@ class TestEnabledRP(BaseTestRP):
         # csrf_regexp = '<input type="hidden" name="csrfmiddlewaretoken" value="(?P<value>[a-zA-Z0-9+=]*)">'
         # login_data['csrfmiddlewaretoken'] = re.findall(csrf_regexp, response.content.decode())[0]
         self.login_data['password'] = 'admin'
-        login_response = self.client.post(self.login_url,
+        login_response = self.client.post(login_url,
                                           data=self.login_data, follow=True)
         # is there a SAML response?
-        saml_resp = re.findall(self.resp_regexp, login_response.content.decode())
+        saml_resp = re.findall(samlresponse_form_regexp, login_response.content.decode())
         assert saml_resp
 
         # test agreement screens
         self.sp.agreement_screen = 1
         self.sp.save()
-        login_response = self.client.post(self.login_url, data=self.login_data, follow=True)
+        login_response = self.client.post(login_url, data=self.login_data, follow=True)
         assert 'has requested the following informations' in login_response.content.decode()
 
         # don't show again
@@ -102,8 +96,8 @@ class TestEnabledRP(BaseTestRP):
         # login again, agreement screen should not be displayed anymore
         # purge persistent_id from storage
         self.user.persistentid_set.all().delete()
-        login_response = self.client.post(self.login_url, data=self.login_data, follow=True)
-        saml_resp = re.findall(self.resp_regexp, login_response.content.decode())
+        login_response = self.client.post(login_url, data=self.login_data, follow=True)
+        saml_resp = re.findall(samlresponse_form_regexp, login_response.content.decode())
         assert saml_resp
 
         # transient name_id format, remove persistent_id
@@ -112,4 +106,4 @@ class TestEnabledRP(BaseTestRP):
         self.sp_conf.load(sp_conf)
         url, data = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
-        login_response = self.client.post(self.login_url, data=self.login_data, follow=True)
+        login_response = self.client.post(login_url, data=self.login_data, follow=True)

@@ -55,6 +55,11 @@ action_post_regexp =('(?P<name>action)='
 samlrequest_form_regexp = ('.*name="SAMLRequest" '
                            'value="(?P<value>[a-zA-Z0-9=+]*)"[\s\n.]*')
 
+samlresponse_form_regexp = 'name="SAMLResponse" value="(?P<value>[a-zA-Z0-9+=]*)"'
+login_process_url = reverse('uniauth:saml_login_process')
+login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
+
+
 def extract_saml_authn_data(result):
     url = reverse('uniauth:saml_login_binding', kwargs={'binding': 'POST'})
     logging.info('IdP Target is: {}'.format(url))

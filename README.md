@@ -77,8 +77,13 @@ coverage run -m pytest tests/
 coverage report -m
 ````
 
-Still need to tests LDAP attribute processors, have to create a dummy LDAP server:
-https://ldaptor.readthedocs.io/en/latest/quickstart.html#ldap-server-quick-start
+A test LDAP server is available in `tests/ldaptord.py`.
+You can run it manually and test a query with `ldapsearch`
+
+```
+ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" -x uid=mario
+```
+
 
 ## Contribute
 

@@ -12,3 +12,6 @@ sphinxcontrib-images
 
 # TypeError: attrib() got an unexpected keyword argument 'convert'
 attrs==19.1.0
+
+# ldaptor
+ldaptor

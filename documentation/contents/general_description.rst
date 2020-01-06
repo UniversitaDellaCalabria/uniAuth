@@ -13,22 +13,22 @@ uniAuth, as a SAML2 IDP, is based on `pysaml2 <https://github.com/IdentityPython
 Implementation specific Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- no restart is needed on new matadata store or SP;
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
-- MetadataStore supports local file (upload), local folder, remote url and MDQ service;
-- Interactive ServiceProvider Federation through the Admin Backend UI;
-- Customizable Template and style based on `AGID guidelines <https://www.agid.gov.it/it/argomenti/linee-guida-design-pa>`__;
+- Interactive ServiceProvider definition through the Admin Backend UI;
+- Customizable Template and style based on [AGID guidelines](https://www.agid.gov.it/it/argomenti/linee-guida-design-pa);
 - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
-- Optional and quite granular Agreement Screen;
 - Configurable digest algorithm and salt for Computed NameID;
 - Many configurable options, for every SP we can decide:
+    - enable/disable explicitally;
     - signature and digest algorithms;
-    - attributes release policies;
-    - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;
+    - attributes release (force a set or release what requested by sp);
+    - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from scratch;
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
-- Importable StoredPersistentID for each user, for migrations from other IDP;
-- An optional LDAP web manager with a configurable app (`ldap_peoples`);
-- Multiple LDAP sources though `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
-- Multifactor support, as available in djangosaml2idp;
+- Importable StoredPersistentID for each user, from migrations from another IDP;
+- An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
+- Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
+- Multifactor support, as originally available in djangosaml2idp;
 - Detailed logs.

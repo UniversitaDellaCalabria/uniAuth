@@ -36,7 +36,7 @@ LDAPTEST = dict(server =
                                        'givenName',
                                        'sn',
                                        'eduPersonScopedAffiliation',
-                                       'schacPersonalUniqueId',
+                                       'schacPersonalUniqueID',
                                        'schacPersonalUniqueCode'
                                        ]
 

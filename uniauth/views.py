@@ -105,6 +105,12 @@ def sso_entry(request, binding='POST'):
         sp = get_idp_sp_config().get(sp_id, {})
 
         mduui = {}
+        if not IDP.config.metadata.service(sp_id,
+                                           "spsso_descriptor",
+                                           'assertion_consumer_service'):
+            msg = _("{} is not present in any Metadata").format(sp_id)
+            raise MetadataNotFound(msg)
+        
         try:
             mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
                      .get('extensions', {}).get('extension_elements', [{}])[0]
@@ -240,23 +246,26 @@ class IdPHandlerViewMixin(ErrorHandler):
         sp = ServiceProvider.objects.filter(entity_id = sp_entity_id).first()
 
         if not self.sp['config']:
-            if settings.SAML_DISALLOW_UNDEFINED_SP:
-                msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
-                raise ImproperlyConfigured(msg.format(sp_entity_id))
-            else:
-                if not self.IDP.config.metadata.service(sp_entity_id,
-                                                        "spsso_descriptor",
-                                                        'assertion_consumer_service'):
-                    msg = _("{} is not present in any Metadata").format(sp_entity_id)
-                    raise MetadataNotFound(msg)
+            # already checked in sso_init
+            #if settings.SAML_DISALLOW_UNDEFINED_SP:
+                #msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
+                #raise ImproperlyConfigured(msg.format(sp_entity_id))
+            #else:
+                #if not self.IDP.config.metadata.service(sp_entity_id,
+                                                        #"spsso_descriptor",
+                                                        #'assertion_consumer_service'):
+                    #msg = _("{} is not present in any Metadata").format(sp_entity_id)
+                    #raise MetadataNotFound(msg)
 
-                self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
+            self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
 
-                self.sp['config']['display_name'] = sp_entity_id
-                self.sp['config']['display_description'] = ''
-                self.sp['config']['force_attribute_release'] = False
+            # TODO: get these information from sp's metadata
+            self.sp['config']['display_name'] = sp_entity_id
+            self.sp['config']['display_description'] = ''
+            self.sp['config']['force_attribute_release'] = False
 
         if not sp:
+            # TODO: get these information from sp's metadata
             sp = ServiceProvider.objects.create(entity_id = sp_entity_id,
                                                 display_name = sp_entity_id,
                                                 is_valid=True,
@@ -271,7 +280,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             sp.save()
 
         if self.sp['config']['force_attribute_release']:
-            # IdP ignores what SP requests for and release what it wants
+            # IdP ignores what SP requests for and release what you configured
             return
 
         # check if SP asks for required attributes

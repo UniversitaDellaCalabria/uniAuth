@@ -63,3 +63,29 @@ class TestEnabledRP(BaseTestRP):
         saml_resp = re.findall(samlresponse_form_regexp,
                                login_response.content.decode())
         assert saml_resp
+
+        # login again to update existing user on db
+        login_response = self.client.post(login_url,
+                                          data=self.login_data, follow=True)
+
+        # test a disabled user
+        #user = get_user_model().objects.last()
+        #user.is_active = 0
+        #user.save()
+        #login_response = self.client.post(login_url,
+                                          #data=self.login_data, follow=True)
+
+    def test_invalid_form(self):
+        url, data = self._get_sp_authn_request()
+        response = self.client.post(url, data, follow=True)
+        login_data = {'username':'mario', 'password':'erewr'}
+        login_response = self.client.post(login_url,
+                                          data=login_data,
+                                          follow=True)
+        assert 'is invalid' in login_response.content.decode()
+
+        login_data = {'username':'dsfhdsjkfh', 'password':'erewr'}
+        login_response = self.client.post(login_url,
+                                          data=login_data,
+                                          follow=True)
+        assert 'is invalid' in login_response.content.decode()

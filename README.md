@@ -18,37 +18,38 @@ An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also avail
 
 uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2). Features:
 
-- HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
-- SAML2 ForceAuthn;
+- HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
+- ForceAuthn;
 - SLO, SAML Single Logout;
-- Encrypted assertions, customizable sign/digest algorithms and, in general, a good posture in terms of security and data integrity regarding SAML standards;
-- AllowCreate, nameid is stored if nameid format is persistent.
+- Signed and Encrypted assertions;
+- AllowCreate, nameid is stored with a persistent nameid format.
 
 ## Implementation specific Features
 
+- no restart is needed on new matadata store or SP;
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
-- Interactive ServiceProvider Federation through the Admin Backend UI;
+- Interactive ServiceProvider definition through the Admin Backend UI;
 - Customizable Template and style based on [AGID guidelines](https://www.agid.gov.it/it/argomenti/linee-guida-design-pa);
 - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
-- Optional and quite granular Agreement Screen;
 - Configurable digest algorithm and salt for Computed NameID;
 - Many configurable options, for every SP we can decide:
+    - enable/disable explicitally;
     - signature and digest algorithms;
-    - attributes release policies;
-    - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from schratch;
+    - attributes release (force a set or release what requested by sp);
+    - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from scratch;
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi;
 - Importable StoredPersistentID for each user, from migrations from another IDP;
-- An optional LDAP web manager with a configurable app (`ldap_peoples`);
-- Multiple LDAP sources though `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
+- An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
+- Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
 - Multifactor support, as originally available in djangosaml2idp;
 - Detailed logs.
 
 
 ## Characteristics
 
-uniauth will let us configure metadata store and federate new Service Providers directly from the Admin backend interface, via Web.
+uniAuth permit us to configure metadata store and federate new Service Providers directly from the Admin backend interface, via Web.
 See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
 
 ---
@@ -61,12 +62,13 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 ![Alt text](documentation/contents/sp_search.png)
 ![Alt text](documentation/contents/sp.png)
-*Define a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise just store the sp metadata.*
+*Define a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise only the sp metadata is needed.*
 
 ## Tests
 
 ````
 pip install -r requirements-dev.txt
+python3 tests/ldapd.py
 pytest tests/ -x --pdb
 ````
 
@@ -77,7 +79,7 @@ coverage run -m pytest tests/
 coverage report -m
 ````
 
-A test LDAP server is available in `tests/ldaptord.py`.
+A test LDAP server is available in `tests/ldapd.py`.
 You can run it manually and test a query with `ldapsearch`.
 
 ```
@@ -87,6 +89,9 @@ ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" -x uid=mario
 ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" uid=mario -D "uid=mario,ou=people,dc=testunical,dc=it" -w cimpa12
 ```
 
+TODO:
+- test code regarding required attributes from sp, views: 292-327
+- test logout, views: 858-914
 
 ## Contribute
 

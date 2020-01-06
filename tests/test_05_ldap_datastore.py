@@ -53,6 +53,9 @@ class TestEnabledRP(BaseTestRP):
             "matricola_dipendente": "matricola_dipendente"
         })
         self.sp.save()
+
+        # run ldapd
+        self._run_ldapd()
         
     def test_valid_form(self):
         url, data = self._get_sp_authn_request()
@@ -89,3 +92,8 @@ class TestEnabledRP(BaseTestRP):
                                           data=login_data,
                                           follow=True)
         assert 'is invalid' in login_response.content.decode()
+
+    def tearDown(self):
+        """Kill ldapd test server
+        """
+        self.ldapd.kill()

@@ -4,6 +4,8 @@ import logging
 import re
 import requests
 import sys
+import subprocess
+
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
@@ -143,3 +145,6 @@ class BaseTestRP(TestCase):
                                              binding=BINDING_HTTP_POST)
         url, data = extract_saml_authn_data(result)
         return url, data
+
+    def _run_ldapd(self):
+        self.ldapd = subprocess.Popen(["python3","tests/ldapd.py"])

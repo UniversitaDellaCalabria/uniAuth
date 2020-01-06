@@ -68,7 +68,6 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 ````
 pip install -r requirements-dev.txt
-python3 tests/ldapd.py
 pytest tests/ -x --pdb
 ````
 
@@ -81,8 +80,11 @@ coverage report -m
 
 A test LDAP server is available in `tests/ldapd.py`.
 You can run it manually and test a query with `ldapsearch`.
+Unit test will run `ldapd.py` automatically.
 
 ```
+python3 tests/ldapd.py
+
 ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" -x uid=mario
 
 # auth bind

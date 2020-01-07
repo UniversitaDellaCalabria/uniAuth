@@ -6,3 +6,4 @@ omit =
     tests/*
     */apps/*
     */migrations/*
+    */src/*

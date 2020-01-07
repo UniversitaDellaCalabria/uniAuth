@@ -73,7 +73,7 @@ class NameIdBuilder:
         return user_persistent_id
 
     @classmethod
-    def get_nameid_email(cls, user_id, **kwargs):
+    def get_nameid_email(cls, user_id, **kwargs): # pragma: no cover
         assert '@' in user_id
         return user_id
 
@@ -91,15 +91,15 @@ class NameIdBuilder:
     def get_nameid_unspecified(cls, user_id):
         """ returns user_id as is
         """
-        return user_id
+        return user_id # pragma: no cover
 
     @classmethod
     def get_nameid(cls, user_id, nameid_format, **kwargs):
         method = cls.format_mappings.get(nameid_format)
-        if not method:
+        if not method: # pragma: no cover
             raise NotImplementedError('{} was not been mapped in '
                                       'NameIdBuilder.format_mappings'.format(nameid_format))
-        if not hasattr(cls, method):
+        if not hasattr(cls, method): # pragma: no cover
             raise NotImplementedError('{} was not been implemented '
                                       'NameIdBuilder methods'.format(nameid_format))
         name_id = getattr(cls, method)(user_id, **kwargs)
@@ -136,13 +136,17 @@ class BaseProcessor:
         user_field_str = sp['config'].get('nameid_field') or \
             getattr(settings, 'SAML_IDP_DJANGO_USERNAME_FIELD', None) or \
             getattr(user, 'USERNAME_FIELD', 'username')
+
+        if not hasattr(user, user_field_str): # pragma: no cover
+            raise ValueError('user doesn\'t have {} as attribute'.format(user_field_str))
+
         user_field = getattr(user, user_field_str)
 
         if callable(user_field):
             user_uid = str(user_field())
         else:
             user_uid = str(user_field)
-        
+
         # returns in a real name_id format
         user_id =  NameIdBuilder.get_nameid(user_uid,
                                             sp['name_id_format'],

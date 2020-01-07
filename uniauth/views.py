@@ -60,7 +60,6 @@ from . utils import (repr_saml,
                      get_client_id)
 
 
-# already registered into decorators
 logger = logging.getLogger(__name__)
 
 
@@ -106,19 +105,24 @@ def sso_entry(request, binding='POST'):
         sp = get_idp_sp_config().get(sp_id, {})
 
         mduui = {}
+        if not IDP.config.metadata.service(sp_id,
+                                           "spsso_descriptor",
+                                           'assertion_consumer_service'):
+            msg = _("{} is not present in any Metadata").format(sp_id)
+            raise MetadataNotFound(msg)
+        
         try:
             mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
                      .get('extensions', {}).get('extension_elements', [{}])[0]
-        except KeyError as excp:
+        except IndexError as excp:
             logger.error('MDUUI not available: "{}"'.format(excp))
 
-        if sp_id and mduui:
+        if sp_id:
             request.session['SAML']['sp_display_name'] = sp.get('display_name') or \
                                                          mduui.get('display_name', [{}])[0].get('text')
             request.session['SAML']['sp_display_description'] = sp.get('display_description', '') or \
                                                                 mduui.get('description', [{}])[0].get('text')
             request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
-
 
     except IncorrectlySigned as exp:
         logger.error('{}'.format(exp))
@@ -145,12 +149,21 @@ def sso_entry(request, binding='POST'):
                        'extra_message': _('Metadata is missing')},
                        status=403)
 
+    sp_id = resp_args.get('sp_entity_id', sp_id)
     if settings.SAML_DISALLOW_UNDEFINED_SP:
-        if resp_args.get('sp_entity_id') not in get_idp_sp_config().keys():
+        if sp_id not in get_idp_sp_config().keys():
             return render(request, 'error.html',
                           {'exception_type': _("This SP is not allowed to access to this Service"),
                            'exception_msg': _("Attribute Processor needs "
                                               "to be configured and undefined SP are not Allowed.")},
+                          status=403)
+
+    # check if the SP was defined but disabled
+    if ServiceProvider.objects.filter(entity_id=sp_id,
+                                      is_active=0):
+        return render(request, 'error.html',
+                          {'exception_type': _("This SP is not allowed to access to this Service"),
+                           'exception_msg': _("{} was disabled".format(sp_id))},
                           status=403)
     # end check
 
@@ -233,23 +246,26 @@ class IdPHandlerViewMixin(ErrorHandler):
         sp = ServiceProvider.objects.filter(entity_id = sp_entity_id).first()
 
         if not self.sp['config']:
-            if settings.SAML_DISALLOW_UNDEFINED_SP:
-                msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
-                raise ImproperlyConfigured(msg.format(sp_entity_id))
-            else:
-                if not self.IDP.config.metadata.service(sp_entity_id,
-                                                        "spsso_descriptor",
-                                                        'assertion_consumer_service'):
-                    msg = _("{} is not present in any Metadata").format(sp_entity_id)
-                    raise MetadataNotFound(msg)
+            # already checked in sso_init
+            #if settings.SAML_DISALLOW_UNDEFINED_SP:
+                #msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
+                #raise ImproperlyConfigured(msg.format(sp_entity_id))
+            #else:
+                #if not self.IDP.config.metadata.service(sp_entity_id,
+                                                        #"spsso_descriptor",
+                                                        #'assertion_consumer_service'):
+                    #msg = _("{} is not present in any Metadata").format(sp_entity_id)
+                    #raise MetadataNotFound(msg)
 
-                self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
+            self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
 
-                self.sp['config']['display_name'] = sp_entity_id
-                self.sp['config']['display_description'] = ''
-                self.sp['config']['force_attribute_release'] = False
+            # TODO: get these information from sp's metadata
+            self.sp['config']['display_name'] = sp_entity_id
+            self.sp['config']['display_description'] = ''
+            self.sp['config']['force_attribute_release'] = False
 
         if not sp:
+            # TODO: get these information from sp's metadata
             sp = ServiceProvider.objects.create(entity_id = sp_entity_id,
                                                 display_name = sp_entity_id,
                                                 is_valid=True,
@@ -264,7 +280,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             sp.save()
 
         if self.sp['config']['force_attribute_release']:
-            # IdP ignores what SP requests for and release what it wants
+            # IdP ignores what SP requests for and release what you configured
             return
 
         # check if SP asks for required attributes
@@ -569,11 +585,15 @@ class LoginAuthView(LoginView):
         # data['sp_logo']
         # return self.render_to_response(data)
 
+    # def post(self, request, *args, **kwargs):
+        # import pdb; pdb.set_trace()
+        # return super().post(request, *args, **kwargs)
+
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message
         status code 200 to prevent brute force attack based to response code!
         """
-        return render(request, 'error.html',
+        return render(self.request, 'error.html',
                       {'exception_type':_("You cannot access to this service"),
                        'exception_msg':_("Your Username or Password is invalid, "
                                          "your account could be expired or been "
@@ -584,7 +604,6 @@ class LoginAuthView(LoginView):
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-
         # check issue instant
         now = timezone.localtime()
         issue_instant = now
@@ -616,6 +635,7 @@ class LoginAuthView(LoginView):
 
         if self.request.POST.get('forget_login'):
             self.request.session['forget_login'] = 1
+
         return HttpResponseRedirect(self.get_success_url())
 
 

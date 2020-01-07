@@ -6,7 +6,11 @@ DEBUG = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 SESSION_COOKIE_AGE = 60 * 10 # minutes
 
+# the path corresponding the admin backend, default if not defined: admin/
+ADMIN_PATH = 'admin_access'
+
 ALLOWED_HOSTS = ['*']
+AUTH_USER_MODEL = 'unical_accounts.User'
 
 INSTALLED_APPS = [
     'unical_accounts',
@@ -25,8 +29,6 @@ INSTALLED_APPS = [
     'multildap',
     'rangefilter']
 
-AUTH_USER_MODEL = "unical_accounts.User"
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -38,6 +40,9 @@ DATABASES = {
         'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
     }
 }
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 # ldap_peoples related
 # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
@@ -144,7 +149,7 @@ _RS_ATTRIBUTES = ['cn',
                   'givenName',
                   'sn',
                   'eduPersonScopedAffiliation',
-                  'schacPersonalUniqueId',
+                  'schacPersonalUniqueID',
                   'schacPersonalUniqueCode']
 
 DEFAULT = dict(server =

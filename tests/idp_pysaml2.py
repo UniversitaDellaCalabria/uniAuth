@@ -157,9 +157,9 @@ SAML_IDP_CONFIG = {
 
     # Quite useless, you can even configure metadata store through admin backend!
     'metadata': {
-        'local': [
-                 IDP_SP_METADATA_PATH,
-                 ],
+        # 'local': [
+                 # IDP_SP_METADATA_PATH,
+                 # ],
         #
         # "remote": [{
             # "url": 'https://satosa.testunical.it/Saml2/metadata',
@@ -256,12 +256,14 @@ DEFAULT_SPCONFIG = {
     'processor': 'idp.processors.BaseProcessor',
     'attribute_mapping': {
 
+        'uid': 'uid',
+        'persistent_ids': 'persistent_ids',
         'email': 'email',
         'first_name': 'first_name',
         'last_name': 'last_name',
         'username': 'username',
-        'is_staff': 'is_staff',
-        'is_superuser':  'is_superuser',
+        # 'is_staff': 'is_staff',
+        # 'is_superuser':  'is_superuser',
 
         # refeds + edugain Entities
         # "cn": "cn",

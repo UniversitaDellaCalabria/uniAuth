@@ -21,7 +21,8 @@ from django.urls import include, path
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    path('admin_access/', admin.site.urls),
+    path('{}/'.format(getattr(settings, 'ADMIN_PATH', 'admin')),
+         admin.site.urls),
     path('logout/', LogoutView.as_view(),
          {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),

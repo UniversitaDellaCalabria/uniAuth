@@ -148,6 +148,9 @@ Run
 ...need a SP for a preliminar tests? see djangosaml2\_sp here:
 https://github.com/peppelinux/Django-Identity
 
+Admin ui could be configured in `settingslocal.py`, with the variable `ADMIN_PATH`.
+If it is not defined, default will be `admin/`
+
 Production Environment
 ^^^^^^^^^^^^^^^^^^^^^^
 

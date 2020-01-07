@@ -28,7 +28,7 @@ class GroupProcessor(BaseProcessor):
     """
     group = "ExampleGroup"
 
-    def has_access(self, user):
+    def has_access(self, user): # pragma: no cover
         return user.is_superuser or \
                user.is_staff or \
                user.groups.filter(name=self.group).exists()
@@ -92,7 +92,7 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
 
         # otherwise do another query ...
         identity = None
-        for lc in settings.LDAP_CONNECTIONS:
+        for lc in settings.LDAP_CONNECTIONS: # pragma: no coverage
             ldapfilter = '(uid={})'.format(user.username)
             logging.debug("Processor {} searches for {} in {}".format(self.__class__,
                                                                       user.username,

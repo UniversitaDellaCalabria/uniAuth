@@ -67,7 +67,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             user.origin = lc.__repr__()
             user.save()
         except Exception as e:
-            logger.info("--- Create user: []".format(username))
+            logger.info("--- Creating user: {}".format(username))
             user = get_user_model().objects.create(username=username,
                                                    email=lu_obj.mail[0],
                                                    first_name=lu_obj.givenName[0],

@@ -16,3 +16,4 @@ django_idp/idp_pysaml2.py
 documentation/_build/
 tests/data/metadata/*
 tests/sp/metadata/*
+.coverage

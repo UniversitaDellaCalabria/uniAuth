@@ -26,10 +26,10 @@ from .sp.sp_pysaml2 import (SAML_CONFIG as SAML_SP_CONFIG,
                             BASE_URL,
                             BASE_DIR)
 from uniauth.views import *
-from uniauth.utils import (repr_saml,
-                           get_idp_config,
+from uniauth.utils import (get_idp_config,
                            get_idp_sp_config,
-                           get_client_id)
+                           get_client_id,
+                           repr_saml)
 
 
 logger = logging.getLogger('django_test')

@@ -92,7 +92,6 @@ ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" uid=mario -D "uid=m
 ```
 
 TODO:
-- test code regarding required attributes from sp, views: 292-327
 - test logout, views: 858-914
 
 ## Contribute

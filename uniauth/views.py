@@ -110,7 +110,7 @@ def sso_entry(request, binding='POST'):
                                            'assertion_consumer_service'):
             msg = _("{} is not present in any Metadata").format(sp_id)
             raise MetadataNotFound(msg)
-        
+
         try:
             mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
                      .get('extensions', {}).get('extension_elements', [{}])[0]
@@ -226,10 +226,11 @@ class IdPHandlerViewMixin(ErrorHandler):
         converted_attrs = []
         for attr_id in attr_name_list:
             for acs in self.IDP.config.attribute_converters:
-                if attr_id in acs._fro:
-                    converted_attrs.append(acs._fro[attr_id])
-                elif attr_id in acs._to:
-                    converted_attrs.append(attr_id)
+                attr = attr_id.lower()
+                if attr in acs._fro:
+                    converted_attrs.append(acs._fro[attr])
+                elif attr in acs._to:
+                    converted_attrs.append(attr)
         return converted_attrs
 
     def set_sp(self, sp_entity_id):
@@ -293,11 +294,11 @@ class IdPHandlerViewMixin(ErrorHandler):
         opt_attr_list = [entry['name'] for entry in req_attrs['optional']]
 
         # conversion: avoids that some attrs have identifiers instead of names
-        req_attr_list = self.convert_attributes(req_attr_list)
-        opt_attr_list = self.convert_attributes(opt_attr_list)
+        conv_req_attr_list = self.convert_attributes(req_attr_list)
+        conv_opt_attr_list = self.convert_attributes(opt_attr_list)
 
-        attr_list = [attr for attr in req_attr_list]
-        attr_list.extend(opt_attr_list)
+        attr_list = [attr for attr in conv_req_attr_list]
+        attr_list.extend(conv_opt_attr_list)
 
         # updates newly requested attrs
         for attr in attr_list:
@@ -319,11 +320,11 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # check if some required are unavailable...
         if req_attrs['required']:
-            # if some required attributes are unavailable the IdP give this warning
-            for req in req_attr_list:
-                if req not in self.sp['config']['attribute_mapping']:
-                    msg = _("{} requested unavailable attribute '{}' to this IdP. "
+            msg = _("{} requested unavailable attribute '{}' to this IdP. "
                             "Please contact SP technical staff for support.")
+            # if some required attributes are unavailable the IdP give this warning
+            for req in conv_req_attr_list:
+                if req not in self.sp['config']['attribute_mapping']:
                     raise UnavailableRequiredAttributes(msg.format(sp_entity_id, req))
 
     def set_processor(self,request=None):

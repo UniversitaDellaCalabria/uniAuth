@@ -15,7 +15,7 @@ class TestUndefinedRP(BaseTestRP):
         """
         a signed saml request from an UNDEFINED SP
         """
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert response.status_code == 403 and \

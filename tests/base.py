@@ -60,7 +60,7 @@ samlrequest_form_regexp = ('.*name="SAMLRequest" '
 samlresponse_form_regexp = 'name="SAMLResponse" value="(?P<value>[a-zA-Z0-9+=]*)"'
 login_process_url = reverse('uniauth:saml_login_process')
 login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
-
+logout_url = reverse('uniauth:saml_logout_binding', kwargs={'binding': 'POST'})
 
 def extract_saml_authn_data(result):
     url = reverse('uniauth:saml_login_binding', kwargs={'binding': 'POST'})
@@ -144,7 +144,7 @@ class BaseTestRP(TestCase):
                                              relay_state='/',
                                              binding=BINDING_HTTP_POST)
         url, data = extract_saml_authn_data(result)
-        return url, data
+        return url, data, session_id
 
     def _run_ldapd(self):
         self.ldapd = subprocess.Popen(["python3","tests/ldapd.py"])

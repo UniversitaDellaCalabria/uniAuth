@@ -62,7 +62,7 @@ class TestEnabledRP(BaseTestRP):
         self._run_ldapd()
 
     def test_valid_form(self):
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         login_response = self.client.post(login_url,
                                           data=self.login_data, follow=True)
@@ -83,7 +83,7 @@ class TestEnabledRP(BaseTestRP):
                                           #data=self.login_data, follow=True)
 
     def test_invalid_form(self):
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         login_data = {'username':'mario', 'password':'erewr'}
         login_response = self.client.post(login_url,

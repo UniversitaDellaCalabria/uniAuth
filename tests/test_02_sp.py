@@ -32,7 +32,7 @@ class TestRP(BaseTestRP):
         """
         a signed saml request from a well know SP
         """
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
 
         # client = Client()
         response = self.client.post(url, data)

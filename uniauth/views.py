@@ -494,6 +494,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         #
 
         self.request.session['identity'] = ava
+        self.request.session['SAML']['subject_id'] = self.processor.eduPersonTargetedID
 
         return authn_resp
 

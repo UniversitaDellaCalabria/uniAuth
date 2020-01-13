@@ -91,9 +91,6 @@ ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" -x uid=mario
 ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" uid=mario -D "uid=mario,ou=people,dc=testunical,dc=it" -w cimpa12
 ```
 
-TODO:
-- test logout, views: 858-914
-
 ## Contribute
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.

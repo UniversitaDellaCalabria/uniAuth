@@ -2,7 +2,9 @@ import re
 
 from django.conf import settings
 from django.urls import reverse
-
+from djangosaml2.cache import (IdentityCache,
+                               OutstandingQueriesCache,
+                               StateCache)
 from uniauth.models import ServiceProvider
 from .base import *
 from .idp_pysaml2 import IDP_SP_METADATA_PATH
@@ -19,12 +21,12 @@ class TestEnabledRP(BaseTestRP):
                                password='ingoalla')
         # create a dummy user
         self.user = self._get_superuser_user()
-        
+
     def test_authn_def_sp(self):
         self.sp.is_active = 1
         self.sp.save()
 
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'id_username' in response.content.decode()
@@ -33,7 +35,7 @@ class TestEnabledRP(BaseTestRP):
         self.sp.is_active = 0
         self.sp.save()
 
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'was disabled' in response.content.decode()
@@ -42,7 +44,7 @@ class TestEnabledRP(BaseTestRP):
         self.sp.is_active = 1
         self.sp.save()
 
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
         assert 'id_username' in response.content.decode()
@@ -64,14 +66,14 @@ class TestEnabledRP(BaseTestRP):
         assert 'Not a valid SAML Session' in login_response.content.decode()
 
     def test_invalid_form(self):
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         # authentication with invalid form, wrong password
         login_response = self.client.post(login_url, data=self.login_data, follow=True)
         assert 'is invalid' in login_response.content.decode()
 
     def test_valid_form(self):
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         # csrf_regexp = '<input type="hidden" name="csrfmiddlewaretoken" value="(?P<value>[a-zA-Z0-9+=]*)">'
         # login_data['csrfmiddlewaretoken'] = re.findall(csrf_regexp, response.content.decode())[0]
@@ -104,6 +106,31 @@ class TestEnabledRP(BaseTestRP):
         sp_conf = copy.deepcopy(SAML_SP_CONFIG)
         del(sp_conf['service']['sp']['name_id_format'][0])
         self.sp_conf.load(sp_conf)
-        url, data = self._get_sp_authn_request()
+        url, data, session_id = self._get_sp_authn_request()
         response = self.client.post(url, data, follow=True)
         login_response = self.client.post(login_url, data=self.login_data, follow=True)
+
+        # test logout
+        session = self.client.session
+        state = StateCache(session)
+        identity_cache = IdentityCache(session)
+        oq_cache = OutstandingQueriesCache(session)
+        oq_cache.set(session_id, '/')
+        outstanding_queries = oq_cache.outstanding_queries()
+        client = Saml2Client(self.sp_conf, state_cache=state,
+                             identity_cache=IdentityCache(session))
+        response = client.parse_authn_request_response(saml_resp[0],
+                                                       BINDING_HTTP_POST,
+                                                       outstanding_queries)
+        # this should take name_id dict
+        # result = client.global_logout(session['SAML']['subject_id'])
+        logout_result = client.global_logout(response.name_id)
+
+        # is there a SAML response?
+        saml_req_logout = re.findall(samlrequest_form_regexp,
+                                     logout_result[idp_eid][1]['data'])
+        assert saml_req_logout
+
+        logout_response = self.client.post(logout_url,
+                                           data={'SAMLRequest': saml_req_logout},
+                                           follow=True)

@@ -43,7 +43,7 @@ SAML_COMPUTEDID_HASHALG = 'sha1'
 
 SAML_COMPUTEDID_SALT = b'87sdf+ybDS+FDSFsdf__7yb'
     Salt used to produce the computed id. Use ``b''`` to disable salt.
-    Used only for TRANSIET and PERSISTENT nameid format.
+    Used only for TRANSIENT and PERSISTENT nameid format.
 
 SAML_ALLOWCREATE = True
     If enabled and nameid format is persistent the nameid related to user:recipient_id will be stored in PersistentId model

@@ -15,12 +15,10 @@ Why these great softwares still doesn't have a human management UI and other hel
 
   Admin backend preview, a daily IDP administration will give you everything you need without touching the console.
 
-I put some contributions in `djangosaml2idp <https://github.com/OTA-Insight/djangosaml2idp>`__ and I was not the only one (thank you @askvortsov1).
-Soon those contributions became a distinct fork, so uniAuth was born as a djangosaml2idp fork, because that project won't need some of the features that we found today in uniAuth,
+I made contributions in `djangosaml2idp <https://github.com/OTA-Insight/djangosaml2idp>`__.
+Soon those contributions became a distinct fork, so uniAuth was born as a djangosaml2idp fork because that project won't need some of the features that we found today in uniAuth,
 of which I also needed within a reasonable time.
 
-So my attempt with uniAuth is that to bring the IDentity management to smart users without give up smartness,
+My attempt with uniAuth was that to bring the IDentity management to smart users without give up smartness,
 in the innovation of ordinary management processes.
 Probably you noticed that uniAuth not come as a Django app but as an entire project, this is because we want to offer a ready-to-use software and not a software too much linked to programming skills of users.
-
-This is only our first shot, hopefully we'll do even better in the time, never give up.

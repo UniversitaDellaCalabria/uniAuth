@@ -35,7 +35,7 @@ class NameIdBuilder:
     @staticmethod
     def get_nameid_prefix(user_id, sp_entityid, idp_entityid='', user=''):
         """ Inherit and customize as your needs"""
-        return '!'.join((sp_entityid, user_id))
+        return '!'.join((idp_entityid, sp_entityid, user_id))
 
     @classmethod
     def get_nameid_opaque(cls, user_id,

@@ -1,4 +1,4 @@
-django>=2.2.9,<3.0
+django>=2.2.10,<3.0
 mysqlclient
 uwsgi
 

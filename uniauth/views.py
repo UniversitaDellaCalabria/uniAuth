@@ -121,7 +121,8 @@ def sso_entry(request, binding='POST'):
             request.session['SAML']['sp_display_name'] = sp.get('display_name') or \
                                                          mduui.get('display_name', [{}])[0].get('text')
             request.session['SAML']['sp_display_description'] = sp.get('display_description', '') or \
-                                                                mduui.get('description', [{}])[0].get('text')
+                                                                mduui.get('description', [{}])[0].get('text') or \
+                                                                sp_id
             request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
 
     except IncorrectlySigned as exp:

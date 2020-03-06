@@ -217,7 +217,7 @@ class MetadataStore(models.Model):
         if self.type in ('remote', 'mdq'):
             if self.url:
                 try:
-                    r = requests.get(self.url)
+                    r = requests.head(self.url+'/entities')
                     if r.status_code != 200:
                         self.is_active = False
                 except Exception as e:

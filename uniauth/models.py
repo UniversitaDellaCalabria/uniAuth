@@ -1,4 +1,5 @@
 import defusedxml
+import logging
 import os
 import json
 import requests
@@ -13,6 +14,9 @@ from django.utils.translation import gettext as _
 from django.utils.module_loading import import_string
 
 from . exceptions import NotYetImplemented
+
+
+logger = logging.getLogger('__name__')
 
 
 class AgreementRecord(models.Model):
@@ -217,8 +221,9 @@ class MetadataStore(models.Model):
         if self.type in ('remote', 'mdq'):
             if self.url:
                 try:
-                    r = requests.head(self.url+'/entities')
+                    r = requests.head(self.url + '/entities/')
                     if r.status_code != 200:
+                        logger.error('{} /entities query failed: {}'.format(self, r.content))
                         self.is_active = False
                 except Exception as e:
                     error = 'Endpoint is not reachable: {}'.format(e)

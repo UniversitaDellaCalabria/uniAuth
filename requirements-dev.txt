@@ -6,7 +6,7 @@ pytest-cov
 pylama
 codecov
 
-sphinx
+sphinx>=2
 sphinx_rtd_theme
 sphinxcontrib-images
 

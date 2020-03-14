@@ -43,6 +43,7 @@ uniAuth documentation
    contents/serviceprovider.rst
    contents/attribute_release.rst
    contents/customize_platform.rst
+   contents/management_commands.rst
    contents/backup_restore.rst
 
 Indices and tables

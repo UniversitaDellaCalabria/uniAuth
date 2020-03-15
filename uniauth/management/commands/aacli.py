@@ -40,5 +40,8 @@ class Command(BaseCommand):
         print('SP Configuration:')
         print(json.dumps(idph.sp['config'], indent=2))
         print()
-        print('TargetedID: {}'.format(idph.processor.eduPersonTargetedID))
+        idph.sp['name_id_format'] = idph.IDP.metadata[eid]['spsso_descriptor'][0]['name_id_format'][0]['text']
+        print('TargetedID: {}'.format(idph.processor.get_user_id(user,
+                                                                 idph.sp,
+                                                                 idph.IDP.config)))
         print(json.dumps(ava, indent=2))

@@ -132,7 +132,7 @@ def sso_entry(request, binding='POST'):
     except IndexError as excp:
         logger.error('MDUUI not available: "{}"'.format(excp))
 
-    # name_id_format also here:
+    # name_id_format also here, as made in AAcli
     # IDP.metadata[sp_id]['spsso_descriptor'][0]['name_id_format'][0]['text']
     
     if sp_id:

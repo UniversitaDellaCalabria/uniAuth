@@ -40,7 +40,11 @@ class LdapAcademiaProcessor(BaseProcessor):
     """
 
     def get_identity(self, user):
-        return LdapAcademiaUser.objects.filter(uid=user.username).first()
+        if isinstance(user, str):
+            username = user
+        else:
+            username = user.username
+        return LdapAcademiaUser.objects.filter(uid=username).first()
 
 
     def create_identity(self, user, sp={}):

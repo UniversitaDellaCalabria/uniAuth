@@ -21,9 +21,7 @@ class CustomUserAdmin(UserAdmin):
                 }),
         (_('Anagrafica'), {'fields': (('first_name', 'last_name'),
                                           'email',
-                                         ('taxpayer_id',),
-                                         ('gender',
-                                          'place_of_birth', 'birth_date',),
+                                         ('taxpayer_id',)
                                         )
                           }),
 

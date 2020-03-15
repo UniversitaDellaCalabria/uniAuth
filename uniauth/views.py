@@ -132,6 +132,9 @@ def sso_entry(request, binding='POST'):
     except IndexError as excp:
         logger.error('MDUUI not available: "{}"'.format(excp))
 
+    # name_id_format also here:
+    # IDP.metadata[sp_id]['spsso_descriptor'][0]['name_id_format'][0]['text']
+    
     if sp_id:
         sp_display_name = sp.get('display_name') or \
                           mduui.get('display_name', [{}])[0].get('text')
@@ -358,9 +361,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         broker.add(authn_context_class_ref(req_authn_context), "")
         return broker.get_authn_by_accr(req_authn_context)
 
-    def build_authn_response(self, user, authn, resp_args):
-        """ pysaml2 server.Server.create_authn_response wrapper
-        """
+    def get_name_id_format(self, user, authn, resp_args):
         self.sp['name_id_format'] = resp_args.get('name_id_policy').format
         idp_name_id_format_list = self.IDP.config.getattr("name_id_format",
                                                           "idp")
@@ -390,22 +391,40 @@ class IdPHandlerViewMixin(ErrorHandler):
         name_id = NameID(format=name_id_format,
                          sp_name_qualifier=self.sp['id'],
                          text=user_id)
+        return name_id, user_id
 
+    def get_ava(self, user=None):
+        # IDENTITY AND ATTR POLICY
         # Generate request session stuff needed for user agreement screen
         attrs_to_exclude = self.sp['config'].get('user_agreement_attr_exclude', []) + \
                            getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
 
-        self.request.session['identity'] = {
+        identity = {
             k: v
-            for k, v in self.processor.create_identity(self.request.user,
+            for k, v in self.processor.create_identity(user or self.request.user,
                                                        self.sp).items()
             if k not in attrs_to_exclude
         }
 
+        # entity categories and other pysaml2 policies could filter out some attributes
+        policy = Policy(restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
+        ava = policy.filter(identity,
+                            self.sp['id'],
+                            self.IDP.config.metadata,
+                            required=[])
+        # remove None
+        for attr in ava:
+            if not ava[attr]:
+                ava[attr] = ''
+        
+        # END IDENTITY AND ATTR POLICY
+        return identity, policy, ava
+
+    def apply_allow_create(self, name_id):
         # allow create support
         if settings.SAML_ALLOWCREATE and \
            self.resp_args['name_id_policy'].allow_create.lower() in ['true', '1'] and \
-           name_id_format == NAMEID_FORMAT_PERSISTENT:
+           name_id.format == NAMEID_FORMAT_PERSISTENT:
             if not PersistentId.objects.filter(user=self.request.user,
                                                recipient_id=self.sp['id']):
                 PersistentId.objects.create(user=self.request.user,
@@ -413,6 +432,31 @@ class IdPHandlerViewMixin(ErrorHandler):
                                             recipient_id=self.sp['id'])
         # allow create support end
 
+    def build_authn_response(self, user, authn, resp_args):
+        """ pysaml2 server.Server.create_authn_response wrapper
+        """
+        name_id, user_id = self.get_name_id_format(user, authn, resp_args)
+
+        # get identity attributes with the policy that applied filters on them 
+        identity, policy, ava = self.get_ava()
+        self.request.session['identity'] = identity
+        # talking logs
+        msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
+        self.request.session['SAML']['authn_log'] = msg.format(name_id.format,
+                                                               self.sp['id'],
+                                                               self.request.session['SAML'].get('message_id'),
+                                                               len(ava),
+                                                               ','.join(ava.keys()),
+                                                               len(identity))
+        logger.info(self.request.session['SAML']['authn_log'])
+
+        self.request.session['identity'] = ava
+        self.request.session['SAML']['subject_id'] = self.processor.eduPersonTargetedID
+        #
+        
+        # apply allow_create
+        self.apply_allow_create(name_id)
+        
         # ASSERTION ENCRYPTED
         # TODO: WHY Pysaml2 do not use SP cert available in its metadata...?
         # check if the SP supports encryption
@@ -458,28 +502,6 @@ class IdPHandlerViewMixin(ErrorHandler):
             encrypt_assertion_self_contained=encrypt_assertion,
             **resp_args
         )
-
-        # entity categories and other pysaml2 policies could filter out some attributes
-        policy = Policy(restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
-        ava = policy.filter(self.request.session['identity'],
-                            self.sp['id'],
-                            self.IDP.config.metadata,
-                            required=[])
-
-        # talking logs
-        msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
-        self.request.session['SAML']['authn_log'] = msg.format(name_id_format,
-                                                               self.sp['id'],
-                                                               self.request.session['SAML'].get('message_id'),
-                                                               len(ava),
-                                                               ','.join(ava.keys()),
-                                                               len(self.request.session['identity']))
-        logger.info(self.request.session['SAML']['authn_log'])
-        #
-
-        self.request.session['identity'] = ava
-        self.request.session['SAML']['subject_id'] = self.processor.eduPersonTargetedID
-
         return authn_resp
 
     def create_html_response(self, request, binding,
@@ -518,8 +540,8 @@ class IdPHandlerViewMixin(ErrorHandler):
         request.session['SAML']['response'] = html_response
 
         request.session['SAML']['sp_display_info'] = {
-            'display_name': self.sp['config'].get('display_name', self.sp['id']),
-            'display_description': self.sp['config'].get('display_description'),
+            'display_name': request.session['SAML']['sp_display_description'],
+            'display_description': request.session['SAML']['sp_display_description'],
             'display_agreement_message': self.sp['config'].get('display_agreement_message'),
             'display_agreement_consent_form': self.sp['config'].get('display_agreement_consent_form')
             }

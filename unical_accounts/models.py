@@ -24,14 +24,7 @@ class User(AbstractUser):
     taxpayer_id = models.CharField(_('Taxpayer\'s identification number'),
                                       max_length=32,
                                       blank=True, null=True)
-    gender    = models.CharField(_('Genere'), choices=GENDER,
-                                 max_length=12, blank=True, null=True)
-    place_of_birth = models.CharField('Luogo di nascita', max_length=56,
-                                      blank=True, null=True,
-                                      choices=[(i.name, i.name) for i in pycountry.countries])
-    birth_date = models.DateField('Data di nascita',
-                                  null=True, blank=True)
-    origin = models.CharField(_('from which conenctor this user come from'),
+    origin = models.CharField(_('from which connector this user come from'),
                               max_length=254,
                               blank=True, null=True)
 

@@ -12,7 +12,7 @@ The option `-f` can specify the output format, if saml2 (default) or json.
 AACli
 ^^^^^
 
-Under development.
+
 This feature will let us check wich attributes will be released to a specified user id.
 
 ::

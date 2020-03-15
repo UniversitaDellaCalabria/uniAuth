@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -19,12 +21,24 @@ class Command(BaseCommand):
                             help="see debug message")
 
     def handle(self, *args, **options):
+        uid = options['u']
+        eid = options['e']
+        
         idph =  IdPHandlerViewMixin()
         idph.IDP = get_IDP()
-        idph.set_sp(options['e'])
+        idph.set_sp(eid)
 
         idph.set_processor()
-        idph.processor.create_identity(options['u'], idph.sp)
+        idph.processor.create_identity(uid, idph.sp)
 
-        #import pdb; pdb.set_trace()
-        raise Exception('Not yet implemented')
+        user = get_user_model().objects.filter(username=uid).first()
+        if not user:
+            user = get_user_model().objects.create(username=uid,
+                                                   origin='aacli')
+        
+        identity, policy, ava = idph.get_ava(user)
+        print('SP Configuration:')
+        print(json.dumps(idph.sp['config'], indent=2))
+        print()
+        print('TargetedID: {}'.format(idph.processor.eduPersonTargetedID))
+        print(json.dumps(ava, indent=2))

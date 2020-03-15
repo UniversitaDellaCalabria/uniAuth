@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
+from uniauth.views import IdPHandlerViewMixin, get_IDP
 from uniauth.utils import get_idp_config, get_idp_sp_config
 
 
@@ -18,6 +19,12 @@ class Command(BaseCommand):
                             help="see debug message")
 
     def handle(self, *args, **options):
-        sp = get_idp_sp_config()
+        idph =  IdPHandlerViewMixin()
+        idph.IDP = get_IDP()
+        idph.set_sp(options['e'])
+
+        idph.set_processor()
+        idph.processor.create_identity(options['u'], idph.sp)
+
         #import pdb; pdb.set_trace()
         raise Exception('Not yet implemented')

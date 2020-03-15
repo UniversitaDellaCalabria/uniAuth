@@ -80,51 +80,6 @@ def sso_entry(request, binding='POST'):
     try:
         req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
                                            binding)
-        # later we'll check if the authnrequest is older then the IDP session age
-        request.session['SAML']['issue_instant'] = req_info.message.issue_instant
-
-        # these are not serializable ...
-        #request.session['SAML']['IDP'] = IDP
-        #request.session['SAML']['req_info'] = req_info
-
-        ## copy required params
-        saml_session = copy.deepcopy(request.session['SAML'])
-        # Force Authn check
-        if req_info.message.force_authn:
-            logout(request)
-            msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
-                                                                        req_info.message.id)
-            logger.info(msg)
-
-        ## reload saml params in session
-        request.session['SAML'] = saml_session
-        request.session['SAML']['message_id'] = req_info.message.id
-        request.session['SAML']['issue_instant'] = req_info.message.issue_instant
-
-        sp_id = req_info.message.issuer.text
-        sp = get_idp_sp_config().get(sp_id, {})
-
-        mduui = {}
-        if not IDP.config.metadata.service(sp_id,
-                                           "spsso_descriptor",
-                                           'assertion_consumer_service'):
-            msg = _("{} is not present in any Metadata").format(sp_id)
-            raise MetadataNotFound(msg)
-
-        try:
-            mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
-                     .get('extensions', {}).get('extension_elements', [{}])[0]
-        except IndexError as excp:
-            logger.error('MDUUI not available: "{}"'.format(excp))
-
-        if sp_id:
-            request.session['SAML']['sp_display_name'] = sp.get('display_name') or \
-                                                         mduui.get('display_name', [{}])[0].get('text')
-            request.session['SAML']['sp_display_description'] = sp.get('display_description', '') or \
-                                                                mduui.get('description', [{}])[0].get('text') or \
-                                                                sp_id
-            request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
-
     except IncorrectlySigned as exp:
         logger.error('{}'.format(exp))
         return render(request, 'error.html',
@@ -139,6 +94,53 @@ def sso_entry(request, binding='POST'):
         return render(request, 'error.html',
                       {'exception_type': exp},
                        status=403)
+    
+    # later we'll check if the authnrequest is older then the IDP session age
+    request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+
+    # these are not serializable ...
+    #request.session['SAML']['IDP'] = IDP
+    #request.session['SAML']['req_info'] = req_info
+
+    ## copy required params
+    saml_session = copy.deepcopy(request.session['SAML'])
+    # Force Authn check
+    if req_info.message.force_authn:
+        logout(request)
+        msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
+                                                                    req_info.message.id)
+        logger.info(msg)
+
+    ## reload saml params in session
+    request.session['SAML'] = saml_session
+    request.session['SAML']['message_id'] = req_info.message.id
+    request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+
+    sp_id = req_info.message.issuer.text
+    sp = get_idp_sp_config().get(sp_id, {})
+
+    mduui = {}
+    if not IDP.config.metadata.service(sp_id,
+                                       "spsso_descriptor",
+                                       'assertion_consumer_service'):
+        msg = _("{} is not present in any Metadata").format(sp_id)
+        raise MetadataNotFound(msg)
+
+    try:
+        mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
+                 .get('extensions', {}).get('extension_elements', [{}])[0]
+    except IndexError as excp:
+        logger.error('MDUUI not available: "{}"'.format(excp))
+
+    if sp_id:
+        sp_display_name = sp.get('display_name') or \
+                          mduui.get('display_name', [{}])[0].get('text')
+        sp_display_description = sp.get('display_description', '') or \
+                                 mduui.get('description', [{}])[0].get('text') or \
+                                 sp_id
+        request.session['SAML']['sp_display_name'] = sp_display_name
+        request.session['SAML']['sp_display_description'] = sp_display_description
+        request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
 
     try:
         resp_args = IDP.response_args(req_info.message)
@@ -150,7 +152,7 @@ def sso_entry(request, binding='POST'):
                        'extra_message': _('Metadata is missing')},
                        status=403)
 
-    sp_id = resp_args.get('sp_entity_id', sp_id)
+    #sp_id = resp_args.get('sp_entity_id', sp_id)
     if settings.SAML_DISALLOW_UNDEFINED_SP:
         if sp_id not in get_idp_sp_config().keys():
             return render(request, 'error.html',
@@ -167,7 +169,6 @@ def sso_entry(request, binding='POST'):
                            'exception_msg': _("{} was disabled".format(sp_id))},
                           status=403)
     # end check
-
     return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
 
 
@@ -248,22 +249,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         sp = ServiceProvider.objects.filter(entity_id = sp_entity_id).first()
 
         if not self.sp['config']:
-            # already checked in sso_init
-            #if settings.SAML_DISALLOW_UNDEFINED_SP:
-                #msg = _("No config for SP {} was defined in SAML_IDP_SPCONFIG")
-                #raise ImproperlyConfigured(msg.format(sp_entity_id))
-            #else:
-                #if not self.IDP.config.metadata.service(sp_entity_id,
-                                                        #"spsso_descriptor",
-                                                        #'assertion_consumer_service'):
-                    #msg = _("{} is not present in any Metadata").format(sp_entity_id)
-                    #raise MetadataNotFound(msg)
-
             self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
-
-            # TODO: get these information from sp's metadata
-            self.sp['config']['display_name'] = sp_entity_id
-            self.sp['config']['display_description'] = ''
             self.sp['config']['force_attribute_release'] = False
 
         if not sp:
@@ -435,20 +421,17 @@ class IdPHandlerViewMixin(ErrorHandler):
                                                          "spsso", use="encryption")
             if sp_enc_cert:
                 encrypt_assertion = True
-
             elif getattr(settings, 'SAML_FORCE_ENCRYPTED_ASSERTION', False):
                 encrypt_assertion = True
-
             if self.sp['config'].get('disable_encrypted_assertions', False):
                 encrypt_assertion = False
-            # END ASSERTION ENCRYPTED
-
             # TODO: investigate here
             if encrypt_assertion:
                 resp_args['encrypt_cert_assertion'] = sp_enc_cert[0]
                 resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
                 resp_args['pefim'] = 1
-
+        # END ENCRYPTED ASSERTION
+        
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
             identity=self.request.session['identity'],

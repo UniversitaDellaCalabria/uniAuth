@@ -13,7 +13,7 @@ AACli
 ^^^^^
 
 
-This feature will let us check wich attributes will be released to a specified user id.
+This feature will let us check wich attributes will be released to a specified Service Provider regarding a specified user.
 
 ::
 

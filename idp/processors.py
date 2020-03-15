@@ -87,7 +87,7 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
     """
 
     def get_identity(self, user):
-        if self.request.session.get('identity_attributes'):
+        if hasattr(self, 'request') and self.request.session.get('identity_attributes'):
             return type('', (object,), self.request.session['identity_attributes'])()
 
         # otherwise do another query ...

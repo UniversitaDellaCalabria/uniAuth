@@ -91,12 +91,17 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
             if self.request.session.get('identity_attributes'):
                 return type('', (object,), self.request.session['identity_attributes'])()
 
+        if isinstance(user, str):
+            username = user
+        else:
+            username = user.username
+        
         # otherwise do another query ...
         identity = None
         for lc in settings.LDAP_CONNECTIONS: # pragma: no coverage
-            ldapfilter = '(uid={})'.format(user.username)
+            ldapfilter = '(uid={})'.format(username)
             logging.debug("Processor {} searches for {} in {}".format(self.__class__,
-                                                                      user.username,
+                                                                      username,
                                                                       lc))
             identity = lc.get(search=ldapfilter, format='object')
             if identity:

@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'bootstrap_italia_template',
-    'unical_agid_template',
+    'django_unical_bootstrap_italia',
     'uniauth',
     'idp',
     # 'ldap_peoples',

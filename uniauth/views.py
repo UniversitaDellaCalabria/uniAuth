@@ -94,7 +94,7 @@ def sso_entry(request, binding='POST'):
         return render(request, 'error.html',
                       {'exception_type': exp},
                        status=403)
-    
+
     # later we'll check if the authnrequest is older then the IDP session age
     request.session['SAML']['issue_instant'] = req_info.message.issue_instant
 
@@ -134,7 +134,7 @@ def sso_entry(request, binding='POST'):
 
     # name_id_format also here, as made in AAcli
     # IDP.metadata[sp_id]['spsso_descriptor'][0]['name_id_format'][0]['text']
-    
+
     if sp_id:
         sp_display_name = sp.get('display_name') or \
                           mduui.get('display_name', [{}])[0].get('text')
@@ -292,8 +292,12 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # updates newly requested attrs
         for attr in attr_list:
+            # if there's some configuration about mapping ...
             if attr in settings.DEFAULT_SPCONFIG['attribute_mapping']:
                 self.sp['config']['attribute_mapping'][attr] = settings.DEFAULT_SPCONFIG['attribute_mapping'][attr]
+            # .. otherwise map it as it come from sp's metadata
+            else:
+                self.sp['config']['attribute_mapping'][attr] = [attr]
 
         # clean up unrequired
         to_be_removed = []
@@ -315,6 +319,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             # if some required attributes are unavailable the IdP give this warning
             for req in conv_req_attr_list:
                 if req not in self.sp['config']['attribute_mapping']:
+                    logger.info(msg)
                     raise UnavailableRequiredAttributes(msg.format(sp_entity_id, req))
 
     def set_processor(self,request=None):
@@ -416,7 +421,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         for attr in ava:
             if not ava[attr]:
                 ava[attr] = ''
-        
+
         # END IDENTITY AND ATTR POLICY
         return identity, policy, ava
 
@@ -437,7 +442,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         """
         name_id, user_id = self.get_name_id_format(user, authn, resp_args)
 
-        # get identity attributes with the policy that applied filters on them 
+        # get identity attributes with the policy that applied filters on them
         identity, policy, ava = self.get_ava()
         self.request.session['identity'] = identity
         # talking logs
@@ -453,10 +458,10 @@ class IdPHandlerViewMixin(ErrorHandler):
         self.request.session['identity'] = ava
         self.request.session['SAML']['subject_id'] = self.processor.eduPersonTargetedID
         #
-        
+
         # apply allow_create
         self.apply_allow_create(name_id)
-        
+
         # ASSERTION ENCRYPTED
         # TODO: WHY Pysaml2 do not use SP cert available in its metadata...?
         # check if the SP supports encryption
@@ -475,7 +480,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                 resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
                 resp_args['pefim'] = 1
         # END ENCRYPTED ASSERTION
-        
+
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
             identity=self.request.session['identity'],
@@ -620,9 +625,9 @@ class LoginAuthView(LoginView):
                 issue_instant = timezone.datetime.strptime(self.request.session['SAML']['issue_instant'],
                                                            tformat)
                 break
-            except:
-                # do not worry...
-                pass
+            except Exception as e:
+                logger.debug('{} not parseable with {}'.format(self.request.session['SAML']['issue_instant'],
+                                                               tformat))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
         if issue_instant < timezone.make_naive((now-datetime.timedelta(minutes=mins)),

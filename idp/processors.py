@@ -99,7 +99,7 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
             username = user
         else:
             username = user.username
-        
+
         # otherwise do another query ...
         identity = None
         for lc in settings.LDAP_CONNECTIONS: # pragma: no coverage

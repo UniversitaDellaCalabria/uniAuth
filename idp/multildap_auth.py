@@ -58,15 +58,15 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
 
         username = lu_obj.uid[0]
-        try:
-            user = get_user_model().objects.get(username=username)
+        user = get_user_model().objects.filter(username=username).first()
+        if user:
             # update attrs:
             user.email = lu_obj.mail[0]
             user.first_name = lu_obj.givenName[0]
             user.last_name = lu_obj.sn[0]
             user.origin = lc.__repr__()
             user.save()
-        except Exception as e:
+        else:
             logger.info("--- Creating user: {}".format(username))
             user = get_user_model().objects.create(username=username,
                                                    email=lu_obj.mail[0],

@@ -1,0 +1,27 @@
+dist: buster
+sudo: false
+
+language: python
+python:
+  - 3.6
+  - 3.7
+  - pypy3
+
+addons:
+  apt:
+    packages:
+      - xmlsec1
+
+before_install:
+  - sudo apt-get install -y xmlsec1
+
+install:
+  - pip install codecov
+  - pip install tox
+  - pip install tox-travis
+script:
+  - coverage --version
+  - tox
+
+after_success:
+  - coverage report -m

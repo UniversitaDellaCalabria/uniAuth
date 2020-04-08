@@ -22,7 +22,7 @@ class Command(BaseCommand):
         for md in MetadataStore.objects.filter(is_active=1,
                                                is_valid=1):
             if md.type in ('file', 'local'):
-                idp.metadata.load(md.type, md.file)
+                idp.metadata.load(md.type, md.url)
             else:
                 idp.metadata.load(md.type,
                                   url=md.url, ca_cert=md.file,

@@ -53,14 +53,14 @@ it:
     codiceIPA: unical
 description:
   it:
-    features:
+    features: |
         - HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
         - ForceAuthn;
         - SLO, SAML Single Logout;
         - Signed and Encrypted assertions;
         - AllowCreate, nameid is stored with a persistent nameid format.
 
-    Implementation specific Features
+        Implementation specific Features
 
         - no restart is needed on new matadata store or SP;
         - Full Internazionalization support (i18n);
@@ -81,7 +81,7 @@ description:
         - Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
         - Multifactor support, as originally available in djangosaml2idp;
         - Detailed logs.
-        screenshots:
+    screenshots:
       - >-
         https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/data/gallery/uniauth.png
       - >-

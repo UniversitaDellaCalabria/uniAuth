@@ -1,0 +1,97 @@
+# This repository adheres to the publiccode.yml standard by including this
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+name: uniAuth
+softwareVersion: '1.0.2'
+releaseDate: '2020-01-13'
+url: 'https://github.com/UniversitaDellaCalabria/uniAuth'
+landingURL: 'https://github.com/UniversitaDellaCalabria/uniAuth'
+developmentStatus: stable
+softwareType: standalone/web
+roadmap: 'https://github.com/UniversitaDellaCalabria/uniAuth/issues'
+platforms:
+  - linux
+  - web
+usedBy:
+  - 'https://www.unical.it'
+categories:
+  - identity-management
+maintenance:
+  type: internal
+  contacts:
+    - name: Giuseppe De Marco
+      email: giuseppe.demarco@unical.it
+      affiliation: unical.it
+    - name: Francesco Filicetti
+      email: francesco.filicetti@unical.it
+      affiliation: unical.it
+legal:
+  license: Apache-2.0
+  mainCopyrightOwner: Università della Calabria
+  authorsFile: AUTHORS
+intendedAudience:
+  scope:
+    - employment
+localisation:
+  localisationReady: True
+  availableLanguages:
+    - it
+    - en
+dependsOn:
+  open:
+    - name: MariaDB
+    - name: Python
+    - name: Django
+it:
+  countryExtensionVersion: '0.2'
+  conforme:
+    gdpr: true
+    misureMinimeSicurezza: true
+  riuso:
+    codiceIPA: unical
+description:
+  it:
+    features: |
+        - HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
+        - ForceAuthn;
+        - SLO, SAML Single Logout;
+        - Signed and Encrypted assertions;
+        - AllowCreate, nameid is stored with a persistent nameid format.
+
+        Implementation specific Features
+
+        - no restart is needed on new matadata store or SP;
+        - Full Internazionalization support (i18n);
+        - Interactive Metadata Store definitions through the Admin Backend UI;
+        - Interactive ServiceProvider definition through the Admin Backend UI;
+        - Customizable Template and style based on [AGID guidelines](https://www.agid.gov.it/it/argomenti/linee-guida-design-pa);
+        - MetadataStore and SP validations on save, to prevent faulty configurations in production environment;
+        - Configurable digest algorithm and salt for Computed NameID;
+        - Many configurable options, for every SP we can decide:
+            - enable/disable explicitally;
+            - signature and digest algorithms;
+            - attributes release (force a set or release what requested by sp);
+            - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from scratch;
+            - agreement screen message, availability, data consent form.
+        - Configurable log rotation through uwsgi;
+        - Importable StoredPersistentID for each user, from migrations from another IDP;
+        - An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
+        - Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
+        - Multifactor support, as originally available in djangosaml2idp;
+        - Detailed logs.
+    screenshots:
+      - >-
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/data/gallery/uniauth.png
+      - >-
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/documentation/contents/login.png
+      - >-
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/documentation/contents/agreement.png
+    documentation: 'https://uniauth.readthedocs.io/'
+    genericName: applicazione web
+    shortDescription: Identity Provider per la gestione del SingleSignOn
+    longDescription: >
+      uniAuth would let simple users to do an applicative administration
+      of the platform, create new metadata store and federate new
+      Service Provider, without handle high sysadmin tasks.

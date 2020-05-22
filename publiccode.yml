@@ -113,11 +113,11 @@ description:
       usage specifications and advanced topics.
     screenshots:
       - >-
-        https://raw.githubusercontent.com/UniversitaDellaCalabria/uniAuth/master/data/gallery/uniauth.png
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/data/gallery/uniauth.png
       - >-
-        https://raw.githubusercontent.com/UniversitaDellaCalabria/uniAuth/master/documentation/contents/login.png
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/documentation/contents/agreement.png
       - >-
-        https://raw.githubusercontent.com/UniversitaDellaCalabria/uniAuth/master/documentation/contents/agreement.png
+        https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/documentation/contents/validate_multi_sp.png
     shortDescription: Identity Provider per la gestione del SingleSignOn
 developmentStatus: stable
 intendedAudience:
@@ -138,7 +138,7 @@ it:
 landingURL: 'https://github.com/UniversitaDellaCalabria/uniAuth'
 legal:
   authorsFile: >-
-    https://raw.githubusercontent.com/UniversitaDellaCalabria/uniAuth/master/AUTHORS
+    https://github.com/UniversitaDellaCalabria/uniAuth/blob/master/AUTHORS
   license: Apache-2.0
   mainCopyrightOwner: Università della Calabria
 localisation:

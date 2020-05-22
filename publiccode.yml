@@ -62,7 +62,7 @@ description:
       ## **Implementation specific Features**
 
 
-      - no restart is needed on new matadata store or SP;
+      - no restart needed on new matadata store or SP creation;
 
       - Full Internazionalization support (i18n);
 
@@ -160,7 +160,7 @@ platforms:
 releaseDate: '2020-01-13'
 roadmap: 'https://github.com/UniversitaDellaCalabria/uniAuth/issues'
 softwareType: standalone/web
-softwareVersion: 1.0.2
+softwareVersion: 1.2.0
 url: 'https://github.com/UniversitaDellaCalabria/uniAuth'
 usedBy:
   - 'https://www.unical.it'

@@ -8,7 +8,7 @@ from django.contrib.sessions.models import Session
 from django.core.mail import send_mail
 from django.db import connections
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from ldap_peoples.models import LdapAcademiaUser
 

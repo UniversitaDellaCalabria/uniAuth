@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 
 from .models import User, PersistentId

@@ -27,6 +27,9 @@ mkdir -p $BACKUP_DIR_MEDIA
 set -x
 set -e
 
+# clear expired sessions
+$ENV_PATH/bin/python3 $PROJ_PATH/manage.py  clearsessions
+
 # JSON dump, encrypt and compress
 $ENV_PATH/bin/python3 $PROJ_PATH/manage.py dumpdata --exclude auth.permission --exclude contenttypes --exclude sessions --indent 2  | 7z a $BACKUP_DIR_JSON/$FNAME.json.7z -si -p$PASSWORD
 

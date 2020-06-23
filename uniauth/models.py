@@ -218,16 +218,24 @@ class MetadataStore(models.Model):
 
     def validate(self):
         error = None
-        if self.type in ('remote', 'mdq'):
-            if self.url:
-                try:
-                    r = requests.head(self.url + '/entities/')
-                    if r.status_code != 200:
-                        logger.error('{} /entities query failed: {}'.format(self, r.content))
-                        self.is_active = False
-                except Exception as e:
-                    error = 'Endpoint is not reachable: {}'.format(e)
+        if self.type == 'mdq':
+            try:
+                r = requests.head(self.url + '/entities/')
+                if r.status_code != 200:
+                    logger.error('{} /entities query failed: {}'.format(self, r.content))
                     self.is_active = False
+            except Exception as e:
+                error = 'Endpoint is not reachable: {}'.format(e)
+                self.is_active = False
+        elif self.type == 'remote':
+            try:
+                r = requests.get(self.url)
+                if r.status_code != 200:
+                    logger.error('{} /entities query failed: {}'.format(self, r.content))
+                    self.is_active = False
+            except Exception as e:
+                error = 'Endpoint is not reachable: {}'.format(e)
+                self.is_active = False
 
         elif self.type == 'local':
             # check that is a valid XML file, avoids: pysaml2 Exception on parse

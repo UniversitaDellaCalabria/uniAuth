@@ -230,6 +230,7 @@ class IdPHandlerViewMixin(ErrorHandler):
     def convert_attributes(self, attr_name_list):
         converted_attrs = []
         for attr_id in attr_name_list:
+            if not attr_id: continue
             for acs in self.IDP.config.attribute_converters:
                 attr = attr_id.lower()
                 if attr in acs._fro:

@@ -654,6 +654,7 @@ class LoginAuthView(LoginView):
 
 
 @method_decorator(never_cache, name='dispatch')
+@method_decorator(require_saml_request, name='dispatch')
 class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
     """ View which processes the actual SAML request and
         returns a self-submitting form with the SAML response.
@@ -769,6 +770,7 @@ class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):
 
 
 @method_decorator(never_cache, name='dispatch')
+@method_decorator(require_saml_request, name='dispatch')
 class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
     """This view shows the user an overview of the data being sent to the SP.
     """
@@ -826,6 +828,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
 
 
 @method_decorator(never_cache, name='dispatch')
+@method_decorator(require_saml_request, name='dispatch')
 class ProcessMultiFactorView(LoginRequiredMixin, View):
     """ This view is used in an optional step is to perform 'other'
         user validation, for example 2nd factor checks.
@@ -857,6 +860,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
 
 @method_decorator(never_cache, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(require_saml_request, name='dispatch')
 class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
     """ View which processes the actual SAML Single Logout request
         The login_required decorator ensures the user authenticates

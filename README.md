@@ -13,13 +13,13 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
 
 This Release implements a SAML2 IDP.
 
-An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also available in the next releases.
+An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also available in next releases.
 
 ## SAML2 Features
 
 uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2). Features:
 
-- HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
+- HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
 - ForceAuthn;
 - SLO, SAML Single Logout;
 - Signed and Encrypted assertions;
@@ -40,11 +40,12 @@ uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython
     - attributes release (force a set or release what requested by sp);
     - attribute rewrite and creation, fully configurable AttributeProcessors per SP, every aspect of attribute release can be customized from scratch;
     - agreement screen message, availability, data consent form.
-- Configurable log rotation through uwsgi;
+- Configurable log rotation through uwsgi and python logging;
 - Importable StoredPersistentID for each user, from migrations from another IDP;
 - An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
-- Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
-- Multifactor support, as originally available in djangosaml2idp;
+- _Multiple LDAP_ sources through [pyMultiLDAP](https://github.com/peppelinux/pyMultiLDAP);
+- _Multifactor Authentication_ support, as originally available in djangosaml2idp;
+- _aacli_ and _mdquery_ management command (yes, inspired by Shibboleth IdP);
 - Detailed logs.
 
 
@@ -95,12 +96,4 @@ ldapsearch -H ldap://localhost:3899 -b "dc=testunical,dc=it" uid=mario -D "uid=m
 ## Contribute
 
 Feel free to contribute creating separate PR from dedicated branches for each feature.
-Please open an Issue if you want to talk before develop, to reduce the risk to be unmerged for some reason.
-
-## Troubleshooting
-
-````
-AttributeError: module 'enum' has no attribute 'IntFlag'
-
-pip uninstall -y enum34
-````
+Please open an Issue if you want to talk before develop, to reduce the risk to be not merged for some reason.

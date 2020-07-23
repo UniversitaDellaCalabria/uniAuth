@@ -10,6 +10,7 @@ from django.db import connections
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from ldap3.utils import conv
 from ldap_peoples.models import LdapAcademiaUser
 
 logger = logging.getLogger(__name__)
@@ -28,6 +29,7 @@ class LdapAcademiaAuthBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None):
         ldap_conn = connections['ldap']
         user = None
+        username = conv.escape_filter_chars(username, encoding=None)
         lu = LdapAcademiaUser.objects.filter(uid=username).first()
         if not lu:
             logger.info("--- LDAP BIND failed for {} ---".format(username))

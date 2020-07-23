@@ -10,6 +10,7 @@ from django.db import connections
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from ldap3.utils import conv
 from multildap.client import LdapClient
 
 
@@ -32,6 +33,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
         lu = None
         dn = None
 
+        username = conv.escape_filter_chars(username, encoding=None)
         for lc in settings.LDAP_CONNECTIONS:
             search_filter = '(uid={})'.format(username)
             lu = lc.get(search=search_filter)

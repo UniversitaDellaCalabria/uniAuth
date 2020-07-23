@@ -25,6 +25,7 @@ git+https://github.com/peppelinux/django-ldapdb.git
 git+https://github.com/peppelinux/pySSHA-slapd.git
 git+https://github.com/peppelinux/django-ldap-academia-ou-manager.git
 git+https://github.com/peppelinux/pyMultiLDAP.git
+ldap3
 
 # diagrams
 django-extensions

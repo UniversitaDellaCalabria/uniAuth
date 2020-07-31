@@ -15,10 +15,10 @@ SESSION_COOKIE_AGE = 60 * 10 # minutes
 ADMIN_PATH = 'admin_access'
 
 ALLOWED_HOSTS = ['*']
-AUTH_USER_MODEL = 'unical_accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 INSTALLED_APPS = [
-    'unical_accounts',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

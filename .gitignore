@@ -18,4 +18,4 @@ tests/data/metadata/*
 tests/sp/metadata/*
 .coverage
 .pytest_cache
-db.sqlite3
+*.sqlite3

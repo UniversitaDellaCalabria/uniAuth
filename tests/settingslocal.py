@@ -9,7 +9,7 @@ SESSION_COOKIE_AGE = 60 * 10 # minutes
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'unical_accounts',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     #'multildap',
     'rangefilter']
 
-AUTH_USER_MODEL = "unical_accounts.User"
+AUTH_USER_MODEL = "accounts.User"
 
 # ldap_peoples related
 # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'

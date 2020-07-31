@@ -42,7 +42,7 @@ from saml2.saml import NAMEID_FORMAT_UNSPECIFIED, NAMEID_FORMAT_PERSISTENT
 from saml2.response import (IncorrectlySigned,)
 from six import text_type
 
-from unical_accounts.models import PersistentId
+from accounts.models import PersistentId
 from . decorators import (_not_valid_saml_msg,
                           store_params_in_session,
                           store_params_in_session_func,
@@ -73,7 +73,6 @@ def sso_entry(request, binding='POST'):
     """
     # decoratos do the most
     logger.info("SSO req from client {}".format(get_client_id(request)))
-
     binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
     IDP = get_IDP()
 
@@ -337,7 +336,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             except Exception as e:
                 logger.error('{}'.format(e))
                 msg = _("Failed to instantiate processor: {} - {}")
-                logger.error(msg.format(processor_string,e),
+                logger.error(msg.format(processor_string, e),
                                         exc_info=True)
                 raise ImproperlyConfigured(_(msg.format(processor_string, e),
                                                         exc_info=True))
@@ -368,7 +367,9 @@ class IdPHandlerViewMixin(ErrorHandler):
         return broker.get_authn_by_accr(req_authn_context)
 
     def get_name_id_format(self, user, authn, resp_args):
-        self.sp['name_id_format'] = resp_args.get('name_id_policy').format
+        name_id_format = resp_args.get('name_id_policy')
+        self.sp['name_id_format'] = name_id_format.format \
+                                    if name_id_format else NAMEID_FORMAT_PERSISTENT
         idp_name_id_format_list = self.IDP.config.getattr("name_id_format",
                                                           "idp")
 
@@ -427,9 +428,13 @@ class IdPHandlerViewMixin(ErrorHandler):
         return identity, policy, ava
 
     def apply_allow_create(self, name_id):
+        name_id_policy = self.resp_args['name_id_policy']
+        allow_create = False
+        if name_id_policy and hasattr(name_id_policy, 'allow_create'):
+            name_id_policy = name_id_policy.allow_create.lower()
         # allow create support
         if settings.SAML_ALLOWCREATE and \
-           self.resp_args['name_id_policy'].allow_create.lower() in ['true', '1'] and \
+           name_id_policy in ['true', '1'] and \
            name_id.format == NAMEID_FORMAT_PERSISTENT:
             if not PersistentId.objects.filter(user=self.request.user,
                                                recipient_id=self.sp['id']):

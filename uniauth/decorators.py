@@ -35,14 +35,13 @@ def store_params_in_session(request):
     saml_request = passed_data.get('SAMLRequest')
     if saml_request:
         msg = "SAML request [\n{}]"
-        logger.debug(msg.format(repr_saml(saml_request,
-                                b64=True)))
+        logger.debug(msg.format(repr_saml(saml_request, b64=True)))
     else:
         msg = _('not a valid SAMLRequest: {}').format(_('AuthnRequest is missing. Please Retry'))
         logger.info('SAML Request absent from {}'.format(request))
         return render(request, 'error.html',
-                      {'exception_type':msg,
-                       'exception_msg':_('Please renew your SAML Request'),
+                      {'exception_type': msg,
+                       'exception_msg': _('Please renew your SAML Request'),
                        'extra_message': _not_valid_saml_msg},
                        status=403)
 

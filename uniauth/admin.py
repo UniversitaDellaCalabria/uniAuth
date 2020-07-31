@@ -16,7 +16,7 @@ def valida_elemento(modeladmin, request, queryset):
         try:
             i.validate()
             messages.add_message(request, messages.SUCCESS,
-                                 '{} validato con successo'.format(i))
+                                 '{} succesfully validated'.format(i))
         except Exception as e:
             messages.add_message(request, messages.ERROR,
                                  '{} : {}'.format(i, e))

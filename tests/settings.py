@@ -42,6 +42,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # SameSite Cookie workaround
+    'djangosaml2.middleware.SamlSessionMiddleware'
 ]
 
 # GETTEXT LOCALIZATION

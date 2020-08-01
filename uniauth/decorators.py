@@ -31,7 +31,6 @@ def store_params_in_session(request):
     else:
         passed_data = request.GET
         binding = BINDING_HTTP_REDIRECT
-
     saml_request = passed_data.get('SAMLRequest')
     if saml_request:
         msg = "SAML request [\n{}]"
@@ -45,10 +44,9 @@ def store_params_in_session(request):
                        'extra_message': _not_valid_saml_msg},
                        status=403)
 
-    request.session['SAML'] = {}
-    request.session['SAML']['SAMLRequest'] = saml_request
-    request.session['SAML']['Binding'] = binding
-    request.session['SAML']['RelayState'] = passed_data.get('RelayState', '')
+    request.saml_session['SAMLRequest'] = saml_request
+    request.saml_session['Binding'] = binding
+    request.saml_session['RelayState'] = passed_data.get('RelayState', '')
 
 
 def store_params_in_session_func(func_to_decorate):
@@ -74,12 +72,11 @@ def require_saml_request(func_to_decorate):
     """
     def new_func(*original_args, **original_kwargs):
         request = original_args[0]
-        if not request.session.get('SAML') or \
-           not request.session.get('SAML', {}).get('SAMLRequest'):
+        if not request.saml_session.get('SAMLRequest'):
             return render(request, 'error.html',
                           {'exception_type':_("You cannot access to this service directly"),
                            'exception_msg':_('Please renew your SAML Request'),
                            'extra_message': _not_valid_saml_msg},
-                          status=403)
+                           status=403)
         return func_to_decorate(*original_args, **original_kwargs)
     return new_func

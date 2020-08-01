@@ -5,6 +5,7 @@ import logging
 import json
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth import logout, login as auth_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
@@ -73,11 +74,10 @@ def sso_entry(request, binding='POST'):
     """
     # decoratos do the most
     logger.info("SSO req from client {}".format(get_client_id(request)))
-    binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
+    binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
     IDP = get_IDP()
-
     try:
-        req_info = IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
+        req_info = IDP.parse_authn_request(request.saml_session['SAMLRequest'],
                                            binding)
     except IncorrectlySigned as exp:
         logger.error('{}'.format(exp))
@@ -95,14 +95,12 @@ def sso_entry(request, binding='POST'):
                        status=403)
 
     # later we'll check if the authnrequest is older then the IDP session age
-    request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+    request.saml_session['issue_instant'] = req_info.message.issue_instant
 
     # these are not serializable ...
-    #request.session['SAML']['IDP'] = IDP
-    #request.session['SAML']['req_info'] = req_info
+    #request.saml_session['IDP'] = IDP
+    #request.saml_session['req_info'] = req_info
 
-    ## copy required params
-    saml_session = copy.deepcopy(request.session['SAML'])
     # Force Authn check
     if req_info.message.force_authn:
         logout(request)
@@ -110,10 +108,8 @@ def sso_entry(request, binding='POST'):
                                                                     req_info.message.id)
         logger.info(msg)
 
-    ## reload saml params in session
-    request.session['SAML'] = saml_session
-    request.session['SAML']['message_id'] = req_info.message.id
-    request.session['SAML']['issue_instant'] = req_info.message.issue_instant
+    request.saml_session['message_id'] = req_info.message.id
+    request.saml_session['issue_instant'] = req_info.message.issue_instant
 
     sp_id = req_info.message.issuer.text
     sp = get_idp_sp_config().get(sp_id, {})
@@ -140,9 +136,9 @@ def sso_entry(request, binding='POST'):
         sp_display_description = sp.get('display_description', '') or \
                                  mduui.get('description', [{}])[0].get('text') or \
                                  sp_id
-        request.session['SAML']['sp_display_name'] = sp_display_name
-        request.session['SAML']['sp_display_description'] = sp_display_description
-        request.session['SAML']['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
+        request.saml_session['sp_display_name'] = sp_display_name
+        request.saml_session['sp_display_description'] = sp_display_description
+        request.saml_session['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
 
     try:
         resp_args = IDP.response_args(req_info.message)
@@ -164,8 +160,7 @@ def sso_entry(request, binding='POST'):
                           status=403)
 
     # check if the SP was defined but disabled
-    if ServiceProvider.objects.filter(entity_id=sp_id,
-                                      is_active=0):
+    if ServiceProvider.objects.filter(entity_id=sp_id, is_active=0):
         return render(request, 'error.html',
                           {'exception_type': _("This SP is not allowed to access to this Service"),
                            'exception_msg': _("{} was disabled".format(sp_id))},
@@ -453,16 +448,16 @@ class IdPHandlerViewMixin(ErrorHandler):
         self.request.session['identity'] = identity
         # talking logs
         msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
-        self.request.session['SAML']['authn_log'] = msg.format(name_id.format,
+        self.request.saml_session['authn_log'] = msg.format(name_id.format,
                                                                self.sp['id'],
-                                                               self.request.session['SAML'].get('message_id'),
+                                                               self.request.saml_session.get('message_id'),
                                                                len(ava),
                                                                ','.join(ava.keys()),
                                                                len(identity))
-        logger.info(self.request.session['SAML']['authn_log'])
+        logger.info(self.request.saml_session['authn_log'])
 
         self.request.session['identity'] = ava
-        self.request.session['SAML']['subject_id'] = self.processor.eduPersonTargetedID
+        self.request.saml_session['subject_id'] = self.processor.eduPersonTargetedID
         #
 
         # apply allow_create
@@ -548,15 +543,15 @@ class IdPHandlerViewMixin(ErrorHandler):
             # In case of SLO, where processor isn't relevant
             return HttpResponse(html_response)
 
-        request.session['SAML']['response'] = html_response
+        request.saml_session['response'] = html_response
 
-        request.session['SAML']['sp_display_info'] = {
-            'display_name': request.session['SAML']['sp_display_description'],
-            'display_description': request.session['SAML']['sp_display_description'],
+        request.saml_session['sp_display_info'] = {
+            'display_name': request.saml_session['sp_display_description'],
+            'display_description': request.saml_session['sp_display_description'],
             'display_agreement_message': self.sp['config'].get('display_agreement_message'),
             'display_agreement_consent_form': self.sp['config'].get('display_agreement_consent_form')
             }
-        request.session['SAML']['sp_entity_id'] = self.sp['id']
+        request.saml_session['sp_entity_id'] = self.sp['id']
 
         # Conditions for showing user agreement screen
         user_agreement_enabled_for_sp = self.sp['config'].get('show_user_agreement_screen',
@@ -597,6 +592,10 @@ class LoginAuthView(LoginView):
     template_name = "saml_login.html"
     form_class = LoginForm
 
+    #  def dispatch(self, request, *args, **kwargs):
+        #  import pdb; pdb.set_trace()
+        #  return super().dispatch(request, *args, **kwargs)
+
     # def get(self, request, *args, **kwargs):
         # """Handle GET requests: instantiate a blank version of the form."""
         # import pdb; pdb.set_trace()
@@ -628,11 +627,11 @@ class LoginAuthView(LoginView):
         issue_instant = now
         for tformat in settings.SAML2_DATETIME_FORMATS:
             try:
-                issue_instant = timezone.datetime.strptime(self.request.session['SAML']['issue_instant'],
+                issue_instant = timezone.datetime.strptime(self.request.saml_session['issue_instant'],
                                                            tformat)
                 break
             except Exception as e:
-                logger.debug('{} not parseable with {}'.format(self.request.session['SAML']['issue_instant'],
+                logger.debug('{} not parseable with {}'.format(self.request.saml_session['issue_instant'],
                                                                tformat))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
@@ -647,6 +646,10 @@ class LoginAuthView(LoginView):
 
         user = form.get_user()
         auth_login(self.request, user)
+
+        # bind the user id to saml_session (needed for SLO and SameSite workaround)
+        self.request.saml_session['_auth_user_id'] = user.pk
+
         if self.request.POST.get('forget_agreement'):
             # TODO: also add the sp_nameid in the query?
             agr = AgreementRecord.objects.filter(user=self.request.user)
@@ -667,11 +670,16 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         first on the IdP using 'normal' ways.
     """
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            logger.info('{}: already logged in.'.format(request.user.username))
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
         try:
-            binding = request.session['SAML'].get('Binding', BINDING_HTTP_POST)
+            binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
             # Parse incoming request
-            req_info = self.IDP.parse_authn_request(request.session['SAML']['SAMLRequest'],
+            req_info = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
                                                     binding)
             # do it in pysaml2
             # check SAML request signature
@@ -718,7 +726,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             binding=self.resp_args['binding'],
             authn_resp=self.authn_resp,
             destination=self.resp_args['destination'],
-            relay_state=request.session['SAML']['RelayState'])
+            relay_state=request.saml_session['RelayState'])
 
         logger.debug("SAML Authn request Response [\n{}]".format(repr_saml(self.authn_resp)))
         return self.render_response(request, html_response)
@@ -783,12 +791,14 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         template = 'user_agreement.html'
         context = dict()
+
+        ses_disp_info = request.saml_session['sp_display_info']
         try:
             # prevents KeyError at /login/process_user_agreement/: 'sp_display_info'
-            context['sp_display_name'] = request.session['SAML']['sp_display_info']['display_name']
-            context['sp_display_description'] = request.session['SAML']['sp_display_info']['display_description']
-            context['sp_display_agreement_message'] = request.session['SAML']['sp_display_info'].get('display_agreement_message')
-            context['sp_display_agreement_consent_form'] = request.session['SAML']['sp_display_info'].get('display_agreement_consent_form')
+            context['sp_display_name'] = ses_disp_info['display_name']
+            context['sp_display_description'] = ses_disp_info['display_description']
+            context['sp_display_agreement_message'] = ses_disp_info.get('display_agreement_message')
+            context['sp_display_agreement_consent_form'] = ses_disp_info.get('display_agreement_consent_form')
             context['attrs_passed_to_sp'] = request.session['identity']
         except Exception as excp:
             logout(request)
@@ -821,12 +831,12 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         if dont_show_again:
             record = AgreementRecord(
                 user=request.user,
-                sp_entity_id=request.session['SAML']['sp_entity_id'],
+                sp_entity_id=request.saml_session['sp_entity_id'],
                 attrs=",".join(request.session['identity'].keys())
             )
             record.save()
 
-        saml_response_data = request.session['SAML'].get('response')
+        saml_response_data = request.saml_session.get('response')
         if request.session.get('forget_login'):
             logout(request)
         return HttpResponse(saml_response_data)
@@ -854,10 +864,10 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
             logger.debug('MultiFactor succeeded for %s' % request.user)
 
             # Check if user agreement redirect needed
-            if request.session['SAML'].get('sp_display_info'):
+            if request.saml_session.get('sp_display_info'):
                 # Arbitrary value that's only set if user agreement needed.
                 return HttpResponseRedirect(reverse('uniauth:saml_user_agreement'))
-            return HttpResponse(request.session['SAML']['response'])
+            return HttpResponse(request.saml_session['response'])
         logger.debug(_("MultiFactor failed; %s will not be able to log in") % request.user)
         logout(request)
         raise PermissionDenied(_("MultiFactor authentication factor failed"))
@@ -866,10 +876,13 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
 @method_decorator(never_cache, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(require_saml_request, name='dispatch')
-class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
+class LogoutProcessView(IdPHandlerViewMixin, View):
     """ View which processes the actual SAML Single Logout request
         The login_required decorator ensures the user authenticates
         first on the IdP using 'normal' way.
+
+        LoginRequiredMixin cannot be used here due to
+        SameSite=strict prevention
     """
     __service_name = 'Single LogOut'
 
@@ -882,13 +895,13 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         # do not assign a variable that overwrite request object
         # if it will fail the return with HttpResponseBadRequest trows naturally
         # store_params_in_session(request) -> now is a decorator
-        binding = request.session['SAML']['Binding']
-        relay_state = request.session['SAML']['RelayState']
+        binding = request.saml_session['Binding']
+        relay_state = request.saml_session['RelayState']
         logger.debug("{} requested [\n{}] to IDP".format(self.__service_name, binding))
 
         # adapted from pysaml2 examples/idp2/idp_uwsgi.py
         try:
-            req_info = self.IDP.parse_logout_request(request.session['SAML']['SAMLRequest'], binding)
+            req_info = self.IDP.parse_logout_request(request.saml_session['SAMLRequest'], binding)
         except Exception as excp:
             expc_msg = "{} Bad request: {}".format(self.__service_name, excp)
             logger.error(expc_msg)
@@ -898,11 +911,8 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                                  req_info.message.name_id.sp_name_qualifier,
                                                  req_info.message.name_id.text))
         logger.debug("{} SAML request [\n{}]".format(self.__service_name,
-                                                             repr_saml(req_info.xmlstr, b64=False)))
+                                                     repr_saml(req_info.xmlstr, b64=False)))
 
-        # TODO
-        # check SAML request signature by hands?
-        # self.verify_request_signature(req_info)
         resp = self.IDP.create_logout_response(req_info.message, [binding])
 
         try:
@@ -911,19 +921,21 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                            resp.destination,
                                            relay_state, response=True)
         except Exception as excp:
-            logger.error("ServiceError: %s", excp)
+            logger.error("ServiceError: {}".format(excp))
             return self.handle_error(request, exception=excp, status=400)
-            # return resp(self.environ, self.start_response)
 
         logger.debug("{} Response [\n{}]".format(self.__service_name,
-                                                         repr_saml(resp.__str__().encode())))
+                                                 repr_saml(resp.__str__().encode())))
         logger.debug("binding: {} destination:{} relay_state:{}".format(binding,
                                                                         resp.destination,
                                                                         relay_state))
 
-        # TODO: double check username session and saml login request
-        # logout user from IDP
-        logout(request)
+        # logout user from IDP, this won't work in crossdomains because of SameSite
+        user = get_user_model().objects.filter(pk = request.saml_session['_auth_user_id'])
+        if user:
+            user.first().clear_sessions()
+        else:
+            logger.warn('{}: logging out an unauthenticated user?'.format(self.__service_name))
 
         if hinfo['method'] == 'GET':
             return HttpResponseRedirect(hinfo['headers'][0][1])

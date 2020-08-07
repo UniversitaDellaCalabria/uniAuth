@@ -76,5 +76,5 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
                                                    origin = lc.__repr__())
 
         # avoids another LDAP query in Attributes processors
-        request.session['identity_attributes'] = lu[dn]
+        request.saml_session['identity_attributes'] = lu[dn]
         return user

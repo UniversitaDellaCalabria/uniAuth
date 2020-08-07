@@ -62,13 +62,21 @@ login_process_url = reverse('uniauth:saml_login_process')
 login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
 logout_url = reverse('uniauth:saml_logout_binding', kwargs={'binding': 'POST'})
 
+
 def extract_saml_authn_data(result):
     url = reverse('uniauth:saml_login_binding', kwargs={'binding': 'POST'})
     logging.info('IdP Target is: {}'.format(url))
     # url = re.search(action_post_regexp, result.get('data', '')).groupdict()['value']
-    data = {'SAMLRequest': re.search(samlrequest_form_regexp,
-                                     result.get('data', ''))\
-                              .groupdict()['value']}
+
+    # IF HTTP-POST
+    if result.get('data'):
+        authn_req = result.get('data', '')
+        data = {'SAMLRequest': re.search(samlrequest_form_regexp, authn_req)\
+                                  .groupdict()['value']}
+    # ELSE HTTP-REDIRECT
+    else:
+        authn_req = result['headers'][0][1]
+        url, data = authn_req, authn_req
     return url, data
 
 

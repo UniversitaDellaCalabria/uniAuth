@@ -11,7 +11,7 @@ from . models import (AgreementRecord,
                       ServiceProvider)
 
 
-def valida_elemento(modeladmin, request, queryset):
+def valida_elemento(modeladmin, request, queryset): # pragma: no cover
     for i in queryset:
         try:
             i.validate()
@@ -61,7 +61,7 @@ class MetadataStoreAdmin(admin.ModelAdmin):
     class Media:
         js = ('textarea_autosize.js',)
 
-    def metadata_element_preview(self, obj):
+    def metadata_element_preview(self, obj): # pragma: no cover
         try:
             dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
                                indent=4)
@@ -78,12 +78,12 @@ class MetadataStoreAdmin(admin.ModelAdmin):
             json.dumps(obj.as_pysaml2_mdstore_row())
             res = obj.validate()
             super(MetadataStoreAdmin, self).save_model(request, obj, form, change)
-        except Exception as excp:
+        except Exception as excp: # pragma: no cover
             obj.is_valid = False
             obj.save()
             msg = str(excp)
 
-        if not res:
+        if not res: # pragma: no cover
             messages.set_level(request, messages.ERROR)
             _msg = _("Storage {} is not valid, if 'mdq' at least a "
                      "valid url must be inserted. "
@@ -152,7 +152,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
         try:
             obj.validate()
             super(ServiceProviderAdmin, self).save_model(request, obj, form, change)
-        except Exception as e:
+        except Exception as e: # pragma: no cover
             messages.set_level(request, messages.ERROR)
             msg = "{}".format(e)
             messages.add_message(request, messages.ERROR, msg)

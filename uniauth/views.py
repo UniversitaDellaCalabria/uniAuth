@@ -88,7 +88,7 @@ def sso_entry(request, binding='POST'):
                                           'is changed, expired '
                                           'or unavailable.')},
                        status=403)
-    except Exception as exp:
+    except Exception as exp: # pragma: no cover
         logger.error('{}'.format(exp))
         return render(request, 'error.html',
                       {'exception_type': exp},
@@ -98,8 +98,8 @@ def sso_entry(request, binding='POST'):
     request.saml_session['issue_instant'] = req_info.message.issue_instant
 
     # these are not serializable ...
-    #request.saml_session['IDP'] = IDP
-    #request.saml_session['req_info'] = req_info
+    # request.saml_session['IDP'] = IDP
+    # request.saml_session['req_info'] = req_info
 
     # Force Authn check
     if req_info.message.force_authn:
@@ -142,12 +142,12 @@ def sso_entry(request, binding='POST'):
 
     try:
         resp_args = IDP.response_args(req_info.message)
-    except UnknownSystemEntity as exp:
+    except UnknownSystemEntity as exp: # pragma: no cover
         logger.error('{}'.format(exp))
         return render(request, 'error.html',
                       {'exception_type': exp,
                        'exception_msg': _("This SP is not federated"),
-                       'extra_message': _('Metadata is missing')},
+                       'extra_message': _('Unknow Entity')},
                        status=403)
 
     #sp_id = resp_args.get('sp_entity_id', sp_id)
@@ -216,7 +216,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         """
         try:
             self.IDP = get_IDP()
-        except Exception as excp:
+        except Exception as excp: # pragma: no cover
             logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp)
         return super().dispatch(request, *args, **kwargs)
@@ -333,8 +333,8 @@ class IdPHandlerViewMixin(ErrorHandler):
                 msg = _("Failed to instantiate processor: {} - {}")
                 logger.error(msg.format(processor_string, e),
                                         exc_info=True)
-                raise ImproperlyConfigured(_(msg.format(processor_string, e),
-                                                        exc_info=True))
+                #  raise ImproperlyConfigured(_(msg.format(processor_string, e)))
+                return self.handle_error(request, exception=e, status=500)
         self.processor = BaseProcessor(self.sp['id'], request=request)
 
     def verify_request_signature(self, req_info):
@@ -445,18 +445,18 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # get identity attributes with the policy that applied filters on them
         identity, policy, ava = self.get_ava()
-        self.request.session['identity'] = identity
+        self.request.saml_session['identity'] = identity
         # talking logs
         msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
         self.request.saml_session['authn_log'] = msg.format(name_id.format,
-                                                               self.sp['id'],
-                                                               self.request.saml_session.get('message_id'),
-                                                               len(ava),
-                                                               ','.join(ava.keys()),
-                                                               len(identity))
+                                                            self.sp['id'],
+                                                            self.request.saml_session.get('message_id'),
+                                                            len(ava),
+                                                            ','.join(ava.keys()),
+                                                            len(identity))
         logger.info(self.request.saml_session['authn_log'])
 
-        self.request.session['identity'] = ava
+        self.request.saml_session['identity'] = ava
         self.request.saml_session['subject_id'] = self.processor.eduPersonTargetedID
         #
 
@@ -484,7 +484,7 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         authn_resp = self.IDP.create_authn_response(
             authn=authn,
-            identity=self.request.session['identity'],
+            identity=self.request.saml_session['identity'],
             userid=user_id,
             name_id=name_id,
 
@@ -523,7 +523,9 @@ class IdPHandlerViewMixin(ErrorHandler):
             template = "saml_post.html"
             html_response = render_to_string(template, context=context,
                                              request=request)
-        else:
+
+        # response won't be in http-redirect!
+        else: # pragma: no cover
             http_args = self.IDP.apply_binding(
                 binding=binding,
                 msg_str=authn_resp,
@@ -531,7 +533,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                 relay_state=relay_state,
                 response=True)
 
-            logger.debug('http args are: %s' % http_args)
+            logger.debug('http args are: {}'.format(http_args))
             html_response = http_args['data']
         return html_response
 
@@ -562,7 +564,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                                                           sp_entity_id=self.sp['id']).first()
         if agreement_for_sp:
             if agreement_for_sp.is_expired() or \
-               agreement_for_sp.wants_more_attrs(request.session['identity'].keys()):
+               agreement_for_sp.wants_more_attrs(request.saml_session['identity'].keys()):
                 agreement_for_sp.delete()
                 already_agreed = False
             else:
@@ -593,7 +595,7 @@ class LoginAuthView(LoginView):
     form_class = LoginForm
 
     #  def dispatch(self, request, *args, **kwargs):
-        #  import pdb; pdb.set_trace()
+        #  breakpoint()
         #  return super().dispatch(request, *args, **kwargs)
 
     # def get(self, request, *args, **kwargs):
@@ -656,7 +658,7 @@ class LoginAuthView(LoginView):
             agr.delete()
 
         if self.request.POST.get('forget_login'):
-            self.request.session['forget_login'] = 1
+            self.request.saml_session['forget_login'] = 1
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -733,7 +735,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
 
 
 @method_decorator(never_cache, name='dispatch')
-class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):
+class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View): # pragma: no cover
     """ View used for IDP initialized login,
         doesn't handle any SAML authn request
     """
@@ -799,8 +801,8 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
             context['sp_display_description'] = ses_disp_info['display_description']
             context['sp_display_agreement_message'] = ses_disp_info.get('display_agreement_message')
             context['sp_display_agreement_consent_form'] = ses_disp_info.get('display_agreement_consent_form')
-            context['attrs_passed_to_sp'] = request.session['identity']
-        except Exception as excp:
+            context['attrs_passed_to_sp'] = request.saml_session['identity']
+        except Exception as excp: # pragma: no cover
             logout(request)
             logging.error('{}'.format(excp))
             msg = _not_valid_saml_msg
@@ -832,12 +834,12 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
             record = AgreementRecord(
                 user=request.user,
                 sp_entity_id=request.saml_session['sp_entity_id'],
-                attrs=",".join(request.session['identity'].keys())
+                attrs=",".join(request.saml_session['identity'].keys())
             )
             record.save()
 
         saml_response_data = request.saml_session.get('response')
-        if request.session.get('forget_login'):
+        if request.saml_session.get('forget_login'):
             logout(request)
         return HttpResponse(saml_response_data)
 
@@ -949,14 +951,14 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
         return self.render_response(request, html_response)
 
 
-@never_cache
-def get_metadata(request):
-    if hasattr(settings, "SAML_IDP_MULTIFACTOR_VIEW"):
-        multifactor_class = import_string(getattr(settings,
-                                                  "SAML_IDP_MULTIFACTOR_VIEW"))
-    else:
-        multifactor_class = ProcessMultiFactorView
-    return multifactor_class.as_view()(request)
+#  @never_cache
+#  def get_metadata(request):
+    #  if hasattr(settings, "SAML_IDP_MULTIFACTOR_VIEW"):
+        #  multifactor_class = import_string(getattr(settings,
+                                                  #  "SAML_IDP_MULTIFACTOR_VIEW"))
+    #  else:
+        #  multifactor_class = ProcessMultiFactorView
+    #  return multifactor_class.as_view()(request)
 
 
 @never_cache

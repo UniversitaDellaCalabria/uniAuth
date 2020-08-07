@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.urls import reverse
+from saml2 import BINDING_HTTP_REDIRECT
 
-from .base import *
+from . base import *
 
 
 class TestRP(BaseTestRP):

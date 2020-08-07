@@ -205,7 +205,7 @@ class MetadataStore(models.Model):
         return d
 
     def as_pysaml2_mdstore_row(self):
-        if self.type in ('remote', 'mdq'):
+        if self.type in ('remote', 'mdq'): # pragma: no cover
             d = dict(url=self.url)
             if self.file: d['cert'] = self.file.path
             if self.kwargs:
@@ -218,7 +218,7 @@ class MetadataStore(models.Model):
 
     def validate(self):
         error = None
-        if self.type == 'mdq':
+        if self.type == 'mdq': # pragma: no cover
             try:
                 r = requests.head(self.url + '/entities/')
                 if r.status_code != 200:
@@ -227,7 +227,7 @@ class MetadataStore(models.Model):
             except Exception as e:
                 error = 'Endpoint is not reachable: {}'.format(e)
                 self.is_active = False
-        elif self.type == 'remote':
+        elif self.type == 'remote': # pragma: no cover
             try:
                 r = requests.get(self.url)
                 if r.status_code != 200:

@@ -19,6 +19,14 @@ if 'multildap' in settings.INSTALLED_APPS:
     from multildap.client import LdapClient
 
 
+def _get_username(user):
+    if isinstance(user, str):
+        username = user
+    else:
+        username = user.username
+    return username
+
+
 class GroupProcessor(BaseProcessor):
     """
         Example implementation of access control for users:
@@ -40,10 +48,7 @@ class LdapAcademiaProcessor(BaseProcessor):
     """
 
     def get_identity(self, user):
-        if isinstance(user, str):
-            username = user
-        else:
-            username = user.username
+        username = _get_username(user)
         return LdapAcademiaUser.objects.filter(uid=username).first()
 
 
@@ -91,16 +96,13 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
     """
 
     def get_identity(self, user):
-        if hasattr(self, 'request') and hasattr(self.request, 'session'):
-            if self.request.session.get('identity_attributes'):
-                return type('', (object,), self.request.session['identity_attributes'])()
+        if hasattr(self, 'saml_request') and hasattr(self.saml_request, 'session'):
+            if self.request.saml_session.get('identity_attributes'):
+                return type('', (object,), self.request.saml_session['identity_attributes'])()
 
-        if isinstance(user, str):
-            username = user
-        else:
-            username = user.username
 
         # otherwise do another query ...
+        username = _get_username(user)
         identity = None
         for lc in settings.LDAP_CONNECTIONS: # pragma: no coverage
             ldapfilter = '(uid={})'.format(username)

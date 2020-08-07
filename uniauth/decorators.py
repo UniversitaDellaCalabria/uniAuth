@@ -35,7 +35,7 @@ def store_params_in_session(request):
     if saml_request:
         msg = "SAML request [\n{}]"
         logger.debug(msg.format(repr_saml(saml_request, b64=True)))
-    else:
+    else: # pragma: no cover
         msg = _('not a valid SAMLRequest: {}').format(_('AuthnRequest is missing. Please Retry'))
         logger.info('SAML Request absent from {}'.format(request))
         return render(request, 'error.html',
@@ -57,7 +57,7 @@ def store_params_in_session_func(func_to_decorate):
         try:
             store_params_in_session(request)
             return func_to_decorate(*original_args, **original_kwargs)
-        except Exception as e:
+        except Exception as e: # pragma: no cover
             msg = _('not a valid SAMLRequest: {}').format(e)
             return render(request, 'error.html',
                           {'exception_type':msg,

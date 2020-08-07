@@ -58,7 +58,6 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             logger.info(msg.format(dn, lc))
             attrs = ','.join([i for i in list(lu.values())[0]])
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
-
         username = lu_obj.uid[0]
         user = get_user_model().objects.filter(username=username).first()
         if user:

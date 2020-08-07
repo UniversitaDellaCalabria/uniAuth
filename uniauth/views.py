@@ -464,8 +464,6 @@ class IdPHandlerViewMixin(ErrorHandler):
         self.apply_allow_create(name_id)
 
         # ASSERTION ENCRYPTED
-        # TODO: WHY Pysaml2 do not use SP cert available in its metadata...?
-        # check if the SP supports encryption
         if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
             sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
                                                          "spsso", use="encryption")
@@ -853,7 +851,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
         functionality to plug in your custom validation logic.
     """
 
-    def multifactor_is_valid(self, request):
+    def multifactor_is_valid(self, request): # pragma: no cover
         """ The code here can do whatever it needs to validate your
             user (via request.user or elsewise).
             It must return True for authentication
@@ -861,7 +859,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
         """
         return True
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs): # pragma: no cover
         if self.multifactor_is_valid(request):
             logger.debug('MultiFactor succeeded for %s' % request.user)
 
@@ -904,7 +902,7 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
         # adapted from pysaml2 examples/idp2/idp_uwsgi.py
         try:
             req_info = self.IDP.parse_logout_request(request.saml_session['SAMLRequest'], binding)
-        except Exception as excp:
+        except Exception as excp: # pragma: no cover
             expc_msg = "{} Bad request: {}".format(self.__service_name, excp)
             logger.error(expc_msg)
             return self.handle_error(request, exception=expc_msg, status=400)

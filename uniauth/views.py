@@ -631,11 +631,11 @@ class LoginAuthView(LoginView):
                                                            tformat)
                 break
             except Exception as e:
-                logger.debug('{} not parseable with {}'.format(self.request.saml_session['issue_instant'],
-                                                               tformat))
+                logger.debug('{} not parseable with {}: {}'.format(self.request.saml_session['issue_instant'],
+                                                                   tformat, e))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
-        if issue_instant < timezone.make_naive((now-datetime.timedelta(minutes=mins)),
+        if issue_instant < timezone.make_naive((now - datetime.timedelta(minutes=mins)),
                                                timezone.get_current_timezone()):
             return render(request, 'error.html',
                           {'exception_type': _("You take too long to authenticate!"),

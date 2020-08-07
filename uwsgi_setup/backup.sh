@@ -41,4 +41,4 @@ mysqldump -u $USERNAME --password=$PASSWORD $DB | 7z a $BACKUP_DIR_SQL/$FNAME.sq
 
 # media files
 # [ -d "$PROJ_PATH/data/media" ] && rsync -avu --delete $PROJ_PATH/data/media $BACKUP_DIR_MEDIA
-[ -d "$PROJ_PATH/data/media" ] && rsync -avu $PROJ_PATH/data/media $BACKUP_DIR_MEDIA
+# [ -d "$PROJ_PATH/data/media" ] && rsync -avu $PROJ_PATH/data/media $BACKUP_DIR_MEDIA

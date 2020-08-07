@@ -619,7 +619,7 @@ class LoginAuthView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in."""
         # check issue instant
-        now = timezone.localtime()
+        now = datetime.datetime.now() # timezone.localtime()
         issue_instant = now
         for tformat in settings.SAML2_DATETIME_FORMATS:
             try:
@@ -627,12 +627,17 @@ class LoginAuthView(LoginView):
                                                            tformat)
                 break
             except Exception as e:
-                logger.debug('{} not parseable with {}'.format(self.request.session['SAML']['issue_instant'],
+                logger.error('{} not parseable with {}'.format(self.request.session['SAML'].get('issue_instant'),
                                                                tformat))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
-        if issue_instant < timezone.make_naive((now-datetime.timedelta(minutes=mins)),
-                                               timezone.get_current_timezone()):
+        date_check = False
+        try:
+            date_check = issue_instant < timezone.make_naive((now-datetime.timedelta(minutes=mins)),
+                                                             timezone.get_current_timezone())
+        except:
+            date_check = issue_instant < (now - datetime.timedelta(minutes=mins))
+        if date_check:
             return render(request, 'error.html',
                           {'exception_type': _("You take too long to authenticate!"),
                            'exception_msg': _("Your request is expired"),

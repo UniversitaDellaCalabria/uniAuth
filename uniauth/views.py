@@ -625,18 +625,24 @@ class LoginAuthView(LoginView):
         # check issue instant
         now = timezone.localtime()
         issue_instant = now
+        authn_issue_instant = self.request.saml_session['issue_instant']
         for tformat in settings.SAML2_DATETIME_FORMATS:
             try:
-                issue_instant = timezone.datetime.strptime(self.request.saml_session['issue_instant'],
+                issue_instant = timezone.datetime.strptime(authn_issue_instant,
                                                            tformat)
                 break
             except Exception as e:
-                logger.debug('{} not parseable with {}: {}'.format(self.request.saml_session['issue_instant'],
+                logger.debug('{} not parseable with {}: {}'.format(authn_issue_instant,
                                                                    tformat, e))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
-        if issue_instant < timezone.make_naive((now - datetime.timedelta(minutes=mins)),
-                                               timezone.get_current_timezone()):
+        dt_check = None
+        try:
+            dt_check = issue_instant < timezone.make_naive((now - datetime.timedelta(minutes=mins)),
+                                                           timezone.get_current_timezone())
+        except Exception as e:
+            logger.error('Issue instant time comparison failed: {}'.format(e))
+        if dt_check:
             return render(request, 'error.html',
                           {'exception_type': _("You take too long to authenticate!"),
                            'exception_msg': _("Your request is expired"),

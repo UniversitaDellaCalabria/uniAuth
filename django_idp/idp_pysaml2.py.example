@@ -36,7 +36,8 @@ IDP_SP_METADATA_PATH = os.path.join(BASE_DIR, 'data/metadata')
 
 # please check [Refactor datetime](https://github.com/IdentityPython/pysaml2/pull/518)
 # only used to parse issue_instant in a try...
-SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ','%Y%m%d%H%M%SZ']
+SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S.%fZ',
+                          '%Y%m%d%H%M%SZ']
 
 # this will keep xml signed/encrypted files in /tmp
 #os.environ['PYSAML2_DELETE_XMLSEC_TMP'] = "False"
@@ -95,8 +96,9 @@ SAML_IDP_CONFIG = {
             # these needs to change a standard shibboleth sp configuration
             # because in GET binding the signature is in the url and not in the XML ...
             # solution: disable HTTP-REDIRECT bind
-            "want_authn_requests_only_with_valid_cert": True,
-            'want_authn_requests_signed': True,
+            "want_authn_requests_only_with_valid_cert": False,
+            'want_authn_requests_signed': False,
+
             'logout_requests_signed': True,
 
             'sign_response': True,

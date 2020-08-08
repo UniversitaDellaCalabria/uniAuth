@@ -19,3 +19,4 @@ tests/sp/metadata/*
 .coverage
 .pytest_cache
 *.sqlite3
+pcvalidate

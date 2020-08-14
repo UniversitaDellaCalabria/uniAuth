@@ -632,7 +632,7 @@ class LoginAuthView(LoginView):
                                                            tformat)
                 break
             except Exception as e:
-                logger.error('{} not parseable with {}'.format(self.request.session['SAML'].get('issue_instant'),
+                logger.debug('{} not parseable with {}'.format(self.request.session['SAML'].get('issue_instant'),
                                                                tformat))
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)

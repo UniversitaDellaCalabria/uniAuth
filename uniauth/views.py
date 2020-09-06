@@ -428,7 +428,7 @@ class IdPHandlerViewMixin(ErrorHandler):
     def apply_allow_create(self, name_id):
         name_id_policy = self.resp_args['name_id_policy']
         allow_create = False
-        if name_id_policy and hasattr(name_id_policy, 'allow_create'):
+        if name_id_policy and getattr(name_id_policy, 'allow_create', None):
             name_id_policy = name_id_policy.allow_create.lower()
         # allow create support
         if settings.SAML_ALLOWCREATE and \

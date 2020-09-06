@@ -363,6 +363,8 @@ class IdPHandlerViewMixin(ErrorHandler):
 
     def get_name_id_format(self, user, authn, resp_args):
         name_id_format = resp_args.get('name_id_policy')
+        if not name_id_format:
+            logger.warning('Missing NAME_ID_FORMAT, rely on: NAMEID_FORMAT_PERSISTENT')
         self.sp['name_id_format'] = name_id_format.format \
                                     if name_id_format else NAMEID_FORMAT_PERSISTENT
         idp_name_id_format_list = self.IDP.config.getattr("name_id_format",
@@ -376,9 +378,10 @@ class IdPHandlerViewMixin(ErrorHandler):
             name_id_format = self.sp['name_id_format']
 
         elif self.sp['name_id_format'] not in idp_name_id_format_list:
-            return self.handle_error(request,
-                                     exception=_('SP requested a name_id_format '
-                                                 'that is not supported in the IDP'))
+            _msg = _('SP requested a name_id_format '
+                     'that is not supported in the IDP: {}').format(self.sp['name_id_format'])
+            #  logger.error(_msg)
+            raise UnavailableRequiredAttributes(_msg)
         elif self.sp['name_id_format'] in idp_name_id_format_list:
             name_id_format = self.sp['name_id_format']
 
@@ -442,7 +445,6 @@ class IdPHandlerViewMixin(ErrorHandler):
         """ pysaml2 server.Server.create_authn_response wrapper
         """
         name_id, user_id = self.get_name_id_format(user, authn, resp_args)
-
         # get identity attributes with the policy that applied filters on them
         identity, policy, ava = self.get_ava()
         self.request.saml_session['identity'] = identity

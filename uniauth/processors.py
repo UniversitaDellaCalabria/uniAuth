@@ -73,9 +73,8 @@ class NameIdBuilder:
         return user_persistent_id
 
     @classmethod
-    def get_nameid_email(cls, user_id, **kwargs): # pragma: no cover
-        assert '@' in user_id
-        return user_id
+    def get_nameid_email(cls, user_id, user=None, **kwargs): # pragma: no cover
+        return user.email
 
     @classmethod
     def get_nameid_transient(cls, user_id, sp_entityid='', **kwargs):

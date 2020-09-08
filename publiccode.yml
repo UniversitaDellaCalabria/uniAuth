@@ -133,6 +133,8 @@ it:
     cie: false
     pagopa: false
     spid: false
+  riuso:
+    codiceIPA: unical
 landingURL: 'https://github.com/UniversitaDellaCalabria/uniAuth'
 legal:
   authorsFile: >-

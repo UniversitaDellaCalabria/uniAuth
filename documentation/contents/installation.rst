@@ -16,7 +16,7 @@ Get uniauth and install dependencies
 
     git clone https://github.com/UniversitaDellaCalabria/uniAuth.git
     cd uniAuth
-    pip3 install -r requirements
+    pip3 install -r requirements.txt
 
 Configure the software
 ^^^^^^^^^^^^^^^^^^^^^^

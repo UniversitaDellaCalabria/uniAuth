@@ -73,7 +73,7 @@ SAML_IDP_CONFIG = {
                     ('%s/sso/post' % BASE_URL, BINDING_HTTP_POST),
 
                     # HTTP-REDIRECT could introduce troubles with signing verifications ...
-                    #('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
+                    ('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
 
                     # TODO
                     # ("%s/sso/art" % BASE, BINDING_HTTP_ARTIFACT),

@@ -35,19 +35,19 @@ INSTALLED_APPS = [
     'rangefilter']
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'uniauth',
-        'HOST': 'localhost',
-        'USER': 'that-user',
-        'PASSWORD': 'that-password',
-        'PORT': '',
-        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
-    },
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
+    # 'default': {
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'uniauth',
+        # 'HOST': 'localhost',
+        # 'USER': 'that-user',
+        # 'PASSWORD': 'that-password',
+        # 'PORT': '',
+        # 'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
+    # },
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
 }
 import sys
 if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
@@ -57,7 +57,7 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing an
 # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
 # LDAP_CONNECTION_PASSWD = 'Thatpassword'
 # LDAP_DB_URL = 'ldap://localhost:389/'
-LDAP_BASE_DOMAIN = 'unical.it'
+LDAP_BASE_DOMAIN = 'testunical.it'
 # LDAP_PEOPLE_DN = 'dc=proxy'
 
 # needed for ldap admin forms
@@ -129,6 +129,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'multildap': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
         'idp': {
             'handlers': ['console', 'mail_admins'],
             'level': 'DEBUG',
@@ -171,13 +176,13 @@ _RS_ATTRIBUTES = ['cn',
                   'schacPersonalUniqueCode']
 
 DEFAULT = dict(server =
-                   dict(host = 'ldaps://thatldap.unical.it',
+                   dict(host = 'ldap://ldap.testunical.it:389',
                         connect_timeout = 5,
                         # TLS...
                         ),
                connection =
-                   dict(user = 'cn=thatcn,ou=thatou,dc=unical,dc=it',
-                        password = 'thatpassword',
+                   dict(user = 'uid=idpuser,ou=idp,dc=testunical,dc=it',
+                        password = 'idpsecret',
                         read_only = True,
                         version = 3,
                         # see ldap3 client_strategies
@@ -186,7 +191,7 @@ DEFAULT = dict(server =
                         pool_size = 10,
                         pool_keepalive = 10),
                 search =
-                    dict(search_base = 'ou=people,dc=unical,dc=it',
+                    dict(search_base = 'ou=people,dc=testunical,dc=it',
                          search_filter = '(objectclass=person)',
                          search_scope = ldap3.SUBTREE,
 
@@ -282,5 +287,6 @@ LOCAL = dict(server =
 
 # put multiple connections here
 LDAP_CONNECTIONS = {'DEFAULT' : DEFAULT,
-                    'LOCAL' : LOCAL}
+                    # 'LOCAL' : LOCAL
+                    }
 LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]

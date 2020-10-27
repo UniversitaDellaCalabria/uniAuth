@@ -470,6 +470,7 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         # ASSERTION ENCRYPTED
         # check if the SP supports encryption our Enc Method, see: https://github.com/IdentityPython/pysaml2/issues/738
+        encrypt_assertion = False
         if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
             sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
                                                          "spsso", use="encryption")

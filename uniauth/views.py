@@ -466,6 +466,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         self.apply_allow_create(name_id)
 
         # ASSERTION ENCRYPTED
+        encrypt_assertion = False
         if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
             sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
                                                          "spsso", use="encryption")

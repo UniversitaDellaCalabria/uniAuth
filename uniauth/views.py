@@ -469,7 +469,8 @@ class IdPHandlerViewMixin(ErrorHandler):
         encrypt_assertion = False
         if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
             sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
-                                                         "spsso", use="encryption")
+                                                         "spsso", 
+                                                         use="encryption")
             if sp_enc_cert:
                 encrypt_assertion = True
             elif getattr(settings, 'SAML_FORCE_ENCRYPTED_ASSERTION', False):
@@ -480,7 +481,10 @@ class IdPHandlerViewMixin(ErrorHandler):
             if encrypt_assertion:
                 resp_args['encrypt_cert_assertion'] = sp_enc_cert[0]
                 resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
-                resp_args['pefim'] = 1
+                
+                # PREFIM won't work with shibboleth
+                # WARN Shibboleth.AttributeResolver.Query [4] [default]: no SAML 2 AttributeAuthority role found in metadata
+                # resp_args['pefim'] = 1 
         # END ENCRYPTED ASSERTION
 
         authn_resp = self.IDP.create_authn_response(
@@ -594,20 +598,23 @@ class LoginAuthView(LoginView):
     """
     template_name = "saml_login.html"
     form_class = LoginForm
-
+    
+    # some examples of things that could be overloaded ...
+    # See Django docs
+    
     #  def dispatch(self, request, *args, **kwargs):
         #  breakpoint()
         #  return super().dispatch(request, *args, **kwargs)
 
     # def get(self, request, *args, **kwargs):
         # """Handle GET requests: instantiate a blank version of the form."""
-        # import pdb; pdb.set_trace()
+        # breakpoint()
         # data = self.get_context_data()
         # data['sp_logo']
         # return self.render_to_response(data)
 
     # def post(self, request, *args, **kwargs):
-        # import pdb; pdb.set_trace()
+        # breakpoint()
         # return super().post(request, *args, **kwargs)
 
     def form_invalid(self, form):

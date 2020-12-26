@@ -3,6 +3,7 @@ import datetime
 import copy
 import logging
 import json
+import re
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -930,20 +931,28 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
                                                      repr_saml(req_info.xmlstr, b64=False)))
 
         resp = self.IDP.create_logout_response(req_info.message, [binding])
-
+        
+        try:
+            destination = re.findall('Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
+        except IndexError:
+            logger.error(f'Cannot find any Destination from {resp}')
+            return self.handle_error(request, 
+                                     exception='Cannot find any Destination from your request', 
+                                     status=400)
+        
         try:
             # hinfo returns request or response, it depends by request arg
-            hinfo = self.IDP.apply_binding(binding, resp.__str__(),
-                                           resp.destination,
+            hinfo = self.IDP.apply_binding(binding, resp,
+                                           destination,
                                            relay_state, response=True)
         except Exception as excp:
             logger.error("ServiceError: {}".format(excp))
             return self.handle_error(request, exception=excp, status=400)
 
         logger.debug("{} Response [\n{}]".format(self.__service_name,
-                                                 repr_saml(resp.__str__().encode())))
+                                                 repr_saml(resp.encode())))
         logger.debug("binding: {} destination:{} relay_state:{}".format(binding,
-                                                                        resp.destination,
+                                                                        destination,
                                                                         relay_state))
 
         # logout user from IDP, this won't work in crossdomains because of SameSite
@@ -960,7 +969,7 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
                 request,
                 binding=binding,
                 authn_resp=resp.__str__(),
-                destination=resp.destination,
+                destination=destination,
                 relay_state=relay_state)
         return self.render_response(request, html_response)
 

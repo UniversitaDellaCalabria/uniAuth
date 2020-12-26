@@ -3,7 +3,8 @@ mysqlclient
 uwsgi
 
 # hint before: pip install -U setuptools
-git+https://github.com/peppelinux/pysaml2.git@pplnx-v5.2
+#git+https://github.com/peppelinux/pysaml2.git@pplnx-v5.2
+pysaml2>=6.4.0
 cffi
 
 #Bootstrap Italia + Unical template

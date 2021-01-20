@@ -22,11 +22,10 @@ class TestRP(BaseTestRP):
         url, data = extract_saml_authn_data(result)
 
         response = self.client.get(url, follow=True)
-
+        assert response.status_code == 200
+        
         login_process_url = reverse('uniauth:saml_login_process')
         login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
-
-        assert response.status_code == 200
 
         # test a login
         login_data = dict(username='admin',

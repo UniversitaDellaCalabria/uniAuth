@@ -3,6 +3,7 @@ import datetime
 import copy
 import logging
 import json
+import re
 
 from django.conf import settings
 from django.contrib.auth import logout, login as auth_login
@@ -106,6 +107,7 @@ def sso_entry(request, binding='POST'):
     # Force Authn check
     if req_info.message.force_authn:
         logout(request)
+
         msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
                                                                     req_info.message.id)
         logger.info(msg)
@@ -905,15 +907,23 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         logger.debug("{} SAML request [\n{}]".format(self.__service_name,
                                                              repr_saml(req_info.xmlstr, b64=False)))
 
+
         # TODO
         # check SAML request signature by hands?
         # self.verify_request_signature(req_info)
         resp = self.IDP.create_logout_response(req_info.message, [binding])
+        try:
+            destination = re.findall('Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
+        except IndexError:
+            logger.error(f'Cannot find any Destination from {resp}')
+            return self.handle_error(request, 
+                                     exception='Cannot find any Destination from your request', 
+                                     status=400)
 
         try:
             # hinfo returns request or response, it depends by request arg
-            hinfo = self.IDP.apply_binding(binding, resp.__str__(),
-                                           resp.destination,
+            hinfo = self.IDP.apply_binding(binding, resp,
+                                           destination,
                                            relay_state, response=True)
         except Exception as excp:
             logger.error("ServiceError: %s", excp)
@@ -921,9 +931,9 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             # return resp(self.environ, self.start_response)
 
         logger.debug("{} Response [\n{}]".format(self.__service_name,
-                                                         repr_saml(resp.__str__().encode())))
+                                                 repr_saml(resp.encode())))
         logger.debug("binding: {} destination:{} relay_state:{}".format(binding,
-                                                                        resp.destination,
+                                                                        destination,
                                                                         relay_state))
 
         # TODO: double check username session and saml login request
@@ -936,8 +946,8 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             html_response = self.create_html_response(
                 request,
                 binding=binding,
-                authn_resp=resp.__str__(),
-                destination=resp.destination,
+                authn_resp=resp,
+                destination=destination,
                 relay_state=relay_state)
         return self.render_response(request, html_response)
 

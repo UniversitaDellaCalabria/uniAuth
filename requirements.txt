@@ -3,11 +3,11 @@ mysqlclient
 uwsgi
 
 # hint before: pip install -U setuptools
-git+https://github.com/peppelinux/pysaml2.git@pplnx-v5.2
+git+https://github.com/peppelinux/pysaml2.git@pplnx-v6.5.0
 cffi
 
 # django saml2 idp
-git+https://github.com/peppelinux/djangosaml2.git@pplnx-dev
+git+https://github.com/knaperek/djangosaml2.git
 
 #Bootstrap Italia + Unical template
 git+https://github.com/italia/design-django-theme.git

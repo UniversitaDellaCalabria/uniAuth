@@ -87,7 +87,7 @@ class NameIdBuilder:
                                      salt=settings.SAML_COMPUTEDID_SALT)
 
     @classmethod
-    def get_nameid_unspecified(cls, user_id):
+    def get_nameid_unspecified(cls, user_id, **kwargs):
         """ returns user_id as is
         """
         return user_id # pragma: no cover

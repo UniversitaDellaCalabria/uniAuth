@@ -3,7 +3,7 @@ mysqlclient
 uwsgi
 
 # hint before: pip install -U setuptools
-git+https://github.com/peppelinux/pysaml2.git@pplnx-v6.5.0
+git+https://github.com/peppelinux/pysaml2.git@pplnx-v6.5.1
 cffi
 
 # django saml2 idp

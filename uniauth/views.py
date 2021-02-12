@@ -28,7 +28,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
-from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
+from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT, BINDING_SOAP
 from saml2.authn_context import (PASSWORD,
                                  AuthnBroker,
                                  authn_context_class_ref)
@@ -677,6 +677,29 @@ class LoginAuthView(LoginView):
 
         return HttpResponseRedirect(self.get_success_url())
 
+@csrf_exempt
+def attribute_query_service(request):
+    logger.info("--- Attribute Query Service ---")
+    AA = get_IDP(idp_conf=settings.SAML_AA_CONFIG)
+    AA.entity_type = 'aa'
+    saml_request = request.POST.get('SAMLRequest')
+    _req = AA.parse_attribute_query(saml_request, BINDING_HTTP_POST)
+    _query = _req.message
+    name_id = _query.subject.name_id
+    uid = name_id.text
+    logger.debug("Local uid: %s", uid)
+    identity = dict(
+        cn = 'giuseppe',
+        sn = 'de marco',
+        email = 'that@mail.org'
+    )
+
+    # Comes in over SOAP so only need to construct the response
+    args = AA.response_args(_query, [BINDING_SOAP])
+    msg = AA.create_attribute_response(identity, name_id=name_id, **args)
+    logger.debug("response: %s", msg)
+    return HttpResponse(msg)
+
 
 @method_decorator(never_cache, name='dispatch')
 @method_decorator(require_saml_request, name='dispatch')
@@ -985,7 +1008,7 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
 
 
 @never_cache
-def metadata(request):
+def idp_metadata(request):
     """ Returns an XML with the SAML 2.0 metadata for this Idp.
         The metadata is constructed on-the-fly based on the
         config dict in the django settings.
@@ -993,6 +1016,23 @@ def metadata(request):
     conf = IdPConfig()
     conf.load(copy.deepcopy(settings.SAML_IDP_CONFIG))
     metadata = entity_descriptor(conf)
+
+    # removed ...
+    # metadata.extensions = None
+
+    return HttpResponse(content=text_type(metadata).encode('utf-8'),
+                        content_type="text/xml; charset=utf8")
+
+
+@never_cache
+def aa_metadata(request):
+    """ Returns an XML with the SAML 2.0 metadata for this Idp.
+        The metadata is constructed on-the-fly based on the
+        config dict in the django settings.
+    """
+    conf = get_IDP(idp_conf=settings.SAML_AA_CONFIG)
+    conf.config.load(copy.deepcopy(settings.SAML_AA_CONFIG))
+    metadata = entity_descriptor(conf.config)
 
     # removed ...
     # metadata.extensions = None

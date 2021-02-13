@@ -1,5 +1,6 @@
 Requirements and enviroment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install madiadb or whatever RDBMS supported by django ORM
 
 ::
 
@@ -20,6 +21,9 @@ Get uniauth and install dependencies
 
 Configure the software
 ^^^^^^^^^^^^^^^^^^^^^^
+You have to copy and edit the following files to have your configuration.
+The Database and all the Django settings ca be managed in `settingslocal.py`.
+SAML2 IdP and AA configuration must be configured in idp_pysaml2.py
 
 ::
 
@@ -85,6 +89,9 @@ Django Admin backend. See dedicated sections for examples.
 
 Create Database
 ^^^^^^^^^^^^^^^
+You can even use sqlite3 for test purpose.
+If you want to use mariadb instead, create first the database and the user with the grants, then 
+carry these parameters in your `settingslocal.py` file.
 
 ::
 
@@ -127,8 +134,8 @@ idp\_pysaml2.py (``key_file`` and ``cert_file``, even in
 ``encryption_keypairs``).
 
 ::
+    openssl req -nodes -new -x509 -newkey rsa:2048 -days 3650 -keyout private.key -out public.cert
 
-    openssl req -nodes -new -x509 -days 3650 -keyout private.key -out public.cert -subj '/CN=your.own.fqdn.com'
 
 Create schemas and superuser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,8 +145,8 @@ Create schemas and superuser
     ./manage.py migrate
     ./manage.py createsuperuser
 
-Run
-^^^
+Run debug server
+^^^^^^^^^^^^^^^^
 
 ::
 
@@ -149,7 +156,8 @@ Run
 https://github.com/peppelinux/Django-Identity
 
 Admin ui could be configured in `settingslocal.py`, with the variable `ADMIN_PATH`.
-If it is not defined, default will be `admin/`
+If it is not defined, default will be `admin/`.
+
 
 Production Environment
 ^^^^^^^^^^^^^^^^^^^^^^

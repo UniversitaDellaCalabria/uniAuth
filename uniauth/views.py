@@ -685,7 +685,12 @@ def attribute_query_service(request):
     saml_request = request.POST.get('SAMLRequest')
     _req = AA.parse_attribute_query(saml_request, BINDING_HTTP_POST)
     _query = _req.message
+
     name_id = _query.subject.name_id
+    name_id.text = 'TOKEN-sd8fs0d8fsd0f8sd0f8sd0f8sd90f8sd0'
+    # a bearer token is transient!
+    # name_id.format = ''
+
     uid = name_id.text
     logger.debug("Local uid: %s", uid)
     identity = dict(
@@ -694,9 +699,31 @@ def attribute_query_service(request):
         email = 'that@mail.org'
     )
 
+    # farg = {'assertion': 
+            # {'subject': 
+                # {'subject_confirmation': 
+                    # {'method': 'urn:oasis:names:tc:SAML:2.0:cm:bearer', 
+                     # 'subject_confirmation_data': 
+                         # {
+                          # 'in_response_to': 'MSG_ID1', 
+                          #'recipient': 'http://sp1.testunical.it:8000/saml2/metadata/'
+                         # }
+                    # }
+                # }
+            # }
+    # }
+
+    
     # Comes in over SOAP so only need to construct the response
     args = AA.response_args(_query, [BINDING_SOAP])
-    msg = AA.create_attribute_response(identity, name_id=name_id, **args)
+    msg = AA.create_attribute_response(identity, 
+                                       name_id=name_id, 
+                                       sign_response=True,
+                                       # attributes=None,
+                                       # sign_alg=None,
+                                       # digest_alg=None,
+                                       # farg=farg,
+                                       **args)
     logger.debug("response: %s", msg)
     return HttpResponse(msg)
 

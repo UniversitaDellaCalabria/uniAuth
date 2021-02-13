@@ -3,8 +3,8 @@ mysqlclient
 uwsgi
 
 # hint before: pip install -U setuptools
-git+https://github.com/peppelinux/pysaml2.git@pplnx-v6.5.2
-pysaml2>=6.5.0
+git+https://github.com/peppelinux/pysaml2.git@pplnx-v6.5.1
+# pysaml2>=6.5.0
 cffi
 
 #Bootstrap Italia + Unical template
@@ -26,5 +26,5 @@ git+https://github.com/peppelinux/pyMultiLDAP.git
 ldap3
 
 # diagrams
-django-extensions
-pydotplus
+# django-extensions
+# pydotplus

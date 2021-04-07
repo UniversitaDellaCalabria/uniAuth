@@ -41,4 +41,4 @@ class TestRP(BaseTestRP):
 
         login_url = reverse('uniauth:saml_login_process')
         assert response.status_code == 302 and \
-               response._headers['location'][1] == login_url
+               response.url == login_url

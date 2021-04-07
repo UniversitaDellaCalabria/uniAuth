@@ -3,7 +3,9 @@
 omit =
     */site-packages/*
     */distutils/*
-    tests/*
+    *tests/*
     */apps/*
     */migrations/*
     */src/*
+    manage.py
+    django_idp/*

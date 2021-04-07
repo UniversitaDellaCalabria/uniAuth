@@ -1,13 +1,15 @@
 # django saml2 idp
-djangosaml2==0.40.1
+djangosaml2>=1.0.0
 
 pytest==5.4.1
 pytest-django==3.8.0
 pytest-pythonpath==0.7.3
 python-dateutil==2.7.5
-pytest-cov
-pylama
-codecov
+pytest-cov==2.10.1
+
+bandit
+flake8
+coverage
 
 sphinx>=2
 sphinx_rtd_theme

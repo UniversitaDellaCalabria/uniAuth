@@ -1,0 +1,21 @@
+# django saml2 idp
+djangosaml2==0.40.1
+
+pytest==5.4.1
+pytest-django==3.8.0
+pytest-pythonpath==0.7.3
+python-dateutil==2.7.5
+pytest-cov
+pylama
+codecov
+
+sphinx>=2
+sphinx_rtd_theme
+sphinxcontrib-images
+
+# TypeError: attrib() got an unexpected keyword argument 'convert'
+# attrs==19.2.0
+
+# ldaptor
+ldaptor
+twisted[tls]

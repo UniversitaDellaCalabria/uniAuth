@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SAML 2.0 POST</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <form method="post" action="{{ acs_url }}">
+        {% csrf_token %}
+        <div>
+            <table>
+            {{ form.as_table }}
+            </table>
+        <input type="hidden" name="RelayState" value="{{ relay_state }}" />
+        <input type="hidden" name="SAMLResponse" value="{{ saml_response }}" />
+        </div>
+
+        {% if not saml_response %}
+        <input type="submit" value="Submit"/>
+        {% endif %}
+
+    </form>
+    {% if saml_response %}
+    <script type="text/javascript">
+        window.onload = function () {
+            document.forms[0].submit();
+        }
+    </script>
+    {% endif %}
+</body>
+
+</html>

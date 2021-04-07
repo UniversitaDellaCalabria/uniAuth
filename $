@@ -1,0 +1,12 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = git@homepagedev:cc/uniAuth.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+	pushurl = git@github.com/wibed/uniAuth.git
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master

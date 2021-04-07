@@ -55,7 +55,7 @@ ENV PATH=$PATH
 COPY ./src/requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 
-COPY src .
+COPY . .
 
 ARG USER
 ENV USER=$USER

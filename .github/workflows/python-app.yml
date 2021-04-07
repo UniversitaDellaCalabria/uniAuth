@@ -48,8 +48,9 @@ jobs:
         #flake8 ./src/cms --count --exit-zero --statistics
 
     - name: Test with Django tests
+      working-directory: ./example
       run: |
-        pytest --cov-config=.coveragerc --cov=. -v --ignore=tests/test_05_ldap_datastore.py
+        pytest --cov-config=.coveragerc --cov=. -v --ignore=tests/test_05_ldap_datastore.py ../
     #- name: Bandit Security Scan
       #run: |
         #bandit -r -x test* uniauth/*

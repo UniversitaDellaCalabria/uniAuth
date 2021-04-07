@@ -6,6 +6,6 @@ omit =
     */apps/*
     */migrations/*
     */src/*
-    example/manage.py
-    example/django_idp/*
-    example/tests/*
+    manage.py
+    django_idp/*
+    tests/*

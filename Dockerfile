@@ -52,7 +52,7 @@ ENV VIRTUAL_ENV=$VIRTUAL_ENV
 RUN python3 -m venv $VIRTUAL_ENV
 ARG PATH
 ENV PATH=$PATH
-COPY ./src/requirements-dev.txt .
+COPY ./requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 
 COPY . .

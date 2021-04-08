@@ -49,7 +49,7 @@ uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython
 - Detailed logs.
 
 
-## Characteristics
+## Examples
 
 uniAuth permit us to configure metadata store and federate new Service Providers directly from the Admin backend interface, via Web.
 See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.

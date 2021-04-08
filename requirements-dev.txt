@@ -11,13 +11,6 @@ bandit
 flake8
 coverage
 
-sphinx>=2
-sphinx_rtd_theme
-sphinxcontrib-images
-
-# TypeError: attrib() got an unexpected keyword argument 'convert'
-# attrs==19.2.0
-
-# ldaptor
+# LDAP tests
 ldaptor
 twisted[tls]

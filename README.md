@@ -9,7 +9,7 @@ It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangos
 
 Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
 
-![Alt text](documentation/contents/login.png)
+![Alt text](docs/contents/login.png)
 
 This Release implements a SAML2 IDP.
 
@@ -56,14 +56,14 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 ---
 
-![Alt text](documentation/contents/md_search.png)
-![Alt text](documentation/contents/mdstore.png)
+![Alt text](docs/contents/md_search.png)
+![Alt text](docs/contents/mdstore.png)
 *Every Metadata store, during creation or update, will be validated to avoid faulty configurations in production environment.*
 
 ---
 
-![Alt text](documentation/contents/sp_search.png)
-![Alt text](documentation/contents/sp.png)
+![Alt text](docs/contents/sp_search.png)
+![Alt text](docs/contents/sp.png)
 *Define a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise only the sp metadata is needed.*
 
 ## Tests

@@ -1,7 +1,7 @@
 import logging
 
 from django.conf import settings
-from . base import BaseProcessor, NameIdBuilder
+from . base import BaseProcessor
 from . unical_attributes_generator import UnicalAttributeGenerator
 
 
@@ -57,7 +57,7 @@ class LdapAcademiaProcessor(BaseProcessor):
 
         # get ldap user
         lu = self.get_identity(user)
-        #logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
+        # logging.info("{} doesn't have a valid computed ePPN in LDAP, please fix it!".format(user.username))
         results = self.process_attributes(user, sp_mapping)
 
         if not lu:

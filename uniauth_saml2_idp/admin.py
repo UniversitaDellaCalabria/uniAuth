@@ -65,10 +65,10 @@ class MetadataStoreAdmin(admin.ModelAdmin):
         try:
             dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
                                indent=4)
-        except:
+        except Exception:
             # for newly created
             return
-        return mark_safe(dumps.replace('\n', '<br>').replace('\s', '&nbsp'))
+        return mark_safe(dumps.replace(r'\n', '<br>').replace(r'\s', '&nbsp'))
     metadata_element_preview.short_description = 'Metadata element preview'
 
     def save_model(self, request, obj, form, change):
@@ -148,7 +148,7 @@ class ServiceProviderAdmin(admin.ModelAdmin):
 
     def as_idpspconfig_dict_element_html(self, obj):
         return mark_safe(json.dumps(obj.as_idpspconfig_dict_element(),
-                                    indent=4).replace('\n', '<br>').replace('\s', '&nbsp'))
+                                    indent=4).replace(r'\n', '<br>').replace(r'\s', '&nbsp'))
     as_idpspconfig_dict_element_html.short_description = 'SP config preview'
 
     def save_model(self, request, obj, form, change):

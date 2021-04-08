@@ -43,7 +43,7 @@ class Command(BaseCommand):
             print('TargetedID: {}'.format(idph.processor.get_user_id(user,
                                                                      idph.sp,
                                                                      idph.IDP.config)))
-        except:
+        except Exception:
             print('TargetedID: {}'.format(idph.processor.eduPersonTargetedID))
 
         print(json.dumps(ava, indent=2))

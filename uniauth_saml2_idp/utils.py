@@ -10,7 +10,6 @@ from saml2.server import Server
 from xml.parsers.expat import ExpatError
 
 from . exceptions import (MetadataNotFound,
-                          MetadataCorruption,
                           SPConfigurationMissing)
 from . models import MetadataStore, ServiceProvider
 

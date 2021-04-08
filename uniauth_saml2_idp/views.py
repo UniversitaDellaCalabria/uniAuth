@@ -42,7 +42,6 @@ from six import text_type
 
 from accounts.models import PersistentId
 from . decorators import (_not_valid_saml_msg,
-                          store_params_in_session,
                           store_params_in_session_func,
                           require_saml_request)
 from . exceptions import (MetadataNotFound,
@@ -71,7 +70,7 @@ class SsoEntryView(View):
             self.IDP.response_args(self.saml_request.message)
         except UnknownSystemEntity as exp:  # pragma: no cover
             logger.error('{}'.format(exp))
-            return render(request, 'error.html',
+            return render(self.request, 'error.html',
                           {'exception_type': exp,
                            'exception_msg': _("This SP is not registered"),
                            'extra_message': _('Unknow Entity')},
@@ -137,7 +136,7 @@ class SsoEntryView(View):
         # decoratos do the most
         logger.info("SSO req from client {}".format(get_client_id(request)))
         binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
-        self.IDP = get_IDP()
+        self.IDP = get_IDP(request=request)
         try:
             self.saml_request = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
                                                              binding)
@@ -200,31 +199,9 @@ class ErrorHandler(object):
         return self.error_view.as_view()(request, **kwargs)
 
 
-def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
+def get_IDP(idp_conf=settings.SAML_IDP_CONFIG, request=None):
     # Check if SP is federated
-    try:
-        IDP = get_idp_config(idp_conf)
-    except MetadataNotFound as exp:
-        logger.error('{}'.format(exp))
-        return render(request, 'error.html',
-                      {'exception_type': _("Unable to find Service "
-                                           "Provider Metadata"),
-                       'exception_msg': "",
-                       'extra_message': _('SP Metadata are expired '
-                                          'or not found. Please contact '
-                                          'IDP technical support for '
-                                          'better acknowledge')},
-                      status=403)
-
-    except MetadataCorruption as exp:
-        logger.error('{}'.format(exp))
-        return render(request, 'error.html',
-                      {'exception_type': _("Some Metadata "
-                                           "seems to be corrupted"),
-                       'exception_msg': "",
-                       'extra_message': _('This is a security exception. '
-                                          'Please contact IdP staff.')},
-                      status=403)
+    IDP = get_idp_config(idp_conf)
     return IDP
 
 
@@ -235,11 +212,31 @@ class IdPHandlerViewMixin(ErrorHandler):
     def dispatch(self, request, *args, **kwargs):
         """ Construct IDP server with config from settings dict
         """
+        err_data = {}
         try:
-            self.IDP = get_IDP()
+            self.IDP = get_IDP(request=request)
         except Exception as excp:  # pragma: no cover
             logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp)
+        except MetadataNotFound as exp:
+            logger.error('{}'.format(exp))
+            if request:
+                err_data = {'exception_type': _("Unable to find Service "
+                                                "Provider Metadata"),
+                            'exception_msg': "",
+                            'extra_message': _('SP Metadata are expired '
+                                               'or not found. Please contact '
+                                               'IDP technical support for '
+                                               'better acknowledge')}
+        except MetadataCorruption as exp:
+            logger.error('{}'.format(exp))
+            err_data = {'exception_type': _("Some Metadata "
+                                            "seems to be corrupted"),
+                        'exception_msg': "",
+                        'extra_message': _('This is a security exception. '
+                                           'Please contact IdP staff.')}
+        if request and err_data:
+            return render(request, 'error.html', err_data, status=403)
         return super().dispatch(request, *args, **kwargs)
 
     def convert_attributes(self, attr_name_list):
@@ -666,7 +663,7 @@ class LoginAuthView(LoginView):
         except Exception as e:
             logger.error('Issue instant time comparison failed: {}'.format(e))
         if dt_check:
-            return render(request, 'error.html',
+            return render(self.request, 'error.html',
                           {'exception_type': _("You take too long to authenticate!"),
                            'exception_msg': _("Your request is expired"),
                            'extra_message': _('{} minutes are passed').format(mins)},
@@ -951,7 +948,7 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
 
         try:
             destination = re.findall(
-                'Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
+                r'Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
         except IndexError:
             logger.error(f'Cannot find any Destination from {resp}')
             return self.handle_error(request,

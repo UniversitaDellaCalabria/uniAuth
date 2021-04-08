@@ -9,3 +9,4 @@ omit =
     manage.py
     django_idp/*
     tests/*
+    setup.py

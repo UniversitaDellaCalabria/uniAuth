@@ -9,7 +9,7 @@
 **uniauth-saml2-idp** is an SAML2 *IDentity Provider* built on top of [Pysaml2](https://idpy.org) and Django.
 It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangosaml2idp/) project of which very little has by now remained.
 
-Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
+Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/) for usage specifications and advanced topics.
 
 ![Alt text](docs/contents/login.png)
 
@@ -47,8 +47,8 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
 
 ## Examples
 
-uniAuth permit us to configure metadata store and federate new Service Providers directly from the Admin backend interface, via Web.
-See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
+uniAuth permit to add new metadata and register new Service Providers directly from the Admin backend interface, via Web.
+See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/) for usage specifications and advanced topics.
 
 ---
 
@@ -60,7 +60,7 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/la
 
 ![Alt text](docs/contents/sp_search.png)
 ![Alt text](docs/contents/sp.png)
-*Define a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise only the sp metadata is needed.*
+*Create a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise only the sp metadata is needed, the SP configuration will be created automatically using a default configuration.*
 
 ## Tests
 

@@ -1,4 +1,4 @@
-import saml2 
+import saml2
 
 from django.conf import settings
 from django.urls import reverse
@@ -17,12 +17,12 @@ class TestRP(BaseTestRP):
         """
         HTTP-REDIRECT login
         """
-        
+
         # pySAML2 TODO
         # HTTP-REDIRECT Signed AuthnRequest are faulty
         return None
         # end pySAML2 TODO
-        
+
         session_id, result = self.sp_client.prepare_for_authenticate(
                                      entityid=idp_eid,
                                      relay_state='/',
@@ -31,9 +31,9 @@ class TestRP(BaseTestRP):
 
         response = self.client.get(url, follow=True)
         assert response.status_code == 200
-        
-        login_process_url = reverse('uniauth:saml_login_process')
-        login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
+
+        login_process_url = reverse('uniauth_saml2_idp:saml_login_process')
+        login_url = reverse('uniauth_saml2_idp:login')+'?next={}'.format(login_process_url)
 
         # test a login
         login_data = dict(username='admin',

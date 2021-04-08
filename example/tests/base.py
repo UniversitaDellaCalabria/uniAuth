@@ -25,8 +25,8 @@ from .idp_pysaml2 import SAML_IDP_CONFIG, IDP_SP_METADATA_PATH
 from .sp.sp_pysaml2 import (SAML_CONFIG as SAML_SP_CONFIG,
                             BASE_URL,
                             BASE_DIR)
-from uniauth.views import *
-from uniauth.utils import (get_idp_config,
+from uniauth_saml2_idp.views import *
+from uniauth_saml2_idp.utils import (get_idp_config,
                            get_idp_sp_config,
                            get_client_id,
                            repr_saml)
@@ -58,13 +58,13 @@ samlrequest_form_regexp = ('.*name="SAMLRequest" '
                            'value="(?P<value>[a-zA-Z0-9=+]*)"[\s\n.]*')
 
 samlresponse_form_regexp = 'name="SAMLResponse" value="(?P<value>[a-zA-Z0-9+=]*)"'
-login_process_url = reverse('uniauth:saml_login_process')
-login_url = reverse('uniauth:login')+'?next={}'.format(login_process_url)
-logout_url = reverse('uniauth:saml_logout_binding', kwargs={'binding': 'POST'})
+login_process_url = reverse('uniauth_saml2_idp:saml_login_process')
+login_url = reverse('uniauth_saml2_idp:login')+'?next={}'.format(login_process_url)
+logout_url = reverse('uniauth_saml2_idp:saml_logout_binding', kwargs={'binding': 'POST'})
 
 
 def extract_saml_authn_data(result):
-    url = reverse('uniauth:saml_login_binding', kwargs={'binding': 'POST'})
+    url = reverse('uniauth_saml2_idp:saml_login_binding', kwargs={'binding': 'POST'})
     logging.info('IdP Target is: {}'.format(url))
     # url = re.search(action_post_regexp, result.get('data', '')).groupdict()['value']
 
@@ -87,7 +87,7 @@ class BaseTestRP(TestCase):
         # self.IDP.load(copy.deepcopy(SAML_IDP_CONFIG))
         # idp_metadata = entity_descriptor(self.IDP)
         cleanup_metadata()
-        idp_md_url = reverse('uniauth:saml2_idp_metadata')
+        idp_md_url = reverse('uniauth_saml2_idp:saml2_idp_metadata')
         client = Client()
         idp_metadata = client.get(idp_md_url)
 
@@ -120,7 +120,7 @@ class BaseTestRP(TestCase):
     def _add_sp_md(self):
         self._superuser_login()
         # put md store through admin UI
-        create_url = reverse('admin:uniauth_metadatastore_add')
+        create_url = reverse('admin:uniauth_saml2_idp_metadatastore_add')
         data = dict(name='sptest',
                     type='local',
                     url=idp_md_path,
@@ -136,7 +136,7 @@ class BaseTestRP(TestCase):
 
     def _add_sp(self):
         self._superuser_login()
-        create_url = reverse('admin:uniauth_serviceprovider_add')
+        create_url = reverse('admin:uniauth_saml2_idp_serviceprovider_add')
         data = dict(entity_id = SAML_SP_CONFIG['entityid'],
                     display_name = 'That SP display name',
                     signing_algorithm = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",

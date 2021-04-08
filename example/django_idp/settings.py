@@ -131,10 +131,10 @@ if 'ldap_peoples' in INSTALLED_APPS:
      }
 
     DATABASE_ROUTERS = ['ldapdb.router.Router']
-    AUTHENTICATION_BACKENDS.append('uniauth.auth.ldap_peoples.LdapAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth_saml2_idp.auth.ldap_peoples.LdapAcademiaAuthBackend')
 
 if 'multildap' in INSTALLED_APPS:
-    AUTHENTICATION_BACKENDS.append('uniauth.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth_saml2_idp.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
 
 
 # Password validation
@@ -163,5 +163,5 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'data/media')
 
-if 'uniauth' in INSTALLED_APPS:
+if 'uniauth_saml2_idp' in INSTALLED_APPS:
     from . idp_pysaml2 import *

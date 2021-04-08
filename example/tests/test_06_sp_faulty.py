@@ -5,7 +5,7 @@ from django.urls import reverse
 from djangosaml2.cache import (IdentityCache,
                                OutstandingQueriesCache,
                                StateCache)
-from uniauth.models import ServiceProvider
+from uniauth_saml2_idp.models import ServiceProvider
 from .base import *
 from .idp_pysaml2 import IDP_SP_METADATA_PATH
 
@@ -23,7 +23,7 @@ class TestEnabledRP(BaseTestRP):
         self.user = self._get_superuser_user()
 
     def test_faulty_attr_processor(self):
-        self.sp.attribute_processor = 'uniauth.processors.base.UNKNOW'
+        self.sp.attribute_processor = 'uniauth_saml2_idp.processors.base.UNKNOW'
         self.sp.save()
 
         url, data, session_id = self._get_sp_authn_request()

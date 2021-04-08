@@ -109,7 +109,7 @@ class ServiceProvider(models.Model):
 
         # test if its entityID is available in metadatastore
         try:
-            get_idp_config = import_string('uniauth.utils.get_idp_config')
+            get_idp_config = import_string('uniauth_saml2_idp.utils.get_idp_config')
             get_idp_config().metadata.service(self.entity_id,
                                               "spsso_descriptor",
                                               'assertion_consumer_service')

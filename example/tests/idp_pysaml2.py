@@ -253,7 +253,7 @@ SAML_DISALLOW_UNDEFINED_SP = False
 
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'uniauth.processors.base.BaseProcessor',
+    'processor': 'uniauth_saml2_idp.processors.base.BaseProcessor',
     'attribute_mapping': {
 
         'uid': 'uid',

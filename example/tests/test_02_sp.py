@@ -36,6 +36,6 @@ class TestRP(BaseTestRP):
 
         response = self.client.post(url, data)
 
-        login_url = reverse('uniauth:saml_login_process')
+        login_url = reverse('uniauth_saml2_idp:saml_login_process')
         assert response.status_code == 302 and \
                response.url == login_url

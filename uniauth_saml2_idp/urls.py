@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'uniauth'
+app_name = 'uniauth_saml2_idp'
 
 urlpatterns = [
     path('login/', views.LoginAuthView.as_view(), name='login'),

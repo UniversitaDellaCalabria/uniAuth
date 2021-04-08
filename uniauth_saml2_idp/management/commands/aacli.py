@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from uniauth.views import IdPHandlerViewMixin, get_IDP
-from uniauth.utils import get_idp_config, get_idp_sp_config
+from uniauth_saml2_idp.views import IdPHandlerViewMixin, get_IDP
+from uniauth_saml2_idp.utils import get_idp_config, get_idp_sp_config
 
 
 class Command(BaseCommand):
@@ -23,7 +23,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         uid = options['u']
         eid = options['e']
-        
+
         idph =  IdPHandlerViewMixin()
         idph.IDP = get_IDP()
         idph.set_sp(eid)
@@ -35,7 +35,7 @@ class Command(BaseCommand):
         if not user:
             user = get_user_model().objects.create(username=uid,
                                                    origin='aacli')
-        
+
         identity, policy, ava = idph.get_ava(user)
         print('SP Configuration:')
         print(json.dumps(idph.sp['config'], indent=2))
@@ -47,5 +47,5 @@ class Command(BaseCommand):
                                                                      idph.IDP.config)))
         except:
             print('TargetedID: {}'.format(idph.processor.eduPersonTargetedID))
-            
+
         print(json.dumps(ava, indent=2))

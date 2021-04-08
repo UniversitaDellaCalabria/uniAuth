@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'bootstrap_italia_template',
     'django_unical_bootstrap_italia',
-    'uniauth',
+    'uniauth_saml2_idp',
     'uniauth_unical_template',
 
     # 'ldap_peoples',
@@ -125,7 +125,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        'uniauth': {
+        'uniauth_saml2_idp': {
             'handlers': ['console', 'mail_admins'],
             'level': 'DEBUG',
             'propagate': False,

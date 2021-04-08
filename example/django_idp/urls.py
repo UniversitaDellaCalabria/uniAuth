@@ -17,19 +17,21 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import include, path
-#from uniauth.views import LoginAuthView
+# from uniauth_saml2_idp.views import LoginAuthView
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('{}/'.format(getattr(settings, 'ADMIN_PATH', 'admin')),
          admin.site.urls),
     path('logout/', LogoutView.as_view(),
          {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),
-    #path('login/', LoginAuthView.as_view(), name='login'),
+    # path('login/', LoginAuthView.as_view(), name='login'),
 ]
 
-if 'uniauth' in settings.INSTALLED_APPS:
-    import uniauth.urls
-    urlpatterns += path('idp/', include((uniauth.urls, 'uniauth',))),
+if 'uniauth_saml2_idp' in settings.INSTALLED_APPS:
+    import uniauth_saml2_idp.urls
+    urlpatterns += path(
+        'idp/', include((uniauth_saml2_idp.urls, 'uniauth_saml2_idp',))
+    ),
 

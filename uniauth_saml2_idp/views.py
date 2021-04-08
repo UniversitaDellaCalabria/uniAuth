@@ -193,13 +193,17 @@ class SsoEntryView(View):
         if failed_tests:
             return failed_tests
         else:
-            return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
+            return HttpResponseRedirect(
+                reverse('uniauth_saml2_idp:saml_login_process')
+            )
 
 
 class ErrorHandler(object):
-    error_view = import_string(getattr(settings,
-                                       'SAML_IDP_ERROR_VIEW_CLASS',
-                                       'uniauth.error_views.SamlIDPErrorView'))
+    error_view = import_string(
+            getattr(settings,
+                    'SAML_IDP_ERROR_VIEW_CLASS',
+                    'uniauth_saml2_idp.error_views.SamlIDPErrorView')
+            )
 
     def handle_error(self, request, **kwargs):
         logger.error(kwargs)
@@ -607,12 +611,12 @@ class IdPHandlerViewMixin(ErrorHandler):
         # Multifactor goes before user agreement because might result in user not being authenticated
         if self.processor.enable_multifactor(request.user):
             logger.debug("Redirecting to process_multi_factor")
-            return HttpResponseRedirect(reverse('uniauth:saml_multi_factor'))
+            return HttpResponseRedirect(reverse('uniauth_saml2_idp:saml_multi_factor'))
 
         # If we are here, there's no multifactor. Check whether to show user agreement
         if user_agreement_enabled_for_sp and not already_agreed:
             logger.debug("Redirecting to process_user_agreement")
-            return HttpResponseRedirect(reverse('uniauth:saml_user_agreement'))
+            return HttpResponseRedirect(reverse('uniauth_saml2_idp:saml_user_agreement'))
 
         # No multifactor or user agreement
         logger.debug("Performing SAML redirect")
@@ -909,7 +913,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
             # Check if user agreement redirect needed
             if request.saml_session.get('sp_display_info'):
                 # Arbitrary value that's only set if user agreement needed.
-                return HttpResponseRedirect(reverse('uniauth:saml_user_agreement'))
+                return HttpResponseRedirect(reverse('uniauth_saml2_idp:saml_user_agreement'))
             return HttpResponse(request.saml_session['response'])
         logger.debug(_("MultiFactor failed; %s will not be able to log in") % request.user)
         logout(request)

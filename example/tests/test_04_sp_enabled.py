@@ -5,7 +5,7 @@ from django.urls import reverse
 from djangosaml2.cache import (IdentityCache,
                                OutstandingQueriesCache,
                                StateCache)
-from uniauth.models import ServiceProvider
+from uniauth_saml2_idp.models import ServiceProvider
 from .base import *
 from .idp_pysaml2 import IDP_SP_METADATA_PATH
 
@@ -92,7 +92,7 @@ class TestEnabledRP(BaseTestRP):
 
         # don't show again
         agr_data = dict(dont_show_again=1, confirm=1)
-        agr_url = reverse('uniauth:saml_user_agreement')
+        agr_url = reverse('uniauth_saml2_idp:saml_user_agreement')
         agr_response = self.client.post(agr_url, data=agr_data, follow=True)
 
         # login again, agreement screen should not be displayed anymore

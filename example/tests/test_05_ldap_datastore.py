@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from saml2.config import SPConfig
 from saml2.metadata import entity_descriptor
-from uniauth.models import ServiceProvider
+from uniauth_saml2_idp.models import ServiceProvider
 
 from .base import *
 from .idp_pysaml2 import IDP_SP_METADATA_PATH
@@ -26,13 +26,13 @@ class TestEnabledRP(BaseTestRP):
         # add LDAP in settings
         settings.INSTALLED_APPS.append('multildap')
         settings.LDAP_CONNECTIONS = LDAP_CONNECTIONS
-        settings.AUTHENTICATION_BACKENDS.append('uniauth.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
+        settings.AUTHENTICATION_BACKENDS.append('uniauth_saml2_idp.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
 
         # disable agreement screen
         self.sp.agreement_screen = 0
 
         # configure sp processors
-        self.sp.attribute_processor = 'uniauth.processors.ldap.LdapUnicalMultiAcademiaProcessor'
+        self.sp.attribute_processor = 'uniauth_saml2_idp.processors.ldap.LdapUnicalMultiAcademiaProcessor'
         self.sp.attribute_mapping = json.dumps({
             # refeds + edugain Entities
             "cn": "cn",

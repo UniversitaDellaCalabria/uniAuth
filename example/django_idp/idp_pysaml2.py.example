@@ -349,7 +349,7 @@ SAML_DISALLOW_UNDEFINED_SP = False
 
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'uniauth.processors.multildap.LdapUnicalMultiAcademiaProcessor',
+    'processor': 'uniauth_saml2_idp.processors.ldap.LdapUnicalMultiAcademiaProcessor',
     'attribute_mapping': {
         # refeds + edugain Entities
         "cn": "cn",

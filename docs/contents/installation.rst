@@ -18,10 +18,12 @@ Example project
     git clone https://github.com/UniversitaDellaCalabria/uniAuth.git
     cd uniAuth
     pip3 install -r requirements.txt
+    pip3 install -r requirements-customizations.txt
     cd example/
     ./manage.py migrate
     ./manage.py createsuperuser
     ./manage.py runserver
+
 
 Install uniAuth as a Django app
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

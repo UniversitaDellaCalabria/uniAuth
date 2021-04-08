@@ -17,13 +17,6 @@ from .settingslocal import *
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# use settingslocal
-#DEBUG = True
-#SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-#SESSION_COOKIE_AGE = 60 * 10 # minutes
-#SECRET_KEY = settingslocal.SECRET_KEY
-#ALLOWED_HOSTS = settingslocal.ALLOWED_HOSTS
-
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -138,10 +131,10 @@ if 'ldap_peoples' in INSTALLED_APPS:
      }
 
     DATABASE_ROUTERS = ['ldapdb.router.Router']
-    AUTHENTICATION_BACKENDS.append('idp.ldap_auth.LdapAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth.auth.ldap_peoples.LdapAcademiaAuthBackend')
 
 if 'multildap' in INSTALLED_APPS:
-    AUTHENTICATION_BACKENDS.append('idp.multildap_auth.LdapUnicalMultiAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
 
 
 # Password validation

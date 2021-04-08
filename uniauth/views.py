@@ -55,7 +55,7 @@ from . exceptions import (MetadataNotFound,
                           DisabledSP)
 from . forms import AgreementForm, LoginForm
 from . models import AgreementRecord, ServiceProvider
-from . processors import BaseProcessor
+from . processors.base import BaseProcessor
 from . utils import (repr_saml,
                      get_idp_config,
                      get_idp_sp_config,
@@ -65,109 +65,135 @@ from . utils import (repr_saml,
 logger = logging.getLogger(__name__)
 
 
-@never_cache
-@require_http_methods(["GET", "POST"])
-@csrf_exempt
-@store_params_in_session_func
-def sso_entry(request, binding='POST'):
+class SsoEntryView(View):
     """ Entrypoint view for SSO. Build the saml session and redirects
         the requester to the login_process view.
     """
-    # decoratos do the most
-    logger.info("SSO req from client {}".format(get_client_id(request)))
-    binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
-    IDP = get_IDP()
-    try:
-        req_info = IDP.parse_authn_request(request.saml_session['SAMLRequest'],
-                                           binding)
-    except IncorrectlySigned as exp:
-        logger.error('{}'.format(exp))
-        return render(request, 'error.html',
-                      {'exception_type': exp,
-                       'exception_msg': _("Incorrectly signed"),
-                       'extra_message': _('SP Metadata '
-                                          'is changed, expired '
-                                          'or unavailable.')},
-                       status=403)
-    except Exception as exp: # pragma: no cover
-        logger.error('{}'.format(exp))
-        return render(request, 'error.html',
-                      {'exception_type': exp},
-                       status=403)
 
-    # later we'll check if the authnrequest is older then the IDP session age
-    request.saml_session['issue_instant'] = req_info.message.issue_instant
 
-    # these are not serializable ...
-    # request.saml_session['IDP'] = IDP
-    # request.saml_session['req_info'] = req_info
-
-    # Force Authn check
-    if req_info.message.force_authn:
-        logout(request)
-        msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(req_info.message.issuer.text,
-                                                                    req_info.message.id)
-        logger.info(msg)
-
-    request.saml_session['message_id'] = req_info.message.id
-    request.saml_session['issue_instant'] = req_info.message.issue_instant
-
-    sp_id = req_info.message.issuer.text
-    sp = get_idp_sp_config().get(sp_id, {})
-
-    mduui = {}
-    if not IDP.config.metadata.service(sp_id,
-                                       "spsso_descriptor",
-                                       'assertion_consumer_service'):
-        msg = _("{} is not present in any Metadata").format(sp_id)
-        raise MetadataNotFound(msg)
-
-    try:
-        mduui = IDP.metadata[sp_id]['spsso_descriptor'][0]\
-                 .get('extensions', {}).get('extension_elements', [{}])[0]
-    except IndexError as excp:
-        logger.error('MDUUI not available: "{}"'.format(excp))
-
-    # name_id_format also here, as made in AAcli
-    # IDP.metadata[sp_id]['spsso_descriptor'][0]['name_id_format'][0]['text']
-
-    if sp_id:
-        sp_display_name = sp.get('display_name') or \
-                          mduui.get('display_name', [{}])[0].get('text')
-        sp_display_description = sp.get('display_description', '') or \
-                                 mduui.get('description', [{}])[0].get('text') or \
-                                 sp_id
-        request.saml_session['sp_display_name'] = sp_display_name
-        request.saml_session['sp_display_description'] = sp_display_description
-        request.saml_session['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
-
-    try:
-        resp_args = IDP.response_args(req_info.message)
-    except UnknownSystemEntity as exp: # pragma: no cover
-        logger.error('{}'.format(exp))
-        return render(request, 'error.html',
-                      {'exception_type': exp,
-                       'exception_msg': _("This SP is not federated"),
-                       'extra_message': _('Unknow Entity')},
-                       status=403)
-
-    #sp_id = resp_args.get('sp_entity_id', sp_id)
-    if settings.SAML_DISALLOW_UNDEFINED_SP:
-        if sp_id not in get_idp_sp_config().keys():
+    def is_entity_known(self, *args, **kwargs):
+        try:
+            resp_args = self.IDP.response_args(self.saml_request.message)
+        except UnknownSystemEntity as exp: # pragma: no cover
+            logger.error('{}'.format(exp))
             return render(request, 'error.html',
-                          {'exception_type': _("This SP is not allowed to access to this Service"),
-                           'exception_msg': _("Attribute Processor needs "
-                                              "to be configured and undefined SP are not Allowed.")},
-                          status=403)
+                          {'exception_type': exp,
+                           'exception_msg': _("This SP is not registered"),
+                           'extra_message': _('Unknow Entity')},
+                           status=403)
 
-    # check if the SP was defined but disabled
-    if ServiceProvider.objects.filter(entity_id=sp_id, is_active=0):
-        return render(request, 'error.html',
-                          {'exception_type': _("This SP is not allowed to access to this Service"),
-                           'exception_msg': _("{} was disabled".format(sp_id))},
-                          status=403)
-    # end check
-    return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
+
+    def is_undefined_sp(self, *args, **kwargs):
+        if settings.SAML_DISALLOW_UNDEFINED_SP:
+            if self.sp_id not in get_idp_sp_config().keys():
+                return render(self.request, 'error.html',
+                    {'exception_type': _("This SP is not allowed to access to this Service"),
+                     'exception_msg': _("Attribute Processor needs "
+                                        "to be configured and undefined SP are not Allowed.")},
+                    status=403)
+
+
+    def is_disabled_sp(self, *args, **kwargs):
+        # check if the SP was defined but disabled
+        if ServiceProvider.objects.filter(entity_id=self.sp_id, is_active=False):
+            return render(self.request, 'error.html',
+                {'exception_type': _("This SP is not allowed to access to this Service"),
+                 'exception_msg': _("{} was disabled".format(self.sp_id))},
+                status=403)
+
+
+    def mduui(self, *args, **kwargs):
+        mduui = {}
+        if not self.IDP.config.metadata.service(self.sp_id,
+                                           "spsso_descriptor",
+                                           'assertion_consumer_service'):
+            msg = _("{} is not present in any Metadata").format(self.sp_id)
+            raise MetadataNotFound(msg)
+
+        try:
+            mduui = self.IDP.metadata[self.sp_id]['spsso_descriptor'][0]\
+                     .get('extensions', {}).get('extension_elements', [{}])[0]
+        except IndexError as excp:
+            logger.error('MDUUI not available: "{}"'.format(excp))
+
+        # name_id_format also here, as made in AAcli
+        # IDP.metadata[self.sp_id]['spsso_descriptor'][0]['name_id_format'][0]['text']
+
+        if self.sp_id:
+            sp_display_name = self.sp.get('display_name') or \
+                              mduui.get('display_name', [{}])[0].get('text')
+            sp_display_description = self.sp.get('display_description', '') or \
+                                     mduui.get('description', [{}])[0].get('text') or \
+                                     self.sp_id
+            self.request.saml_session['sp_display_name'] = sp_display_name
+            self.request.saml_session['sp_display_description'] = sp_display_description
+            self.request.saml_session['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
+            return True
+
+
+    def additional_checks(self, *args, **kwargs):
+        for i in ('is_entity_known', 'is_undefined_sp', 'is_disabled_sp'):
+            if not hasattr(self, i):
+                continue
+            fail = getattr(self, i)()
+            if fail:
+                return fail
+
+
+    @method_decorator(store_params_in_session_func)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        # decoratos do the most
+        logger.info("SSO req from client {}".format(get_client_id(request)))
+        binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
+        self.IDP = get_IDP()
+        try:
+            self.saml_request = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
+                                               binding)
+        except IncorrectlySigned as exp:
+            logger.error('{}'.format(exp))
+            return render(request, 'error.html',
+                          {'exception_type': exp,
+                           'exception_msg': _("Incorrectly signed"),
+                           'extra_message': _('SP Metadata '
+                                              'is changed, expired '
+                                              'or unavailable.')},
+                           status=403)
+        except Exception as exp: # pragma: no cover
+            logger.error('{}'.format(exp))
+            return render(request, 'error.html',
+                          {'exception_type': exp},
+                           status=403)
+
+        # later we'll check if the authnrequest is older then the IDP session age
+        request.saml_session['issue_instant'] = self.saml_request.message.issue_instant
+
+        # these are not serializable ...
+        # request.saml_session['IDP'] = self.IDP
+        # request.saml_session['self.saml_request'] = self.saml_request
+
+        # Force Authn check
+        if self.saml_request.message.force_authn:
+            logout(request)
+            msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(self.saml_request.message.issuer.text,
+                                                                        self.saml_request.message.id)
+            logger.info(msg)
+
+        request.saml_session['message_id'] = self.saml_request.message.id
+        request.saml_session['issue_instant'] = self.saml_request.message.issue_instant
+
+
+        self.sp_id = self.saml_request.message.issuer.text
+        self.sp = get_idp_sp_config().get(self.sp_id, {})
+
+        # fill mduui information in the user request session
+        self.mduui()
+
+        failed_tests = self.additional_checks()
+        if failed_tests:
+            return failed_tests
+        else:
+            return HttpResponseRedirect(reverse('uniauth:saml_login_process'))
 
 
 class ErrorHandler(object):
@@ -470,7 +496,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         encrypt_assertion = False
         if self.IDP.has_encrypt_cert_in_metadata(self.sp['id']):
             sp_enc_cert = self.IDP.config.metadata.certs(self.sp['id'],
-                                                         "spsso", 
+                                                         "spsso",
                                                          use="encryption")
             if sp_enc_cert:
                 encrypt_assertion = True
@@ -482,10 +508,10 @@ class IdPHandlerViewMixin(ErrorHandler):
             if encrypt_assertion:
                 resp_args['encrypt_cert_assertion'] = sp_enc_cert[0]
                 resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
-                
+
                 # PREFIM won't work with shibboleth
                 # WARN Shibboleth.AttributeResolver.Query [4] [default]: no SAML 2 AttributeAuthority role found in metadata
-                # resp_args['pefim'] = 1 
+                # resp_args['pefim'] = 1
         # END ENCRYPTED ASSERTION
 
         authn_resp = self.IDP.create_authn_response(
@@ -599,10 +625,10 @@ class LoginAuthView(LoginView):
     """
     template_name = "saml_login.html"
     form_class = LoginForm
-    
+
     # some examples of things that could be overloaded ...
     # See Django docs
-    
+
     #  def dispatch(self, request, *args, **kwargs):
         #  breakpoint()
         #  return super().dispatch(request, *args, **kwargs)
@@ -700,7 +726,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                                                     binding)
             # do it in pysaml2
             # check SAML request signature
-            #self.verify_request_signature(req_info)
+            # self.verify_request_signature(req_info)
 
             # Compile Response Arguments
             self.resp_args = self.IDP.response_args(req_info.message)
@@ -931,15 +957,15 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
                                                      repr_saml(req_info.xmlstr, b64=False)))
 
         resp = self.IDP.create_logout_response(req_info.message, [binding])
-        
+
         try:
             destination = re.findall('Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
         except IndexError:
             logger.error(f'Cannot find any Destination from {resp}')
-            return self.handle_error(request, 
-                                     exception='Cannot find any Destination from your request', 
+            return self.handle_error(request,
+                                     exception='Cannot find any Destination from your request',
                                      status=400)
-        
+
         try:
             # hinfo returns request or response, it depends by request arg
             hinfo = self.IDP.apply_binding(binding, resp,

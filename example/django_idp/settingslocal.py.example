@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'bootstrap_italia_template',
     'django_unical_bootstrap_italia',
     'uniauth',
-    'idp',
+    'uniauth_unical_template',
+
     # 'ldap_peoples',
     'multildap',
     'rangefilter']
@@ -130,11 +131,6 @@ LOGGING = {
             'propagate': False,
         },
         'multildap': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'idp': {
             'handlers': ['console', 'mail_admins'],
             'level': 'DEBUG',
             'propagate': False,

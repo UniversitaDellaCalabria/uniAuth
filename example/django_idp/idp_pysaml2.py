@@ -18,7 +18,7 @@ from saml2.sigver import get_xmlsec_binary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/idp/login/'
 
 # idp protocol:fqdn:port
 HOST = 'idp1.testunical.it'
@@ -36,7 +36,8 @@ IDP_SP_METADATA_PATH = os.path.join(BASE_DIR, 'data/metadata')
 
 # please check [Refactor datetime](https://github.com/IdentityPython/pysaml2/pull/518)
 # only used to parse issue_instant in a try...
-SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ','%Y%m%d%H%M%SZ']
+SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S.%fZ',
+                          '%Y%m%d%H%M%SZ']
 
 # this will keep xml signed/encrypted files in /tmp
 #os.environ['PYSAML2_DELETE_XMLSEC_TMP'] = "False"
@@ -136,15 +137,15 @@ SAML_AA_CONFIG = {
             # this works if pysaml2 is installed from peppelinux's fork
             'signing_algorithm':  saml2.xmldsig.SIG_RSA_SHA256,
             'digest_algorithm':  saml2.xmldsig.DIGEST_SHA256,
-            
+
             # saml.assertion #807
             "policy": {
                 "default": {
                     "lifetime": {'hours': 360},
-                    
+
                 }
             },
-            
+
             "release_policy": {
                 "default": {
                     "lifetime": {"minutes":15},
@@ -199,17 +200,17 @@ SAML_IDP_CONFIG = {
                     ('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
 
                     # TODO
-                    # ("%s/sso/art" % BASE, BINDING_HTTP_ARTIFACT),
+                    # ("%s/sso/art" % BASE_URL, BINDING_HTTP_ARTIFACT),
                 ],
                 "single_logout_service": [
-                    ("%s/slo/post" % BASE, BINDING_HTTP_POST),
+                    ("%s/slo/post" % BASE_URL, BINDING_HTTP_POST),
 
-                    #("%s/slo/redirect" % BASE, BINDING_HTTP_REDIRECT)
-                    # ("%s/slo/soap" % BASE, BINDING_SOAP),
+                    #("%s/slo/redirect" % BASE_URL, BINDING_HTTP_REDIRECT)
+                    # ("%s/slo/soap" % BASE_URL, BINDING_SOAP),
                 ],
-                
+
                # "attribute_service": [
-                    # ("%s/aap" % BASE, BINDING_HTTP_POST),
+                    # ("%s/aap" % BASE_URL, BINDING_HTTP_POST),
                 # ]
             },
             # transient per default, persistent if asked by sp
@@ -238,7 +239,6 @@ SAML_IDP_CONFIG = {
             # 'verify_encrypt_cert_assertion': None,
             # 'verify_encrypt_cert_advice': None,
 
-            # this works if pysaml2 is installed from peppelinux's fork
             'signing_algorithm':  saml2.xmldsig.SIG_RSA_SHA256,
             'digest_algorithm':  saml2.xmldsig.DIGEST_SHA256,
 
@@ -349,7 +349,7 @@ SAML_DISALLOW_UNDEFINED_SP = False
 
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'idp.processors.LdapUnicalMultiAcademiaProcessor',
+    'processor': 'uniauth.processors.multildap.LdapUnicalMultiAcademiaProcessor',
     'attribute_mapping': {
         # refeds + edugain Entities
         "cn": "cn",

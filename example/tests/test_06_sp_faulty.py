@@ -23,7 +23,7 @@ class TestEnabledRP(BaseTestRP):
         self.user = self._get_superuser_user()
 
     def test_faulty_attr_processor(self):
-        self.sp.attribute_processor = 'idp.processors.UNKNOW'
+        self.sp.attribute_processor = 'uniauth.processors.base.UNKNOW'
         self.sp.save()
 
         url, data, session_id = self._get_sp_authn_request()

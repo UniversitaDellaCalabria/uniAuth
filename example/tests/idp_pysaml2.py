@@ -18,7 +18,7 @@ from saml2.sigver import get_xmlsec_binary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/idp/login/'
 
 # idp protocol:fqdn:port
 HOST = 'idp1.testunical.it'
@@ -253,7 +253,7 @@ SAML_DISALLOW_UNDEFINED_SP = False
 
 # This coniguration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'idp.processors.BaseProcessor',
+    'processor': 'uniauth.processors.base.BaseProcessor',
     'attribute_mapping': {
 
         'uid': 'uid',

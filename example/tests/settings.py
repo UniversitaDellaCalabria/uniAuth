@@ -131,10 +131,10 @@ if 'ldap_peoples' in INSTALLED_APPS:
      }
 
     DATABASE_ROUTERS = ['ldapdb.router.Router']
-    AUTHENTICATION_BACKENDS.append('idp.ldap_auth.LdapAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth.auth.ldap_peoples.LdapAcademiaAuthBackend')
 
 if 'multildap' in INSTALLED_APPS:
-    AUTHENTICATION_BACKENDS.append('idp.multildap_auth.LdapUnicalMultiAcademiaAuthBackend')
+    AUTHENTICATION_BACKENDS.append('uniauth.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
 
 
 # Password validation

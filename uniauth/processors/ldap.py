@@ -4,8 +4,7 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.models import Group
-from uniauth.processors import (BaseProcessor,
-                                NameIdBuilder)
+from . base import BaseProcessor, NameIdBuilder
 from . unical_attributes_generator import UnicalAttributeGenerator
 
 

@@ -1,0 +1,184 @@
+@charset "UTF-8";
+/**
+ * Università della Calabria
+ * Style SCSS
+ */
+/**
+ * Università della Calabria COLORS
+ */
+/**
+ * Generic elements
+ */
+a {
+  cursor: pointer;
+  color: #b71918; }
+
+a:hover, a:active {
+  color: #383838; }
+
+a.read-more {
+  color: #9d9d9c; }
+
+.badge-primary {
+  background: #b71918; }
+
+.badge-secondary {
+  background: #383838; }
+
+.btn-primary {
+  background: #383838; }
+
+.btn-primary:hover {
+  background: #9d9d9c; }
+
+.btn-outline-primary {
+  color: #383838;
+  -webkit-box-shadow: inset 0 0 0 1px #383838;
+  box-shadow: inset 0 0 0 1px #383838; }
+
+.btn-outline-primary:hover {
+  color: #9d9d9c;
+  -webkit-box-shadow: inset 0 0 0 1px #9d9d9c;
+  box-shadow: inset 0 0 0 1px #9d9d9c; }
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+  color: #383838 !important;
+  box-shadow: inset 0 1px 0 #9d9d9c, 0 1px 1px #9d9d9c, 0 0 0 0.2rem rgba(101, 101, 102, 0.5) !important; }
+
+.btn-secondary {
+  background: #b71918; }
+
+.btn-secondary:hover {
+  background: #383838; }
+
+.btn:not(.btn-outline-primary):not(.btn-outline-secondary):active,
+.btn:not(.btn-outline-primary):not(.btn-outline-secondary):focus {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(101, 101, 102, 0.5) !important;
+  background-color: #475664 !important; }
+
+.text-primary {
+  color: #383838 !important; }
+
+.text-secondary {
+  color: #b71918 !important; }
+
+/**
+ * Header Slim Wrapper
+ */
+.it-header-slim-wrapper {
+  background: #b71918; }
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button {
+  background: #383838; }
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button:hover {
+  background: #9d9d9c;
+  color: #383838; }
+
+/**
+ * Header Center Wrapper
+ */
+@media (min-width: 992px) {
+  .it-header-center-wrapper {
+    height: 130px; } }
+
+.it-header-center-wrapper {
+  background: #ffffff; }
+
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a,
+.it-header-center-wrapper .it-header-center-content-wrapper .it-right-zone {
+  color: #383838; }
+
+.it-header-center-wrapper .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon,
+.it-header-center-wrapper .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
+  fill: #383838; }
+
+/**
+ * Logo
+ */
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .img {
+  width: 100%; }
+
+/**
+ * Header Navbar Wrapper
+ */
+/* Desktops and laptops ----------- */
+@media (min-width: 992px) {
+  .it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .logo_icon image {
+    width: 100%; } }
+
+/* Others than desktop ----------- */
+@media (max-width: 991px) {
+  .it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .logo_icon image {
+    height: 100%; } }
+
+/**
+ * Header Navbar Wrapper
+ */
+/* Desktops and laptops ----------- */
+@media (min-width: 992px) {
+  .it-header-navbar-wrapper {
+    background: #383838; } }
+
+/* Others than desktop ----------- */
+@media (max-width: 991px) {
+  .it-header-navbar-wrapper {
+    background: none; }
+  .custom-navbar-toggler svg {
+    fill: #383838; } }
+
+/**
+ * Main Body
+ */
+/**
+ * Footer Main
+ */
+.it-footer-main {
+  background: #383838; }
+
+/**
+ * Footer Small Prints
+ */
+.it-footer-small-prints {
+  background: #b71918; }
+
+/**
+ * -------------------------------------------------------------
+ */
+/**
+ * Carousel
+ */
+.it-carousel-wrapper .owl-dots .owl-dot {
+  background: #383838; }
+
+/**
+ * Back to top
+ */
+.back-to-top {
+  background: #9d9d9c; }
+
+.back-to-top:hover {
+  background: #383838; }
+
+/**
+ * Form Bootstrap Italia
+ */
+.toggles label input[type="checkbox"]:checked + .lever::after {
+  background-color: #b71918; }
+
+.form-check [type=radio]:checked + label::after,
+.form-check [type=checkbox]:checked + label::after {
+  background-color: #b71918;
+  border-color: #b71918; }
+
+.form-check [type=radio]:checked + label::before {
+  border-color: #b71918; }
+
+/**
+ * Section muted
+ */
+.section.section-muted {
+  background-color: #f7f7f7; }
+
+/*# sourceMappingURL=unical-style.css.map */

@@ -22,8 +22,6 @@ class TestRP(BaseTestRP):
                                              sign=False,
                                              sigalg=None)
         url, data = extract_saml_authn_data(result)
-
-        # client = Client()
         response = self.client.post(url, data)
         # forbidden !
         assert response.status_code == 403 and \
@@ -36,7 +34,6 @@ class TestRP(BaseTestRP):
         """
         url, data, session_id = self._get_sp_authn_request()
 
-        # client = Client()
         response = self.client.post(url, data)
 
         login_url = reverse('uniauth:saml_login_process')

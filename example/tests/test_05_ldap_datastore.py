@@ -26,13 +26,13 @@ class TestEnabledRP(BaseTestRP):
         # add LDAP in settings
         settings.INSTALLED_APPS.append('multildap')
         settings.LDAP_CONNECTIONS = LDAP_CONNECTIONS
-        settings.AUTHENTICATION_BACKENDS.append('idp.multildap_auth.LdapUnicalMultiAcademiaAuthBackend')
+        settings.AUTHENTICATION_BACKENDS.append('uniauth.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
 
         # disable agreement screen
         self.sp.agreement_screen = 0
 
         # configure sp processors
-        self.sp.attribute_processor = 'idp.processors.LdapUnicalMultiAcademiaProcessor'
+        self.sp.attribute_processor = 'uniauth.processors.ldap.LdapUnicalMultiAcademiaProcessor'
         self.sp.attribute_mapping = json.dumps({
             # refeds + edugain Entities
             "cn": "cn",

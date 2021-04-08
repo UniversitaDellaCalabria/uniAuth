@@ -7,7 +7,7 @@ app_name = 'uniauth'
 urlpatterns = [
     path('login/', views.LoginAuthView.as_view(), name='login'),
     # path('sso/init', views.SSOInitView.as_view(), name="saml_idp_init"),
-    path('sso/<str:binding>', views.sso_entry, name="saml_login_binding"),
+    path('sso/<str:binding>', views.SsoEntryView.as_view(), name="saml_login_binding"),
     path('login/process/', views.LoginProcessView.as_view(),
          name='saml_login_process'),
     #  path('login/process_multi_factor/', views.get_metadata,

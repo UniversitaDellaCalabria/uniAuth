@@ -32,9 +32,8 @@ class TestEnabledRP(BaseTestRP):
         assert 'id_username' in response.content.decode()
 
     def test_disabled_sp(self):
-        self.sp.is_active = 0
+        self.sp.is_active = False
         self.sp.save()
-
         url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
@@ -47,6 +46,7 @@ class TestEnabledRP(BaseTestRP):
         url, data, session_id = self._get_sp_authn_request()
 
         response = self.client.post(url, data, follow=True)
+        assert response.status_code == 200
         assert 'id_username' in response.content.decode()
 
     def test_account_attrs(self):

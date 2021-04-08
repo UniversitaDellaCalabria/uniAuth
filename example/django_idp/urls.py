@@ -26,13 +26,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(),
          {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),
+    #path('login/', LoginAuthView.as_view(), name='login'),
 ]
 
 if 'uniauth' in settings.INSTALLED_APPS:
     import uniauth.urls
-    urlpatterns += path('', include((uniauth.urls, 'uniauth',))),
-    #urlpatterns += path('login/', LoginAuthView.as_view(), name='login'),
+    urlpatterns += path('idp/', include((uniauth.urls, 'uniauth',))),
 
-if 'idp' in settings.INSTALLED_APPS:
-    import idp.urls
-    urlpatterns += path('', include((idp.urls, 'idp',))),

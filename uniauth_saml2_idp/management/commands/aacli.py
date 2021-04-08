@@ -1,11 +1,9 @@
 import json
 
 from django.contrib.auth import get_user_model
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from uniauth_saml2_idp.views import IdPHandlerViewMixin, get_IDP
-from uniauth_saml2_idp.utils import get_idp_config, get_idp_sp_config
 
 
 class Command(BaseCommand):

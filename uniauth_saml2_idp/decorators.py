@@ -1,14 +1,10 @@
 import logging
 
-from django.conf import settings
-from django.contrib.auth import logout
-from django.http import HttpResponseBadRequest
-from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.translation import gettext as _
 from django.shortcuts import render
 from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
 
-from .utils import repr_saml, get_idp_config
+from .utils import repr_saml
 
 
 logger = logging.getLogger(__name__)

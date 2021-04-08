@@ -1,6 +1,6 @@
 import json
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from uniauth_saml2_idp.utils import get_idp_config
 
 from uniauth_saml2_idp.models import MetadataStore

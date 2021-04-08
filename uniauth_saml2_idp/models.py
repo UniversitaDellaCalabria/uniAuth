@@ -7,7 +7,6 @@ import saml2.xmldsig
 
 from datetime import timedelta
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _

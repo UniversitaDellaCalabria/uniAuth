@@ -1,14 +1,9 @@
-import ldap
 import logging
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.sessions.models import Session
 # from django.contrib.auth.decorators import user_passes_test
-from django.core.mail import send_mail
 from django.db import connections
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 from ldap3.utils import conv
 from ldap_peoples.models import LdapAcademiaUser
@@ -42,7 +37,7 @@ class LdapAcademiaAuthBackend(ModelBackend):
             ldap_conn.connection.bind_s(lu.distinguished_name(),
                                         password)
             ldap_conn.connection.unbind_s()
-        except Exception as e:
+        except Exception:
             logger.info(
                 "--- LDAP {} seems to be unable to Auth ---".format(username))
             return None
@@ -63,7 +58,7 @@ class LdapAcademiaAuthBackend(ModelBackend):
             user.last_name = lu.sn
             user.origin = 'ldap_peoples'
             user.save()
-        except Exception as e:
+        except Exception:
             user = get_user_model().objects.create(username=username,
                                                    email=lu.mail[0],
                                                    first_name=lu.cn,

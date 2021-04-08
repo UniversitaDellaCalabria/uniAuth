@@ -1,9 +1,6 @@
-import hashlib
 import logging
-import random
 
 from django.conf import settings
-from django.contrib.auth.models import Group
 from . base import BaseProcessor, NameIdBuilder
 from . unical_attributes_generator import UnicalAttributeGenerator
 
@@ -15,7 +12,7 @@ if 'ldap_peoples' in settings.INSTALLED_APPS:
     from ldap_peoples.models import LdapAcademiaUser
 
 if 'multildap' in settings.INSTALLED_APPS:
-    from multildap.client import LdapClient
+    pass
 
 
 def _get_username(user):

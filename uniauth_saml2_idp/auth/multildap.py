@@ -1,17 +1,10 @@
-import copy
 import logging
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.sessions.models import Session
 from django.conf import settings
-from django.core.mail import send_mail
-from django.db import connections
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 from ldap3.utils import conv
-from multildap.client import LdapClient
 
 
 logger = logging.getLogger(__name__)

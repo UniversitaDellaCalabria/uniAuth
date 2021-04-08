@@ -2,9 +2,8 @@ import json
 
 from django.contrib import admin
 from django.contrib import messages
-from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext, gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from . models import (AgreementRecord,
                       MetadataStore,

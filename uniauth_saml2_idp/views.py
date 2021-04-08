@@ -11,24 +11,20 @@ from django.contrib.auth import logout, login as auth_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import (ImproperlyConfigured,
-                                    PermissionDenied,
-                                    SuspiciousOperation)
+                                    PermissionDenied)
 from django.http import (HttpResponse,
-                         HttpResponseBadRequest,
                          HttpResponseRedirect)
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.decorators import method_decorator
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext as _
 from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
-from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
+from saml2 import BINDING_HTTP_POST
 from saml2.authn_context import (PASSWORD,
                                  AuthnBroker,
                                  authn_context_class_ref)
@@ -72,7 +68,7 @@ class SsoEntryView(View):
 
     def is_entity_known(self, *args, **kwargs):
         try:
-            resp_args = self.IDP.response_args(self.saml_request.message)
+            self.IDP.response_args(self.saml_request.message)
         except UnknownSystemEntity as exp:  # pragma: no cover
             logger.error('{}'.format(exp))
             return render(request, 'error.html',
@@ -460,7 +456,6 @@ class IdPHandlerViewMixin(ErrorHandler):
 
     def apply_allow_create(self, name_id):
         name_id_policy = self.resp_args['name_id_policy']
-        allow_create = False
         if name_id_policy and getattr(name_id_policy, 'allow_create', None):
             name_id_policy = name_id_policy.allow_create.lower()
         # allow create support

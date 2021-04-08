@@ -66,7 +66,7 @@ class ServiceProvider(models.Model):
                                                        help_text=('disable encryption'))
     attribute_processor = models.CharField(default=settings.DEFAULT_SPCONFIG['processor'],
                                            help_text=_('"package.file.classname", '
-                                                       'example: "idp.processors.LdapAcademiaProcessor"'),
+                                                       'example: "uniauth_saml2_idp.base.processors.BaseProcessor"'),
                                            max_length=256, blank=True)
     attribute_mapping = models.TextField(default=json.dumps(settings.DEFAULT_SPCONFIG['attribute_mapping'],
                                                             sort_keys=True,

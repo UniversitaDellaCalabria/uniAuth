@@ -36,14 +36,23 @@ setup(
                                    for i in glob(f'{_src_folder}/{_pkg_name}/**',
                                                  recursive=True)]
     },
-
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
+        "Framework :: Django",
+        "Framework :: Django :: 3.0",
+        "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Topic :: Software Development :: Libraries :: Python Modules"],
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: WSGI",
+        "Topic :: Security",
+        "Topic :: Software Development :: Libraries :: Application Frameworks",
+        ],
     install_requires=get_requirements(),
     zip_safe=False,
     )

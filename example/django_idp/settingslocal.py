@@ -50,16 +50,6 @@ DATABASES = {
        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
    }
 }
-import sys
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
-    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-
-# ldap_peoples related
-# LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
-# LDAP_CONNECTION_PASSWD = 'Thatpassword'
-# LDAP_DB_URL = 'ldap://localhost:389/'
-LDAP_BASE_DOMAIN = 'testunical.it'
-# LDAP_PEOPLE_DN = 'dc=proxy'
 
 # needed for ldap admin forms
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S',
@@ -137,152 +127,162 @@ LOGGING = {
         },
     }
 }
-#####################
-# pyMutliLDAP related
-#####################
-import ldap3
-from multildap.client import LdapClient
-# GLOBALS
 
-# encoding
-ldap3.set_config_parameter('DEFAULT_SERVER_ENCODING',
-                           'UTF-8')
-# some broken LDAP implementation may have different encoding
-# than those expected by RFCs
-# ldap3.set_config_paramenter('ADDITIONAL_ENCODINGS', ...)
+if 'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS:
+    # ldap_peoples related
+    # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
+    # LDAP_CONNECTION_PASSWD = 'Thatpassword'
+    # LDAP_DB_URL = 'ldap://localhost:389/'
+    LDAP_BASE_DOMAIN = 'testunical.it'
+    # LDAP_PEOPLE_DN = 'dc=proxy'
 
-# timeouts
-ldap3.set_config_parameter('RESTARTABLE_TRIES', 3)
-ldap3.set_config_parameter('POOLING_LOOP_TIMEOUT', 2)
-ldap3.set_config_parameter('RESET_AVAILABILITY_TIMEOUT', 2)
-ldap3.set_config_parameter('RESTARTABLE_SLEEPTIME', 2)
+if 'multildap' in INSTALLED_APPS:
+    #####################
+    # pyMutliLDAP related
+    #####################
+    import ldap3
+    from multildap.client import LdapClient
+    # GLOBALS
 
-# _REWRITE_DN_TO = 'dc=proxy'
-_RS_ATTRIBUTES = ['cn',
-                  'eduPersonPrincipalName',
-                  'eduPersonEntitlement',
-                  'schacHomeOrganizationType',
-                  'schacHomeOrganization',
-                  'mail',
-                  'uid',
-                  'givenName',
-                  'sn',
-                  'eduPersonScopedAffiliation',
-                  'schacPersonalUniqueID',
-                  'schacPersonalUniqueCode']
+    # encoding
+    ldap3.set_config_parameter('DEFAULT_SERVER_ENCODING',
+                               'UTF-8')
+    # some broken LDAP implementation may have different encoding
+    # than those expected by RFCs
+    # ldap3.set_config_paramenter('ADDITIONAL_ENCODINGS', ...)
 
-DEFAULT = dict(server =
-                   dict(host = 'ldap://ldap.testunical.it:389',
-                        connect_timeout = 5,
-                        # TLS...
-                        ),
-               connection =
-                   dict(user = 'uid=idpuser,ou=idp,dc=testunical,dc=it',
-                        password = 'idpsecret',
-                        read_only = True,
-                        version = 3,
-                        # see ldap3 client_strategies
-                        client_strategy = ldap3.RESTARTABLE,
-                        auto_bind = True,
-                        pool_size = 10,
-                        pool_keepalive = 10),
-                search =
-                    dict(search_base = 'ou=people,dc=testunical,dc=it',
-                         search_filter = '(objectclass=person)',
-                         search_scope = ldap3.SUBTREE,
+    # timeouts
+    ldap3.set_config_parameter('RESTARTABLE_TRIES', 3)
+    ldap3.set_config_parameter('POOLING_LOOP_TIMEOUT', 2)
+    ldap3.set_config_parameter('RESET_AVAILABILITY_TIMEOUT', 2)
+    ldap3.set_config_parameter('RESTARTABLE_SLEEPTIME', 2)
 
-                         # general purpose for huge resultsets
-                         # TODO: implement paged resultset, see: examples/paged_resultset.py
-                         # size_limit = 500,
-                         # paged_size = 1000, # up to 500000 results
-                         # paged_criticality = True, # check if the server supports paged results
-                         # paged_cookie = True, # must be sent back while requesting subsequent entries
+    # _REWRITE_DN_TO = 'dc=proxy'
+    _RS_ATTRIBUTES = ['cn',
+                      'eduPersonPrincipalName',
+                      'eduPersonEntitlement',
+                      'schacHomeOrganizationType',
+                      'schacHomeOrganization',
+                      'mail',
+                      'uid',
+                      'givenName',
+                      'sn',
+                      'eduPersonScopedAffiliation',
+                      'schacPersonalUniqueID',
+                      'schacPersonalUniqueCode']
 
-                         # to get all = # '*'
-                         attributes = _RS_ATTRIBUTES
-                        ),
-                    encoding = 'utf-8',
-                  rewrite_rules =
-                        [
-                         # {'package': 'multildap.attr_rewrite',
-                          # 'name': 'replace',
-                          # 'kwargs': {'from_str': 'unical', 'to_str': 'lacinu',}},
+    DEFAULT = dict(server =
+                       dict(host = 'ldap://ldap.testunical.it:389',
+                            connect_timeout = 5,
+                            # TLS...
+                            ),
+                   connection =
+                       dict(user = 'uid=idpuser,ou=idp,dc=testunical,dc=it',
+                            password = 'idpsecret',
+                            read_only = True,
+                            version = 3,
+                            # see ldap3 client_strategies
+                            client_strategy = ldap3.RESTARTABLE,
+                            auto_bind = True,
+                            pool_size = 10,
+                            pool_keepalive = 10),
+                    search =
+                        dict(search_base = 'ou=people,dc=testunical,dc=it',
+                             search_filter = '(objectclass=person)',
+                             search_scope = ldap3.SUBTREE,
 
-                         # {'package': 'multildap.attr_rewrite',
-                          # 'name': 'regexp_replace',
-                          # 'kwargs': {'regexp': 'unical', 'sub': 'gnocc',}},
+                             # general purpose for huge resultsets
+                             # TODO: implement paged resultset, see: examples/paged_resultset.py
+                             # size_limit = 500,
+                             # paged_size = 1000, # up to 500000 results
+                             # paged_criticality = True, # check if the server supports paged results
+                             # paged_cookie = True, # must be sent back while requesting subsequent entries
 
-                         # {'package': 'multildap.attr_rewrite',
-                          # 'name': 'add_static_attribute',
-                          # 'kwargs': {'name': 'eduPersonOrcid', 'value': 'ingoalla',}},
+                             # to get all = # '*'
+                             attributes = _RS_ATTRIBUTES
+                            ),
+                        encoding = 'utf-8',
+                      rewrite_rules =
+                            [
+                             # {'package': 'multildap.attr_rewrite',
+                              # 'name': 'replace',
+                              # 'kwargs': {'from_str': 'unical', 'to_str': 'lacinu',}},
 
-                         # {'package': 'multildap.attr_rewrite',
-                          # 'name': 'copy_attribute_value',
-                          # 'kwargs': {'from_attr': 'uid',
-                                     # 'to_attr': 'schacPersonalUniqueID',
-                                     # 'suffix': '',
-                                     # 'prefix': 'urn:schac:personalUniqueID:IT:CF:',
-                                     # }},
-                        ],
+                             # {'package': 'multildap.attr_rewrite',
+                              # 'name': 'regexp_replace',
+                              # 'kwargs': {'regexp': 'unical', 'sub': 'gnocc',}},
 
-                  # Authentication settings
-                  # only needed if behind multildap proxy
-                  # rewrite_dn_to = _REWRITE_DN_TO,
-                  allow_authentication = True,
-            )
+                             # {'package': 'multildap.attr_rewrite',
+                              # 'name': 'add_static_attribute',
+                              # 'kwargs': {'name': 'eduPersonOrcid', 'value': 'ingoalla',}},
 
-LOCAL = dict(server =
-                   dict(host = 'ldap://localhost:389',
-                        connect_timeout = 5,
-                        # TLS...
-                        ),
-               connection =
-                   dict(user = 'cn=thatuser,ou=thatou,dc=unical,dc=it',
-                        password = 'thatpassword',
-                        read_only = True,
-                        version = 3,
-                        # see ldap3 client_strategies
-                        client_strategy = ldap3.RESTARTABLE,
-                        auto_bind = True,
-                        pool_size = 10,
-                        pool_keepalive = 10),
-                search =
-                    dict(search_base = 'ou=people,dc=unical,dc=it',
-                         search_filter = '(objectclass=person)',
-                         search_scope = ldap3.SUBTREE,
+                             # {'package': 'multildap.attr_rewrite',
+                              # 'name': 'copy_attribute_value',
+                              # 'kwargs': {'from_attr': 'uid',
+                                         # 'to_attr': 'schacPersonalUniqueID',
+                                         # 'suffix': '',
+                                         # 'prefix': 'urn:schac:personalUniqueID:IT:CF:',
+                                         # }},
+                            ],
 
-                         # general purpose for huge resultsets
-                         # TODO: implement paged resultset, see: examples/paged_resultset.py
-                         # size_limit = 500,
-                         # paged_size = 1000, # up to 500000 results
-                         # paged_criticality = True, # check if the server supports paged results
-                         # paged_cookie = True, # must be sent back while requesting subsequent entries
+                      # Authentication settings
+                      # only needed if behind multildap proxy
+                      # rewrite_dn_to = _REWRITE_DN_TO,
+                      allow_authentication = True,
+                )
 
-                         # to get all = # '*'
-                         attributes = _RS_ATTRIBUTES
-                        ),
-                  encoding = 'utf-8',
-                  rewrite_rules =
-                        [
+    LOCAL = dict(server =
+                       dict(host = 'ldap://localhost:389',
+                            connect_timeout = 5,
+                            # TLS...
+                            ),
+                   connection =
+                       dict(user = 'cn=thatuser,ou=thatou,dc=unical,dc=it',
+                            password = 'thatpassword',
+                            read_only = True,
+                            version = 3,
+                            # see ldap3 client_strategies
+                            client_strategy = ldap3.RESTARTABLE,
+                            auto_bind = True,
+                            pool_size = 10,
+                            pool_keepalive = 10),
+                    search =
+                        dict(search_base = 'ou=people,dc=unical,dc=it',
+                             search_filter = '(objectclass=person)',
+                             search_scope = ldap3.SUBTREE,
 
-                         # {'package': 'multildap.attr_rewrite',
-                          # 'name': 'append',
-                          # 'kwargs': {'value': '@unical.it',
-                                     # 'to_attrs': ['eduPersonPrincipalName',]}},
+                             # general purpose for huge resultsets
+                             # TODO: implement paged resultset, see: examples/paged_resultset.py
+                             # size_limit = 500,
+                             # paged_size = 1000, # up to 500000 results
+                             # paged_criticality = True, # check if the server supports paged results
+                             # paged_cookie = True, # must be sent back while requesting subsequent entries
 
-                         # {'package': 'attr_rewrite',
-                          # 'name': 'regexp_replace',
-                          # 'kwargs': {'regexp': '', 'sub': '',}},
+                             # to get all = # '*'
+                             attributes = _RS_ATTRIBUTES
+                            ),
+                      encoding = 'utf-8',
+                      rewrite_rules =
+                            [
 
-                        ],
-                  # Authentication settings
-                  # only needed if behind multildap proxy
-                  # rewrite_dn_to = _REWRITE_DN_TO,
-                  allow_authentication = True,
-            )
+                             # {'package': 'multildap.attr_rewrite',
+                              # 'name': 'append',
+                              # 'kwargs': {'value': '@unical.it',
+                                         # 'to_attrs': ['eduPersonPrincipalName',]}},
 
-# put multiple connections here
-LDAP_CONNECTIONS = {'DEFAULT' : DEFAULT,
-                    # 'LOCAL' : LOCAL
-                    }
-LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]
+                             # {'package': 'attr_rewrite',
+                              # 'name': 'regexp_replace',
+                              # 'kwargs': {'regexp': '', 'sub': '',}},
+
+                            ],
+                      # Authentication settings
+                      # only needed if behind multildap proxy
+                      # rewrite_dn_to = _REWRITE_DN_TO,
+                      allow_authentication = True,
+                )
+
+    # put multiple connections here
+    LDAP_CONNECTIONS = {'DEFAULT' : DEFAULT,
+                        # 'LOCAL' : LOCAL
+                        }
+    LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]

@@ -29,6 +29,7 @@ Install uniAuth as a Django app
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
+
     pip install uniauth-saml2-idp
 
 
@@ -51,10 +52,13 @@ SAML2 IdP and AA configuration must be configured in idp_pysaml2.py
 
 djangosaml2 parameters:
 
-SAML_IDP_DJANGO_USERNAME_FIELD = 'uid'
+SAML_IDP_CONFIG = {}
+    the PySAML2 IdP configuration, see `example/django_idp/idp_pysaml2.py.example` and pysaml2 official documentation.
+
+SAML_IDP_DJANGO_USERNAME_FIELD = 'username'
     Attribute used for SAML nameid. It must be a field name, a @property or a callable of the Django User model.
 
-SAML_COMPUTEDID_HASHALG = 'sha1'
+SAML_COMPUTEDID_HASHALG = 'sha256'
     Global behaviour, which algorithm should be used to produce the computedID of a user.
     Used only for OPAQUE, TRANSIENT and PERSISTENT nameid format.
 
@@ -79,7 +83,7 @@ SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE = []
 SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
     User agreements will be valid for 1 year unless overriden. If this attribute is not used, user agreements will not expire.
 
-SAML_AUTHN_SIGN_ALG or SAML_AUTHN_DIGEST_ALG
+SAML_AUTHN_SIGN_ALG and SAML_AUTHN_DIGEST_ALG
     Global behaviour, which algorithms should be used for SAML signature and digest.
 
 SAML_FORCE_ENCRYPTED_ASSERTION = False
@@ -120,11 +124,12 @@ carry these parameters in your `settingslocal.py` file.
     CREATE DATABASE IF NOT EXISTS ${DB} CHARACTER SET = 'utf8' COLLATE = 'utf8_general_ci';\
     GRANT ALL PRIVILEGES ON ${DB}.* TO '${USER}'@'${HOST}';"
 
+
 LDAP connection
 ^^^^^^^^^^^^^^^
 
-You can use LDAP data source with at least two strategy ``ldap_peoples`` ldap manager or ``pyMultiLDAP``.
-If you do not need a LDAP data source remove ``ldap_peoples`` or ``multildap`` from ``settingslocal.INSTALLED_APPS``.
+You can use LDAP data source using ``ldap_peoples`` ldap manager or ``pyMultiLDAP`` apps.
+If you don't need a LDAP data source remove ``ldap_peoples`` or ``multildap`` from ``settingslocal.INSTALLED_APPS``.
 
 ``ldap_peoples`` is a fancy app to integrate a R&S LDAP manager.
 On top of it you'll find a custom authentication backend and a custom attribute processor,
@@ -147,6 +152,7 @@ idp\_pysaml2.py (``key_file`` and ``cert_file``, even in
 ``encryption_keypairs``).
 
 ::
+
     openssl req -nodes -new -x509 -newkey rsa:2048 -days 3650 -keyout private.key -out public.cert
 
 

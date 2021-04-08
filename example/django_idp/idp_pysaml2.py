@@ -280,7 +280,6 @@ SAML_IDP_CONFIG = {
 
         },
 
-        # TODO
         # AttributeAuthorityDescriptor is needed for legacy SP
         # this adds the needed attributes in metadata ...!
         #'aq': {

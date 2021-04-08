@@ -53,13 +53,15 @@ class ServiceProvider(models.Model):
                                    help_text=_("optional, usually this "
                                                "is the same of entityID"))
     description = models.TextField(blank=True, default='')
-    agreement_screen = models.BooleanField(default=settings.SAML_IDP_SHOW_USER_AGREEMENT_SCREEN)
-    agreement_consent_form = models.BooleanField(default=settings.SAML_IDP_SHOW_CONSENT_FORM)
+    agreement_screen = models.BooleanField(
+        default=settings.SAML_IDP_SHOW_USER_AGREEMENT_SCREEN)
+    agreement_consent_form = models.BooleanField(
+        default=settings.SAML_IDP_SHOW_CONSENT_FORM)
     agreement_message = models.TextField(blank=True, default='')
-    signing_algorithm = models.CharField(choices=[(y,x) for x,y in saml2.xmldsig.SIG_ALLOWED_ALG],
+    signing_algorithm = models.CharField(choices=[(y, x) for x, y in saml2.xmldsig.SIG_ALLOWED_ALG],
                                          default=settings.SAML_AUTHN_SIGN_ALG,
                                          max_length=256)
-    digest_algorithm = models.CharField(choices=[(y,x) for x,y in saml2.xmldsig.DIGEST_ALLOWED_ALG],
+    digest_algorithm = models.CharField(choices=[(y, x) for x, y in saml2.xmldsig.DIGEST_ALLOWED_ALG],
                                         default=settings.SAML_AUTHN_DIGEST_ALG,
                                         max_length=256)
     disable_encrypted_assertions = models.BooleanField(default=True,
@@ -74,12 +76,12 @@ class ServiceProvider(models.Model):
                                          blank=True, null=True,
                                          help_text=_('Attribute that would be release to this SP, in JSON format.'))
     force_attribute_release = models.BooleanField(default=False,
-                                                   help_text=_("Release the configured attribute mapping "
-                                                               "regardless of what SP asks for."))
+                                                  help_text=_("Release the configured attribute mapping "
+                                                              "regardless of what SP asks for."))
     is_valid = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True,null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     last_seen = models.DateTimeField(null=True, blank=True)
 
     class Meta:
@@ -104,12 +106,14 @@ class ServiceProvider(models.Model):
             # Dict must do not have a trailing "," at last element
             json.loads(self.attribute_mapping)
         except Exception as e:
-            error = 'Attribute Mapping is not a valid JSON format: {}'.format(e)
+            error = 'Attribute Mapping is not a valid JSON format: {}'.format(
+                e)
             self.is_active = False
 
         # test if its entityID is available in metadatastore
         try:
-            get_idp_config = import_string('uniauth_saml2_idp.utils.get_idp_config')
+            get_idp_config = import_string(
+                'uniauth_saml2_idp.utils.get_idp_config')
             get_idp_config().metadata.service(self.entity_id,
                                               "spsso_descriptor",
                                               'assertion_consumer_service')
@@ -167,9 +171,10 @@ class MetadataStore(models.Model):
     kwargs = models.TextField(help_text=_("A dictionary"), default='{}')
     is_valid = models.BooleanField(default=False,
                                    help_text=_('if sign validation was succesfull'))
-    is_active = models.BooleanField(default=False, help_text=_('enable/disable this metadata source'))
+    is_active = models.BooleanField(default=False, help_text=_(
+        'enable/disable this metadata source'))
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True,null=True, blank=True,
+    updated = models.DateTimeField(auto_now=True, null=True, blank=True,
                                    help_text=_('when last download/validation occourred'))
 
     class Meta:
@@ -205,33 +210,37 @@ class MetadataStore(models.Model):
         return d
 
     def as_pysaml2_mdstore_row(self):
-        if self.type in ('remote', 'mdq'): # pragma: no cover
+        if self.type in ('remote', 'mdq'):  # pragma: no cover
             d = dict(url=self.url)
-            if self.file: d['cert'] = self.file.path
+            if self.file:
+                d['cert'] = self.file.path
             if self.kwargs:
                 kwargs = json.loads(self.kwargs)
                 d.update(kwargs)
             return d
         elif self.type == 'local':
             return (self.url) if not self.file else (self.file.path)
-        raise NotYetImplemented('see models.MetadataStore.as_pysaml2_mdstore_row')
+        raise NotYetImplemented(
+            'see models.MetadataStore.as_pysaml2_mdstore_row')
 
     def validate(self):
         error = None
-        if self.type == 'mdq': # pragma: no cover
+        if self.type == 'mdq':  # pragma: no cover
             try:
                 r = requests.head(self.url + '/entities/')
                 if r.status_code != 200:
-                    logger.error('{} /entities query failed: {}'.format(self, r.content))
+                    logger.error(
+                        '{} /entities query failed: {}'.format(self, r.content))
                     self.is_active = False
             except Exception as e:
                 error = 'Endpoint is not reachable: {}'.format(e)
                 self.is_active = False
-        elif self.type == 'remote': # pragma: no cover
+        elif self.type == 'remote':  # pragma: no cover
             try:
                 r = requests.get(self.url)
                 if r.status_code != 200:
-                    logger.error('{} /entities query failed: {}'.format(self, r.content))
+                    logger.error(
+                        '{} /entities query failed: {}'.format(self, r.content))
                     self.is_active = False
             except Exception as e:
                 error = 'Endpoint is not reachable: {}'.format(e)
@@ -241,9 +250,11 @@ class MetadataStore(models.Model):
             # check that is a valid XML file, avoids: pysaml2 Exception on parse
             try:
                 if self.file:
-                    defusedxml.ElementTree.fromstring(open(self.file.path).read())
+                    defusedxml.ElementTree.fromstring(
+                        open(self.file.path).read())
                 if self.url:
-                    files = [os.path.join(self.url, f) for f in os.listdir(self.url)]
+                    files = [os.path.join(self.url, f)
+                             for f in os.listdir(self.url)]
                     for f in files:
                         defusedxml.ElementTree.fromstring(open(f).read())
             except Exception as e:

@@ -17,16 +17,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MetadataStore',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=256)),
-                ('url', models.CharField(blank=True, help_text='for "remote" and "mdq", use path if "local".', max_length=255, null=True)),
-                ('file', models.FileField(blank=True, help_text='https cert if type==mdq https cert if type==remote xml file if type==file', null=True, upload_to='metadata')),
-                ('type', models.CharField(choices=[('remote', 'remote'), ('mdq', 'mdq'), ('local', 'local')], max_length=12)),
+                ('url', models.CharField(
+                    blank=True, help_text='for "remote" and "mdq", use path if "local".', max_length=255, null=True)),
+                ('file', models.FileField(
+                    blank=True, help_text='https cert if type==mdq https cert if type==remote xml file if type==file', null=True, upload_to='metadata')),
+                ('type', models.CharField(choices=[
+                 ('remote', 'remote'), ('mdq', 'mdq'), ('local', 'local')], max_length=12)),
                 ('kwargs', models.TextField(default='{}', help_text='A dictionary')),
-                ('is_valid', models.BooleanField(default=False, help_text='if sign validation was succesfull')),
-                ('is_active', models.BooleanField(default=False, help_text='enable/disable this metadata source')),
+                ('is_valid', models.BooleanField(default=False,
+                                                 help_text='if sign validation was succesfull')),
+                ('is_active', models.BooleanField(default=False,
+                                                  help_text='enable/disable this metadata source')),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True, help_text='when last download/validation occourred', null=True)),
+                ('updated', models.DateTimeField(auto_now=True,
+                                                 help_text='when last download/validation occourred', null=True)),
             ],
             options={
                 'verbose_name': 'Metadata Store',
@@ -36,20 +43,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ServiceProvider',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('entity_id', models.CharField(max_length=254, unique=True)),
                 ('display_name', models.CharField(max_length=254)),
-                ('metadata_url', models.URLField(blank=True, default='', help_text='optional, usually this is the same of entityID', max_length=254)),
+                ('metadata_url', models.URLField(blank=True, default='',
+                                                 help_text='optional, usually this is the same of entityID', max_length=254)),
                 ('description', models.TextField(blank=True, default='')),
                 ('agreement_screen', models.BooleanField(default=True)),
                 ('agreement_consent_form', models.BooleanField(default=False)),
                 ('agreement_message', models.TextField(blank=True, default='')),
-                ('signing_algorithm', models.CharField(choices=[('http://www.w3.org/2000/09/xmldsig#rsa-sha1', 'SIG_RSA_SHA1'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha224', 'SIG_RSA_SHA224'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha256', 'SIG_RSA_SHA256'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha384', 'SIG_RSA_SHA384'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha512', 'SIG_RSA_SHA512')], default='http://www.w3.org/2001/04/xmldsig-more#rsa-sha256', max_length=256)),
-                ('digest_algorithm', models.CharField(choices=[('http://www.w3.org/2000/09/xmldsig#sha1', 'DIGEST_SHA1'), ('http://www.w3.org/2001/04/xmldsig-more#sha224', 'DIGEST_SHA224'), ('http://www.w3.org/2001/04/xmlenc#sha256', 'DIGEST_SHA256'), ('http://www.w3.org/2001/04/xmldsig-more#sha384', 'DIGEST_SHA384'), ('http://www.w3.org/2001/04/xmlenc#sha512', 'DIGEST_SHA512'), ('http://www.w3.org/2001/04/xmlenc#ripemd160', 'DIGEST_RIPEMD160')], default='http://www.w3.org/2001/04/xmlenc#sha256', max_length=256)),
-                ('disable_encrypted_assertions', models.BooleanField(default=True, help_text='disable encryption')),
-                ('attribute_processor', models.CharField(blank=True, default='idp.processors.LdapUnicalMultiAcademiaProcessor', help_text='"package.file.classname", example: "idp.processors.LdapAcademiaProcessor"', max_length=256)),
-                ('attribute_mapping', models.TextField(blank=True, default='{\n    "cn": "cn",\n    "codice_fiscale": "codice_fiscale",\n    "displayName": "displayName",\n    "eduPersonAffiliation": "eduPersonAffiliation",\n    "eduPersonEntitlement": "eduPersonEntitlement",\n    "eduPersonHomeOrganization": "eduPersonHomeOrganization",\n    "eduPersonPrincipalName": "eduPersonPrincipalName",\n    "eduPersonScopedAffiliation": "eduPersonScopedAffiliation",\n    "eduPersonTargetedID": "eduPersonTargetedID",\n    "email": [\n        "mail",\n        "email"\n    ],\n    "givenName": [\n        "givenName",\n        "another_possible_occourrence"\n    ],\n    "mail": [\n        "mail",\n        "email"\n    ],\n    "matricola_dipendente": "matricola_dipendente",\n    "matricola_studente": "matricola_studente",\n    "schacHomeOrganization": "schacHomeOrganization",\n    "schacPersonalUniqueCode": "schacPersonalUniqueCode",\n    "schacPersonalUniqueID": "schacPersonalUniqueID",\n    "sn": "sn"\n}', help_text='Attribute that would be release to this SP, in JSON format.', null=True)),
-                ('force_attribute_release', models.BooleanField(default=False, help_text='Release the configured attribute mapping regardless of what SP asks for.')),
+                ('signing_algorithm', models.CharField(choices=[('http://www.w3.org/2000/09/xmldsig#rsa-sha1', 'SIG_RSA_SHA1'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha224', 'SIG_RSA_SHA224'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
+                                                                                                                                                                                                          'SIG_RSA_SHA256'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha384', 'SIG_RSA_SHA384'), ('http://www.w3.org/2001/04/xmldsig-more#rsa-sha512', 'SIG_RSA_SHA512')], default='http://www.w3.org/2001/04/xmldsig-more#rsa-sha256', max_length=256)),
+                ('digest_algorithm', models.CharField(choices=[('http://www.w3.org/2000/09/xmldsig#sha1', 'DIGEST_SHA1'), ('http://www.w3.org/2001/04/xmldsig-more#sha224', 'DIGEST_SHA224'), ('http://www.w3.org/2001/04/xmlenc#sha256', 'DIGEST_SHA256'), (
+                    'http://www.w3.org/2001/04/xmldsig-more#sha384', 'DIGEST_SHA384'), ('http://www.w3.org/2001/04/xmlenc#sha512', 'DIGEST_SHA512'), ('http://www.w3.org/2001/04/xmlenc#ripemd160', 'DIGEST_RIPEMD160')], default='http://www.w3.org/2001/04/xmlenc#sha256', max_length=256)),
+                ('disable_encrypted_assertions', models.BooleanField(
+                    default=True, help_text='disable encryption')),
+                ('attribute_processor', models.CharField(blank=True, default='idp.processors.LdapUnicalMultiAcademiaProcessor',
+                                                         help_text='"package.file.classname", example: "idp.processors.LdapAcademiaProcessor"', max_length=256)),
+                ('attribute_mapping', models.TextField(
+                    blank=True, default='{\n    "cn": "cn",\n    "codice_fiscale": "codice_fiscale",\n    "displayName": "displayName",\n    "eduPersonAffiliation": "eduPersonAffiliation",\n    "eduPersonEntitlement": "eduPersonEntitlement",\n    "eduPersonHomeOrganization": "eduPersonHomeOrganization",\n    "eduPersonPrincipalName": "eduPersonPrincipalName",\n    "eduPersonScopedAffiliation": "eduPersonScopedAffiliation",\n    "eduPersonTargetedID": "eduPersonTargetedID",\n    "email": [\n        "mail",\n        "email"\n    ],\n    "givenName": [\n        "givenName",\n        "another_possible_occourrence"\n    ],\n    "mail": [\n        "mail",\n        "email"\n    ],\n    "matricola_dipendente": "matricola_dipendente",\n    "matricola_studente": "matricola_studente",\n    "schacHomeOrganization": "schacHomeOrganization",\n    "schacPersonalUniqueCode": "schacPersonalUniqueCode",\n    "schacPersonalUniqueID": "schacPersonalUniqueID",\n    "sn": "sn"\n}', help_text='Attribute that would be release to this SP, in JSON format.', null=True)),
+                ('force_attribute_release', models.BooleanField(default=False,
+                                                                help_text='Release the configured attribute mapping regardless of what SP asks for.')),
                 ('is_valid', models.BooleanField(default=False)),
                 ('is_active', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
@@ -64,11 +79,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AgreementRecord',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('sp_entity_id', models.TextField()),
                 ('attrs', models.TextField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Agreement Record',

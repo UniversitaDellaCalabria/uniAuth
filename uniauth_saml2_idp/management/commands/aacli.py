@@ -12,7 +12,7 @@ class Command(BaseCommand):
     help = 'Attribute release query'
 
     def add_arguments(self, parser):
-        parser.epilog='Example: ./manage.py aacli -e https://auth.unical.it/idp/metadata/ -u joe'
+        parser.epilog = 'Example: ./manage.py aacli -e https://auth.unical.it/idp/metadata/ -u joe'
         parser.add_argument('-e', required=True,
                             help="Entity to request metadata for")
         parser.add_argument('-u', required=True,
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         uid = options['u']
         eid = options['e']
 
-        idph =  IdPHandlerViewMixin()
+        idph = IdPHandlerViewMixin()
         idph.IDP = get_IDP()
         idph.set_sp(eid)
 

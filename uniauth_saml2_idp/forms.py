@@ -14,6 +14,7 @@ class LoginForm(AuthenticationForm):
                                       required=False,
                                       localize=True)
 
+
 class AgreementForm(forms.Form):
     CHOICES = ((1, _('I give my consent')),
                (0, _('I deny my consent')))

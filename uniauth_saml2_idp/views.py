@@ -70,49 +70,45 @@ class SsoEntryView(View):
         the requester to the login_process view.
     """
 
-
     def is_entity_known(self, *args, **kwargs):
         try:
             resp_args = self.IDP.response_args(self.saml_request.message)
-        except UnknownSystemEntity as exp: # pragma: no cover
+        except UnknownSystemEntity as exp:  # pragma: no cover
             logger.error('{}'.format(exp))
             return render(request, 'error.html',
                           {'exception_type': exp,
                            'exception_msg': _("This SP is not registered"),
                            'extra_message': _('Unknow Entity')},
-                           status=403)
-
+                          status=403)
 
     def is_undefined_sp(self, *args, **kwargs):
         if settings.SAML_DISALLOW_UNDEFINED_SP:
             if self.sp_id not in get_idp_sp_config().keys():
                 return render(self.request, 'error.html',
-                    {'exception_type': _("This SP is not allowed to access to this Service"),
-                     'exception_msg': _("Attribute Processor needs "
-                                        "to be configured and undefined SP are not Allowed.")},
-                    status=403)
-
+                              {'exception_type': _("This SP is not allowed to access to this Service"),
+                               'exception_msg': _("Attribute Processor needs "
+                                                  "to be configured and undefined SP are not Allowed.")},
+                              status=403)
 
     def is_disabled_sp(self, *args, **kwargs):
         # check if the SP was defined but disabled
         if ServiceProvider.objects.filter(entity_id=self.sp_id, is_active=False):
             return render(self.request, 'error.html',
-                {'exception_type': _("This SP is not allowed to access to this Service"),
-                 'exception_msg': _("{} was disabled".format(self.sp_id))},
-                status=403)
-
+                          {'exception_type': _("This SP is not allowed to access to this Service"),
+                           'exception_msg': _("{} was disabled".format(self.sp_id))},
+                          status=403)
 
     def mduui(self, *args, **kwargs):
         mduui = {}
         if not self.IDP.config.metadata.service(self.sp_id,
-                                           "spsso_descriptor",
-                                           'assertion_consumer_service'):
+                                                "spsso_descriptor",
+                                                'assertion_consumer_service'):
             msg = _("{} is not present in any Metadata").format(self.sp_id)
             raise MetadataNotFound(msg)
 
         try:
             mduui = self.IDP.metadata[self.sp_id]['spsso_descriptor'][0]\
-                     .get('extensions', {}).get('extension_elements', [{}])[0]
+                .get('extensions', {}).get('extension_elements', [{}])[0]
         except IndexError as excp:
             logger.error('MDUUI not available: "{}"'.format(excp))
 
@@ -121,15 +117,15 @@ class SsoEntryView(View):
 
         if self.sp_id:
             sp_display_name = self.sp.get('display_name') or \
-                              mduui.get('display_name', [{}])[0].get('text')
+                mduui.get('display_name', [{}])[0].get('text')
             sp_display_description = self.sp.get('display_description', '') or \
-                                     mduui.get('description', [{}])[0].get('text') or \
-                                     self.sp_id
+                mduui.get('description', [{}])[0].get('text') or \
+                self.sp_id
             self.request.saml_session['sp_display_name'] = sp_display_name
             self.request.saml_session['sp_display_description'] = sp_display_description
-            self.request.saml_session['sp_logo'] = mduui.get('logo', [{}])[0].get('text')
+            self.request.saml_session['sp_logo'] = mduui.get('logo', [{}])[
+                0].get('text')
             return True
-
 
     def additional_checks(self, *args, **kwargs):
         for i in ('is_entity_known', 'is_undefined_sp', 'is_disabled_sp'):
@@ -138,7 +134,6 @@ class SsoEntryView(View):
             fail = getattr(self, i)()
             if fail:
                 return fail
-
 
     @method_decorator(store_params_in_session_func)
     @method_decorator(csrf_exempt)
@@ -149,7 +144,7 @@ class SsoEntryView(View):
         self.IDP = get_IDP()
         try:
             self.saml_request = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
-                                               binding)
+                                                             binding)
         except IncorrectlySigned as exp:
             logger.error('{}'.format(exp))
             return render(request, 'error.html',
@@ -158,12 +153,12 @@ class SsoEntryView(View):
                            'extra_message': _('SP Metadata '
                                               'is changed, expired '
                                               'or unavailable.')},
-                           status=403)
-        except Exception as exp: # pragma: no cover
+                          status=403)
+        except Exception as exp:  # pragma: no cover
             logger.error('{}'.format(exp))
             return render(request, 'error.html',
                           {'exception_type': exp},
-                           status=403)
+                          status=403)
 
         # later we'll check if the authnrequest is older then the IDP session age
         request.saml_session['issue_instant'] = self.saml_request.message.issue_instant
@@ -182,7 +177,6 @@ class SsoEntryView(View):
         request.saml_session['message_id'] = self.saml_request.message.id
         request.saml_session['issue_instant'] = self.saml_request.message.issue_instant
 
-
         self.sp_id = self.saml_request.message.issuer.text
         self.sp = get_idp_sp_config().get(self.sp_id, {})
 
@@ -200,10 +194,10 @@ class SsoEntryView(View):
 
 class ErrorHandler(object):
     error_view = import_string(
-            getattr(settings,
-                    'SAML_IDP_ERROR_VIEW_CLASS',
-                    'uniauth_saml2_idp.error_views.SamlIDPErrorView')
-            )
+        getattr(settings,
+                'SAML_IDP_ERROR_VIEW_CLASS',
+                'uniauth_saml2_idp.error_views.SamlIDPErrorView')
+    )
 
     def handle_error(self, request, **kwargs):
         logger.error(kwargs)
@@ -224,7 +218,7 @@ def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
                                           'or not found. Please contact '
                                           'IDP technical support for '
                                           'better acknowledge')},
-                       status=403)
+                      status=403)
 
     except MetadataCorruption as exp:
         logger.error('{}'.format(exp))
@@ -234,7 +228,7 @@ def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
                        'exception_msg': "",
                        'extra_message': _('This is a security exception. '
                                           'Please contact IdP staff.')},
-                       status=403)
+                      status=403)
     return IDP
 
 
@@ -247,7 +241,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         """
         try:
             self.IDP = get_IDP()
-        except Exception as excp: # pragma: no cover
+        except Exception as excp:  # pragma: no cover
             logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp)
         return super().dispatch(request, *args, **kwargs)
@@ -255,7 +249,8 @@ class IdPHandlerViewMixin(ErrorHandler):
     def convert_attributes(self, attr_name_list):
         converted_attrs = []
         for attr_id in attr_name_list:
-            if not attr_id: continue
+            if not attr_id:
+                continue
             for acs in self.IDP.config.attribute_converters:
                 attr = attr_id.lower()
                 if attr in acs._fro:
@@ -275,7 +270,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         self.sp = {'id': sp_entity_id}
         self.sp['config'] = get_idp_sp_config().get(sp_entity_id)
 
-        sp = ServiceProvider.objects.filter(entity_id = sp_entity_id).first()
+        sp = ServiceProvider.objects.filter(entity_id=sp_entity_id).first()
 
         if not self.sp['config']:
             self.sp['config'] = copy.deepcopy(settings.DEFAULT_SPCONFIG)
@@ -283,11 +278,11 @@ class IdPHandlerViewMixin(ErrorHandler):
 
         if not sp:
             # TODO: get these information from sp's metadata
-            sp = ServiceProvider.objects.create(entity_id = sp_entity_id,
-                                                display_name = sp_entity_id,
+            sp = ServiceProvider.objects.create(entity_id=sp_entity_id,
+                                                display_name=sp_entity_id,
                                                 is_valid=True,
-                                                is_active = True,
-                                                last_seen = timezone.localtime())
+                                                is_active=True,
+                                                last_seen=timezone.localtime())
         elif not sp.is_active:
             msg = _("{} was disabled. "
                     "Please contact technical staff for informations.")
@@ -301,8 +296,10 @@ class IdPHandlerViewMixin(ErrorHandler):
             return
 
         # check if SP asks for required attributes
-        req_attrs = self.IDP.config.metadata.attribute_requirement(sp_entity_id)
-        if not req_attrs: return
+        req_attrs = self.IDP.config.metadata.attribute_requirement(
+            sp_entity_id)
+        if not req_attrs:
+            return
 
         # clean up unrequested attributes
         # TODO a bettere generalization with SAML2 attr mapping here
@@ -341,14 +338,15 @@ class IdPHandlerViewMixin(ErrorHandler):
         # check if some required are unavailable...
         if req_attrs['required']:
             msg = _("{} requested unavailable attribute '{}' to this IdP. "
-                            "Please contact SP technical staff for support.")
+                    "Please contact SP technical staff for support.")
             # if some required attributes are unavailable the IdP give this warning
             for req in conv_req_attr_list:
                 if req not in self.sp['config']['attribute_mapping']:
                     logger.info(msg)
-                    raise UnavailableRequiredAttributes(msg.format(sp_entity_id, req))
+                    raise UnavailableRequiredAttributes(
+                        msg.format(sp_entity_id, req))
 
-    def set_processor(self,request=None):
+    def set_processor(self, request=None):
         """ Instantiate user-specified processor or
             default to an all-access base processor.
             Raises an exception if the configured processor
@@ -357,13 +355,14 @@ class IdPHandlerViewMixin(ErrorHandler):
         processor_string = self.sp['config'].get('processor', None)
         if processor_string:
             try:
-                self.processor = import_string(processor_string)(self.sp['id'], request=request)
+                self.processor = import_string(processor_string)(
+                    self.sp['id'], request=request)
                 return
             except Exception as e:
                 logger.error('{}'.format(e))
                 msg = _("Failed to instantiate processor: {} - {}")
                 logger.error(msg.format(processor_string, e),
-                                        exc_info=True)
+                             exc_info=True)
                 #  raise ImproperlyConfigured(_(msg.format(processor_string, e)))
                 return self.handle_error(request, exception=e, status=500)
         self.processor = BaseProcessor(self.sp['id'], request=request)
@@ -381,13 +380,14 @@ class IdPHandlerViewMixin(ErrorHandler):
         """ Check if user has access to the service of this SP
         """
         if not self.processor.has_access(request):
-            raise PermissionDenied(_("You do not have access to this resource"))
+            raise PermissionDenied(
+                _("You do not have access to this resource"))
 
     def get_authn(self, req_info=None):
         if req_info:
             req_authn_context = req_info.message.requested_authn_context
         else:
-             req_authn_context = PASSWORD
+            req_authn_context = PASSWORD
         broker = AuthnBroker()
         broker.add(authn_context_class_ref(req_authn_context), "")
         return broker.get_authn_by_accr(req_authn_context)
@@ -395,9 +395,10 @@ class IdPHandlerViewMixin(ErrorHandler):
     def get_name_id_format(self, user, authn, resp_args):
         name_id_format = resp_args.get('name_id_policy')
         if not name_id_format:
-            logger.warning('Missing NAME_ID_FORMAT, rely on: NAMEID_FORMAT_PERSISTENT')
+            logger.warning(
+                'Missing NAME_ID_FORMAT, rely on: NAMEID_FORMAT_PERSISTENT')
         self.sp['name_id_format'] = name_id_format.format \
-                                    if name_id_format else NAMEID_FORMAT_PERSISTENT
+            if name_id_format else NAMEID_FORMAT_PERSISTENT
         idp_name_id_format_list = self.IDP.config.getattr("name_id_format",
                                                           "idp")
 
@@ -433,7 +434,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         # IDENTITY AND ATTR POLICY
         # Generate request session stuff needed for user agreement screen
         attrs_to_exclude = self.sp['config'].get('user_agreement_attr_exclude', []) + \
-                           getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
+            getattr(settings, "SAML_IDP_USER_AGREEMENT_ATTR_EXCLUDE", [])
 
         identity = {
             k: v
@@ -443,7 +444,8 @@ class IdPHandlerViewMixin(ErrorHandler):
         }
 
         # entity categories and other pysaml2 policies could filter out some attributes
-        policy = Policy(restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
+        policy = Policy(
+            restrictions=settings.SAML_IDP_CONFIG['service']['idp'].get('policy'))
         ava = policy.filter(identity,
                             self.sp['id'],
                             self.IDP.config.metadata,
@@ -480,12 +482,15 @@ class IdPHandlerViewMixin(ErrorHandler):
         identity, policy, ava = self.get_ava()
         self.request.saml_session['identity'] = identity
         # talking logs
-        msg = ('SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
+        msg = (
+            'SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
         self.request.saml_session['authn_log'] = msg.format(name_id.format,
                                                             self.sp['id'],
-                                                            self.request.saml_session.get('message_id'),
+                                                            self.request.saml_session.get(
+                                                                'message_id'),
                                                             len(ava),
-                                                            ','.join(ava.keys()),
+                                                            ','.join(
+                                                                ava.keys()),
                                                             len(identity))
         logger.info(self.request.saml_session['authn_log'])
 
@@ -526,17 +531,17 @@ class IdPHandlerViewMixin(ErrorHandler):
 
             # signature
             sign_response=self.sp['config'].get("sign_response") or \
-                          self.IDP.config.getattr("sign_response", "idp") or \
-                          False,
+            self.IDP.config.getattr("sign_response", "idp") or \
+            False,
             sign_assertion=self.sp['config'].get("sign_assertion") or \
-                           self.IDP.config.getattr("sign_assertion", "idp") or \
-                           False,
+            self.IDP.config.getattr("sign_assertion", "idp") or \
+            False,
 
             # default is sha1 in pySAML2
             sign_alg=self.sp['config'].get("signing_algorithm") or \
-                     getattr(settings, 'SAML_AUTHN_SIGN_ALG', False),
+            getattr(settings, 'SAML_AUTHN_SIGN_ALG', False),
             digest_alg=self.sp['config'].get("digest_algorithm") or \
-                       getattr(settings, 'SAML_AUTHN_DIGEST_ALG', False),
+            getattr(settings, 'SAML_AUTHN_DIGEST_ALG', False),
 
             # Encryption
             encrypt_assertion=encrypt_assertion,
@@ -561,7 +566,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                                              request=request)
 
         # response won't be in http-redirect!
-        else: # pragma: no cover
+        else:  # pragma: no cover
             http_args = self.IDP.apply_binding(
                 binding=binding,
                 msg_str=authn_resp,
@@ -588,7 +593,7 @@ class IdPHandlerViewMixin(ErrorHandler):
             'display_description': request.saml_session['sp_display_description'],
             'display_agreement_message': self.sp['config'].get('display_agreement_message'),
             'display_agreement_consent_form': self.sp['config'].get('display_agreement_consent_form')
-            }
+        }
         request.saml_session['sp_entity_id'] = self.sp['id']
 
         # Conditions for showing user agreement screen
@@ -630,35 +635,17 @@ class LoginAuthView(LoginView):
     template_name = "saml_login.html"
     form_class = LoginForm
 
-    # some examples of things that could be overloaded ...
-    # See Django docs
-
-    #  def dispatch(self, request, *args, **kwargs):
-        #  breakpoint()
-        #  return super().dispatch(request, *args, **kwargs)
-
-    # def get(self, request, *args, **kwargs):
-        # """Handle GET requests: instantiate a blank version of the form."""
-        # breakpoint()
-        # data = self.get_context_data()
-        # data['sp_logo']
-        # return self.render_to_response(data)
-
-    # def post(self, request, *args, **kwargs):
-        # breakpoint()
-        # return super().post(request, *args, **kwargs)
-
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message
         status code 200 to prevent brute force attack based to response code!
         """
         return render(self.request, 'error.html',
-                      {'exception_type':_("You cannot access to this service"),
-                       'exception_msg':_("Your Username or Password is invalid, "
-                                         "your account could be expired or been "
-                                         "disabled due to many login attempts."),
-                       'extra_message':_("Please access to 'Forgot your Password' "
-                                         "procedure, before contact the help desk.")},
+                      {'exception_type': _("You cannot access to this service"),
+                       'exception_msg': _("Your Username or Password is invalid, "
+                                          "your account could be expired or been "
+                                          "disabled due to many login attempts."),
+                       'extra_message': _("Please access to 'Forgot your Password' "
+                                          "procedure, before contact the help desk.")},
                       status=200)
 
     def form_valid(self, form):
@@ -688,7 +675,7 @@ class LoginAuthView(LoginView):
                           {'exception_type': _("You take too long to authenticate!"),
                            'exception_msg': _("Your request is expired"),
                            'extra_message': _('{} minutes are passed').format(mins)},
-                           status=403)
+                          status=403)
         # end check issue instant
 
         user = form.get_user()
@@ -728,9 +715,6 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             # Parse incoming request
             req_info = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
                                                     binding)
-            # do it in pysaml2
-            # check SAML request signature
-            # self.verify_request_signature(req_info)
 
             # Compile Response Arguments
             self.resp_args = self.IDP.response_args(req_info.message)
@@ -759,7 +743,8 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             logger.error('{}'.format(excp))
             return self.handle_error(request,
                                      exception=excp,
-                                     exception_msg=_('This SP needs attribute mappings'),
+                                     exception_msg=_(
+                                         'This SP needs attribute mappings'),
                                      status=403)
         except PermissionDenied as excp:
             logger.error('{}'.format(excp))
@@ -775,12 +760,13 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
             destination=self.resp_args['destination'],
             relay_state=request.saml_session['RelayState'])
 
-        logger.debug("SAML Authn request Response [\n{}]".format(repr_saml(self.authn_resp)))
+        logger.debug("SAML Authn request Response [\n{}]".format(
+            repr_saml(self.authn_resp)))
         return self.render_response(request, html_response)
 
 
 @method_decorator(never_cache, name='dispatch')
-class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View): # pragma: no cover
+class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View):  # pragma: no cover
     """ View used for IDP initialized login,
         doesn't handle any SAML authn request
     """
@@ -808,13 +794,13 @@ class SSOInitView(LoginRequiredMixin, IdPHandlerViewMixin, View): # pragma: no c
             service="assertion_consumer_service",
             entity_id=self.sp['id'])
 
-        # ##Adding a few things that would have been added
+        # Adds few things that would have been added
         # if this were SP Initiated
         passed_data['destination'] = destination
         passed_data['in_response_to'] = "IdP_Initiated_Login"
         passed_data['sp_entity_id'] = self.sp['id']
 
-        # ##Construct SamlResponse messages
+        # Construct SamlResponse messages
         try:
             authn_resp = self.build_authn_response(request.user,
                                                    self.get_authn(),
@@ -844,10 +830,12 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
             # prevents KeyError at /login/process_user_agreement/: 'sp_display_info'
             context['sp_display_name'] = ses_disp_info['display_name']
             context['sp_display_description'] = ses_disp_info['display_description']
-            context['sp_display_agreement_message'] = ses_disp_info.get('display_agreement_message')
-            context['sp_display_agreement_consent_form'] = ses_disp_info.get('display_agreement_consent_form')
+            context['sp_display_agreement_message'] = ses_disp_info.get(
+                'display_agreement_message')
+            context['sp_display_agreement_consent_form'] = ses_disp_info.get(
+                'display_agreement_consent_form')
             context['attrs_passed_to_sp'] = request.saml_session['identity']
-        except Exception as excp: # pragma: no cover
+        except Exception as excp:  # pragma: no cover
             logout(request)
             logging.error('{}'.format(excp))
             msg = _not_valid_saml_msg
@@ -863,7 +851,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         form = AgreementForm(request.POST)
         if not form.is_valid():
             return render(request, 'error.html',
-                          {'exception_type':_("Invalid submission")},
+                          {'exception_type': _("Invalid submission")},
                           status=403)
 
         confirm = int(form.cleaned_data['confirm'])
@@ -872,7 +860,8 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         if not confirm:
             logout(request)
             return render(request, 'error.html',
-                          {'exception_type':_("You cannot access to this service")},
+                          {'exception_type': _(
+                              "You cannot access to this service")},
                           status=403)
 
         if dont_show_again:
@@ -898,7 +887,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
         functionality to plug in your custom validation logic.
     """
 
-    def multifactor_is_valid(self, request): # pragma: no cover
+    def multifactor_is_valid(self, request):  # pragma: no cover
         """ The code here can do whatever it needs to validate your
             user (via request.user or elsewise).
             It must return True for authentication
@@ -906,7 +895,7 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
         """
         return True
 
-    def get(self, request, *args, **kwargs): # pragma: no cover
+    def get(self, request, *args, **kwargs):  # pragma: no cover
         if self.multifactor_is_valid(request):
             logger.debug('MultiFactor succeeded for %s' % request.user)
 
@@ -915,7 +904,8 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
                 # Arbitrary value that's only set if user agreement needed.
                 return HttpResponseRedirect(reverse('uniauth_saml2_idp:saml_user_agreement'))
             return HttpResponse(request.saml_session['response'])
-        logger.debug(_("MultiFactor failed; %s will not be able to log in") % request.user)
+        logger.debug(
+            _("MultiFactor failed; %s will not be able to log in") % request.user)
         logout(request)
         raise PermissionDenied(_("MultiFactor authentication factor failed"))
 
@@ -944,12 +934,14 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
         # store_params_in_session(request) -> now is a decorator
         binding = request.saml_session['Binding']
         relay_state = request.saml_session['RelayState']
-        logger.debug("{} requested [\n{}] to IDP".format(self.__service_name, binding))
+        logger.debug("{} requested [\n{}] to IDP".format(
+            self.__service_name, binding))
 
         # adapted from pysaml2 examples/idp2/idp_uwsgi.py
         try:
-            req_info = self.IDP.parse_logout_request(request.saml_session['SAMLRequest'], binding)
-        except Exception as excp: # pragma: no cover
+            req_info = self.IDP.parse_logout_request(
+                request.saml_session['SAMLRequest'], binding)
+        except Exception as excp:  # pragma: no cover
             expc_msg = "{} Bad request: {}".format(self.__service_name, excp)
             logger.error(expc_msg)
             return self.handle_error(request, exception=expc_msg, status=400)
@@ -963,7 +955,8 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
         resp = self.IDP.create_logout_response(req_info.message, [binding])
 
         try:
-            destination = re.findall('Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
+            destination = re.findall(
+                'Destination="([a-z0-9A-Z\.\-\_\:\/]*)"', resp)[0]
         except IndexError:
             logger.error(f'Cannot find any Destination from {resp}')
             return self.handle_error(request,
@@ -986,11 +979,13 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
                                                                         relay_state))
 
         # logout user from IDP, this won't work in crossdomains because of SameSite
-        user = get_user_model().objects.filter(pk = request.saml_session['_auth_user_id'])
+        user = get_user_model().objects.filter(
+            pk=request.saml_session['_auth_user_id'])
         if user:
             user.first().clear_sessions()
         else:
-            logger.warn('{}: logging out an unauthenticated user?'.format(self.__service_name))
+            logger.warn('{}: logging out an unauthenticated user?'.format(
+                self.__service_name))
 
         if hinfo['method'] == 'GET':
             return HttpResponseRedirect(hinfo['headers'][0][1])
@@ -1008,13 +1003,12 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
 #  def get_metadata(request):
     #  if hasattr(settings, "SAML_IDP_MULTIFACTOR_VIEW"):
         #  multifactor_class = import_string(getattr(settings,
-                                                  #  "SAML_IDP_MULTIFACTOR_VIEW"))
+        #  "SAML_IDP_MULTIFACTOR_VIEW"))
     #  else:
         #  multifactor_class = ProcessMultiFactorView
     #  return multifactor_class.as_view()(request)
 
 
-@never_cache
 def metadata(request):
     """ Returns an XML with the SAML 2.0 metadata for this Idp.
         The metadata is constructed on-the-fly based on the

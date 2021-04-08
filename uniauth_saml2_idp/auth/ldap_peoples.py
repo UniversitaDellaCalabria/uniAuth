@@ -26,6 +26,7 @@ class LdapAcademiaAuthBackend(ModelBackend):
                                     'ldap_peoples.auth.LdapAcademiaAuthBackend'
                                   ]
     """
+
     def authenticate(self, request, username=None, password=None):
         ldap_conn = connections['ldap']
         user = None
@@ -42,12 +43,14 @@ class LdapAcademiaAuthBackend(ModelBackend):
                                         password)
             ldap_conn.connection.unbind_s()
         except Exception as e:
-            logger.info("--- LDAP {} seems to be unable to Auth ---".format(username))
+            logger.info(
+                "--- LDAP {} seems to be unable to Auth ---".format(username))
             return None
 
         # if account beign unlocked this will be always false
         if not lu.is_active():
-            logger.info("--- LDAP {} seems to be disabled ---".format(username))
+            logger.info(
+                "--- LDAP {} seems to be disabled ---".format(username))
             return None
 
         # username would be like an EPPN
@@ -65,17 +68,17 @@ class LdapAcademiaAuthBackend(ModelBackend):
                                                    email=lu.mail[0],
                                                    first_name=lu.cn,
                                                    last_name=lu.sn,
-                                                   origin = 'ldap_peoples')
+                                                   origin='ldap_peoples')
 
         # TODO: Create a middleware for this
         # disconnect already created session, only a session per user is allowed
         # get all the active sessions
         # if not settings.MULTIPLE_USER_AUTH_SESSIONS:
             # for session in Session.objects.all():
-                # try:
-                    # if int(session.get_decoded()['_auth_user_id']) == user.pk:
-                        # session.delete()
-                # except (KeyError, TypeError, ValueError):
-                    # pass
+            # try:
+            # if int(session.get_decoded()['_auth_user_id']) == user.pk:
+            # session.delete()
+            # except (KeyError, TypeError, ValueError):
+            # pass
 
         return user

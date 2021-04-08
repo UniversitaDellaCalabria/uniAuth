@@ -26,6 +26,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
     AUTHENTICATION_BACKENDS = ['idp.multildap_auth.LdapUnicalMultiAcademiaAuthBackend',
                               ]
     """
+
     def authenticate(self, request, username=None, password=None):
         logger.info("--- LDAP BIND to MultiLDAP proxy ---")
 
@@ -38,7 +39,8 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
             search_filter = '(uid={})'.format(username)
             lu = lc.get(search=search_filter)
             if lu:
-                logger.info("--- LDAP search filter {} ---".format(search_filter))
+                logger.info(
+                    "--- LDAP search filter {} ---".format(search_filter))
                 break
 
         if not lu:
@@ -73,7 +75,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
                                                    email=lu_obj.mail[0],
                                                    first_name=lu_obj.givenName[0],
                                                    last_name=lu_obj.sn[0],
-                                                   origin = lc.__repr__())
+                                                   origin=lc.__repr__())
 
         # avoids another LDAP query in Attributes processors
         request.saml_session['identity_attributes'] = lu[dn]

@@ -1,5 +1,6 @@
 import re
 
+
 class UnicalAttributeProcessor:
     @staticmethod
     def codice_fiscale_rs(schacpersonaluniqueids=[], nationprefix=False, nationprefix_sep=':'):
@@ -13,7 +14,7 @@ class UnicalAttributeProcessor:
             result = re.match(rs_regexp, uniqueid, re.I)
             if result:
                 data = result.groupdict()
-                #if data.get('nation') == 'IT' and data.get('doc_type') in  ['CF', 'TIN']:
+                # if data.get('nation') == 'IT' and data.get('doc_type') in  ['CF', 'TIN']:
                 if nationprefix:
                     # returns IT:CODICEFISCALE
                     return nationprefix_sep.join((data['nation'], data['uniqueid']))
@@ -26,7 +27,7 @@ class UnicalAttributeProcessor:
             personalUniqueCodes = [personalUniqueCodes]
         _regexp = (r'(?P<urn_prefix>urn:schac:personalUniqueCode:)?'
                    r'(?P<nation>[a-zA-Z]{2}):'
-                   #r'(?P<organization>[a-zA-Z\.\-]+):'
+                   # r'(?P<organization>[a-zA-Z\.\-]+):'
                    'ORGNAME:'
                    'IDSTRING:'
                    r'(?P<uniqueid>[\w]+)').replace('IDSTRING', id_string).replace('ORGNAME', orgname)
@@ -42,7 +43,7 @@ class UnicalAttributeGenerator:
     def matricola_dipendente(attributes):
         if attributes.get('schacPersonalUniqueCode'):
             return UnicalAttributeProcessor.matricola(attributes['schacPersonalUniqueCode'],
-                                                       id_string='dipendente')
+                                                      id_string='dipendente')
 
     @staticmethod
     def matricola_studente(attributes):
@@ -57,9 +58,10 @@ class UnicalAttributeGenerator:
 
     @classmethod
     def process(cls, attributes, sp_mapping):
-        cattr = dict(matricola_dipendente = cls.matricola_dipendente(attributes),
-                     matricola_studente = cls.matricola_studente(attributes),
-                     codice_fiscale = cls.codice_fiscale(attributes))
-        for k,v in cattr.items():
-            if v and k in sp_mapping: attributes[k] = v
+        cattr = dict(matricola_dipendente=cls.matricola_dipendente(attributes),
+                     matricola_studente=cls.matricola_studente(attributes),
+                     codice_fiscale=cls.codice_fiscale(attributes))
+        for k, v in cattr.items():
+            if v and k in sp_mapping:
+                attributes[k] = v
         return attributes

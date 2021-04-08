@@ -22,7 +22,7 @@ def repr_saml(saml_str, b64=False):
     try:
         msg = base64.b64decode(saml_str).decode() if b64 else saml_str
         dom = xml.dom.minidom.parseString(msg)
-    except (UnicodeDecodeError, ExpatError): # pragma: no cover
+    except (UnicodeDecodeError, ExpatError):  # pragma: no cover
         # in HTTP-REDIRECT the base64 must be inflated
         msg = base64.b64decode(saml_str)
         inflated = zlib.decompress(msg, -15)
@@ -30,7 +30,7 @@ def repr_saml(saml_str, b64=False):
     return dom.toprettyxml()
 
 
-def encode_http_redirect_saml(saml_envelope): # pragma: no cover
+def encode_http_redirect_saml(saml_envelope):  # pragma: no cover
     return base64.b64encode(zlib.compress(saml_envelope.encode()))
 
 
@@ -40,7 +40,7 @@ def get_idp_config(saml_idp_config=settings.SAML_IDP_CONFIG):
 
     # this is only used for merge DB metadatastores configurations
     db_mdstores = MetadataStore.as_pysaml_mdstore_dict()
-    for k,v in db_mdstores.items():
+    for k, v in db_mdstores.items():
         if not idp_config['metadata'].get(k):
             idp_config['metadata'][k] = []
         for endpoint in v:
@@ -49,11 +49,11 @@ def get_idp_config(saml_idp_config=settings.SAML_IDP_CONFIG):
     # end DB metadatastores configurations
     try:
         conf.load(idp_config)
-    except FileNotFoundError as e: # pragma: no cover
+    except FileNotFoundError as e:  # pragma: no cover
         raise MetadataNotFound(e)
-    except xml.etree.ElementTree.ParseError as e: # pragma: no cover
+    except xml.etree.ElementTree.ParseError as e:  # pragma: no cover
         raise SPConfigurationMissing(e)
-    except Exception as e: # pragma: no cover
+    except Exception as e:  # pragma: no cover
         raise Exception(e)
     return Server(config=conf)
 
@@ -67,7 +67,7 @@ def get_idp_sp_config():
 
 def get_client_id(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for: # pragma: no cover
+    if x_forwarded_for:  # pragma: no cover
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')

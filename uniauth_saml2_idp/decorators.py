@@ -35,14 +35,15 @@ def store_params_in_session(request):
     if saml_request:
         msg = "SAML request [\n{}]"
         logger.debug(msg.format(repr_saml(saml_request, b64=True)))
-    else: # pragma: no cover
-        msg = _('not a valid SAMLRequest: {}').format(_('AuthnRequest is missing. Please Retry'))
+    else:  # pragma: no cover
+        msg = _('not a valid SAMLRequest: {}').format(
+            _('AuthnRequest is missing. Please Retry'))
         logger.info('SAML Request absent from {}'.format(request))
         return render(request, 'error.html',
                       {'exception_type': msg,
                        'exception_msg': _('Please renew your SAML Request'),
                        'extra_message': _not_valid_saml_msg},
-                       status=403)
+                      status=403)
 
     request.saml_session['SAMLRequest'] = saml_request
     request.saml_session['Binding'] = binding
@@ -57,11 +58,11 @@ def store_params_in_session_func(func_to_decorate):
         try:
             store_params_in_session(request)
             return func_to_decorate(*original_args, **original_kwargs)
-        except Exception as e: # pragma: no cover
+        except Exception as e:  # pragma: no cover
             msg = _('not a valid SAMLRequest: {}').format(e)
             return render(request, 'error.html',
-                          {'exception_type':msg,
-                           'exception_msg':_('Please renew your SAML Request'),
+                          {'exception_type': msg,
+                           'exception_msg': _('Please renew your SAML Request'),
                            'extra_message': _not_valid_saml_msg},
                           status=403)
     return new_func
@@ -74,9 +75,9 @@ def require_saml_request(func_to_decorate):
         request = original_args[0]
         if not request.saml_session.get('SAMLRequest'):
             return render(request, 'error.html',
-                          {'exception_type':_("You cannot access to this service directly"),
-                           'exception_msg':_('Please renew your SAML Request'),
+                          {'exception_type': _("You cannot access to this service directly"),
+                           'exception_msg': _('Please renew your SAML Request'),
                            'extra_message': _not_valid_saml_msg},
-                           status=403)
+                          status=403)
         return func_to_decorate(*original_args, **original_kwargs)
     return new_func

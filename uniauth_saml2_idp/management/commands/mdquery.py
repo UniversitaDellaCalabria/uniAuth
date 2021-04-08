@@ -10,10 +10,11 @@ class Command(BaseCommand):
     help = 'Metadata Query protocol'
 
     def add_arguments(self, parser):
-        parser.epilog='Example: ./manage.py mdquery -e https://auth.unical.it/idp/metadata/ -f json'
+        parser.epilog = 'Example: ./manage.py mdquery -e https://auth.unical.it/idp/metadata/ -f json'
         parser.add_argument('-e', required=True,
                             help="Entity to request metadata for")
-        parser.add_argument('-f', default=['json', 'saml2'], help='output format')
+        parser.add_argument(
+            '-f', default=['json', 'saml2'], help='output format')
         parser.add_argument('-debug', required=False, action="store_true",
                             help="see debug message")
 

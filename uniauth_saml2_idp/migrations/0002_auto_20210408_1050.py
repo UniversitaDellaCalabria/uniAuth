@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='serviceprovider',
             name='attribute_processor',
-            field=models.CharField(blank=True, default='uniauth_saml2_idp.processors.ldap.LdapUnicalMultiAcademiaProcessor', help_text='"package.file.classname", example: "idp.processors.LdapAcademiaProcessor"', max_length=256),
+            field=models.CharField(blank=True, default='uniauth_saml2_idp.processors.ldap.LdapUnicalMultiAcademiaProcessor',
+                                   help_text='"package.file.classname", example: "idp.processors.LdapAcademiaProcessor"', max_length=256),
         ),
     ]

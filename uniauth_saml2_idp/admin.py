@@ -11,7 +11,7 @@ from . models import (AgreementRecord,
                       ServiceProvider)
 
 
-def valida_elemento(modeladmin, request, queryset): # pragma: no cover
+def valida_elemento(modeladmin, request, queryset):  # pragma: no cover
     for i in queryset:
         try:
             i.validate()
@@ -20,8 +20,9 @@ def valida_elemento(modeladmin, request, queryset): # pragma: no cover
         except Exception as e:
             messages.add_message(request, messages.ERROR,
                                  '{} : {}'.format(i, e))
-valida_elemento.short_description = _("Validate")
 
+
+valida_elemento.short_description = _("Validate")
 
 
 @admin.register(AgreementRecord)
@@ -56,19 +57,19 @@ class MetadataStoreAdmin(admin.ModelAdmin):
                                    ('created', 'updated'),
                                    'metadata_element_preview'
                                    )}),
-                )
+    )
 
     class Media:
         js = ('textarea_autosize.js',)
 
-    def metadata_element_preview(self, obj): # pragma: no cover
+    def metadata_element_preview(self, obj):  # pragma: no cover
         try:
             dumps = json.dumps(obj.as_pysaml2_mdstore_row(),
                                indent=4)
         except:
             # for newly created
             return
-        return  mark_safe(dumps.replace('\n', '<br>').replace('\s', '&nbsp'))
+        return mark_safe(dumps.replace('\n', '<br>').replace('\s', '&nbsp'))
     metadata_element_preview.short_description = 'Metadata element preview'
 
     def save_model(self, request, obj, form, change):
@@ -77,18 +78,20 @@ class MetadataStoreAdmin(admin.ModelAdmin):
         try:
             json.dumps(obj.as_pysaml2_mdstore_row())
             res = obj.validate()
-            super(MetadataStoreAdmin, self).save_model(request, obj, form, change)
-        except Exception as excp: # pragma: no cover
+            super(MetadataStoreAdmin, self).save_model(
+                request, obj, form, change)
+        except Exception as excp:  # pragma: no cover
             obj.is_valid = False
             obj.save()
             msg = str(excp)
 
-        if not res: # pragma: no cover
+        if not res:  # pragma: no cover
             messages.set_level(request, messages.ERROR)
             _msg = _("Storage {} is not valid, if 'mdq' at least a "
                      "valid url must be inserted. "
                      "If local: at least a file or a valid path").format(obj.name)
-            if msg: _msg = _msg + '. ' + msg
+            if msg:
+                _msg = _msg + '. ' + msg
             messages.add_message(request, messages.ERROR, _msg)
 
 
@@ -122,37 +125,39 @@ class ServiceProviderAdmin(admin.ModelAdmin):
                                    'is_valid',
                                    )}),
                 (_('Agreement and Description'), {'fields': (('agreement_screen', 'agreement_consent_form',),
-                                                             ('agreement_message', 'description'),
-                                                            ),
-                                                  'classes':('collapse',),
+                                                             ('agreement_message',
+                                                              'description'),
+                                                             ),
+                                                  'classes': ('collapse',),
                                                   }),
                 (_('Attributes'), {'fields': (
-                                            ('attribute_processor',),
-                                            ('attribute_mapping',),
-                                            ('force_attribute_release',),
-                                           ),
-                                    }),
-                (_('Attributes preview'), {'fields': (
-                                                        ('as_idpspconfig_dict_element_html',),
-                                                     ),
-                                           'classes': ('collapse',),
-                                            }),
-                (None, {'fields': (('created', 'updated', 'last_seen'),)})
-                )
+                    ('attribute_processor',),
+                    ('attribute_mapping',),
+                    ('force_attribute_release',),
+                ),
+                }),
+        (_('Attributes preview'), {'fields': (
+            ('as_idpspconfig_dict_element_html',),
+        ),
+            'classes': ('collapse',),
+        }),
+        (None, {'fields': (('created', 'updated', 'last_seen'),)})
+    )
 
     class Media:
         js = ('textarea_autosize.js',)
 
     def as_idpspconfig_dict_element_html(self, obj):
-        return  mark_safe(json.dumps(obj.as_idpspconfig_dict_element(),
-                                     indent=4).replace('\n', '<br>').replace('\s', '&nbsp'))
+        return mark_safe(json.dumps(obj.as_idpspconfig_dict_element(),
+                                    indent=4).replace('\n', '<br>').replace('\s', '&nbsp'))
     as_idpspconfig_dict_element_html.short_description = 'SP config preview'
 
     def save_model(self, request, obj, form, change):
         try:
             obj.validate()
-            super(ServiceProviderAdmin, self).save_model(request, obj, form, change)
-        except Exception as e: # pragma: no cover
+            super(ServiceProviderAdmin, self).save_model(
+                request, obj, form, change)
+        except Exception as e:  # pragma: no cover
             messages.set_level(request, messages.ERROR)
             msg = "{}".format(e)
             messages.add_message(request, messages.ERROR, msg)

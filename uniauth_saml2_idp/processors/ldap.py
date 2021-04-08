@@ -35,10 +35,10 @@ class GroupProcessor(BaseProcessor):
     """
     group = "ExampleGroup"
 
-    def has_access(self, user): # pragma: no cover
+    def has_access(self, user):  # pragma: no cover
         return user.is_superuser or \
-               user.is_staff or \
-               user.groups.filter(name=self.group).exists()
+            user.is_staff or \
+            user.groups.filter(name=self.group).exists()
 
 
 class LdapAcademiaProcessor(BaseProcessor):
@@ -49,7 +49,6 @@ class LdapAcademiaProcessor(BaseProcessor):
     def get_identity(self, user):
         username = _get_username(user)
         return LdapAcademiaUser.objects.filter(uid=username).first()
-
 
     def create_identity(self, user, sp={}):
         """ Generate an identity dictionary of the user based on the
@@ -84,6 +83,7 @@ class LdapUnicalAcademiaProcessor(LdapAcademiaProcessor):
     The same of its father but with a custom attribute processing
     for legacy support to stange SP
     """
+
     def extra_attr_processing(self, results, sp_mapping):
         return UnicalAttributeGenerator.process(results, sp_mapping)
 
@@ -99,11 +99,10 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
             if self.request.saml_session.get('identity_attributes'):
                 return type('', (object,), self.request.saml_session['identity_attributes'])()
 
-
         # otherwise do another query ...
         username = _get_username(user)
         identity = None
-        for lc in settings.LDAP_CONNECTIONS: # pragma: no coverage
+        for lc in settings.LDAP_CONNECTIONS:  # pragma: no coverage
             ldapfilter = '(uid={})'.format(username)
             logging.debug("Processor {} searches for {} in {}".format(self.__class__,
                                                                       username,

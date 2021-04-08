@@ -11,7 +11,7 @@ It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangos
 
 Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/) for usage specifications and advanced topics.
 
-![Alt text](docs/contents/login.png)
+![Alt text](docs/contents/preview1.png)
 
 ## SAML2 Features
 

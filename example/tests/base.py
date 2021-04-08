@@ -155,4 +155,8 @@ class BaseTestRP(TestCase):
         return url, data, session_id
 
     def _run_ldapd(self):
-        self.ldapd = subprocess.Popen(["python3","tests/ldapd.py"])
+        self.ldapd = subprocess.Popen(
+            ["python3", "tests/ldapd.py"],
+             stdout=subprocess.PIPE,
+             stderr=subprocess.PIPE
+             )

@@ -15,7 +15,7 @@ def get_requirements(fname='requirements.txt'):
 
 setup(
     name="uniauth_saml2_idp",
-    version='2.0.0-alpha',
+    version='2.0.0-alpha2',
     description="uniAuth is a Django SAML2 Identity Provider",
     author='Giuseppe De Marco, Francesco Filicetti',
     author_email='giuseppe.demarco@unical.it, francesco.filicetti@unical.it',

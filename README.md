@@ -1,23 +1,19 @@
 # Django uniAuth
 
 ![CI build](https://travis-ci.org/UniversitaDellaCalabria/uniAuth.svg?branch=master)
+![pypi](https://img.shields.io/pypi/v/uniauth-saml2-idp.svg)
 ![Python version](https://img.shields.io/badge/license-Apache%202-blue.svg)
+![Documentation Status](https://readthedocs.org/projects/uniauth/badge/?version=latest)
 ![License](https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue.svg)
 
-**Django Unified Authentication System** is an *IDentity Provider* built on top of [IdentityPython](https://idpy.org) stack.
+**uniauth-saml2-idp** is an SAML2 *IDentity Provider* built on top of [Pysaml2](https://idpy.org) and Django.
 It was born as a fork of [djangosaml2idp](https://github.com/OTA-Insight/djangosaml2idp/) project of which very little has by now remained.
 
 Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.io/en/latest/index.html) for usage specifications and advanced topics.
 
 ![Alt text](docs/contents/login.png)
 
-This Release implements a SAML2 IDP.
-
-An OIDC Provider on top of [IdentityPython](https://idpy.org) will be also available in next releases.
-
 ## SAML2 Features
-
-uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython/pysaml2). Features:
 
 - HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
 - ForceAuthn;
@@ -27,7 +23,7 @@ uniAuth, as a SAML2 IDP, is based on [pysaml2](https://github.com/IdentityPython
 
 ## Implementation specific Features
 
-- no restart is needed on new matadata store or SP;
+- no restart is needed on new matadata store or SP registration;
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
 - Interactive ServiceProvider definition through the Admin Backend UI;

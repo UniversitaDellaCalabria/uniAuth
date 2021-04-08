@@ -136,7 +136,7 @@ class SsoEntryView(View):
         # decoratos do the most
         logger.info("SSO req from client {}".format(get_client_id(request)))
         binding = request.saml_session.get('Binding', BINDING_HTTP_POST)
-        self.IDP = get_IDP(request=request)
+        self.IDP = get_IDP()
         try:
             self.saml_request = self.IDP.parse_authn_request(request.saml_session['SAMLRequest'],
                                                              binding)
@@ -199,7 +199,7 @@ class ErrorHandler(object):
         return self.error_view.as_view()(request, **kwargs)
 
 
-def get_IDP(idp_conf=settings.SAML_IDP_CONFIG, request=None):
+def get_IDP(idp_conf=settings.SAML_IDP_CONFIG):
     # Check if SP is federated
     IDP = get_idp_config(idp_conf)
     return IDP
@@ -214,7 +214,7 @@ class IdPHandlerViewMixin(ErrorHandler):
         """
         err_data = {}
         try:
-            self.IDP = get_IDP(request=request)
+            self.IDP = get_IDP()
         except Exception as excp:  # pragma: no cover
             logger.error('{}'.format(excp))
             return self.handle_error(request, exception=excp)

@@ -8,6 +8,11 @@ _src_folder = '.'
 _pkg_name = 'uniauth_saml2_idp'
 
 
+def readme():
+    with open('README.md') as f:
+        return f.read()
+
+
 def get_requirements(fname='requirements.txt'):
     fopen = open(fname, 'r')
     return fopen.read().splitlines()
@@ -17,6 +22,8 @@ setup(
     name="uniauth_saml2_idp",
     version='2.0.0-alpha2',
     description="uniAuth is a Django SAML2 Identity Provider",
+    long_description=readme(),
+    long_description_content_type='text/markdown',
     author='Giuseppe De Marco, Francesco Filicetti',
     author_email='giuseppe.demarco@unical.it, francesco.filicetti@unical.it',
     license="Apache 2.0",

@@ -3,10 +3,10 @@ General Description
 
 uniAuth, as a SAML2 IDP, is based on `pysaml2 <https://github.com/IdentityPython/pysaml2>`__ and it supports:
 
-- HTTP-REDIRECT and POST bindings  (signed authn request must be in HTTP-POST binding);
+- HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
 - ForceAuthn;
 - SLO, SAML Single Logout;
-- Signed and Encrypted assertions;
+- Signed and Encrypted assertions in Response;
 - AllowCreate, nameid is stored if nameid format is persistent.
 
 
@@ -30,5 +30,4 @@ Implementation specific Features
 - Importable StoredPersistentID for each user, from migrations from another IDP;
 - An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
 - Multiple LDAP sources through `pyMultiLDAP <https://github.com/peppelinux/pyMultiLDAP>`__;
-- Multifactor support, as originally available in djangosaml2idp;
 - Detailed logs.

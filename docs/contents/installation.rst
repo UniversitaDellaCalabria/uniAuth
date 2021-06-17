@@ -196,6 +196,5 @@ If you need more debug control with the same production configuration, using uws
 
 ::
 
-
     /etc/init.d/unicalauth stop
     uwsgi --ini /opt/unicalauth/uwsgi_setup/uwsgi.ini.debug

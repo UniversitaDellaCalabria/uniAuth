@@ -1,10 +1,10 @@
 Migrate from Shibboleth IdP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here a sintetic description of the general steps to do for migrating and existing Shibboleth IdP to uniAuth, carrying the same configuration.
+Here a brief description of the general steps to do for migrating an existing Shibboleth IdP to uniAuth, carrying the same configuration.
 We have migrate from Shibboleth IdP 3.4.6 to uniAuth v2.0.0, here the steps we made to achieve this goal:
 
-1. copy and configure shibboleth idp SAML, in `credentials/` in your pysaml2 configuration.
+1. copy SAML2 certificates shibboleth idp SAML, in `credentials/` in your pysaml2 configuration.
 2. Standing on Shibboleth metadata, in `metadata/idp-metadata.xml`, place the same Service Endpoints urls to your project's urls file::
 
     if 'uniauth_saml2_idp' in settings.INSTALLED_APPS:
@@ -22,6 +22,6 @@ We have migrate from Shibboleth IdP 3.4.6 to uniAuth v2.0.0, here the steps we m
 
 3. Configure the same entityID.
 4. Migrate the existing Shibboleth IdP `conf/attribute-filters.xml` (and any other available in `conf/services.xml`) to uniauth SP definitions (ModelAdmin or settings.py).
-5. Configure PyMultiLDAP rewrite rules and pattern matching standing on the Attributes defined in `conf/attribute-resolver.xml` (and any other available in `conf/services.xml).
+5. If you use LDAP: Configure PyMultiLDAP rewrite rules and pattern matching standing on the Attributes defined in `conf/attribute-resolver.xml` (and any other available in `conf/services.xml).
 6. Configure your metadata store (ModelAdmin or settings.py). It's suggested to use a MDQ Server for loading large federation xml files, as to be with eduGain.
-7. use uniauth `aacli` and `mdquery` commands to check the availability of Entities and the attribute to be released to them
+7. Use uniauth `aacli` and `mdquery` commands to check the availability of Entities and the attribute to be released to them.

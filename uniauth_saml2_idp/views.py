@@ -939,8 +939,9 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
             return self.handle_error(request, exception=expc_msg, status=400)
 
         logger.info("{} from {} for [{}]".format(self.__service_name,
-                                                 req_info.message.name_id.sp_name_qualifier,
-                                                 req_info.message.name_id.text))
+                                                 getattr(req_info.message.name_id, 'sp_name_qualifier', ""),
+                                                 getattr(req_info.message.name_id, 'text', ""))
+        )
         logger.debug("{} SAML request [\n{}]".format(self.__service_name,
                                                      repr_saml(req_info.xmlstr, b64=False)))
 

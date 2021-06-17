@@ -23,7 +23,7 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
 
 ## Implementation specific Features
 
-- no restart is needed on new matadata store or SP registration;
+- no restart is needed when add a new metadata or Service Provider Definition;
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
 - Interactive ServiceProvider definition through the Admin Backend UI;

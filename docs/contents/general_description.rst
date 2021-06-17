@@ -13,7 +13,7 @@ uniAuth, as a SAML2 IDP, is based on `pysaml2 <https://github.com/IdentityPython
 Implementation specific Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- no restart is needed on new matadata store or SP;
+- no restart is needed when add a new metadata or Service Provider Definition;
 - Full Internazionalization support (i18n);
 - Interactive Metadata Store definitions through the Admin Backend UI;
 - Interactive ServiceProvider definition through the Admin Backend UI;

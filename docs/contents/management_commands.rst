@@ -1,5 +1,5 @@
 MDQuery
-^^^^^^
+^^^^^^^
 
 This command permit us to check the availability of a saml entity in the IdP metadata store.
 The option `-f` can specify the output format, if saml2 (default) or json.

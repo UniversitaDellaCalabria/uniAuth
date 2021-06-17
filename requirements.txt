@@ -1,4 +1,4 @@
 django>=3.1.1,<4.0
+djangosaml2>=1.0.0
 pysaml2>=6.5.1
 cffi
-pycountry

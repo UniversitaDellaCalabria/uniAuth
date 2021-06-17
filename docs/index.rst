@@ -45,6 +45,7 @@ uniAuth documentation
    contents/customize_platform.rst
    contents/management_commands.rst
    contents/backup_restore.rst
+   contents/migrate_from_shibidp.rst
 
 Indices and tables
 ==================

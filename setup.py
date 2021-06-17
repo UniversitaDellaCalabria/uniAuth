@@ -20,7 +20,7 @@ def get_requirements(fname='requirements.txt'):
 
 setup(
     name="uniauth_saml2_idp",
-    version='2.0.0-beta',
+    version='2.0.0-1',
     description="uniAuth is a Django SAML2 Identity Provider",
     long_description=readme(),
     long_description_content_type='text/markdown',
@@ -40,7 +40,10 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Django",
+        "Framework :: Django :: 2.2",
         "Framework :: Django :: 3.0",
+        "Framework :: Django :: 3.1",
+        "Framework :: Django :: 3.2",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",

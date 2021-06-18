@@ -192,6 +192,8 @@ SAML_IDP_CONFIG = {
                          'text': "https://{}/static/img/logo.svg".format(HOST)},
                 },
 
+            "scope": ['testunical.it'],
+
             'endpoints': {
                 'single_sign_on_service': [
                     ('%s/sso/post' % BASE_URL, BINDING_HTTP_POST),

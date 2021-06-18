@@ -52,10 +52,10 @@ IDP: {% trans "Auth login" %}
                                    {% if form_field.field.required %}required{% endif %}>
                             <span class="password-icon" aria-hidden="true">
                                 <svg class="password-icon-visible icon icon-sm">
-                                    <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-visible"></use>
+                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-password-visible"></use>
                                 </svg>
                                 <svg class="password-icon-invisible icon icon-sm d-none">
-                                    <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-invisible"></use>
+                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-password-invisible"></use>
                                 </svg>
                             </span>
                             <label for="id_{{ form_field.html_name }}">

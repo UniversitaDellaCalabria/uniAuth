@@ -165,8 +165,10 @@ class SsoEntryView(View):
         # Force Authn check
         if self.saml_request.message.force_authn:
             logout(request)
-            msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(self.saml_request.message.issuer.text,
-                                                                        self.saml_request.message.id)
+            msg = "SSO AuthnRequest [force_authn=True]: {} [{}]".format(
+                                    self.saml_request.message.issuer.text,
+                                    self.saml_request.message.id
+            )
             logger.info(msg)
 
         request.saml_session['message_id'] = self.saml_request.message.id
@@ -476,14 +478,14 @@ class IdPHandlerViewMixin(ErrorHandler):
         # talking logs
         msg = (
             'SSO AuthnResponse [{}] to {} [{}]: {} attrs ({}) on {} filtered by policy')
-        self.request.saml_session['authn_log'] = msg.format(name_id.format,
-                                                            self.sp['id'],
-                                                            self.request.saml_session.get(
-                                                                'message_id'),
-                                                            len(ava),
-                                                            ','.join(
-                                                                ava.keys()),
-                                                            len(identity))
+        self.request.saml_session['authn_log'] = msg.format(
+                                        name_id.format,
+                                        self.sp['id'],
+                                        self.request.saml_session.get('message_id'),
+                                        len(ava),
+                                        ','.join(ava.keys()),
+                                        len(identity)
+        )
         logger.info(self.request.saml_session['authn_log'])
 
         self.request.saml_session['identity'] = ava
@@ -510,7 +512,7 @@ class IdPHandlerViewMixin(ErrorHandler):
                 resp_args['encrypt_cert_assertion'] = sp_enc_cert[0]
                 resp_args['encrypt_cert_advice'] = sp_enc_cert[0]
 
-                # PREFIM won't work with shibboleth
+                # PREFIM here won't work with shibboleth
                 # WARN Shibboleth.AttributeResolver.Query [4] [default]: no SAML 2 AttributeAuthority role found in metadata
                 # resp_args['pefim'] = 1
         # END ENCRYPTED ASSERTION
@@ -589,9 +591,10 @@ class IdPHandlerViewMixin(ErrorHandler):
         request.saml_session['sp_entity_id'] = self.sp['id']
 
         # Conditions for showing user agreement screen
-        user_agreement_enabled_for_sp = self.sp['config'].get('show_user_agreement_screen',
-                                                              getattr(settings,
-                                                                      "SAML_IDP_SHOW_USER_AGREEMENT_SCREEN"))
+        user_agreement_enabled_for_sp = self.sp['config'].get(
+                        'show_user_agreement_screen',
+                        getattr(settings, "SAML_IDP_SHOW_USER_AGREEMENT_SCREEN")
+        )
 
         agreement_for_sp = AgreementRecord.objects.filter(user=request.user,
                                                           sp_entity_id=self.sp['id']).first()
@@ -648,18 +651,21 @@ class LoginAuthView(LoginView):
         authn_issue_instant = self.request.saml_session['issue_instant']
         for tformat in settings.SAML2_DATETIME_FORMATS:
             try:
-                issue_instant = timezone.datetime.strptime(authn_issue_instant,
-                                                           tformat)
+                issue_instant = timezone.datetime.strptime(
+                                    authn_issue_instant, tformat
+                )
                 break
             except Exception as e:
-                logger.debug('{} not parseable with {}: {}'.format(authn_issue_instant,
-                                                                   tformat, e))
+                logger.debug('{} not parseable with {}: {}'.format(
+                                        authn_issue_instant, tformat, e)
+                )
         # end check
         mins = getattr(settings, 'SESSION_COOKIE_AGE', 600)
         dt_check = None
         try:
-            dt_check = issue_instant < timezone.make_naive((now - datetime.timedelta(minutes=mins)),
-                                                           timezone.get_current_timezone())
+            dt_check = issue_instant < timezone.make_naive(
+                                (now - datetime.timedelta(minutes=mins)),
+                                 timezone.get_current_timezone())
         except Exception as e:
             logger.error('Issue instant time comparison failed: {}'.format(e))
         if dt_check:

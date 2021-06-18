@@ -1,7 +1,7 @@
 Attribute releases
 ^^^^^^^^^^^^^^^^^^
 
-By default IdP will only release required Attributes defined in each SP metadata (isRequired=True), if they are available. Otherwise IdP will release a default attribute map, defined in settings parameters.
+By default IdP will only release required Attributes defined in each SP metadata (isRequired=True or EntityCategories), if they are available. Otherwise the IdP will release a default attribute set, defined in settings parameters.
 It can also force some attribute release by checking ``force_attribute_release`` into each SP configuration.
 
 Every SP can use a specific Attribute Processor, you can even customize a brand new one in an application that can be easily installed into ``django_idp.settingslocal.INSTALLED_APPS``.

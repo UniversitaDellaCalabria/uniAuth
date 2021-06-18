@@ -19,7 +19,7 @@ This feature will let us check wich attributes will be released to a specified S
 
 ::
 
-    ./manage.py aacli -u joe -e https://sptest.auth.unical.it/saml2
+    ./manage.py aacli -u mario -e https://sptest.auth.unical.it/saml2
 
 
 example output::

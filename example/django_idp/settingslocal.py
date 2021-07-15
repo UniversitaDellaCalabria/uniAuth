@@ -26,11 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sass_processor',
-    'bootstrap_italia_template',
-    'django_unical_bootstrap_italia',
-    'uniauth_saml2_idp',
+    # templates
     'uniauth_unical_template',
-
+    'django_unical_bootstrap_italia',
+    'bootstrap_italia_template',
+    # uniauth idp
+    'uniauth_saml2_idp',
     # 'ldap_peoples',
     'multildap',
     'rangefilter']

@@ -645,7 +645,7 @@ class LoginAuthView(LoginView):
         except:
             date_check = issue_instant < (now - datetime.timedelta(minutes=mins))
         if date_check:
-            return render(request, 'error.html',
+            return render(self.request, 'error.html',
                           {'exception_type': _("You take too long to authenticate!"),
                            'exception_msg': _("Your request is expired"),
                            'extra_message': _('{} minutes are passed').format(mins)},

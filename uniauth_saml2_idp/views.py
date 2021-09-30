@@ -822,10 +822,10 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         template = 'user_agreement.html'
         context = dict()
-
-        ses_disp_info = request.saml_session['sp_display_info']
         try:
             # prevents KeyError at /login/process_user_agreement/: 'sp_display_info'
+            ses_disp_info = request.saml_session['sp_display_info']
+
             context['sp_display_name'] = ses_disp_info['display_name']
             context['sp_display_description'] = ses_disp_info['display_description']
             context['sp_display_agreement_message'] = ses_disp_info.get(

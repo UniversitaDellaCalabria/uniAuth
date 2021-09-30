@@ -20,7 +20,7 @@ def get_requirements(fname='requirements.txt'):
 
 setup(
     name="uniauth_saml2_idp",
-    version='2.0.0-1',
+    version='2.0.1',
     description="uniAuth is a Django SAML2 Identity Provider",
     long_description=readme(),
     long_description_content_type='text/markdown',

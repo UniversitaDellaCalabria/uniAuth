@@ -15,9 +15,9 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
 
 ## SAML2 Features
 
-- HTTP-REDIRECT and POST bindings (signed authn request must be in HTTP-POST binding);
+- HTTP-REDIRECT and POST bindings;
 - ForceAuthn;
-- SLO, SAML Single Logout;
+- SAML Single Logout;
 - Signed and Encrypted assertions;
 - AllowCreate, nameid is stored with a persistent nameid format.
 
@@ -38,9 +38,8 @@ Consult the [Official Documentation at readthedocs](https://uniauth.readthedocs.
     - agreement screen message, availability, data consent form.
 - Configurable log rotation through uwsgi and python logging;
 - Importable StoredPersistentID for each user, from migrations from another IDP;
-- An optional LDAP web manager with a configurable app (`ldap_peoples`) through `django-ldap-academia-ou-manager <https://github.com/peppelinux/django-ldap-academia-ou-manager>`__;
+- An optional LDAP web manager with a configurable app (`ldap_peoples`) through [django-ldap-academia-ou-manager](https://github.com/peppelinux/django-ldap-academia-ou-manager);
 - _Multiple LDAP_ sources through [pyMultiLDAP](https://github.com/peppelinux/pyMultiLDAP);
-- _Multifactor Authentication_ support, as originally available in djangosaml2idp;
 - _aacli_ and _mdquery_ management command (yes, inspired by Shibboleth IdP);
 - Detailed logs.
 

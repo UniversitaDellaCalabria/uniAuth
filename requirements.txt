@@ -2,3 +2,4 @@ django>=3.1.1,<4.0
 djangosaml2>=1.0.0
 pysaml2>=6.5.1
 cffi
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability

@@ -39,6 +39,3 @@ django-cleanup>=8.0,<9.0
 
 # password_reset
 django-form-builder>=1.0.1 ,<1.1.0
-
-# MFA
-django-mfa3>=0.11.0

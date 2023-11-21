@@ -19,8 +19,6 @@ from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 # from uniauth_saml2_idp.views import LoginAuthView
 
-from cryptotools.views import public_jwk
-
 import os
 
 admin.site.site_title = os.getenv("ADMIN_UI_HEADER", 'uniAuth-IAM')

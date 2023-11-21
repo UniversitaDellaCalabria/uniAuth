@@ -31,7 +31,7 @@ uritemplate
 django-cors-headers # for rest api
 
 # proxy
-django-allauth
+django-allauth>0.58,<0.59
 
 cryptojwt>=1.8,<=1.9
 

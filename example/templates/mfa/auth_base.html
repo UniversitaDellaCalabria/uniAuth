@@ -1,0 +1,17 @@
+{% extends 'base_clean.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block centered_container %}
+
+<h1>{% trans 'Two-factor authentication' %}</h1>
+
+{% block mfa_form %}
+{% endblock %}
+
+<br>
+<a href="{% url 'mfa:auth' 'FIDO2' %}">{% trans 'Use FIDO2 instead' %}</a>
+<br>
+<a href="{% url 'mfa:auth' 'recovery' %}">{% trans 'Use recovery code instead' %}</a>
+{% endblock %}

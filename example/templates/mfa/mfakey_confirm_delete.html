@@ -1,0 +1,20 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+
+<p>Are you sure you want to delete the key {{ object.name }}?</p>
+<form method="POST">
+    {% csrf_token %}
+    <input 
+        type="submit" 
+        name="confirm" 
+        class="btn btn-success ml-2 unical-background override" 
+        value="{% trans 'Delete' %}" 
+        style="background: #383838;"
+    />
+</form>
+
+{% endblock %}

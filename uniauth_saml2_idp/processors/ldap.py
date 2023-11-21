@@ -1,17 +1,17 @@
 import logging
 
 from django.conf import settings
-from . base import BaseProcessor
-from . unical_attributes_generator import UnicalAttributeGenerator
+from .base import BaseProcessor
+from .unical_attributes_generator import UnicalAttributeGenerator
 
 
 logger = logging.getLogger(__name__)
 
 
-if 'ldap_peoples' in settings.INSTALLED_APPS:
+if "ldap_peoples" in settings.INSTALLED_APPS:
     from ldap_peoples.models import LdapAcademiaUser
 
-if 'multildap' in settings.INSTALLED_APPS:
+if "multildap" in settings.INSTALLED_APPS:
     pass
 
 
@@ -25,22 +25,25 @@ def _get_username(user):
 
 class GroupProcessor(BaseProcessor):
     """
-        Example implementation of access control for users:
-        - superusers are allowed
-        - staff is allowed
-        - they have to belong to a certain group
+    Example implementation of access control for users:
+    - superusers are allowed
+    - staff is allowed
+    - they have to belong to a certain group
     """
+
     group = "ExampleGroup"
 
     def has_access(self, user):  # pragma: no cover
-        return user.is_superuser or \
-            user.is_staff or \
-            user.groups.filter(name=self.group).exists()
+        return (
+            user.is_superuser
+            or user.is_staff
+            or user.groups.filter(name=self.group).exists()
+        )
 
 
 class LdapAcademiaProcessor(BaseProcessor):
-    """ Processor class used to retrieve attribute from LDAP server
-        and user nameID (userID) with standard formats
+    """Processor class used to retrieve attribute from LDAP server
+    and user nameID (userID) with standard formats
     """
 
     def get_identity(self, user):
@@ -48,12 +51,11 @@ class LdapAcademiaProcessor(BaseProcessor):
         return LdapAcademiaUser.objects.filter(uid=username).first()
 
     def create_identity(self, user, sp={}):
-        """ Generate an identity dictionary of the user based on the
-            given mapping of desired user attributes by the SP
+        """Generate an identity dictionary of the user based on the
+        given mapping of desired user attributes by the SP
         """
-        default_mapping = {'username': 'username'}
-        sp_mapping = sp['config'].get('attribute_mapping',
-                                      default_mapping)
+        default_mapping = {"username": "username"}
+        sp_mapping = sp["config"].get("attribute_mapping", default_mapping)
 
         # get ldap user
         lu = self.get_identity(user)
@@ -70,7 +72,7 @@ class LdapAcademiaProcessor(BaseProcessor):
 
         # if targetedID is available give it to sp
         if self.eduPersonTargetedID:
-            results['eduPersonTargetedID'] = [self.eduPersonTargetedID]
+            results["eduPersonTargetedID"] = [self.eduPersonTargetedID]
 
         return results
 
@@ -92,18 +94,23 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
     """
 
     def get_identity(self, user):
-        if hasattr(self, 'saml_request') and hasattr(self.saml_request, 'session'):
-            if self.request.saml_session.get('identity_attributes'):
-                return type('', (object,), self.request.saml_session['identity_attributes'])()
+        if hasattr(self, "saml_request") and hasattr(self.saml_request, "session"):
+            if self.request.saml_session.get("identity_attributes"):
+                return type(
+                    "", (object,
+                         ), self.request.saml_session["identity_attributes"]
+                )()
 
         # otherwise do another query ...
         username = _get_username(user)
         identity = None
         for lc in settings.LDAP_CONNECTIONS:  # pragma: no coverage
-            ldapfilter = '(uid={})'.format(username)
-            logging.debug("Processor {} searches for {} in {}".format(self.__class__,
-                                                                      username,
-                                                                      lc))
-            identity = lc.get(search=ldapfilter, format='object')
+            ldapfilter = "(uid={})".format(username)
+            logging.debug(
+                "Processor {} searches for {} in {}".format(
+                    self.__class__, username, lc
+                )
+            )
+            identity = lc.get(search=ldapfilter, format="object")
             if identity:
                 return identity

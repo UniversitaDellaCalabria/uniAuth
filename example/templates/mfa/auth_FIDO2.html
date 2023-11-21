@@ -1,0 +1,26 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+<p>When you are ready to authenticate with FIDO2, press the button below.</p>
+
+<form data-fido2-auth="{{ mfa_data }}" method="POST">
+    {% csrf_token %}
+    {% for error in form.errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+    {{ form.code.as_hidden }}
+    <input 
+        type="submit" 
+        name="confirm" 
+        class="btn btn-success ml-2 unical-background override" 
+        value="{% trans 'Verify' %}" 
+        style="background: #383838;"
+    />
+</form>
+
+<script src="{% static 'cbor-js/cbor.js' %}"></script>
+<script src="{% static 'mfa/fido2.js' %}"></script>
+{% endblock %}

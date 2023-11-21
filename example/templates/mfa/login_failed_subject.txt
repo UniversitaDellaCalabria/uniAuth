@@ -1,0 +1,3 @@
+{% load i18n %}{% autoescape off %}
+{% blocktranslate %}Attempted login to {{ site_name }} using a wrong two-factor authentication code{% endblocktranslate %}
+{% endautoescape %}

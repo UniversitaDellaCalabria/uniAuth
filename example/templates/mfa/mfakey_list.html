@@ -1,0 +1,35 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+
+<h1> {% if object_list %}Login keys configured{% else %}No login keys configured{% endif %}</h1>
+<p>Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.</p>
+
+{% if object_list|length == 1 %}
+    <p>
+        <strong>{% trans 'WARNING' %}</strong>:
+        {% trans "You have registered only a single key. If you lose access to that key you won't be able log into your account again." %}
+        <a href="{% url 'mfa:create' 'recovery' %}">{% trans 'Create recovery code' %}</a>
+    </p>
+{% endif %}
+
+<ul>
+    {% for key in object_list %}
+        <li>
+            {{ key.name }} ({{ key.method }})
+            <a href="{% url 'mfa:delete' key.id %}">{% trans 'Delete' %}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<a href="{% url 'mfa:create' 'TOTP' %}">{% trans 'Create TOTP key' %}</a>
+<br>
+<a href="{% url 'mfa:create' 'FIDO2' %}">{% trans 'Create FIDO2 key' %}</a>
+<br>
+<a href="{% url 'mfa:create' 'recovery' %}">{% trans 'Create recovery code' %}</a>
+
+{% endblock %}

@@ -1,54 +1,62 @@
 import os
 import saml2
 from django.utils.translation import gettext as _
-from saml2 import (BINDING_HTTP_POST,
-                   BINDING_SOAP,
-                   BINDING_HTTP_ARTIFACT,
-                   BINDING_HTTP_REDIRECT,
-                   BINDING_PAOS)
+from saml2 import (
+    BINDING_HTTP_POST,
+    BINDING_SOAP,
+    BINDING_HTTP_ARTIFACT,
+    BINDING_HTTP_REDIRECT,
+    BINDING_PAOS
+)
 from saml2.entity_category import refeds, edugain
-from saml2.saml import (NAMEID_FORMAT_TRANSIENT,
-                        NAMEID_FORMAT_PERSISTENT)
-from saml2.saml import (NAME_FORMAT_URI,
-                        NAME_FORMAT_UNSPECIFIED,
-                        NAME_FORMAT_BASIC)
+from saml2.saml import (
+    NAMEID_FORMAT_TRANSIENT,
+    NAMEID_FORMAT_PERSISTENT,
+    NAMEID_FORMAT_UNSPECIFIED
+)
+from saml2.saml import (
+    NAME_FORMAT_URI,
+    NAME_FORMAT_UNSPECIFIED,
+    NAME_FORMAT_BASIC
+)
 
 from saml2.sigver import get_xmlsec_binary
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 LOGIN_URL = '/idp/login/'
 
 # idp protocol:fqdn:port
-HOST = 'idp1.testunical.it'
-PORT = 9000 #None if 80 or 443...
-HTTPS = False
+HOST = os.environ.get("HOSTNAME", 'localhost')
+PORT = os.environ.get("PORT", 9000) # None if 80 or 443...
+HTTPS = int(os.environ.get("HTTPS", 0))
 
-BASE = "https://{}".format(HOST) if HTTPS else "http://{}".format(HOST)
-if PORT:
-    BASE += ':{}'.format(PORT)
+ENTITY_HOSTNAME = HOST
+if PORT and int(PORT) > 0:
+    ENTITY_HOSTNAME += ':{}'.format(PORT)
 
-BASE_URL = '{}/idp'.format(BASE)
-# end
+ENTITY_BASE_URL = f"https://{ENTITY_HOSTNAME}" if HTTPS else f"http://{ENTITY_HOSTNAME}"
+ENTITY_URL = '{}/idp'.format(ENTITY_BASE_URL)
+ENTITYID = '%s/metadata' % ENTITY_URL
 
 IDP_SP_METADATA_PATH = os.path.join(BASE_DIR, 'data/metadata')
 
 # please check [Refactor datetime](https://github.com/IdentityPython/pysaml2/pull/518)
 # only used to parse issue_instant in a try...
-SAML2_DATETIME_FORMATS = ['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S.%fZ',
-                          '%Y%m%d%H%M%SZ']
+SAML2_DATETIME_FORMATS = [
+    '%Y-%m-%dT%H:%M:%SZ',
+    '%Y-%m-%dT%H:%M:%S.%fZ',
+    '%Y%m%d%H%M%SZ'
+]
 
 # this will keep xml signed/encrypted files in /tmp
 #os.environ['PYSAML2_DELETE_XMLSEC_TMP'] = "False"
-
 
 SAML_METADATA = {
         'local': [
                  # (os.path.join(IDP_SP_METADATA_PATH, 'sp_metadata.xml'),),
                  # (os.path.join(IDP_SP_METADATA_PATH, 'sp_shib_metadata.xml'),),
                  # (os.path.join(IDP_SP_METADATA_PATH, 'satosa_backend.xml'),),
-                 ],
+        ],
         #
         # "remote": [{
             # "url": 'https://satosa.testunical.it/Saml2/metadata',
@@ -69,124 +77,49 @@ SAML_METADATA = {
 
 }
 
-
 SAML_CONTACTS = [
-      {'given_name': 'Giuseppe',
-       'sur_name': 'De Marco',
-       'company': 'Universita della Calabria',
-       'email_address': 'giuseppe.demarco@unical.it',
+      {'given_name': 'Claudio',
+       'sur_name': '...',
+       'company': '4Securitas',
+       'email_address': 'info@email.example.com',
        'contact_type': 'administrative'},
       {'given_name': 'Giuseppe',
        'sur_name': 'De Marco',
-       'company': 'Universita della Calabria',
-       'email_address': 'giuseppe.demarco@unical.it',
+       'company': '4Securitas',
+       'email_address': 'giuseppe@email.example.com',
        'contact_type': 'technical'},
 ]
 
-
 SAML_ORG_INFO = {
-      'name': [('Unical', 'it'), ('Unical', 'en')],
-      'display_name': [('Unical', 'it'), ('Unical', 'en')],
-      'url': [('http://www.unical.it', 'it'),
-              ('http://www.unical.it', 'en')],
+      'name': [('example', 'it'), ('Example', 'en')],
+      'display_name': [('example', 'it'), ('Example', 'en')],
+      'url': [('http://www.example.com', 'it'),
+              ('http://www.example.com', 'en')],
 }
-
-
-SAML_AA_CONFIG = {
-    'debug' : True,
-    'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
-    'entityid': '%s/aa/metadata' % BASE_URL,
-
-    'entity_category_support': [edugain.COCO, # "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"
-                                refeds.RESEARCH_AND_SCHOLARSHIP],
-
-    'attribute_map_dir': 'data/attribute-maps',
-    'description': 'SAML2 IDP',
-
-    'service': {
-        "aa": {
-            "endpoints": {
-                "attribute_service": [
-                    ("%s/aap" % BASE, BINDING_HTTP_POST),
-                ]
-            },
-            # transient per default, persistent if asked by sp
-            'name_id_format': [NAMEID_FORMAT_TRANSIENT,
-                               NAMEID_FORMAT_PERSISTENT],
-
-            'validate_certificate': True,
-            # this is default
-            'only_use_keys_in_metadata': True,
-
-            # these needs to change a standard shibboleth sp configuration
-            # because in GET binding the signature is in the url and not in the XML ...
-            # solution: disable HTTP-REDIRECT bind
-            # this needs the certificate in the authn request, not implemented in every sp ...
-            "want_authn_requests_only_with_valid_cert": False,
-            # HTTP-REDIRECT and many SP still not sign the authnRequest....
-            'want_authn_requests_signed': False,
-
-            'sign_response': True,
-            'sign_assertion': True,
-
-            # the following if set should be a cert filename, not a boolean
-            # 'verify_ssl_cert': None,
-            # 'verify_encrypt_cert_assertion': None,
-            # 'verify_encrypt_cert_advice': None,
-
-            # this works if pysaml2 is installed from peppelinux's fork
-            'signing_algorithm':  saml2.xmldsig.SIG_RSA_SHA256,
-            'digest_algorithm':  saml2.xmldsig.DIGEST_SHA256,
-
-            # saml.assertion #807
-            "policy": {
-                "default": {
-                    "lifetime": {'hours': 360},
-
-                }
-            },
-
-            "release_policy": {
-                "default": {
-                    "lifetime": {"minutes":15},
-                    "attribute_restrictions": None, # means all I have
-                    "name_form": NAME_FORMAT_URI,
-                },
-            },
-        },
-    },
-
-    'metadata': SAML_METADATA,
-    'key_file': BASE_DIR + '/certificates/private.key',
-    'cert_file': BASE_DIR + '/certificates/public.cert',
-    'contact_person': SAML_CONTACTS,
-    'organization': SAML_ORG_INFO,
-
-}
-
-
 
 SAML_IDP_CONFIG = {
-    'debug' : True,
-    'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
-    'entityid': '%s/metadata' % BASE_URL,
+    'debug' : int(os.environ.get("SAML2_DEBUG", 1)),
+    # 'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
+    'entityid': ENTITYID,
 
-    'entity_category_support': [edugain.COCO, # "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"
-                                refeds.RESEARCH_AND_SCHOLARSHIP],
+    # 'entity_category_support': [
+    #     edugain.COCO, # "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"
+    #     refeds.RESEARCH_AND_SCHOLARSHIP
+    # ],
 
     'attribute_map_dir': 'data/attribute-maps',
     'description': 'SAML2 IDP',
 
     'service': {
         'idp': {
-            'name': 'Django testunical SAML IdP',
+            'name': 'Example SAML IdP',
 
             'ui_info': {
-                'display_name': [{'lang': 'en', 'text': 'Unical IdP'}, {'lang': 'it', 'text': 'Unical IdP'}],
-                'description': [{'lang': 'en', 'text': 'University of Calabria Identity Provider'},
-                                {'lang': 'it', 'text': 'Identity Provider della Università della Calabria'}],
-                'information_url': {'lang': 'it', 'text': 'https://www.unical.it/portale/strutture/centri/centroict/schdeserviziict/idem/'},
-                'privacy_statement_url': {'lang': 'it', 'text': 'https://www.unical.it/portale/ateneo/privacy/'},
+                'display_name': [{'lang': 'en', 'text': 'Example IdP'}, {'lang': 'it', 'text': 'Example IdP'}],
+                'description': [{'lang': 'en', 'text': 'Example Identity Provider'},
+                                {'lang': 'it', 'text': 'Example Identity Provider'}],
+                'information_url': {'lang': 'it', 'text': 'https://www.4securitas.com'},
+                'privacy_statement_url': {'lang': 'it', 'text': 'https://www.4securitas.com'},
                 'logo': {'width': '80',
                          'height': '60',
                          'text': "https://{}/static/img/logo.svg".format(HOST)},
@@ -194,41 +127,26 @@ SAML_IDP_CONFIG = {
 
             'endpoints': {
                 'single_sign_on_service': [
-                    ('%s/sso/post' % BASE_URL, BINDING_HTTP_POST),
-
-                    # HTTP-REDIRECT could introduce troubles with signing verifications ...
-                    ('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
-
-                    # TODO
-                    # ("%s/sso/art" % BASE_URL, BINDING_HTTP_ARTIFACT),
+                    ('%s/sso/post' % ENTITY_URL, BINDING_HTTP_POST),
+                    ('%s/sso/redirect' % ENTITY_URL, BINDING_HTTP_REDIRECT),
                 ],
                 "single_logout_service": [
-                    ("%s/slo/post" % BASE_URL, BINDING_HTTP_POST),
-
-                    #("%s/slo/redirect" % BASE_URL, BINDING_HTTP_REDIRECT)
-                    # ("%s/slo/soap" % BASE_URL, BINDING_SOAP),
+                    ("%s/slo/post" % ENTITY_URL, BINDING_HTTP_POST),
                 ],
 
-               # "attribute_service": [
-                    # ("%s/aap" % BASE_URL, BINDING_HTTP_POST),
-                # ]
             },
             # transient per default, persistent if asked by sp
-            'name_id_format': [NAMEID_FORMAT_TRANSIENT,
-                               NAMEID_FORMAT_PERSISTENT],
+            'name_id_format': [
+                NAMEID_FORMAT_TRANSIENT,
+                NAMEID_FORMAT_PERSISTENT,
+                NAMEID_FORMAT_UNSPECIFIED
+            ],
 
             'validate_certificate': True,
             # this is default
             'only_use_keys_in_metadata': True,
 
-            # these needs to change a standard shibboleth sp configuration
-            # because in GET binding the signature is in the url and not in the XML ...
-            # solution: disable HTTP-REDIRECT bind
-            # this needs the certificate in the authn request, not implemented in every sp ...
-            "want_authn_requests_only_with_valid_cert": False,
-            # HTTP-REDIRECT and many SP still not sign the authnRequest....
-            'want_authn_requests_signed': False,
-
+            'want_authn_requests_signed': True,
             'logout_requests_signed': True,
 
             'sign_response': True,
@@ -329,7 +247,7 @@ SAML_IDP_USER_AGREEMENT_VALID_FOR = 24 * 365
 SAML_IDP_DJANGO_USERNAME_FIELD = 'username'
 # alg, salt and arguments used for computed user identifier used in opaque, transient and persistent nameid_format
 SAML_COMPUTEDID_HASHALG = 'sha256'
-SAML_COMPUTEDID_SALT = b'87sdfybDSFDSFsdf__7yb'
+SAML_COMPUTEDID_SALT = os.environ.get("SAML_COMPUTEDID_SALT", b'87as87da98sd789sdfybDSFDSFsdf__7yb') 
 
 SAML_AUTHN_SIGN_ALG = saml2.xmldsig.SIG_RSA_SHA256
 SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
@@ -346,39 +264,22 @@ SAML_IDP_SPCONFIG = {}
 # Disable unconfigured SP even if they are in MetadataStore
 SAML_DISALLOW_UNDEFINED_SP = False
 
-# This coniguration will be used by default for each newly created SP through admin backend.
+# This configuration will be used by default for each newly created SP through admin backend.
 DEFAULT_SPCONFIG = {
-    'processor': 'uniauth_saml2_idp.processors.ldap.LdapUnicalMultiAcademiaProcessor',
+    'processor': 'uniauth_saml2_idp.processors.base.BaseProcessor',
     'attribute_mapping': {
-        # refeds + edugain Entities
-        "cn": "cn",
-        "eduPersonEntitlement": "eduPersonEntitlement",
-        "eduPersonPrincipalName": "eduPersonPrincipalName",
-        "schacHomeOrganization": "schacHomeOrganization",
-        "eduPersonHomeOrganization": "eduPersonHomeOrganization",
-        "eduPersonAffiliation": "eduPersonAffiliation",
-        "eduPersonScopedAffiliation": "eduPersonScopedAffiliation",
-        "eduPersonTargetedID": "eduPersonTargetedID",
         "mail": ["mail", "email"],
         "email": ["mail", "email"],
-        "schacPersonalUniqueCode": "schacPersonalUniqueCode",
-        "schacPersonalUniqueID": "schacPersonalUniqueID",
-        "sn": "sn",
-        "givenName": ["givenName", "another_possible_occourrence"],
-        "displayName": "displayName",
-
-        # custom attributes
-        "codice_fiscale": "codice_fiscale",
-        "matricola_studente": "matricola_studente",
-        "matricola_dipendente": "matricola_dipendente"
+        "sn": ["sn", "last_name"],
+        "givenName": ["givenName", "first_name"],
     },
-    'display_name': 'Unical SP',
+    'display_name': 'Service Provider',
     'display_description': 'This is for test purpose',
-    'display_agreement_message': 'Some information about you has been requested', # Only for SP externals to our organization
+    'display_agreement_message': 'Some information about it has requested: ', # Only for SP externals to our organization
     'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,
     'digest_algorithm': saml2.xmldsig.DIGEST_SHA256,
     'disable_encrypted_assertions': True,
-    # 'show_user_agreement_screen': SAML_IDP_SHOW_USER_AGREEMENT_SCREEN
+    'show_user_agreement_screen': os.getenv("SHOW_USER_CONSENT_PAGE", 1)
 }
 
 # Quite useless, you can even configure SP through admin backend!

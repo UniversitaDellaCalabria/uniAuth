@@ -1,0 +1,237 @@
+<!-- Extends default Bootstrap Italia template -->
+{% extends 'bootstrap-italia-base.html' %}
+
+{% load static %}
+
+<!-- Page Title -->
+{% block page_title %}
+Università della Calabria
+{% endblock page_title %}
+
+<!-- My custom scss sheet -->
+{% block extra_head %}
+<link rel="shortcut icon" href="{% static 'images/favicon/favicon-32x32.png' %}">
+<link rel="stylesheet" href="{% static 'css/unical-style.css' %}" type="text/css" />
+{% endblock extra_head %}
+
+<!-- URL link top left -->
+{% block header_slim_org_url %}
+https://www.example.com
+{% endblock header_slim_org_url %}
+
+<!-- Name top left -->
+{% block header_slim_org_name %}
+4Securitas
+{% endblock header_slim_org_name %}
+
+<!-- Mobile slim_org_name -->
+{% block header_slim_mobile_org_name %}
+4Securitas
+{% endblock header_slim_mobile_org_name %}
+
+{% block header_center_social %}
+<div class="it-socials d-none d-md-flex">
+    
+</div>
+{% endblock header_center_social %}
+
+<!-- Make empty areas -->
+{% block header_mobile_arrow %}{% endblock header_mobile_arrow %}
+{% block header_mobile_slim_menu %}{% endblock header_mobile_slim_menu %}
+
+{% block header_center_url %}/{% endblock header_center_url %}
+
+<!-- Logo in Header -->
+{% block header_center_logo %}
+<div class="col-10 col-md-9 col-lg-12 offset-1 offset-md-0">
+    <image src="{% static 'images/unical_logo.svg' %}" style="width: 100%;"/>
+</div>
+{% endblock header_center_logo %}
+
+<!-- Organization name in Header -->
+{% block header_center_org_name %}
+{% comment %}
+Università della Calabria
+{% endcomment %}
+{% endblock header_center_org_name %}
+
+<!-- Organization description in Header -->
+{% block header_center_org_subname %}
+{% comment %}
+Il Campus per eccellenza
+{% endcomment %}
+{% endblock header_center_org_subname %}
+
+<!-- Logo in Footer -->
+{% block footer_logo %}
+<img class="icon" src="{% static 'images/logo_white.png' %}" />
+{% endblock footer_logo %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_name %}
+Università della Calabria
+{% endblock footer_org_name %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_subname %}
+Il Campus per eccellenza
+{% endblock footer_org_subname %}
+
+{% block footer_contacts_section %}
+<section class="py-4 border-white border-top">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 pb-2">
+            <h4><a href="#" title="Vai alla pagina: Contatti">Contatti</a></h4>
+            <p>
+                <strong>Università della Calabria</strong>
+                <br>
+                via Pietro Bucci 87036 Arcavacata di Rende, CS
+                <br>
+                Codice Fiscale 80003950781 - Tel. (+39) 0984 4911
+            </p>
+            <div class="link-list-wrapper">
+                <ul class="footer-list link-list clearfix">
+                    <li>
+                        <a class="list-item"
+                           href="https://www.unical.it/portale/servizi/contacts/"
+                           title="Vai alla pagina: Posta Elettronica Certificata">
+                           Posta Elettronica Certificata
+                        </a>
+                    </li>
+                    <li>
+                        <a class="list-item"
+                           href="https://www.unical.it/portale/servizi/contacts/index-fe.cfm"
+                           title="Vai alla pagina: Fatturazione elettronica">
+                           Fatturazione Elettronica
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+            <h4><a href="#" title="Vai alla pagina: Lorem Ipsum">Link Utili</a></h4>
+            <div class="link-list-wrapper">
+                <ul class="footer-list link-list clearfix">
+                    <li>
+                        <a class="list-item"
+                           href="https://www.unical.it/portale/portaltemplates/view/search_phone.cfm"
+                           title="Vai alla pagina: Contatti/cerca persone">
+                           Contatti/cerca persone
+                        </a>
+                    </li>
+                    <li>
+                        <a class="list-item"
+                           href="https://www.unical.it/portale/ateneo/amministrazione/"
+                           title="Vai alla pagina: Contatti amministrazione">
+                           Contatti amministrazione
+                        </a>
+                    </li>
+                    <li>
+                        <a class="list-item"
+                           href="https://www.unical.it/portale/ateneo/amministrazione/aree/uocsdfpl/sdfpl/"
+                           title="Vai alla pagina: Contatti servizi didattici">
+                           Contatti servizi didattici
+                        </a>
+                    </li>
+                    <li>
+                        <a class="list-item"
+                           href="https://unical.portaleamministrazionetrasparente.it/"
+                           title="Vai alla pagina: PAT - Portale amministrazione trasparente">
+                           PAT - Portale amministrazione trasparente
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+            <div class="pb-2">
+                <h4><a href="#" title="Vai alla pagina: Seguici su">Seguici su</a></h4>
+                <ul class="list-inline social text-start">
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white"
+                           href="https://it-it.facebook.com/pages/Universit%C3%A0-della-Calabria/166678814380"
+                           target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprites.svg' %}#it-facebook"></use>
+                            </svg><span class="sr-only">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white"
+                           href="https://twitter.com/UnicalPortale"
+                           target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprites.svg' %}#it-twitter"></use>
+                            </svg><span class="sr-only">Twitter</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white"
+                           href="https://www.instagram.com/unical_official/"
+                           target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprites.svg' %}#it-instagram"></use>
+                            </svg><span class="sr-only">Instagram</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white"
+                           href="https://www.youtube.com/channel/UCnd5Oen95TMO9aLfVRUAABQ"
+                           target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprites.svg' %}#it-youtube"></use>
+                            </svg><span class="sr-only">YouTube</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white"
+                           href="https://github.com/UniversitaDellaCalabria"
+                           target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'svg/sprites.svg' %}#it-github"></use>
+                            </svg> <span class="sr-only">GitHub</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {% comment %}
+            <div class="pb-2">
+                <h4><a href="#" title="Vai alla pagina: Newsletter">Newsletter</a></h4>
+                <p>Form Newsletter</p>
+                  <form action="#" method="post">
+                    <label for="input-newsletter" class="active">Iscriviti per riceverla</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">@</div>
+                      </div>
+                      <input type="text" class="form-control" id="input-newsletter" name="input-newsletter" placeholder="Scrivi il tuo indirizzo email" >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                      </div>
+                    </div>
+                    <button class="btn btn-default pull-right" type="submit">Iscriviti</button>
+                  </form>
+            </div>
+            {% endcomment %}
+        </div>
+    </div>
+</section>
+{% endblock footer_contacts_section %}
+
+{% block footer_bottom_content %}
+<h3 class="sr-only">Sezione Link Utili</h3>
+<ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
+    <li class="list-inline-item">
+        <a href="https://www.unical.it/portale/ateneo/amministrazione/aree/arrisumane/trasparenza/ammtrasparente/notelegali/"
+           title="Note Legali">
+           Note legali
+        </a>
+    </li>
+    <li class="list-inline-item">
+        <a href="https://www.unical.it/portale/ateneo/privacy/"
+           title="Protezione dei dati">
+           Protezione dei dati
+        </a>
+    </li>
+</ul>
+{% endblock footer_bottom_content %}

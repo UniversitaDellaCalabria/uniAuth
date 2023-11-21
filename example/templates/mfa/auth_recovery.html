@@ -1,0 +1,30 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+
+<p>
+    <strong>{% trans 'WARNING' %}</strong>:
+    {% trans 'The recovery code will be removed after it has been used. Make sure to create a new one after login!' %}
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+    <label>
+        {{ form.code.label }}
+        {{ form.code }}
+    </label>
+    <input 
+        type="submit" 
+        name="confirm" 
+        class="btn btn-success ml-2 unical-background override" 
+        value="{% trans 'Verify' %}" 
+        style="background: #383838;"
+    />
+</form>
+{% endblock %}

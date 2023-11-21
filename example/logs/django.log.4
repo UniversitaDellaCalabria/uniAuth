@@ -1,0 +1,862 @@
+ERROR 2023-10-19 13:12:20,432 log 7342 140604970366528 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 111, in password_reset
+    _jws = create_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 138, in create_jwe
+    jwe = _keyobj.encrypt(_key.public_key())
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe_ec.py", line 209, in encrypt
+    self["enc"], _msg, auth_data=jwe.b64_encode_header(), key=cek, iv=iv
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwx.py", line 117, in __getitem__
+    return self._dict[item]
+KeyError: 'enc'
+ERROR 2023-10-19 13:12:20,433 basehttp 7342 140604970366528 "POST /password/reset HTTP/1.1" 500 111572
+INFO 2023-10-19 13:13:32,816 autoreload 7342 140605094408192 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 13:13:33,477 autoreload 7653 140363366518784 Watching for file changes with StatReloader
+INFO 2023-10-19 13:14:09,210 autoreload 7653 140363366518784 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/settingslocal_crypto.py changed, reloading.
+INFO 2023-10-19 13:24:33,500 autoreload 8627 140719361466368 Watching for file changes with StatReloader
+WARNING 2023-10-19 13:24:40,919 log 8627 140719167632960 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 154, in password_commit
+    settings.PRIVATE_ENCRYPTION_JWKS['keys'][0]
+KeyError: 'keys'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:24:40,920 basehttp 8627 140719167632960 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..MsV3dPr7IeM-JeX1y5w43F9Hi8oieZTWSMtQ1cevT8xamuUG-f2R-3ivwD05Xoh6RJbYIJ-5r_sN_8N1tI0K32Q2s9CTRZFjLD2o6zgp0oFxMnrj7nnZ85oTFTrK4TDG3WbZtG6Ez7YekxIR3Bw291iIkuL3SzqhC61tSreqNEjkM1_-TcNSwsZTlDnGpI7FN-QoNZbF5H9-_dIpi1q8tQrDWhatSvuvv0j_1VYbBJNkD2wXU-eiV6UVfNKwC7fLBhZ0X_HLqA8GCAIa0D04GhPTMSKwz55g0VqnDfwVQA7SA8Bu4CMqwYiPDkokiRMS3pa5UMRdJNHSwOBN3paTC9Xjnc9mqKF3poTOVFSRz7PZTjjtZzFlBfvXI1FBd81ggHtWqfeFwo5VsibY0heHZHLRu3HSyHkzk9B4pfGWitDNHH4pDIcKxmQDOuV_yfB7WSAv3WgJt-DpPtUu_UtyouqdT1iZKyXjVAIUE_1qf1KV7rCuaMzfqzxJJtyNR5AT7hvoTb41SjjWZpkOZ8GQT-N2yuch4--yPYq56RpP0_s.tMzJwtQDUx17S9XKP_P-gQ HTTP/1.1" 400 101171
+INFO 2023-10-19 13:25:12,374 autoreload 8627 140719361466368 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/settingslocal_crypto.py changed, reloading.
+INFO 2023-10-19 13:25:13,044 autoreload 8686 140313240195072 Watching for file changes with StatReloader
+INFO 2023-10-19 13:25:24,952 basehttp 8686 140313116014144 "POST /password/reset HTTP/1.1" 200 247013
+ERROR 2023-10-19 13:25:49,625 log 8686 140313116014144 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 112, in password_reset
+    data, settings.PRIVATE_ENCRYPTION_JWKS["keys"][0]
+KeyError: 0
+ERROR 2023-10-19 13:25:49,627 basehttp 8686 140313116014144 "POST /password/reset HTTP/1.1" 500 96558
+INFO 2023-10-19 13:26:14,292 autoreload 8686 140313240195072 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/settingslocal_crypto.py changed, reloading.
+INFO 2023-10-19 13:26:14,954 autoreload 8787 140117512036352 Watching for file changes with StatReloader
+INFO 2023-10-19 13:26:21,265 autoreload 8787 140117512036352 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/settingslocal_crypto.py changed, reloading.
+INFO 2023-10-19 13:26:21,920 autoreload 8801 140614372528128 Watching for file changes with StatReloader
+ERROR 2023-10-19 13:26:27,047 log 8801 140614248166976 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 115, in password_reset
+    _jws, settings.PUBLIC_ENCRYPTION_JWKS["keys"][0]
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/conf/__init__.py", line 83, in __getattr__
+    val = getattr(self._wrapped, name)
+AttributeError: 'Settings' object has no attribute 'PUBLIC_ENCRYPTION_JWKS'
+ERROR 2023-10-19 13:26:27,048 basehttp 8801 140614248166976 "POST /password/reset HTTP/1.1" 500 102486
+INFO 2023-10-19 13:26:57,719 autoreload 8801 140614372528128 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/settingslocal.py changed, reloading.
+INFO 2023-10-19 13:26:58,374 autoreload 8858 140651219025920 Watching for file changes with StatReloader
+INFO 2023-10-19 13:27:01,913 basehttp 8858 140651026970176 "POST /password/reset HTTP/1.1" 200 226117
+WARNING 2023-10-19 13:27:28,111 log 8858 140651026970176 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 146, in decrypt_jwe
+    jwe_header = unpad_jwt_header(jwe)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 18, in unpad_jwt_header
+    return unpad_jwt_element(jwt, position=0)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 13, in unpad_jwt_element
+    data = json.loads(base64.urlsafe_b64decode(padded))
+  File "/usr/lib/python3.10/json/__init__.py", line 341, in loads
+    s = s.decode(detect_encoding(s), 'surrogatepass')
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xdc in position 0: invalid continuation byte
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 149, in decrypt_jwe
+    raise VerificationError("The JWT is not valid")
+NameError: name 'VerificationError' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:27:28,112 basehttp 8858 140651026970176 "GET /password/commit?token=3DeyJhbGciOiJSU0EtT0FFUCIsI= HTTP/1.1" 400 115965
+INFO 2023-10-19 13:27:35,997 basehttp 8858 140651026970176 "POST /password/reset HTTP/1.1" 200 196298
+INFO 2023-10-19 13:27:53,276 basehttp 8858 140651026970176 "POST /password/reset HTTP/1.1" 200 211011
+INFO 2023-10-19 13:28:18,731 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 222824
+INFO 2023-10-19 13:28:36,395 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 211032
+INFO 2023-10-19 13:28:37,936 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 219524
+INFO 2023-10-19 13:28:39,111 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 205624
+INFO 2023-10-19 13:28:45,161 basehttp 8858 140651026970176 "POST /password/reset HTTP/1.1" 200 203067
+WARNING 2023-10-19 13:29:23,122 log 8858 140651026970176 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 146, in decrypt_jwe
+    jwe_header = unpad_jwt_header(jwe)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 18, in unpad_jwt_header
+    return unpad_jwt_element(jwt, position=0)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 13, in unpad_jwt_element
+    data = json.loads(base64.urlsafe_b64decode(padded))
+  File "/usr/lib/python3.10/json/__init__.py", line 341, in loads
+    s = s.decode(detect_encoding(s), 'surrogatepass')
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xdc in position 0: invalid continuation byte
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 149, in decrypt_jwe
+    raise VerificationError("The JWT is not valid")
+NameError: name 'VerificationError' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:29:23,123 basehttp 8858 140651026970176 "GET /password/commit?token=3DeyJhbGciOiJSU0EtT0FFUCIsI= HTTP/1.1" 400 115421
+INFO 2023-10-19 13:30:45,320 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 205812
+WARNING 2023-10-19 13:31:24,568 log 8858 140651026970176 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 146, in decrypt_jwe
+    jwe_header = unpad_jwt_header(jwe)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 18, in unpad_jwt_header
+    return unpad_jwt_element(jwt, position=0)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/jwt.py", line 13, in unpad_jwt_element
+    data = json.loads(base64.urlsafe_b64decode(padded))
+  File "/usr/lib/python3.10/base64.py", line 133, in urlsafe_b64decode
+    return b64decode(s)
+  File "/usr/lib/python3.10/base64.py", line 87, in b64decode
+    return binascii.a2b_base64(s)
+binascii.Error: Invalid base64-encoded string: number of data characters (145) cannot be 1 more than a multiple of 4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 149, in decrypt_jwe
+    raise VerificationError("The JWT is not valid")
+NameError: name 'VerificationError' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:31:24,568 basehttp 8858 140651026970176 "GET /password/commit?token=3DeyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..29D9MYj4AJSE1idLrNkUwQHHuk4VBWnk7uZu1TnFIGTJo4kN7XJpyQZKShGxWX5hCTCPEy0QTQOw29m27Wr5_4GMNtt6Zuh2iBOgK-Dtd2dnvdO1dbgOkQ1uZAZwzyMrWy6570KqARnzWLt3eUmodoot1rYPtSLXRDeqTapJr-vLbT8Q7-jfjE2ECbXvWK8kzaKba8YVo7ZSPAaCOskJ3bx9KsokHiunuPFAlv6qCRMJFsuQ3Fx2SVa2MpF8CPPw_cJDMG6O9n7W9TCd_vBn7enHWkD4oS1j5Z1Pktt1clO6lA9Mpqh-8l9QVlpv9LwE1wBvxZJvOPIRiVkIC3OWFhizHeBu4kpR-KeR7u2XK8OIfd15j5EP5atn_ZEGWiOygMluuDBJ-RwJwQBVpZLuRzQWWCJRyMlTZRXpFFiRGR_7wQgszWnV3QhSCp4lY-4ECMb2UT801bVrmgMTi18-yyk-kpYUJ4IIX70b5UQ3GuZYiGNB7FXx6n6U6agsjWIPJbiRZXGSVtUz6IC0n0jWnnH1NJgi02O1Xh1Q-zkuXP7to3DyMddJCMny4vm3nL6sbqQYDIP-DPLzb615Bun0QWqZZlHgZ0EUD9k05z30FdXK8uW6gxsvkc=1o4HyLL7fPVtbiPAB7QJNmSWzRtqKW2yoptBKuW-DCprCZcEkoVBbmUCFJ_5KavCpaKkJAhpdXznn0pVYGccwJhOJZ-wEZ8bjnFSB6Q2SCMgatqzy51b8gBBc7eZldGRK1v41gzyBNQJrh4GhkzWdLiHC5X9f0xLZYe6OtXczvHEBsw6_-0Jksw0XyUNSQG2TyohhL8lO4FtlNBzo9MT92zL5NsiuwV3fkcdV004T-sI3Krj-JdNbV9q_TQvi5_iCC1CS_vXWZmzU57bS-iPrCU9Z6GSCmNM4-I8_MELTR1NpGrFTqg9xmu8zrqpEJhXf5wWcT4zwxUre8WYJtctAbONhwMd1TShoix9qzk6tx15J9OfxN1aEqhrolV6I1DOak1NysB7_Xa1_Y61CX4tD5a9AFprHt4M9d27_kBCUcYGNmvyeLBN8.ZUcSmZGCSXMp3uCockweLg HTTP/1.1" 400 135490
+INFO 2023-10-19 13:32:45,347 basehttp 8858 140651026970176 "GET /password/reset HTTP/1.1" 200 239612
+INFO 2023-10-19 13:33:08,334 autoreload 8858 140651219025920 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 13:33:08,999 autoreload 9733 139928453844992 Watching for file changes with StatReloader
+INFO 2023-10-19 13:33:25,453 autoreload 9733 139928453844992 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 13:33:26,130 autoreload 9772 140241786998784 Watching for file changes with StatReloader
+INFO 2023-10-19 13:34:53,492 basehttp 9772 140241652409920 "GET /password/reset HTTP/1.1" 200 219600
+INFO 2023-10-19 13:36:53,512 basehttp 9772 140241652409920 "GET /password/reset HTTP/1.1" 200 258656
+INFO 2023-10-19 13:37:05,049 autoreload 9772 140241786998784 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 13:37:05,727 autoreload 10317 140314936999936 Watching for file changes with StatReloader
+INFO 2023-10-19 13:37:48,546 autoreload 10317 140314936999936 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 13:37:49,221 autoreload 10396 140103464738816 Watching for file changes with StatReloader
+INFO 2023-10-19 13:37:53,732 basehttp 10396 140103341045312 "POST /password/reset HTTP/1.1" 200 220186
+INFO 2023-10-19 13:38:09,478 basehttp 10396 140103341045312 "POST /password/reset HTTP/1.1" 200 191959
+INFO 2023-10-19 13:38:29,082 basehttp 10396 140103341045312 "POST /password/reset HTTP/1.1" 200 218647
+INFO 2023-10-19 13:40:29,278 basehttp 10396 140103329506880 "GET /password/reset HTTP/1.1" 200 241236
+INFO 2023-10-19 13:42:29,269 basehttp 10396 140103329506880 "GET /password/reset HTTP/1.1" 200 229860
+INFO 2023-10-19 13:44:29,281 basehttp 10396 140103329506880 "GET /password/reset HTTP/1.1" 200 247948
+INFO 2023-10-19 13:46:29,276 basehttp 10396 140103329506880 "GET /password/reset HTTP/1.1" 200 229400
+INFO 2023-10-19 13:48:09,922 autoreload 10396 140103464738816 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 13:48:10,628 autoreload 11625 140641934761984 Watching for file changes with StatReloader
+INFO 2023-10-19 13:48:18,681 basehttp 11625 140641811035712 "POST /password/reset HTTP/1.1" 200 209146
+INFO 2023-10-19 13:48:36,834 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 230492
+INFO 2023-10-19 13:48:37,999 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 228996
+INFO 2023-10-19 13:48:39,262 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 200424
+INFO 2023-10-19 13:48:41,107 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 197120
+INFO 2023-10-19 13:48:42,170 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 230336
+INFO 2023-10-19 13:48:43,222 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 218644
+INFO 2023-10-19 13:48:44,325 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 193564
+INFO 2023-10-19 13:48:45,389 basehttp 11625 140641811035712 "GET /password/reset HTTP/1.1" 200 227848
+ERROR 2023-10-19 13:48:54,677 log 11625 140641811035712 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 110, in password_reset
+    _jws = create_jws(
+NameError: name 'create_jws' is not defined
+ERROR 2023-10-19 13:48:54,679 basehttp 11625 140641811035712 "POST /password/reset HTTP/1.1" 500 96884
+INFO 2023-10-19 13:49:15,924 autoreload 11625 140641934761984 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 13:49:16,592 autoreload 11792 140578660696064 Watching for file changes with StatReloader
+ERROR 2023-10-19 13:49:20,998 log 11792 140578536814144 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 110, in password_reset
+    _jws = create_jws(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 88, in create_jws
+    jwt = _signer.sign_compact([_key], protected=protected, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jws/jws.py", line 116, in sign_compact
+    key, xargs, _alg = self.alg_keys(keys, "sig", protected)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jws/jws.py", line 99, in alg_keys
+    raise NoSuitableSigningKeys("No key for algorithm: %s" % _alg)
+cryptojwt.jws.exception.NoSuitableSigningKeys: No key for algorithm: ES256
+ERROR 2023-10-19 13:49:21,001 basehttp 11792 140578536814144 "POST /password/reset HTTP/1.1" 500 111903
+INFO 2023-10-19 13:49:43,429 autoreload 11792 140578660696064 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 13:49:44,102 autoreload 11832 139879174021120 Watching for file changes with StatReloader
+INFO 2023-10-19 13:49:45,619 basehttp 11832 139879049590336 "POST /password/reset HTTP/1.1" 200 222841
+WARNING 2023-10-19 13:51:21,835 log 11832 139879049590336 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 161, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 168, in decrypt
+    raise NoSuitableDecryptionKey(_alg)
+cryptojwt.jwe.exception.NoSuitableDecryptionKey: RSA-OAEP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:51:21,835 basehttp 11832 139879049590336 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..ZBcG3KANJO-DE6aGa-DR3-QlIbSuwASxWhflI_3Yu4u4rjiolyhvFwRIostfybLz68LHo_LunsMaUHKk-3OM_dOj9g7QsUpGAQTbHiF2D-jTqRmH_bOk6ORA8aTOlba4oxvUZ5Q_tBRUGT5kh1U8UT1vMcon-sK5fVZuqISqbBJ_X8lKadMhdK2sw0sXlNS4Q--9YwcGnkSJflyEcPYzJhd7VSKspARjouO9RNhihT0eMu7AmlV5ZHue0tg8Ud19nEYZ9lL8_1mtMb6S9oASbZJYiA1a_QhIExw4wBp4zw6CBctit2thRDuZw7koGhd8FH0utgqMdWEeLFlo0cSQSu6X8JxHT8ZsITAk2UfyWgSjSMcq4y0r-UIRL3406t54mo6_y6DVUZS5kGrRLXK9hSaALaIJfbyPTUfF3SSYZf1MtRjF6p918S2T8IxXXwNOVk_vTkEng9-Kyvv_qcL6wRxSJR0c_mOskfkhO_vUE2ewNvusGKF4A5p67y-aFqYJdcesqvr7MxevMGnDqzd_SA.RFpk5DgB6Mubnnfc54YFQw HTTP/1.1" 400 112809
+INFO 2023-10-19 13:51:52,263 basehttp 11832 139878964655680 "GET /password/reset HTTP/1.1" 200 201888
+WARNING 2023-10-19 13:53:50,909 log 11832 139879049590336 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 161, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 168, in decrypt
+    raise NoSuitableDecryptionKey(_alg)
+cryptojwt.jwe.exception.NoSuitableDecryptionKey: RSA-OAEP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:53:50,910 basehttp 11832 139879049590336 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Z8tw5vr8oQKLFc00Vt7b6fIeShkxFW7OQwezREZzxyo5EtrvW6agnrGh00ALH7AD5mBrQMGzE_RKTlx1x4lo_AL6rWdHyMLMDNg5Pqo8tWX6hSD0Iw4sQAHqfX9gU2zqjrywUY9kHYPzNxWWXpEe8IFBIOVFGdesKCUgihWKMUle08ghHXMt1hbb0y2OIfisy1dagi5FYt7vg8czEWLY0zpJun6IUgk4NAczIdZyL3PjXIq6r5c0nv4hsCVGssHA2n6_huCCsOe5Aisj0pqECmp5hKgVufmrl9SvLtbik9e6z9hLyQVLH_9Gbxelzx0pwYXNAEH9phTWO4lw6RW0QsgZLU4-5TuJazDx17RaEszFxSQL95Z1X2C3EmyjYLteZUIEYUYHFqp1IGyupimFAW7C11SIDyWk83TwpQvcMkPUoB4RuspGrxI5L-qX-wxM9WPJtgdK1ysREMLrx78NHY4zFBoFYSnXlc15_Pz61EKB7qFWOodPaS3BNLefdBN3uEzY2g7zVGKfxNv2EKByLNmWos1fLVA-ZbOD-pt-SuHQ3dC_GdQ2dOdQr3AA4zM8yIHN72nRxCVDPQq58QRtH0BFX0HGEYe2rQX4aJLcH3RrwRxCv4aGaN74qTYQ7_bC46IPqnerMXY8PHC9mBJvK0_ExDfg8_117BjY9k52MQmgWSuqXkhiy2V8WkfHuzOPygizKiq5nOKlE23Zfa1iIIoD5p4u7e9zWVA37o8MaHi2yPaOzCArdsWrZqay0v5n1ydcaDNFizkzoN648twdIB5loYEpfPyLaUurJ7T1KKk-8ZgnCvgh2Bokx9OsM293T5erzhIAh7ZffMMiCptH4WdVYUaTrwZdaFBcSDZRAmPvAaLFuiAtzc39Auwx69OaaLNi1rvClOCSYZ_5UtbouZ5AnMLFwKj14gloGpteJ_WQSw-pUbMOr-ZIc2Qh17llq14sXeeqj5pRF0-q-XbjI03-wmXqZnpGuWtILFNnIE4wyGfa0CDfVVAoLPMfQmW0gRKvSiMb_-vAnWmWzBdQAG92JiOdgizsRJqRubTprL4.27Xd7dMuC4NO5W5yf8U-NQ HTTP/1.1" 400 118415
+INFO 2023-10-19 13:53:53,059 basehttp 11832 139879049590336 "GET /password/reset HTTP/1.1" 200 227204
+INFO 2023-10-19 13:55:55,127 basehttp 11832 139879049590336 "GET /password/reset HTTP/1.1" 200 239860
+INFO 2023-10-19 13:56:37,922 autoreload 11832 139879174021120 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 13:56:38,598 autoreload 12622 139632544788480 Watching for file changes with StatReloader
+INFO 2023-10-19 13:56:46,914 autoreload 12622 139632544788480 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 13:56:47,573 autoreload 12643 139716584845312 Watching for file changes with StatReloader
+INFO 2023-10-19 13:57:55,140 basehttp 12643 139716450051648 "GET /password/reset HTTP/1.1" 200 250536
+WARNING 2023-10-19 13:59:03,889 log 12643 139716460541504 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 161, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 162, in decrypt
+    try:
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 162, in decrypt
+    try:
+  File "/usr/lib/python3.10/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+  File "/usr/lib/python3.10/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+bdb.BdbQuit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 13:59:03,891 basehttp 12643 139716460541504 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Z8tw5vr8oQKLFc00Vt7b6fIeShkxFW7OQwezREZzxyo5EtrvW6agnrGh00ALH7AD5mBrQMGzE_RKTlx1x4lo_AL6rWdHyMLMDNg5Pqo8tWX6hSD0Iw4sQAHqfX9gU2zqjrywUY9kHYPzNxWWXpEe8IFBIOVFGdesKCUgihWKMUle08ghHXMt1hbb0y2OIfisy1dagi5FYt7vg8czEWLY0zpJun6IUgk4NAczIdZyL3PjXIq6r5c0nv4hsCVGssHA2n6_huCCsOe5Aisj0pqECmp5hKgVufmrl9SvLtbik9e6z9hLyQVLH_9Gbxelzx0pwYXNAEH9phTWO4lw6RW0QsgZLU4-5TuJazDx17RaEszFxSQL95Z1X2C3EmyjYLteZUIEYUYHFqp1IGyupimFAW7C11SIDyWk83TwpQvcMkPUoB4RuspGrxI5L-qX-wxM9WPJtgdK1ysREMLrx78NHY4zFBoFYSnXlc15_Pz61EKB7qFWOodPaS3BNLefdBN3uEzY2g7zVGKfxNv2EKByLNmWos1fLVA-ZbOD-pt-SuHQ3dC_GdQ2dOdQr3AA4zM8yIHN72nRxCVDPQq58QRtH0BFX0HGEYe2rQX4aJLcH3RrwRxCv4aGaN74qTYQ7_bC46IPqnerMXY8PHC9mBJvK0_ExDfg8_117BjY9k52MQmgWSuqXkhiy2V8WkfHuzOPygizKiq5nOKlE23Zfa1iIIoD5p4u7e9zWVA37o8MaHi2yPaOzCArdsWrZqay0v5n1ydcaDNFizkzoN648twdIB5loYEpfPyLaUurJ7T1KKk-8ZgnCvgh2Bokx9OsM293T5erzhIAh7ZffMMiCptH4WdVYUaTrwZdaFBcSDZRAmPvAaLFuiAtzc39Auwx69OaaLNi1rvClOCSYZ_5UtbouZ5AnMLFwKj14gloGpteJ_WQSw-pUbMOr-ZIc2Qh17llq14sXeeqj5pRF0-q-XbjI03-wmXqZnpGuWtILFNnIE4wyGfa0CDfVVAoLPMfQmW0gRKvSiMb_-vAnWmWzBdQAG92JiOdgizsRJqRubTprL4.27Xd7dMuC4NO5W5yf8U-NQ HTTP/1.1" 400 132082
+INFO 2023-10-19 13:59:55,125 basehttp 12643 139716460541504 "GET /password/reset HTTP/1.1" 200 225892
+WARNING 2023-10-19 14:00:08,776 log 12643 139716450051648 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 152, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 161, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 168, in decrypt
+    raise NoSuitableDecryptionKey(_alg)
+cryptojwt.jwe.exception.NoSuitableDecryptionKey: RSA-OAEP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:00:08,776 basehttp 12643 139716450051648 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Z8tw5vr8oQKLFc00Vt7b6fIeShkxFW7OQwezREZzxyo5EtrvW6agnrGh00ALH7AD5mBrQMGzE_RKTlx1x4lo_AL6rWdHyMLMDNg5Pqo8tWX6hSD0Iw4sQAHqfX9gU2zqjrywUY9kHYPzNxWWXpEe8IFBIOVFGdesKCUgihWKMUle08ghHXMt1hbb0y2OIfisy1dagi5FYt7vg8czEWLY0zpJun6IUgk4NAczIdZyL3PjXIq6r5c0nv4hsCVGssHA2n6_huCCsOe5Aisj0pqECmp5hKgVufmrl9SvLtbik9e6z9hLyQVLH_9Gbxelzx0pwYXNAEH9phTWO4lw6RW0QsgZLU4-5TuJazDx17RaEszFxSQL95Z1X2C3EmyjYLteZUIEYUYHFqp1IGyupimFAW7C11SIDyWk83TwpQvcMkPUoB4RuspGrxI5L-qX-wxM9WPJtgdK1ysREMLrx78NHY4zFBoFYSnXlc15_Pz61EKB7qFWOodPaS3BNLefdBN3uEzY2g7zVGKfxNv2EKByLNmWos1fLVA-ZbOD-pt-SuHQ3dC_GdQ2dOdQr3AA4zM8yIHN72nRxCVDPQq58QRtH0BFX0HGEYe2rQX4aJLcH3RrwRxCv4aGaN74qTYQ7_bC46IPqnerMXY8PHC9mBJvK0_ExDfg8_117BjY9k52MQmgWSuqXkhiy2V8WkfHuzOPygizKiq5nOKlE23Zfa1iIIoD5p4u7e9zWVA37o8MaHi2yPaOzCArdsWrZqay0v5n1ydcaDNFizkzoN648twdIB5loYEpfPyLaUurJ7T1KKk-8ZgnCvgh2Bokx9OsM293T5erzhIAh7ZffMMiCptH4WdVYUaTrwZdaFBcSDZRAmPvAaLFuiAtzc39Auwx69OaaLNi1rvClOCSYZ_5UtbouZ5AnMLFwKj14gloGpteJ_WQSw-pUbMOr-ZIc2Qh17llq14sXeeqj5pRF0-q-XbjI03-wmXqZnpGuWtILFNnIE4wyGfa0CDfVVAoLPMfQmW0gRKvSiMb_-vAnWmWzBdQAG92JiOdgizsRJqRubTprL4.27Xd7dMuC4NO5W5yf8U-NQ HTTP/1.1" 400 118047
+INFO 2023-10-19 14:03:38,042 autoreload 13273 140415060082688 Watching for file changes with StatReloader
+INFO 2023-10-19 14:03:45,748 basehttp 13273 140414935889472 "POST /password/reset HTTP/1.1" 200 230518
+INFO 2023-10-19 14:03:55,429 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 210344
+INFO 2023-10-19 14:03:56,717 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 239208
+INFO 2023-10-19 14:03:58,029 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 226812
+INFO 2023-10-19 14:03:59,820 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 223004
+INFO 2023-10-19 14:04:01,020 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 215300
+INFO 2023-10-19 14:04:08,308 basehttp 13273 140414935889472 "POST /password/reset HTTP/1.1" 200 238943
+INFO 2023-10-19 14:04:20,726 basehttp 13273 140414935889472 "GET /password/reset HTTP/1.1" 200 245044
+INFO 2023-10-19 14:04:30,479 basehttp 13273 140414935889472 "POST /password/reset HTTP/1.1" 200 207083
+WARNING 2023-10-19 14:05:28,940 log 13273 140414935889472 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 156, in password_commit
+    data = verify_jws(
+NameError: name 'verify_jws' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:05:28,941 basehttp 13273 140414935889472 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.UJWQgaUARD6BTbJ8BrLYNFmvQ6KU4qYfyQ-Rjjvmn_-vKrdGhNpqsYlRDZCqLwh5S93uHmvYNgy1jSqIBolA5iTW9URE-NgQWt2p3s7nVRg6EIGaXmbGeqLmGMGpyQ9gTclai8ZxhOWRQ5EX0FJRbeoSlyaIdxpubnZN9F4W6J-nc6_LuV6845__X4HC5pTdrrMfXh2WNkKhmwxcRv3zcPNrlWkoCzly9KoGu0QZ6ZQpdoijcKLt329tJwJtuBe4LwUO_rbSe-KASSv_a4asIKhI87PoQa8OxxKYrDrF-6AieWqy8EqMJSIwW_OkhaG46QfsbkrGC6-jNanO4YUbJw.Y41ovNvKzXlxjHA-hd2gvg.W5uAOik5zgMSH4YUQB_VN-VkoOUWBs7AifqDfJwI11rJQWwq5O7goYZ7lTQTVpCzd_Ycl11oWPOXt3XBturuP0OCxKL39wDsdm3LLSD2KE3EAEwSmz2cZUeufqjww9ThqU9QCswlr7JUrLU5deUAl_RPBStcfNMcCa0mXG_XBJnIkVOAED20fr9K__wR5_tKFh6IVlfDLKTeQPzPWfUHfrbiHNqH0CUjVby_taljxRZ3XisfoshyncZdhVHOY2ZSLK5O3D4OzBab6EKxG5p2VBJjOQpWFpMR8TOJuV02Kt1Ies3uAY8DO7F3RnbYw02WYACPQUYQETkRq0zy2sRIfcpbMuiGD8rFXEgd6W88-IYGAhEqsCzVfjuZGAb9Scc8lDT2ssgvMYxrQnZYtUDqnIaB3Oky0ZZ-WRV6HLz7ObB5AgehV2ObeBkX8hUlcqoyIzWY0LHfazKnQvKJNdiWLhYq6JdRyxWkjUAiJcl-aJZFAcYUF511DmV9q6K1TlARm6Dzk8mhK5WnfUXFRE9mDg.cKTnl0ASyeIYEHaBsuBj8_u7r8oyYHqFU_qwdlkWf_Q HTTP/1.1" 400 105386
+INFO 2023-10-19 14:05:56,810 autoreload 13273 140415060082688 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-19 14:05:57,469 autoreload 13528 139826052214784 Watching for file changes with StatReloader
+WARNING 2023-10-19 14:06:06,694 log 13528 139825859524160 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 156, in password_commit
+    data = verify_jws(
+NameError: name 'verify_jws' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 164, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:06:06,695 basehttp 13528 139825859524160 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.UJWQgaUARD6BTbJ8BrLYNFmvQ6KU4qYfyQ-Rjjvmn_-vKrdGhNpqsYlRDZCqLwh5S93uHmvYNgy1jSqIBolA5iTW9URE-NgQWt2p3s7nVRg6EIGaXmbGeqLmGMGpyQ9gTclai8ZxhOWRQ5EX0FJRbeoSlyaIdxpubnZN9F4W6J-nc6_LuV6845__X4HC5pTdrrMfXh2WNkKhmwxcRv3zcPNrlWkoCzly9KoGu0QZ6ZQpdoijcKLt329tJwJtuBe4LwUO_rbSe-KASSv_a4asIKhI87PoQa8OxxKYrDrF-6AieWqy8EqMJSIwW_OkhaG46QfsbkrGC6-jNanO4YUbJw.Y41ovNvKzXlxjHA-hd2gvg.W5uAOik5zgMSH4YUQB_VN-VkoOUWBs7AifqDfJwI11rJQWwq5O7goYZ7lTQTVpCzd_Ycl11oWPOXt3XBturuP0OCxKL39wDsdm3LLSD2KE3EAEwSmz2cZUeufqjww9ThqU9QCswlr7JUrLU5deUAl_RPBStcfNMcCa0mXG_XBJnIkVOAED20fr9K__wR5_tKFh6IVlfDLKTeQPzPWfUHfrbiHNqH0CUjVby_taljxRZ3XisfoshyncZdhVHOY2ZSLK5O3D4OzBab6EKxG5p2VBJjOQpWFpMR8TOJuV02Kt1Ies3uAY8DO7F3RnbYw02WYACPQUYQETkRq0zy2sRIfcpbMuiGD8rFXEgd6W88-IYGAhEqsCzVfjuZGAb9Scc8lDT2ssgvMYxrQnZYtUDqnIaB3Oky0ZZ-WRV6HLz7ObB5AgehV2ObeBkX8hUlcqoyIzWY0LHfazKnQvKJNdiWLhYq6JdRyxWkjUAiJcl-aJZFAcYUF511DmV9q6K1TlARm6Dzk8mhK5WnfUXFRE9mDg.cKTnl0ASyeIYEHaBsuBj8_u7r8oyYHqFU_qwdlkWf_Q HTTP/1.1" 400 105386
+INFO 2023-10-19 14:06:30,648 basehttp 13528 139825859524160 "GET /password/reset HTTP/1.1" 200 235772
+INFO 2023-10-19 14:06:44,555 autoreload 13528 139826052214784 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 14:06:45,282 autoreload 13623 140655076401152 Watching for file changes with StatReloader
+WARNING 2023-10-19 14:06:52,414 log 13623 140654877341248 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 163, in password_commit
+    data = verify_jws(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 97, in verify_jws
+    raise Exception(
+Exception: kid error: NnJfREp3NVlid1k2cHNhYVcxOTkyOG9xTFNaNHkzWlYzdzZLcDRQYXZRWQ != WEJhcGd1YmdoVWNsOXFNblFFWWtGcjBjc2dWVnl3cDRvcm9tNTAwR2R3Yw
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 171, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:06:52,415 basehttp 13623 140654877341248 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.UJWQgaUARD6BTbJ8BrLYNFmvQ6KU4qYfyQ-Rjjvmn_-vKrdGhNpqsYlRDZCqLwh5S93uHmvYNgy1jSqIBolA5iTW9URE-NgQWt2p3s7nVRg6EIGaXmbGeqLmGMGpyQ9gTclai8ZxhOWRQ5EX0FJRbeoSlyaIdxpubnZN9F4W6J-nc6_LuV6845__X4HC5pTdrrMfXh2WNkKhmwxcRv3zcPNrlWkoCzly9KoGu0QZ6ZQpdoijcKLt329tJwJtuBe4LwUO_rbSe-KASSv_a4asIKhI87PoQa8OxxKYrDrF-6AieWqy8EqMJSIwW_OkhaG46QfsbkrGC6-jNanO4YUbJw.Y41ovNvKzXlxjHA-hd2gvg.W5uAOik5zgMSH4YUQB_VN-VkoOUWBs7AifqDfJwI11rJQWwq5O7goYZ7lTQTVpCzd_Ycl11oWPOXt3XBturuP0OCxKL39wDsdm3LLSD2KE3EAEwSmz2cZUeufqjww9ThqU9QCswlr7JUrLU5deUAl_RPBStcfNMcCa0mXG_XBJnIkVOAED20fr9K__wR5_tKFh6IVlfDLKTeQPzPWfUHfrbiHNqH0CUjVby_taljxRZ3XisfoshyncZdhVHOY2ZSLK5O3D4OzBab6EKxG5p2VBJjOQpWFpMR8TOJuV02Kt1Ies3uAY8DO7F3RnbYw02WYACPQUYQETkRq0zy2sRIfcpbMuiGD8rFXEgd6W88-IYGAhEqsCzVfjuZGAb9Scc8lDT2ssgvMYxrQnZYtUDqnIaB3Oky0ZZ-WRV6HLz7ObB5AgehV2ObeBkX8hUlcqoyIzWY0LHfazKnQvKJNdiWLhYq6JdRyxWkjUAiJcl-aJZFAcYUF511DmV9q6K1TlARm6Dzk8mhK5WnfUXFRE9mDg.cKTnl0ASyeIYEHaBsuBj8_u7r8oyYHqFU_qwdlkWf_Q HTTP/1.1" 400 110929
+WARNING 2023-10-19 14:07:10,185 log 13623 140654877341248 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 159, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 160, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 168, in decrypt
+    raise NoSuitableDecryptionKey(_alg)
+cryptojwt.jwe.exception.NoSuitableDecryptionKey: RSA-OAEP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 171, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:07:10,186 basehttp 13623 140654877341248 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..MsV3dPr7IeM-JeX1y5w43F9Hi8oieZTWSMtQ1cevT8xamuUG-f2R-3ivwD05Xoh6RJbYIJ-5r_sN_8N1tI0K32Q2s9CTRZFjLD2o6zgp0oFxMnrj7nnZ85oTFTrK4TDG3WbZtG6Ez7YekxIR3Bw291iIkuL3SzqhC61tSreqNEjkM1_-TcNSwsZTlDnGpI7FN-QoNZbF5H9-_dIpi1q8tQrDWhatSvuvv0j_1VYbBJNkD2wXU-eiV6UVfNKwC7fLBhZ0X_HLqA8GCAIa0D04GhPTMSKwz55g0VqnDfwVQA7SA8Bu4CMqwYiPDkokiRMS3pa5UMRdJNHSwOBN3paTC9Xjnc9mqKF3poTOVFSRz7PZTjjtZzFlBfvXI1FBd81ggHtWqfeFwo5VsibY0heHZHLRu3HSyHkzk9B4pfGWitDNHH4pDIcKxmQDOuV_yfB7WSAv3WgJt-DpPtUu_UtyouqdT1iZKyXjVAIUE_1qf1KV7rCuaMzfqzxJJtyNR5AT7hvoTb41SjjWZpkOZ8GQT-N2yuch4--yPYq56RpP0_s.tMzJwtQDUx17S9XKP_P-gQ HTTP/1.1" 400 112048
+WARNING 2023-10-19 14:07:21,252 log 13623 140654877341248 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 159, in password_commit
+    _jws = decrypt_jwe(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 160, in decrypt_jwe
+    msg = _decryptor.decrypt(jwe, [_dkey])
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/cryptojwt/jwe/jwe.py", line 168, in decrypt
+    raise NoSuitableDecryptionKey(_alg)
+cryptojwt.jwe.exception.NoSuitableDecryptionKey: RSA-OAEP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 171, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:07:21,253 basehttp 13623 140654877341248 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImtpZCI6Ik5uSmZSRXAzTlZsaWQxazJjSE5oWVZjeE9Ua3lPRzl4VEZOYU5Ia3pXbFl6ZHpaTGNEUlFZWFpSV1EiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..ZBcG3KANJO-DE6aGa-DR3-QlIbSuwASxWhflI_3Yu4u4rjiolyhvFwRIostfybLz68LHo_LunsMaUHKk-3OM_dOj9g7QsUpGAQTbHiF2D-jTqRmH_bOk6ORA8aTOlba4oxvUZ5Q_tBRUGT5kh1U8UT1vMcon-sK5fVZuqISqbBJ_X8lKadMhdK2sw0sXlNS4Q--9YwcGnkSJflyEcPYzJhd7VSKspARjouO9RNhihT0eMu7AmlV5ZHue0tg8Ud19nEYZ9lL8_1mtMb6S9oASbZJYiA1a_QhIExw4wBp4zw6CBctit2thRDuZw7koGhd8FH0utgqMdWEeLFlo0cSQSu6X8JxHT8ZsITAk2UfyWgSjSMcq4y0r-UIRL3406t54mo6_y6DVUZS5kGrRLXK9hSaALaIJfbyPTUfF3SSYZf1MtRjF6p918S2T8IxXXwNOVk_vTkEng9-Kyvv_qcL6wRxSJR0c_mOskfkhO_vUE2ewNvusGKF4A5p67y-aFqYJdcesqvr7MxevMGnDqzd_SA.RFpk5DgB6Mubnnfc54YFQw HTTP/1.1" 400 111796
+INFO 2023-10-19 14:07:47,502 basehttp 13623 140654877341248 "GET /password/reset HTTP/1.1" 200 221688
+INFO 2023-10-19 14:08:10,855 basehttp 13623 140654877341248 "POST /password/reset HTTP/1.1" 200 247315
+WARNING 2023-10-19 14:08:29,303 log 13623 140654877341248 : /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 163, in password_commit
+    data = verify_jws(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 97, in verify_jws
+    raise Exception(
+Exception: kid error: NnJfREp3NVlid1k2cHNhYVcxOTkyOG9xTFNaNHkzWlYzdzZLcDRQYXZRWQ != WEJhcGd1YmdoVWNsOXFNblFFWWtGcjBjc2dWVnl3cDRvcm9tNTAwR2R3Yw
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 171, in password_commit
+    raise BadRequest()
+django.core.exceptions.BadRequest
+WARNING 2023-10-19 14:08:29,304 basehttp 13623 140654877341248 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.Emmnu3Kpac2OazCNsuUQe-6EpKFWgs64mx6-g3LxTkZA4wPYu1jJpj_Fv1mj_hVe2mu9yIMDGYV1HlNUjXHBvwYkqVroHofASkpp-xOo9DhU4kEUY7NY-IjvjdWMENFD23RnU1A_XCwhgG9SPmY68nTbGGFTXnbVjOYfu-5udpiP5sB2ekbRs_6r_xFklHs0sMtj8-sZCo9uP6gdSB7ASXS7dyaG7p6wiQJj2HnVSP-Iw5Q0HEEiPL4anPtJPZ6cJ6wJlT_yTYdevqtnUAIp26MlkoVVJvbUC7WXENSoStdVX9JCFMsZCrArhXXCzkbM44o3sISSEGoGmQ85Qm8QBQ.p68dEgD_l-osFhjQ_yv0rw.I7l-OSnHGXdBDWICkoClI3vljbVqFL7I9lGNNmgzkpTVkHzT8hhTqwfvJ6L1VeZWnNkFY77CeglO-G3iHuS9wLSUHV8EuolMJI3K9HxEUncL5EcF-wBGYWiaTojsdPElN00_M9dPVepwwxgTfeodXS4hI4Lx81sN-kerXxRrer-J10h51XlR3OO6DLpQj5tmhwBKbncSMj4uhPQJrkCbCSbfmi2xUIFQzb6Jbgt90gmsttfsr9PbQSCt1krRU67Ibd8LxougKaHRfM8EFp2QauGcsU6ABu7rBaKa1fLRh0tJy1qRvBOObKOQOOBBiPmqEu1xahgqfZ4wLMmTYWVfnq9Mco2tR5CcCnoug0espAaolv3WWhTbbmxoYJNdExksS1trTjcXAmLPVa7pVzjrcRLKMMe5knX-5-ImrR5WQ97z6U8V6hwn9zIs2FRmDplVKbGpLLhvWI24g88ceAp1JDBDng79Dh2Wafbext_m9RGayXOZXmxhJlVmLKjgm83vwze3PSiiN7miunUA5kQIvg.RgAY5VWIQTL4VrDrTmXj5yvR-vVVCnMxWDss8HPYphM HTTP/1.1" 400 111054
+INFO 2023-10-19 14:08:57,682 autoreload 13623 140655076401152 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 14:08:58,343 autoreload 13852 139837411684352 Watching for file changes with StatReloader
+INFO 2023-10-19 14:09:05,289 basehttp 13852 139837218747968 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.Emmnu3Kpac2OazCNsuUQe-6EpKFWgs64mx6-g3LxTkZA4wPYu1jJpj_Fv1mj_hVe2mu9yIMDGYV1HlNUjXHBvwYkqVroHofASkpp-xOo9DhU4kEUY7NY-IjvjdWMENFD23RnU1A_XCwhgG9SPmY68nTbGGFTXnbVjOYfu-5udpiP5sB2ekbRs_6r_xFklHs0sMtj8-sZCo9uP6gdSB7ASXS7dyaG7p6wiQJj2HnVSP-Iw5Q0HEEiPL4anPtJPZ6cJ6wJlT_yTYdevqtnUAIp26MlkoVVJvbUC7WXENSoStdVX9JCFMsZCrArhXXCzkbM44o3sISSEGoGmQ85Qm8QBQ.p68dEgD_l-osFhjQ_yv0rw.I7l-OSnHGXdBDWICkoClI3vljbVqFL7I9lGNNmgzkpTVkHzT8hhTqwfvJ6L1VeZWnNkFY77CeglO-G3iHuS9wLSUHV8EuolMJI3K9HxEUncL5EcF-wBGYWiaTojsdPElN00_M9dPVepwwxgTfeodXS4hI4Lx81sN-kerXxRrer-J10h51XlR3OO6DLpQj5tmhwBKbncSMj4uhPQJrkCbCSbfmi2xUIFQzb6Jbgt90gmsttfsr9PbQSCt1krRU67Ibd8LxougKaHRfM8EFp2QauGcsU6ABu7rBaKa1fLRh0tJy1qRvBOObKOQOOBBiPmqEu1xahgqfZ4wLMmTYWVfnq9Mco2tR5CcCnoug0espAaolv3WWhTbbmxoYJNdExksS1trTjcXAmLPVa7pVzjrcRLKMMe5knX-5-ImrR5WQ97z6U8V6hwn9zIs2FRmDplVKbGpLLhvWI24g88ceAp1JDBDng79Dh2Wafbext_m9RGayXOZXmxhJlVmLKjgm83vwze3PSiiN7miunUA5kQIvg.RgAY5VWIQTL4VrDrTmXj5yvR-vVVCnMxWDss8HPYphM HTTP/1.1" 200 3
+INFO 2023-10-19 14:09:13,839 autoreload 13852 139837411684352 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 14:09:14,517 autoreload 13886 139878933553152 Watching for file changes with StatReloader
+INFO 2023-10-19 14:10:11,043 basehttp 13886 139878741308992 "GET /password/reset HTTP/1.1" 200 240812
+INFO 2023-10-19 14:12:11,032 basehttp 13886 139878741308992 "GET /password/reset HTTP/1.1" 200 224388
+INFO 2023-10-19 14:12:22,489 autoreload 13886 139878933553152 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 14:12:23,162 autoreload 14273 139931186044928 Watching for file changes with StatReloader
+INFO 2023-10-19 14:12:29,235 basehttp 14273 139931062105664 "GET /password/reset HTTP/1.1" 200 214596
+INFO 2023-10-19 14:12:44,301 basehttp 14273 139931062105664 "GET /password/reset HTTP/1.1" 200 238812
+INFO 2023-10-19 14:12:51,448 basehttp 14273 139931062105664 "POST /password/reset HTTP/1.1" 200 227159
+ERROR 2023-10-19 14:13:07,895 log 14273 139931062105664 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 179, in password_commit
+    return render(request, "password_changed.html", d)
+NameError: name 'd' is not defined
+ERROR 2023-10-19 14:13:07,895 basehttp 14273 139931062105664 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.KMiAWMnEBXAdI6UvzFXiM-ztbG9uou1dwrIvbNFtzuLsnuj4jvYGIRjlGBC-QJe8hkZtR25kopbZT1_Z7NKHsnrpatfME9PfW9GuD63nBhp4WFPlpoinXkl5YbLhCvKW6DuuSsgcomZiO4Oztzx0S-G6EryXo6a9bnq8Gc5JxGC-wYKjzSfttKPm6gdQh_Zdi8jlKalo79bGkWGHdz-qaGl-I0bsALyUrzyyh5DH65iaIc0yfaxqQK0coVPJm5rn8-eQYyeOJsepfA9ngw-fQRqxWQ0HIrrl4mJdH6TeZDHScORQe8ohqffciqZ2isXMrH5GCIsQVJhA01CZEoignQ.VZ2s16-sx86v26bLOPtLmQ.ixJlc5ajGjY-Iz0HEmQS2mCeN4mlc7coK6P108zXWKoX_dh52lNKlFwPztOr-HO8_jX0NncKlvmLo4kpYtPDFl64MLUcE-SdrEZXvbKrnP59gDKCXgr41M_74yPg4_sIzbx45dAsEBdJ-9aZ-7RkIajfeRO11XUcwEGKODPsAHwjgemPENhFQRA9l14NgGgL-mKXvY9NQvxqKk99ZLy_GKQQMkiSqJi3x_i-fXHH3LnVMLlrGsw3YU0Ib1l07Yb2-Qq_DTsIWY9LaX2USj_0HQtBPaV5h1s5ePnSic5ZSdShzVPNBqFhTlrFsGCWSfNZQMOpNELAcsiDJ_htpEmfdW2dtHyZYKSiRc2urXqHbzexHnalM6RhYvbF0sHKGJZvFpUqOwyubfz0hhxWcLDULHfHcfAQpMA9obuBGMiZmGMCzLC4_0V0wxOcIhzw5igjOGDcU7Ypv-ZNyaVjpj26wVWBtcLqOPRmwGJsoceGZnJrYHonkUoyTwzlXB7Zd5ah1MHQBMzk0A7JVrLcZA1_Uw.xCaUFloh8C60nTtiZcbAB1_rSseMPSTfb_mpHztp6b4 HTTP/1.1" 500 98420
+INFO 2023-10-19 14:13:19,415 autoreload 14273 139931186044928 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-19 14:13:20,104 autoreload 14384 139918871629824 Watching for file changes with StatReloader
+INFO 2023-10-19 14:13:21,413 basehttp 14384 139918681568832 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.KMiAWMnEBXAdI6UvzFXiM-ztbG9uou1dwrIvbNFtzuLsnuj4jvYGIRjlGBC-QJe8hkZtR25kopbZT1_Z7NKHsnrpatfME9PfW9GuD63nBhp4WFPlpoinXkl5YbLhCvKW6DuuSsgcomZiO4Oztzx0S-G6EryXo6a9bnq8Gc5JxGC-wYKjzSfttKPm6gdQh_Zdi8jlKalo79bGkWGHdz-qaGl-I0bsALyUrzyyh5DH65iaIc0yfaxqQK0coVPJm5rn8-eQYyeOJsepfA9ngw-fQRqxWQ0HIrrl4mJdH6TeZDHScORQe8ohqffciqZ2isXMrH5GCIsQVJhA01CZEoignQ.VZ2s16-sx86v26bLOPtLmQ.ixJlc5ajGjY-Iz0HEmQS2mCeN4mlc7coK6P108zXWKoX_dh52lNKlFwPztOr-HO8_jX0NncKlvmLo4kpYtPDFl64MLUcE-SdrEZXvbKrnP59gDKCXgr41M_74yPg4_sIzbx45dAsEBdJ-9aZ-7RkIajfeRO11XUcwEGKODPsAHwjgemPENhFQRA9l14NgGgL-mKXvY9NQvxqKk99ZLy_GKQQMkiSqJi3x_i-fXHH3LnVMLlrGsw3YU0Ib1l07Yb2-Qq_DTsIWY9LaX2USj_0HQtBPaV5h1s5ePnSic5ZSdShzVPNBqFhTlrFsGCWSfNZQMOpNELAcsiDJ_htpEmfdW2dtHyZYKSiRc2urXqHbzexHnalM6RhYvbF0sHKGJZvFpUqOwyubfz0hhxWcLDULHfHcfAQpMA9obuBGMiZmGMCzLC4_0V0wxOcIhzw5igjOGDcU7Ypv-ZNyaVjpj26wVWBtcLqOPRmwGJsoceGZnJrYHonkUoyTwzlXB7Zd5ah1MHQBMzk0A7JVrLcZA1_Uw.xCaUFloh8C60nTtiZcbAB1_rSseMPSTfb_mpHztp6b4 HTTP/1.1" 200 4240
+INFO 2023-10-19 14:13:31,350 basehttp 14384 139918681568832 "GET /admin_access/ HTTP/1.1" 302 0
+INFO 2023-10-19 14:13:31,366 basehttp 14384 139918681568832 "GET /admin_access/login/?next=/admin_access/ HTTP/1.1" 200 2251
+INFO 2023-10-19 14:13:37,967 basehttp 14384 139918681568832 "POST /admin_access/login/?next=/admin_access/ HTTP/1.1" 302 0
+INFO 2023-10-19 14:13:37,988 basehttp 14384 139918681568832 "GET /admin_access/ HTTP/1.1" 200 10215
+INFO 2023-10-19 14:13:38,102 basehttp 14384 139918666880576 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2023-10-19 14:13:38,103 basehttp 14384 139918681568832 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2023-10-19 14:13:41,464 basehttp 14384 139918681568832 "GET /admin_access/logout/ HTTP/1.1" 200 1586
+INFO 2023-10-20 16:55:14,589 autoreload 4099 139631373774848 Watching for file changes with StatReloader
+INFO 2023-10-20 16:55:26,318 basehttp 4099 139631181952576 "GET /password/reset HTTP/1.1" 200 210180
+INFO 2023-10-20 16:55:50,965 basehttp 4099 139631181952576 "GET /password/reset HTTP/1.1" 200 208816
+INFO 2023-10-20 16:56:10,010 basehttp 4099 139631181952576 "GET /password/reset HTTP/1.1" 200 226840
+INFO 2023-10-20 16:56:33,770 basehttp 4099 139631181952576 "POST /password/reset HTTP/1.1" 200 212195
+INFO 2023-10-20 16:57:29,883 basehttp 4099 139631181952576 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.Pn96UpN8fVr4gtVeWX09h9OOS_NdxXN5qwX7iO9PbNqEgRUm7F_FRfPv8855fCTQwOXjbf_mB2NaW46BKv8ADV1XXqk-fX9jo-guEtqFF2ndvX9kVc-pE1b1a6S0rCwvEODQpQxzw3k9DPLB1PfHV7DsxmumWjcMqUXuUeVeyudsKSaHAQ7Nxjk8YLlbH1fHyRbLn0e3oeco_-ybxEfKtcsM_3WgRLVWbxM96rLBYBqwcdD-QbjXKKF7BIJ3ANctX2rlAHoFA9FxWpKjLyGiPtNam3K6YdmAc5sXWO4DsoQPm4nm_Xn1CoTIzp_MIOwHcDD0tds84itBOYNBYo9hgQ.EoXfvZK7be5utTt1nEBXiw.2bUiWnuOD_1lpEvFcEQU1GRWgHNGMmbYJhoG_s1ONDJgh-Y2l3xhJCGpwhyQCjU3J3vDkI7GMvKO2g3b9BwZEJclDcqL9klo5V0QNTn2Vzgjf6KjwdC3wVT40FBnobtevex5-qGXyrjUqsMXW9xngEXtnToOm9dhPM3gf8FgUoGZKnkF-swMKZEJbPIbU89Vv6333_5QxFtIA_IMkStBNGpsq_sFoi-yW-bTqRvymZ3hDm_Z1408rZfJqx5OHUZTDk7hdQdAnrCaJPAylWZC8LS5w7GkThMd68RJL87F2AnK7NzrrQFvIR83hOLlNBKxhbyGXzCEeekDmxiVr7SmjdZwUx33PsYRxg_7m1-pMwH2b9s7HKmByzn27QHNM_nQ6kh_xXmR-AcpW_T8wtneg6PVmoU-hK09IW4PPNb7iPeSIwfTKHLFlhMkKJZ3jzWHMPp9jBR_uZhEPDf-6SELFiHKJfIi5HhIigvTBL03zqc8EdjdRNtrDeArqL5XalDtjSUH4eIIupQiebhugyJiUg.QTQ6_2rIE5lnbM1D0nWlNMMYSDHLjBa7btBdk83-YMk HTTP/1.1" 200 4240
+INFO 2023-10-21 14:34:30,609 autoreload 21977 140682579124224 Watching for file changes with StatReloader
+INFO 2023-10-21 14:35:40,029 autoreload 21977 140682579124224 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/urls.py changed, reloading.
+INFO 2023-10-21 14:35:40,782 autoreload 22047 140283861299200 Watching for file changes with StatReloader
+INFO 2023-10-21 14:35:56,251 autoreload 22047 140283861299200 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/django_idp/urls.py changed, reloading.
+INFO 2023-10-21 14:35:56,967 autoreload 22053 139794050060288 Watching for file changes with StatReloader
+INFO 2023-10-21 14:36:06,348 autoreload 22053 139794050060288 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:36:07,064 autoreload 22060 140047201329152 Watching for file changes with StatReloader
+INFO 2023-10-21 14:36:12,392 autoreload 22060 140047201329152 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:36:13,106 autoreload 22066 139784762310656 Watching for file changes with StatReloader
+INFO 2023-10-21 14:38:21,327 autoreload 22066 139784762310656 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:38:22,029 autoreload 22167 139993026039808 Watching for file changes with StatReloader
+INFO 2023-10-21 14:38:29,383 autoreload 22167 139993026039808 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:38:30,103 autoreload 22174 140663310270464 Watching for file changes with StatReloader
+INFO 2023-10-21 14:38:47,623 autoreload 22174 140663310270464 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:38:48,337 autoreload 22214 139956541530112 Watching for file changes with StatReloader
+INFO 2023-10-21 14:38:58,725 autoreload 22214 139956541530112 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:38:59,462 autoreload 22220 139641193795584 Watching for file changes with StatReloader
+INFO 2023-10-21 14:39:12,883 autoreload 22220 139641193795584 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:39:13,631 autoreload 22227 140571023425536 Watching for file changes with StatReloader
+INFO 2023-10-21 14:39:25,022 autoreload 22227 140571023425536 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 14:39:25,761 autoreload 22234 140137655844864 Watching for file changes with StatReloader
+INFO 2023-10-21 14:58:39,759 autoreload 22234 140137655844864 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:58:40,414 autoreload 23092 140422327123968 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:17,140 autoreload 23092 140422327123968 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 14:59:17,800 autoreload 23121 139857294004224 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:23,088 autoreload 23121 139857294004224 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 14:59:23,750 autoreload 23127 140058520936448 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:32,090 autoreload 23127 140058520936448 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:59:32,747 autoreload 23139 140087170973696 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:51,218 autoreload 23139 140087170973696 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:59:51,885 autoreload 23177 140096074772480 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:54,125 autoreload 23177 140096074772480 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:59:54,805 autoreload 23184 140233494249472 Watching for file changes with StatReloader
+INFO 2023-10-21 14:59:56,036 autoreload 23184 140233494249472 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 14:59:56,698 autoreload 23191 140522523983872 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:12,135 autoreload 23191 140522523983872 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:12,787 autoreload 23198 140673265311744 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:22,136 autoreload 23198 140673265311744 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:22,791 autoreload 23206 140658633998336 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:25,031 autoreload 23206 140658633998336 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:25,687 autoreload 23213 140653187694592 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:35,023 autoreload 23213 140653187694592 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:35,671 autoreload 23219 139811473092608 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:38,936 autoreload 23219 139811473092608 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:39,602 autoreload 23232 140025499881472 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:43,897 autoreload 23232 140025499881472 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:44,558 autoreload 23262 139633761910784 Watching for file changes with StatReloader
+INFO 2023-10-21 15:00:57,967 autoreload 23262 139633761910784 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:00:58,642 autoreload 23269 140084160716800 Watching for file changes with StatReloader
+INFO 2023-10-21 15:01:06,965 autoreload 23269 140084160716800 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:01:07,626 autoreload 23275 140254506074112 Watching for file changes with StatReloader
+INFO 2023-10-21 15:01:36,259 autoreload 23275 140254506074112 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:01:36,920 autoreload 23286 140282064986112 Watching for file changes with StatReloader
+INFO 2023-10-21 15:01:58,443 autoreload 23286 140282064986112 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:01:59,094 autoreload 23325 140718885203968 Watching for file changes with StatReloader
+INFO 2023-10-21 15:03:19,456 autoreload 23325 140718885203968 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:03:20,113 autoreload 23382 140058198405120 Watching for file changes with StatReloader
+INFO 2023-10-21 15:04:13,077 autoreload 23382 140058198405120 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:04:13,732 autoreload 23425 140429899870208 Watching for file changes with StatReloader
+INFO 2023-10-21 15:04:27,051 autoreload 23425 140429899870208 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:04:27,716 autoreload 23435 140184043130880 Watching for file changes with StatReloader
+INFO 2023-10-21 15:04:37,975 autoreload 23435 140184043130880 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:04:38,621 autoreload 23442 139915609849856 Watching for file changes with StatReloader
+INFO 2023-10-21 15:04:47,880 autoreload 23442 139915609849856 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:04:48,527 autoreload 23479 139649493712896 Watching for file changes with StatReloader
+INFO 2023-10-21 15:05:01,839 autoreload 23479 139649493712896 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:05:02,495 autoreload 23486 140054432202752 Watching for file changes with StatReloader
+INFO 2023-10-21 15:05:07,700 autoreload 23486 140054432202752 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:05:08,371 autoreload 23493 140561943707648 Watching for file changes with StatReloader
+INFO 2023-10-21 15:06:34,660 autoreload 23493 140561943707648 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:06:35,392 autoreload 23696 140256776826880 Watching for file changes with StatReloader
+INFO 2023-10-21 15:06:38,589 autoreload 23696 140256776826880 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:06:39,320 autoreload 23702 140667603230720 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:06:44,620 log 23702 140667410970176 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 149, in password_reset
+    return render(request, "password_reset.html", d)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 127, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 124, in get_parent
+    return self.find_template(parent, context)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 103, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/template/base.py", line 531, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 3: 'static'. Did you forget to register or load this tag?
+ERROR 2023-10-21 15:06:44,621 basehttp 23702 140667410970176 "GET /password/reset HTTP/1.1" 500 191775
+WARNING 2023-10-21 15:06:44,691 log 23702 140667410970176 Not Found: /favicon.ico
+INFO 2023-10-21 15:07:06,199 basehttp 23702 140667410970176 "GET /password/reset HTTP/1.1" 200 203040
+INFO 2023-10-21 15:07:36,056 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 244457
+INFO 2023-10-21 15:08:11,088 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 230110
+INFO 2023-10-21 15:08:33,255 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 205943
+INFO 2023-10-21 15:08:34,154 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 217991
+INFO 2023-10-21 15:08:34,626 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 204859
+INFO 2023-10-21 15:09:25,786 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 238332
+INFO 2023-10-21 15:10:18,662 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 223105
+INFO 2023-10-21 15:10:39,431 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 188781
+INFO 2023-10-21 15:11:00,786 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 235169
+INFO 2023-10-21 15:11:02,420 basehttp 23702 140667400480320 "GET /password/reset HTTP/1.1" 200 234445
+INFO 2023-10-21 15:11:10,131 basehttp 23702 140667400480320 "POST /password/reset HTTP/1.1" 200 2948
+INFO 2023-10-21 15:12:07,095 autoreload 23702 140667603230720 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:12:07,827 autoreload 24030 139823091810304 Watching for file changes with StatReloader
+INFO 2023-10-21 15:12:14,531 basehttp 24030 139822967551552 "POST /password/reset HTTP/1.1" 200 2934
+INFO 2023-10-21 15:12:51,243 basehttp 24030 139822967551552 "POST /password/reset HTTP/1.1" 200 2826
+INFO 2023-10-21 15:13:15,013 basehttp 24030 139822967551552 "POST /password/reset HTTP/1.1" 200 234480
+INFO 2023-10-21 15:13:31,823 basehttp 24030 139822967551552 "GET /password/reset HTTP/1.1" 200 233234
+INFO 2023-10-21 15:13:33,433 basehttp 24030 139822967551552 "GET /password/reset HTTP/1.1" 200 227198
+INFO 2023-10-21 15:13:34,428 basehttp 24030 139822967551552 "GET /password/reset HTTP/1.1" 200 251630
+INFO 2023-10-21 15:13:42,241 basehttp 24030 139822967551552 "POST /password/reset HTTP/1.1" 200 2458
+INFO 2023-10-21 15:14:15,153 autoreload 24030 139823091810304 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:14:15,888 autoreload 24150 140282586763264 Watching for file changes with StatReloader
+INFO 2023-10-21 15:14:18,118 basehttp 24150 140282462991936 "POST /password/reset HTTP/1.1" 200 2458
+ERROR 2023-10-21 15:14:25,406 log 24150 140282462991936 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 175, in password_commit
+    if not secparams_check(data):
+NameError: name 'secparams_check' is not defined
+ERROR 2023-10-21 15:14:25,407 basehttp 24150 140282462991936 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.L5ALoAs3rES2dXkZoEZvqvy3RUyL_3FfFVufzxut2fcV8X72otk54W3mdKfY2HlQ_nyIniU7oXvNbtyhbzfYa7GPmn4RX1ldXqPISUZJQF6_Hf6-yVMZ3R03y6BzDq79_PC5YeNFvrsgGTAMGNZ0OH87oWtb0GK5JNX2xUzLGh-GWl4tKu1iiZk7ZgaqUgxgnRG_yFmk_j3N3FwVHPKabbySqfUcm8GpHF9kdZ_XeaS1PS1kor6I4EPXq2rriilxLg8Ns9SUnd8XWDX6zZUbXfNKOq3dSqD4BtWfa9xFhJ5DJTU1vRRL9a0oBv85JNUAGMNAHJ3UZxm7wmcFw5rSFA.1UFsxsA9aAIpSPOzo0xi4Q.FgEUOdBfM8sFirAO5FtRlHbZ9KKxu3L5QyjaXRX5BEh11imnNlc-5RJiXKC8XaW_bZjctXmX02R8Alh9QtGoMxqkwKxD6BsJlI7-HIG5HPRx7_13hZvdzc-PEeSgWP1I0y4Y4XMnYycD7eMXjEvnvXC8-ZOP5xmF-zcQ0CDAW7UbqYh2hZH8XGMBeHijRF2uXhbZcTjdfu25WwdDpMbroOuDVQHh3t5PwzOqn2tiFHAQIKDQUK44mFji247baMSkXJN-yGXylOP2qLpFsfmu-gvfNhL606IueQhgEQ-5gXxnBRYFZp_oupSsTSj-HC6PXPuWLy_WRlENSDroq-C7xiJn-Sr69y1ZLLL5hTRESyCikoMCdmDt4aKJBAO6gHXSC050dwNLkyVQ_CuDIPbQzVkdtcXbgAwiKVLRu1VzYb_q2adRHWEqUYjH1SSJAbZ_3Oqv6MqVnDCXC4mYKrASmYlK14QP_NB7Hs79TfvOT2MnZy4T60fKNEqbbP_QcTES9S5b_iSetDv5r5vimvjmmw.CiYZw0_alaPIoyB1SqvhTkhcZJyssDxOxCvRZyZXm5U HTTP/1.1" 500 98690
+WARNING 2023-10-21 15:14:25,477 log 24150 140282462991936 Not Found: /favicon.ico
+INFO 2023-10-21 15:14:42,610 autoreload 24150 140282586763264 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:14:43,330 autoreload 24297 139958217314304 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:14:45,355 log 24297 139958018897472 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 176, in password_commit
+    if not secparams_check(data):
+TypeError: secparams_check() missing 1 required positional argument: 'aud'
+ERROR 2023-10-21 15:14:45,356 basehttp 24297 139958018897472 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.L5ALoAs3rES2dXkZoEZvqvy3RUyL_3FfFVufzxut2fcV8X72otk54W3mdKfY2HlQ_nyIniU7oXvNbtyhbzfYa7GPmn4RX1ldXqPISUZJQF6_Hf6-yVMZ3R03y6BzDq79_PC5YeNFvrsgGTAMGNZ0OH87oWtb0GK5JNX2xUzLGh-GWl4tKu1iiZk7ZgaqUgxgnRG_yFmk_j3N3FwVHPKabbySqfUcm8GpHF9kdZ_XeaS1PS1kor6I4EPXq2rriilxLg8Ns9SUnd8XWDX6zZUbXfNKOq3dSqD4BtWfa9xFhJ5DJTU1vRRL9a0oBv85JNUAGMNAHJ3UZxm7wmcFw5rSFA.1UFsxsA9aAIpSPOzo0xi4Q.FgEUOdBfM8sFirAO5FtRlHbZ9KKxu3L5QyjaXRX5BEh11imnNlc-5RJiXKC8XaW_bZjctXmX02R8Alh9QtGoMxqkwKxD6BsJlI7-HIG5HPRx7_13hZvdzc-PEeSgWP1I0y4Y4XMnYycD7eMXjEvnvXC8-ZOP5xmF-zcQ0CDAW7UbqYh2hZH8XGMBeHijRF2uXhbZcTjdfu25WwdDpMbroOuDVQHh3t5PwzOqn2tiFHAQIKDQUK44mFji247baMSkXJN-yGXylOP2qLpFsfmu-gvfNhL606IueQhgEQ-5gXxnBRYFZp_oupSsTSj-HC6PXPuWLy_WRlENSDroq-C7xiJn-Sr69y1ZLLL5hTRESyCikoMCdmDt4aKJBAO6gHXSC050dwNLkyVQ_CuDIPbQzVkdtcXbgAwiKVLRu1VzYb_q2adRHWEqUYjH1SSJAbZ_3Oqv6MqVnDCXC4mYKrASmYlK14QP_NB7Hs79TfvOT2MnZy4T60fKNEqbbP_QcTES9S5b_iSetDv5r5vimvjmmw.CiYZw0_alaPIoyB1SqvhTkhcZJyssDxOxCvRZyZXm5U HTTP/1.1" 500 98669
+INFO 2023-10-21 15:15:06,997 autoreload 24297 139958217314304 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:15:07,734 autoreload 24337 140481861922816 Watching for file changes with StatReloader
+INFO 2023-10-21 15:21:05,937 autoreload 24337 140481861922816 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:21:06,657 autoreload 24641 139897088180224 Watching for file changes with StatReloader
+INFO 2023-10-21 15:21:07,920 autoreload 24641 139897088180224 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:21:08,625 autoreload 24649 139810564943872 Watching for file changes with StatReloader
+INFO 2023-10-21 15:21:10,904 autoreload 24649 139810564943872 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:21:11,612 autoreload 24655 139700608983040 Watching for file changes with StatReloader
+INFO 2023-10-21 15:21:29,142 autoreload 24655 139700608983040 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:21:29,862 autoreload 24662 140404369055744 Watching for file changes with StatReloader
+INFO 2023-10-21 15:21:32,055 autoreload 24662 140404369055744 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:21:32,755 autoreload 24668 139850129162240 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:21:42,877 log 24668 139850005083712 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 176, in password_commit
+    raise ValidationError(
+django.core.exceptions.ValidationError: ["{'user_pk': 1, 'new_pass': 'CiaoMamma4!', 'iat': 1697901258, 'exp': 1697903238, 'iss': 'http://localhost:9000', 'sub': 'ciao@email.com', 'aud': '/password/commit'} doesn't respect the security pattern"]
+ERROR 2023-10-21 15:21:42,877 basehttp 24668 139850005083712 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.L5ALoAs3rES2dXkZoEZvqvy3RUyL_3FfFVufzxut2fcV8X72otk54W3mdKfY2HlQ_nyIniU7oXvNbtyhbzfYa7GPmn4RX1ldXqPISUZJQF6_Hf6-yVMZ3R03y6BzDq79_PC5YeNFvrsgGTAMGNZ0OH87oWtb0GK5JNX2xUzLGh-GWl4tKu1iiZk7ZgaqUgxgnRG_yFmk_j3N3FwVHPKabbySqfUcm8GpHF9kdZ_XeaS1PS1kor6I4EPXq2rriilxLg8Ns9SUnd8XWDX6zZUbXfNKOq3dSqD4BtWfa9xFhJ5DJTU1vRRL9a0oBv85JNUAGMNAHJ3UZxm7wmcFw5rSFA.1UFsxsA9aAIpSPOzo0xi4Q.FgEUOdBfM8sFirAO5FtRlHbZ9KKxu3L5QyjaXRX5BEh11imnNlc-5RJiXKC8XaW_bZjctXmX02R8Alh9QtGoMxqkwKxD6BsJlI7-HIG5HPRx7_13hZvdzc-PEeSgWP1I0y4Y4XMnYycD7eMXjEvnvXC8-ZOP5xmF-zcQ0CDAW7UbqYh2hZH8XGMBeHijRF2uXhbZcTjdfu25WwdDpMbroOuDVQHh3t5PwzOqn2tiFHAQIKDQUK44mFji247baMSkXJN-yGXylOP2qLpFsfmu-gvfNhL606IueQhgEQ-5gXxnBRYFZp_oupSsTSj-HC6PXPuWLy_WRlENSDroq-C7xiJn-Sr69y1ZLLL5hTRESyCikoMCdmDt4aKJBAO6gHXSC050dwNLkyVQ_CuDIPbQzVkdtcXbgAwiKVLRu1VzYb_q2adRHWEqUYjH1SSJAbZ_3Oqv6MqVnDCXC4mYKrASmYlK14QP_NB7Hs79TfvOT2MnZy4T60fKNEqbbP_QcTES9S5b_iSetDv5r5vimvjmmw.CiYZw0_alaPIoyB1SqvhTkhcZJyssDxOxCvRZyZXm5U HTTP/1.1" 500 99870
+WARNING 2023-10-21 15:21:42,931 log 24668 139850005083712 Not Found: /favicon.ico
+INFO 2023-10-21 15:23:20,731 autoreload 24668 139850129162240 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:23:21,438 autoreload 24755 140517179846656 Watching for file changes with StatReloader
+INFO 2023-10-21 15:23:57,251 autoreload 24755 140517179846656 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:23:57,975 autoreload 24790 140312262860800 Watching for file changes with StatReloader
+INFO 2023-10-21 15:25:28,768 autoreload 24790 140312262860800 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:25:29,547 autoreload 24851 139797173882880 Watching for file changes with StatReloader
+INFO 2023-10-21 15:25:49,151 autoreload 24851 139797173882880 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:25:49,896 autoreload 24863 140137640673280 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:26:26,644 log 24863 140137448076864 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 176, in password_commit
+    raise ValidationError(
+django.core.exceptions.ValidationError: ["{'user_pk': 1, 'new_pass': 'CiaoMamma4!', 'iat': 1697901258, 'exp': 1697903238, 'iss': 'http://localhost:9000', 'sub': 'ciao@email.com', 'aud': '/password/commit'} doesn't respect the security pattern"]
+ERROR 2023-10-21 15:26:26,645 basehttp 24863 140137448076864 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.L5ALoAs3rES2dXkZoEZvqvy3RUyL_3FfFVufzxut2fcV8X72otk54W3mdKfY2HlQ_nyIniU7oXvNbtyhbzfYa7GPmn4RX1ldXqPISUZJQF6_Hf6-yVMZ3R03y6BzDq79_PC5YeNFvrsgGTAMGNZ0OH87oWtb0GK5JNX2xUzLGh-GWl4tKu1iiZk7ZgaqUgxgnRG_yFmk_j3N3FwVHPKabbySqfUcm8GpHF9kdZ_XeaS1PS1kor6I4EPXq2rriilxLg8Ns9SUnd8XWDX6zZUbXfNKOq3dSqD4BtWfa9xFhJ5DJTU1vRRL9a0oBv85JNUAGMNAHJ3UZxm7wmcFw5rSFA.1UFsxsA9aAIpSPOzo0xi4Q.FgEUOdBfM8sFirAO5FtRlHbZ9KKxu3L5QyjaXRX5BEh11imnNlc-5RJiXKC8XaW_bZjctXmX02R8Alh9QtGoMxqkwKxD6BsJlI7-HIG5HPRx7_13hZvdzc-PEeSgWP1I0y4Y4XMnYycD7eMXjEvnvXC8-ZOP5xmF-zcQ0CDAW7UbqYh2hZH8XGMBeHijRF2uXhbZcTjdfu25WwdDpMbroOuDVQHh3t5PwzOqn2tiFHAQIKDQUK44mFji247baMSkXJN-yGXylOP2qLpFsfmu-gvfNhL606IueQhgEQ-5gXxnBRYFZp_oupSsTSj-HC6PXPuWLy_WRlENSDroq-C7xiJn-Sr69y1ZLLL5hTRESyCikoMCdmDt4aKJBAO6gHXSC050dwNLkyVQ_CuDIPbQzVkdtcXbgAwiKVLRu1VzYb_q2adRHWEqUYjH1SSJAbZ_3Oqv6MqVnDCXC4mYKrASmYlK14QP_NB7Hs79TfvOT2MnZy4T60fKNEqbbP_QcTES9S5b_iSetDv5r5vimvjmmw.CiYZw0_alaPIoyB1SqvhTkhcZJyssDxOxCvRZyZXm5U HTTP/1.1" 500 99745
+WARNING 2023-10-21 15:26:26,720 log 24863 140137448076864 Not Found: /favicon.ico
+INFO 2023-10-21 15:27:50,135 autoreload 24863 140137640673280 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:27:50,836 autoreload 24949 140576176885760 Watching for file changes with StatReloader
+INFO 2023-10-21 15:28:10,270 autoreload 24949 140576176885760 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:28:11,008 autoreload 25000 140450313129984 Watching for file changes with StatReloader
+INFO 2023-10-21 15:28:14,249 basehttp 25000 140450121905728 "GET /password/reset HTTP/1.1" 200 219022
+ERROR 2023-10-21 15:28:33,091 log 25000 140450121905728 Internal Server Error: /password/reset
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 117, in password_reset
+    aud = ''.join(
+TypeError: str.join() takes exactly one argument (2 given)
+ERROR 2023-10-21 15:28:33,092 basehttp 25000 140450121905728 "POST /password/reset HTTP/1.1" 500 96158
+WARNING 2023-10-21 15:28:33,166 log 25000 140450121905728 Not Found: /favicon.ico
+INFO 2023-10-21 15:28:46,922 autoreload 25000 140450313129984 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:28:47,636 autoreload 25023 139693005074432 Watching for file changes with StatReloader
+INFO 2023-10-21 15:28:49,656 basehttp 25023 139692881212992 "POST /password/reset HTTP/1.1" 200 2825
+INFO 2023-10-21 15:30:49,010 autoreload 25023 139693005074432 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:30:49,789 autoreload 25233 139668881858560 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:31:01,619 log 25233 139668689516096 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 180, in password_commit
+    if not secparams_check(data, aud = request.get_raw_uri().split('?')[0]):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 78, in secparams_check
+    payload.get('aud', None) not in (aud, re.sub("^https?://", "", aud))
+  File "/usr/lib/python3.10/bdb.py", line 96, in trace_dispatch
+    return self.dispatch_exception(frame, arg)
+  File "/usr/lib/python3.10/bdb.py", line 176, in dispatch_exception
+    if self.quitting: raise BdbQuit
+bdb.BdbQuit
+ERROR 2023-10-21 15:31:01,620 basehttp 25233 139668689516096 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.FkUiQoyRKH4Zh6I2JYbM_YSEEjRmRe0sRkUmONdJWYa2-D4_k23pPJTAUFQ9ClUNRLGQpxGVkA7ojamLqKCPoXYj6MFp3hTKUlmt4SpOV38Drsu75y1nUinmHo1fp1-Ixmnp08Wo4plSfLRsfOUQmI5M_gRf45omWe-jbmBHRCml8bhbCQVErJiwmddYhgAaFwX9EZ4lUXi8doP9SuOtKTMMEFxytEIoJOyV_zo7lNXqM6-J2OqUEvXTIkenn2rJZ_-TGFGlbjKGtpnO9haL9QOtSOp4sxQuy3_da2BKqKsCSXh2C8Q_myZPUfHaPAOdGn5MJNBP1ozwTVum_gSKXg.wmqNBpEN5L9kT06LO03eNw.eNaPnz8rmwXqY1gOiIHCVWESiIMFvUaWnzxXZVvZnmykqiXku_LGczm-Vdi0n06YGG6dv0I4czAWCm7MnNE--k4YdKowmdwkuFzQF9b6Of-OHTte53ALB-Fv0a-bjyY5joQIzjkXlxJkDnZQC5WOzfxpyWsMOZeABb-PKtZqSiaOEg_6c7pSvyMWznU2QAh3Y-s4ov2dS702Q5PlyLSXFu2e9T3fDsyyMJ80BKNqpEGunzDA73CKiLMcTUh3-FhtxItHq9g8X7VCDcDR2O75FLexvQr0fX1ZcHb1lbn_la8jMueBK8coVov95h1-S7EP322_L3QmEUjpofrx9TsuifhebIqofZYJv124G18R8LHw33XEVX3aYDTZjqglqq1xbp6riv6NHzerwbIVNW2wFxNdVvJMGAJZMGBc4L5lVjN8TFK6hoLGxDiq1NRWRYbs1rzot4uKtxQeMRlj3WkrNxOE4CqpZsYqS7-xeEc9XW7KhJAATGpoy3J6dR6cW8akoX0clmBQKQ746Zf1sr17pxwqjwqJ2vRA9edl2cSxd5e0LxJF6aLRDymdSF11O5ks.qr6sjS2VH4G0dN-YexOOIyTS8KJz3OKXLErPRwT4WWo HTTP/1.1" 500 112304
+WARNING 2023-10-21 15:31:01,679 log 25233 139668689516096 Not Found: /favicon.ico
+INFO 2023-10-21 15:31:09,422 autoreload 25233 139668881858560 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:31:10,162 autoreload 25281 140640676425728 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:31:51,879 log 25281 140640552744512 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 181, in password_commit
+    raise ValidationError(
+django.core.exceptions.ValidationError: ["{'user_pk': 1, 'new_pass': 'CiaoMamma4!', 'iat': 1697902129, 'exp': 1697904109, 'iss': 'http://localhost:9000', 'sub': 'ciao@email.com', 'aud': 'localhost:9000/password/commit'} doesn't respect the security pattern"]
+ERROR 2023-10-21 15:31:51,880 basehttp 25281 140640552744512 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.FkUiQoyRKH4Zh6I2JYbM_YSEEjRmRe0sRkUmONdJWYa2-D4_k23pPJTAUFQ9ClUNRLGQpxGVkA7ojamLqKCPoXYj6MFp3hTKUlmt4SpOV38Drsu75y1nUinmHo1fp1-Ixmnp08Wo4plSfLRsfOUQmI5M_gRf45omWe-jbmBHRCml8bhbCQVErJiwmddYhgAaFwX9EZ4lUXi8doP9SuOtKTMMEFxytEIoJOyV_zo7lNXqM6-J2OqUEvXTIkenn2rJZ_-TGFGlbjKGtpnO9haL9QOtSOp4sxQuy3_da2BKqKsCSXh2C8Q_myZPUfHaPAOdGn5MJNBP1ozwTVum_gSKXg.wmqNBpEN5L9kT06LO03eNw.eNaPnz8rmwXqY1gOiIHCVWESiIMFvUaWnzxXZVvZnmykqiXku_LGczm-Vdi0n06YGG6dv0I4czAWCm7MnNE--k4YdKowmdwkuFzQF9b6Of-OHTte53ALB-Fv0a-bjyY5joQIzjkXlxJkDnZQC5WOzfxpyWsMOZeABb-PKtZqSiaOEg_6c7pSvyMWznU2QAh3Y-s4ov2dS702Q5PlyLSXFu2e9T3fDsyyMJ80BKNqpEGunzDA73CKiLMcTUh3-FhtxItHq9g8X7VCDcDR2O75FLexvQr0fX1ZcHb1lbn_la8jMueBK8coVov95h1-S7EP322_L3QmEUjpofrx9TsuifhebIqofZYJv124G18R8LHw33XEVX3aYDTZjqglqq1xbp6riv6NHzerwbIVNW2wFxNdVvJMGAJZMGBc4L5lVjN8TFK6hoLGxDiq1NRWRYbs1rzot4uKtxQeMRlj3WkrNxOE4CqpZsYqS7-xeEc9XW7KhJAATGpoy3J6dR6cW8akoX0clmBQKQ746Zf1sr17pxwqjwqJ2vRA9edl2cSxd5e0LxJF6aLRDymdSF11O5ks.qr6sjS2VH4G0dN-YexOOIyTS8KJz3OKXLErPRwT4WWo HTTP/1.1" 500 100170
+INFO 2023-10-21 15:32:33,969 autoreload 25281 140640676425728 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:32:34,754 autoreload 25333 140358959861760 Watching for file changes with StatReloader
+INFO 2023-10-21 15:33:16,715 autoreload 25333 140358959861760 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:33:17,452 autoreload 25380 140217127288832 Watching for file changes with StatReloader
+INFO 2023-10-21 15:34:27,996 autoreload 25380 140217127288832 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:34:28,714 autoreload 25430 139805633847296 Watching for file changes with StatReloader
+INFO 2023-10-21 15:35:11,757 autoreload 25430 139805633847296 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:35:12,498 autoreload 25476 140165190524928 Watching for file changes with StatReloader
+INFO 2023-10-21 15:35:25,950 autoreload 25476 140165190524928 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:35:26,659 autoreload 25487 140503677575168 Watching for file changes with StatReloader
+INFO 2023-10-21 15:35:29,955 autoreload 25487 140503677575168 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:35:30,733 autoreload 25493 140110033018880 Watching for file changes with StatReloader
+INFO 2023-10-21 15:36:06,529 autoreload 25493 140110033018880 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:36:07,261 autoreload 25536 140346473201664 Watching for file changes with StatReloader
+INFO 2023-10-21 15:36:17,586 autoreload 25536 140346473201664 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:36:18,293 autoreload 25542 140588804186112 Watching for file changes with StatReloader
+INFO 2023-10-21 15:36:44,935 autoreload 25542 140588804186112 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/affiliations_api/views.py changed, reloading.
+INFO 2023-10-21 15:36:45,635 autoreload 25554 140402682597376 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:36:57,325 log 25554 140402558498368 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 180, in password_commit
+    if not secparams_check(
+TypeError: secparams_check() got an unexpected keyword argument 'allowed_clients'
+ERROR 2023-10-21 15:36:57,325 basehttp 25554 140402558498368 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.FkUiQoyRKH4Zh6I2JYbM_YSEEjRmRe0sRkUmONdJWYa2-D4_k23pPJTAUFQ9ClUNRLGQpxGVkA7ojamLqKCPoXYj6MFp3hTKUlmt4SpOV38Drsu75y1nUinmHo1fp1-Ixmnp08Wo4plSfLRsfOUQmI5M_gRf45omWe-jbmBHRCml8bhbCQVErJiwmddYhgAaFwX9EZ4lUXi8doP9SuOtKTMMEFxytEIoJOyV_zo7lNXqM6-J2OqUEvXTIkenn2rJZ_-TGFGlbjKGtpnO9haL9QOtSOp4sxQuy3_da2BKqKsCSXh2C8Q_myZPUfHaPAOdGn5MJNBP1ozwTVum_gSKXg.wmqNBpEN5L9kT06LO03eNw.eNaPnz8rmwXqY1gOiIHCVWESiIMFvUaWnzxXZVvZnmykqiXku_LGczm-Vdi0n06YGG6dv0I4czAWCm7MnNE--k4YdKowmdwkuFzQF9b6Of-OHTte53ALB-Fv0a-bjyY5joQIzjkXlxJkDnZQC5WOzfxpyWsMOZeABb-PKtZqSiaOEg_6c7pSvyMWznU2QAh3Y-s4ov2dS702Q5PlyLSXFu2e9T3fDsyyMJ80BKNqpEGunzDA73CKiLMcTUh3-FhtxItHq9g8X7VCDcDR2O75FLexvQr0fX1ZcHb1lbn_la8jMueBK8coVov95h1-S7EP322_L3QmEUjpofrx9TsuifhebIqofZYJv124G18R8LHw33XEVX3aYDTZjqglqq1xbp6riv6NHzerwbIVNW2wFxNdVvJMGAJZMGBc4L5lVjN8TFK6hoLGxDiq1NRWRYbs1rzot4uKtxQeMRlj3WkrNxOE4CqpZsYqS7-xeEc9XW7KhJAATGpoy3J6dR6cW8akoX0clmBQKQ746Zf1sr17pxwqjwqJ2vRA9edl2cSxd5e0LxJF6aLRDymdSF11O5ks.qr6sjS2VH4G0dN-YexOOIyTS8KJz3OKXLErPRwT4WWo HTTP/1.1" 500 99065
+WARNING 2023-10-21 15:36:57,379 log 25554 140402558498368 Not Found: /favicon.ico
+INFO 2023-10-21 15:37:06,246 autoreload 25554 140402682597376 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:37:06,988 autoreload 25585 140032307916800 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:37:08,004 log 25585 140032184677952 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 180, in password_commit
+    if not secparams_check(
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py", line 83, in secparams_check
+    for i in allowed_client:
+NameError: name 'allowed_client' is not defined
+ERROR 2023-10-21 15:37:08,005 basehttp 25585 140032184677952 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.FkUiQoyRKH4Zh6I2JYbM_YSEEjRmRe0sRkUmONdJWYa2-D4_k23pPJTAUFQ9ClUNRLGQpxGVkA7ojamLqKCPoXYj6MFp3hTKUlmt4SpOV38Drsu75y1nUinmHo1fp1-Ixmnp08Wo4plSfLRsfOUQmI5M_gRf45omWe-jbmBHRCml8bhbCQVErJiwmddYhgAaFwX9EZ4lUXi8doP9SuOtKTMMEFxytEIoJOyV_zo7lNXqM6-J2OqUEvXTIkenn2rJZ_-TGFGlbjKGtpnO9haL9QOtSOp4sxQuy3_da2BKqKsCSXh2C8Q_myZPUfHaPAOdGn5MJNBP1ozwTVum_gSKXg.wmqNBpEN5L9kT06LO03eNw.eNaPnz8rmwXqY1gOiIHCVWESiIMFvUaWnzxXZVvZnmykqiXku_LGczm-Vdi0n06YGG6dv0I4czAWCm7MnNE--k4YdKowmdwkuFzQF9b6Of-OHTte53ALB-Fv0a-bjyY5joQIzjkXlxJkDnZQC5WOzfxpyWsMOZeABb-PKtZqSiaOEg_6c7pSvyMWznU2QAh3Y-s4ov2dS702Q5PlyLSXFu2e9T3fDsyyMJ80BKNqpEGunzDA73CKiLMcTUh3-FhtxItHq9g8X7VCDcDR2O75FLexvQr0fX1ZcHb1lbn_la8jMueBK8coVov95h1-S7EP322_L3QmEUjpofrx9TsuifhebIqofZYJv124G18R8LHw33XEVX3aYDTZjqglqq1xbp6riv6NHzerwbIVNW2wFxNdVvJMGAJZMGBc4L5lVjN8TFK6hoLGxDiq1NRWRYbs1rzot4uKtxQeMRlj3WkrNxOE4CqpZsYqS7-xeEc9XW7KhJAATGpoy3J6dR6cW8akoX0clmBQKQ746Zf1sr17pxwqjwqJ2vRA9edl2cSxd5e0LxJF6aLRDymdSF11O5ks.qr6sjS2VH4G0dN-YexOOIyTS8KJz3OKXLErPRwT4WWo HTTP/1.1" 500 103080
+WARNING 2023-10-21 15:37:08,054 log 25585 140032184677952 Not Found: /favicon.ico
+INFO 2023-10-21 15:37:14,326 autoreload 25585 140032307916800 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/cryptotools/tools.py changed, reloading.
+INFO 2023-10-21 15:37:15,090 autoreload 25601 140315586859008 Watching for file changes with StatReloader
+ERROR 2023-10-21 15:37:16,283 log 25601 140315463775808 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 185, in password_commit
+    raise ValidationError(
+django.core.exceptions.ValidationError: ["{'user_pk': 1, 'new_pass': 'CiaoMamma4!', 'iat': 1697902129, 'exp': 1697904109, 'iss': 'http://localhost:9000', 'sub': 'ciao@email.com', 'aud': 'localhost:9000/password/commit'} doesn't respect the security pattern"]
+ERROR 2023-10-21 15:37:16,283 basehttp 25601 140315463775808 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.FkUiQoyRKH4Zh6I2JYbM_YSEEjRmRe0sRkUmONdJWYa2-D4_k23pPJTAUFQ9ClUNRLGQpxGVkA7ojamLqKCPoXYj6MFp3hTKUlmt4SpOV38Drsu75y1nUinmHo1fp1-Ixmnp08Wo4plSfLRsfOUQmI5M_gRf45omWe-jbmBHRCml8bhbCQVErJiwmddYhgAaFwX9EZ4lUXi8doP9SuOtKTMMEFxytEIoJOyV_zo7lNXqM6-J2OqUEvXTIkenn2rJZ_-TGFGlbjKGtpnO9haL9QOtSOp4sxQuy3_da2BKqKsCSXh2C8Q_myZPUfHaPAOdGn5MJNBP1ozwTVum_gSKXg.wmqNBpEN5L9kT06LO03eNw.eNaPnz8rmwXqY1gOiIHCVWESiIMFvUaWnzxXZVvZnmykqiXku_LGczm-Vdi0n06YGG6dv0I4czAWCm7MnNE--k4YdKowmdwkuFzQF9b6Of-OHTte53ALB-Fv0a-bjyY5joQIzjkXlxJkDnZQC5WOzfxpyWsMOZeABb-PKtZqSiaOEg_6c7pSvyMWznU2QAh3Y-s4ov2dS702Q5PlyLSXFu2e9T3fDsyyMJ80BKNqpEGunzDA73CKiLMcTUh3-FhtxItHq9g8X7VCDcDR2O75FLexvQr0fX1ZcHb1lbn_la8jMueBK8coVov95h1-S7EP322_L3QmEUjpofrx9TsuifhebIqofZYJv124G18R8LHw33XEVX3aYDTZjqglqq1xbp6riv6NHzerwbIVNW2wFxNdVvJMGAJZMGBc4L5lVjN8TFK6hoLGxDiq1NRWRYbs1rzot4uKtxQeMRlj3WkrNxOE4CqpZsYqS7-xeEc9XW7KhJAATGpoy3J6dR6cW8akoX0clmBQKQ746Zf1sr17pxwqjwqJ2vRA9edl2cSxd5e0LxJF6aLRDymdSF11O5ks.qr6sjS2VH4G0dN-YexOOIyTS8KJz3OKXLErPRwT4WWo HTTP/1.1" 500 100103
+INFO 2023-10-21 15:38:03,064 autoreload 25601 140315586859008 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:38:03,773 autoreload 25617 139749287784448 Watching for file changes with StatReloader
+INFO 2023-10-21 15:38:11,542 basehttp 25617 139749096420928 "GET /password/reset HTTP/1.1" 200 193914
+INFO 2023-10-21 15:38:24,035 basehttp 25617 139749096420928 "GET /password/reset HTTP/1.1" 200 197358
+INFO 2023-10-21 15:38:25,219 basehttp 25617 139749096420928 "GET /password/reset HTTP/1.1" 200 229662
+INFO 2023-10-21 15:38:26,393 basehttp 25617 139749096420928 "GET /password/reset HTTP/1.1" 200 243022
+INFO 2023-10-21 15:38:27,523 basehttp 25617 139749096420928 "GET /password/reset HTTP/1.1" 200 231466
+INFO 2023-10-21 15:38:35,983 basehttp 25617 139749096420928 "POST /password/reset HTTP/1.1" 200 2458
+ERROR 2023-10-21 15:39:00,438 log 25617 139749096420928 Internal Server Error: /password/commit
+Traceback (most recent call last):
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py", line 186, in password_commit
+    raise ValidationError(
+django.core.exceptions.ValidationError: ["{'user_pk': 1, 'new_pass': 'CiaoMamma4!', 'iat': 1697902715, 'exp': 1697904695, 'iss': 'http://localhost:9000', 'sub': 'ciao@email.com', 'aud': 'localhost:9000/password/commit'} doesn't respect the security pattern"]
+ERROR 2023-10-21 15:39:00,439 basehttp 25617 139749096420928 "GET /password/commit?token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1MTIiLCJraWQiOiJXRUpoY0dkMVltZG9WV05zT1hGTmJsRkZXV3RHY2pCamMyZFdWbmwzY0RSdmNtOXROVEF3UjJSM1l3In0.ZzYlxrHVWEWjlOkK_HUzpjrlEerWCXelkY6L_hpEXiC3KBdjAe-zMuMrTK6hIm8Cl8L9M8HXjFKWkY0biS_6cXW_2r2cMd2o4cKBX6UqUNUUwDtE2DzL2PoT3K31Nsf5QWwPRQsZi9Xvx_oKuLj8G1REm8S6FEfy3kvtBYCLWlapgto3QM25eaySbKnUp8jFYNlEBgVKM7dACSn4Rn66-pfVM1cuYOP6wa5sn_XFQdFCc163rDI0gm41Q9n-QeXfS5xMZC2g3e425O0l0K4DXTatBzPAf_r6ZutO5iueq-FqgtHpFsn67yt6TvZwI4T-59UYv1rve1S7GPEo671G_w.lYE5IIS_QLQhZLRL6ZET9g.qLiwwF6OntNgpgxEriShIei9bkjqmlLAbfUnJKQhcIBg4WREJDGREAJTWfVQX2DH6YIyAO2LDPMhCdNPKDjyvw-k4T25b1HrkkeSTy4vARmNAe143sgnfTjcMWusdBnzEKLEv9yEEmtEsqN9_PNzRFw9Iav1taM5-eXb7mf5hyBSXO0sU3uwPWI180-B5gt2Ymbh6pvjR6XjUqz-8cimFdoYUXlFcqrqxDFNXbGtqJWIB7STpdcXVD12Twb0swaCw9Zu94tsz-au6XvLLadrNUdh0Ubfnr_pIf2drzDU8rWCSQ7SwK4ugs2XM7RMGDwSaXY47QdbCYFbGxCJsqDRNs_e9RjjbcZ9vROVs03-2-FYHx9qfPIgbq9SUUQPjASFY1ZHp5coe-IF8i52a1jjkMC7jpGpLkSM12WOYsiQETGwt06cNNgGxTpy2lNg65vHGoWDyrXd3lWeom0hzfq1OhxiOblf3vUV2_kmR1i0tP5mBInp4fxMn74tAya2pa7OxCQkV_RywJKnuQwIr7nWXfoWqVRrlGpV8kGN7dyLHLT7p46pTvUCtEbUhMQknh4e.Aa7L0dlkXRW0tzvD0UwjvE3CqCtg-ILIeR2cnJ6Rmpg HTTP/1.1" 500 100240
+WARNING 2023-10-21 15:39:00,496 log 25617 139749096420928 Not Found: /favicon.ico
+INFO 2023-10-21 15:39:40,852 autoreload 25617 139749287784448 /home/wert/DEV/ACSIA/4Sec-idp/xdrplus-iam/password_reset/views.py changed, reloading.
+INFO 2023-10-21 15:39:41,578 autoreload 25862 140086617227264 Watching for file changes with StatReloader

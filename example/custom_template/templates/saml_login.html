@@ -1,0 +1,88 @@
+<!-- Extends default Bootstrap Italia template -->
+<link type="text/css" rel="stylesheet" href="/static/css/overrides.css">
+{% extends 'idp_base.html' %}
+
+
+{% load i18n %}
+{% load static %}
+
+{% block page_title %}{% endblock page_title %}
+
+{% block header_wrapper %}{% endblock header_wrapper %}
+{% block footer %}{% endblock footer %}
+
+{% block container %}
+	<div class="container">
+		<div class="row">
+			<div class="mx-auto" style="width:400px">
+				<div style="margin-top: 80px; border-radius: 16px; padding: 24px; padding-bottom: 10px;  background-color: #18181B; font-size: 14px">
+
+					<form class="needs-validation" name="login" method="post" action="{{ acs_url }}">
+						{% csrf_token %}
+						{% for form_field in form %}
+
+							{% if form_field.field.widget.input_type == "checkbox" %}
+								<div class="mb-0" style="display:block">
+
+									<div class="form-check override">
+
+										<input name="{{ form_field.name }}" type="checkbox" id="id_{{ form_field.html_name }}" {% if form_field.field.required %} class="form-check-input" required {% endif %}>
+										<label class="form-check-label override" for="id_{{ form_field.html_name }}">
+
+											{{ form_field.label }}
+										</label>
+									</div>
+								</div>
+							{% elif form_field.field.widget.input_type == "password" %}
+								<div class="form-row override" style="display:block">
+									<div class="col-12 form-group override my-0">
+										<label class="override" for="id_{{ form_field.html_name }}" style="line-height: 14px; font-size: 11px; font-weight: 300; color: #A1A1AA; position:relative; margin: 0; margin-bottom: 5px; padding: 0; top:0;">
+
+											<span class="form-label-content">
+												{{ form_field.label }}
+											</span>
+										</label>
+										<input type="{{ form_field.field.widget.input_type }}" class="form-control input-password" id="id_{{ form_field.html_name }}" name="{{ form_field.name }}" aria-labelledby="infoPassword" minlength="{{ form_field.field.min_length }}" {% comment %} {% if forloop.first %} autofocus {% endif %} {% endcomment %} {% if form_field.field.required %} required {% endif %} style="border:0; background-color: #27272a; border-radius: 6px; height: 32px; color: #e4e4e7; font-size:14px; font-weight: 300; ">
+
+										<span class="password-icon" aria-hidden="true">
+											<svg class="password-icon-visible icon icon-sm">
+												<use xlink:href="{% static 'svg/sprite.svg' %}#it-password-visible"></use>
+											</svg>
+											<svg class="password-icon-invisible icon icon-sm d-none">
+												<use xlink:href="{% static 'svg/sprite.svg' %}#it-password-invisible"></use>
+											</svg>
+										</span>
+										{% comment %}
+											<div class="valid-feedback">{% trans "Validated" %}!</div>
+										{% endcomment %}
+									</div>
+								</div>
+							{% else %}
+								<div class="form-row override">
+									<div class="col-12 form-group override my-0">
+										<label class="override" for="id_{{ form_field.html_name }}" style="line-height: 14px; font-size: 11px; font-weight: 300; color: #A1A1AA; position:relative; margin: 0; margin-bottom: 5px; padding: 0; top:0;">
+
+											<span class="form-label-content">
+												{{ form_field.label }}
+											</span>
+										</label>
+										<input type="{{ form_field.field.widget.input_type }}" class="form-control" id="id_{{ form_field.html_name }}" name="{{ form_field.name }}" minlength="{{ form_field.field.min_length }}" {% comment %} {% if forloop.first %} autofocus {% endif %} {% endcomment %} {% if form_field.field.required %} required {% endif %} style="border:0; background-color: #27272a; border-radius: 6px; height: 32px; color: #e4e4e7; font-size:14px; font-weight: 300; ">
+										{% comment %}
+											<div class="valid-feedback">{% trans "Validated" %}!</div>
+										{% endcomment %}
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+						<div class="mt-2">
+							<input type="submit" name="confirm" class="btn btn-lg btn-success btn-block unical-background override" value="{% trans 'Login' %}" style="background:#FBBF24;"/>
+						</div>
+					</form>
+
+					{% include "social_buttons.html" %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock container %}

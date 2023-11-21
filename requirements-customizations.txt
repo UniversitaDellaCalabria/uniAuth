@@ -1,4 +1,4 @@
-git+https://github.com/peppelinux/pysaml2.git@pplnx-7.0.1
+git+https://github.com/peppelinux/pysaml2.git@pplnx-v7.4.2
 
 #Bootstrap Italia + Unical template
 git+https://github.com/italia/design-django-theme.git
@@ -21,3 +21,24 @@ ldap3
 
 # custom maccounts in example project
 pycountry
+
+# oas3
+djangorestframework
+# Markdown support for the browsable API.
+markdown     
+django-filter
+uritemplate
+django-cors-headers # for rest api
+
+# proxy
+django-allauth
+
+cryptojwt>=1.8,<=1.9
+
+django-cleanup>=8.0,<9.0
+
+# password_reset
+django-form-builder>=1.0.1 ,<1.1.0
+
+# MFA
+django-mfa3>=0.11.0

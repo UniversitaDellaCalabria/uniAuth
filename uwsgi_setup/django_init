@@ -19,11 +19,11 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 BASEDIR="/opt"
-ENVDIR="$BASEDIR/django-saml2-idp.env"
-APPNAME="unicalauth"
+ENVDIR="$BASEDIR/env"
+APPNAME="uniauth"
 APPDIR="$BASEDIR/$APPNAME"
 #DEBUG=""
-PID_PATH="/var/log/uwsgi"
+PID_PATH="/opt/uniauth/logs"
 USER=wert
 COMMAND="uwsgi --ini $APPDIR/uwsgi_setup/uwsgi.ini &"
 STOP_CMD="source $ENVDIR/bin/activate && uwsgi --stop $PID_PATH/$APPNAME.pid"

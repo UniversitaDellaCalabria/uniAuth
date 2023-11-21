@@ -1,0 +1,19 @@
+{% extends 'error.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block centered_container %}
+
+	<div class="">
+		<div class="callout-title">
+			<svg class="icon">
+				<use xlink:href="{% static 'images/svg/sprite.svg' %}#it-close-circle"></use>
+			</svg>
+			{% trans "Access denied" %}</div>
+		<p>
+			{% trans "La tua autenticazione non è riconoscibile." %}
+		</p>
+	</div>
+
+{% endblock %}

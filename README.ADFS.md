@@ -17,7 +17,7 @@ server = Server('10.5.3.19', get_info=ALL)
 
 conn = Connection(
     server, 
-    user="example.local\\xdrplus-user", 
+    user="example.local\\user", 
     password="that-pass", 
     authentication=NTLM, 
     auto_bind=True

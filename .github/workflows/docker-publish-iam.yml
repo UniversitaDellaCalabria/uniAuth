@@ -9,9 +9,9 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   REPO_NAME: ${{ github.repository }}
-  IMAGE_NAME: xdrplus-iam
-  FULL_IMAGE_NAME: 4securitas/xdrplus-iam
-  VENDOR_NAME: xdrplus
+  IMAGE_NAME: uniauth
+  FULL_IMAGE_NAME: unical/uniauth
+  VENDOR_NAME: unical
   CONTEXT: .
 
 jobs:

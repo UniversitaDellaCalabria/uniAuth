@@ -231,7 +231,7 @@ EMAIL_USE_SSL = os.getenv(
 )
 EMAIL_FROM = os.getenv(
     "EMAIL_FROM",
-    "no-reply@xdrplus-iam.acsia.org"
+    "no-reply@example.org"
 )
 EMAIL_SUBJECT_PASSWD_RESET = os.getenv(
     "EMAIL_SUBJECT_PASSWD_RESET",

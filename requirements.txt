@@ -1,4 +1,4 @@
-django>=3.2.18,<4.2
+django>=4.0.9,<4.2
 djangosaml2>=1.5
 pysaml2>=7.3
 cffi

@@ -37,7 +37,6 @@ jobs:
           - '3.10'
         django-version:
           - '4.2'
-          - '3.2'
 
     steps:
     - uses: actions/checkout@v2
@@ -68,7 +67,7 @@ jobs:
       run: |
         bandit -r -x uniauth_saml2_idp/test* uniauth_saml2_idp/*
     - name: Test with Django tests
-      working-directory: ./xdrplus-iam
+      working-directory: ./example
       run: |
         coverage erase
         coverage run manage.py test

@@ -20,13 +20,13 @@ ldap3.set_config_parameter('RESET_AVAILABILITY_TIMEOUT', 2)
 ldap3.set_config_parameter('RESTARTABLE_SLEEPTIME', 2)
 
 
-XDR_DEMO = dict(server =
+DEFAULT = dict(server =
                    dict(host = 'ldap://10.5.3.19:389',
                         connect_timeout = 5,
                         get_info=ALL
                         ),
                connection =
-                   dict(user="example.local\\xdrplus-user",
+                   dict(user="example.local\\user",
                         password="That-password", 
                         read_only = True,
                         version = 3,
@@ -75,6 +75,6 @@ XDR_DEMO = dict(server =
 
 # put multiple connections here
 LDAP_CONNECTIONS = {
-    'DEFAULT' : XDR_DEMO,
+    'DEFAULT' : DEFAULT,
 }
 LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]

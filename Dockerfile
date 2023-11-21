@@ -29,7 +29,7 @@ COPY ./uniauth_saml2_idp ./uniauth_saml2_idp
 COPY ./setup.py .
 COPY ./README.md .
 
-COPY xdrplus-iam/ /opt/uniauth/
+COPY example/ /opt/uniauth/
 
 RUN echo $PWD
 RUN ls
@@ -38,18 +38,3 @@ RUN pip3 install -e .
 RUN pip3 install uwsgi
 RUN pip3 install psycopg2
 RUN pip3 list
-
-# DB setup - just as a note
-# ARG USER=that-user
-# ARG PASS=that-password
-# ARG HOST=%
-# ARG DB=uniauth
-# ENV USER=$USER
-# ENV PASS=$PASS
-# ENV HOST=$HOST
-# ENV DB=$DB
-# RUN service mysql restart \
-# && mysql -u root -e "\
-# CREATE USER IF NOT EXISTS ${USER}@${HOST} IDENTIFIED BY ;\
-# CREATE DATABASE IF NOT EXISTS ${DB} CHARACTER SET = utf8 COLLATE = utf8_general_ci;\
-# GRANT ALL PRIVILEGES ON ${DB}.* TO ${USER}@${HOST};"

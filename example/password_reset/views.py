@@ -103,7 +103,7 @@ def password_reset(request):
                 _user = None
             
             host = getattr(
-                settings, "ENTITY_BASE_URL", "https://xdrplus-iam.acsia.org"
+                settings, "ENTITY_BASE_URL", "https://example.org"
             )
             
             if _user:

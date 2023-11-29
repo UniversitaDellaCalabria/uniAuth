@@ -61,6 +61,74 @@ See [Official Documentation at readthedocs](https://uniauth.readthedocs.io/) for
 ![Alt text](docs/contents/sp.png)
 *Create a new SP. If `SAML_DISALLOW_UNDEFINED_SP` is True this configuration is mandatory, otherwise only the sp metadata is needed, the SP configuration will be created automatically using a default configuration.*
 
+## Docker compose
+
+````
+sudo apt install jq docker-compose
+````
+
+Do your customization in the project folder example-docker
+````
+cp -R example example-docker
+````
+
+Start the compose
+````
+cd compose
+sudo bash run-docker-compose.sh
+````
+
+Volumes
+````
+uniauth_proj         ../example-docker/
+
+uniauth_nginx_certs  ./nginx/certs/
+uniauth_nginx_static ../example-docker/static/
+````
+
+## OSX installation
+
+Virtualenv and Debugger
+
+````
+pip3 install virtualenv
+````
+
+Create and activate environment
+
+````
+virtualenv env
+. env/bin/activate
+````
+
+Install dependencies
+
+````
+pip3 install -e .
+pip3 install -r requirements-dev.txt
+pip3 install -r requirements-customizations.txt
+````
+
+Install XMLSec1 [issue](https://github.com/IdentityPython/pysaml2/issues/906), edit saml in the virtualenv to fix incorrect signature
+
+````
+brew install libxmlsec1
+````
+
+Install urlib older version [issue](https://github.com/invoke-ai/InvokeAI/issues/3358), because the newer version conflicts with the older version of ssl
+
+````
+pip3 install urllib3==1.26.6
+````
+
+## Run the example project locally
+````
+cd example
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py runserver 0.0.0.0:9000
+`````
+
 ## Tests
 
 ````

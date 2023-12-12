@@ -31,7 +31,7 @@ services:
       - DJANGO_SUPERUSER_USERNAME=admin
       - DJANGO_SUPERUSER_PASSWORD=that-pass
       - DJANGO_SUPERUSER_EMAIL=that@email.local
-      - HOSTNAME=dev2.acsia.io
+      - HOSTNAME=localhost
       - HTTPS=1
       - PORT=0
       

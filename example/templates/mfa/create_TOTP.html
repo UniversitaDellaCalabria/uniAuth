@@ -1,0 +1,35 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+
+{% load static mfa %}
+
+<p>{% trans 'Scan the code with your TOTP app and enter a valid code to finish registration' %}.</p>
+
+{{ mfa_data.url|qrcode }}
+{{ mfa_data.secret }}
+
+<form method="POST">
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+    <label>
+        {{ form.name.label }}
+        {{ form.name }}
+    </label>
+    <label>
+        {{ form.code.label }}
+        {{ form.code }}
+    </label>
+    <input 
+        type="submit" 
+        name="confirm" 
+        class="btn btn-success ml-2 unical-background override" 
+        value="{% trans 'Create' %}" 
+        style="background: #383838;"
+    /></form>
+{% endblock %}

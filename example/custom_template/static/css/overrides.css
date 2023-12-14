@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+   background-repeat: no-repeat;
+   background-position: right bottom;
+   background-attachment: fixed;
+   height: 100vh;
+   font-family: 'Wix Madefor Text', HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+   background-color: #09090B !important;
+}
+
+.grey-color {
+   color: #435a70;
+}
+
+.unical-background {
+   background: #FBBF24;
+}
+
+.password-icon {
+   padding: 0 15px;
+}
+
+.input-password.is-invalid,
+.was-validated .input-password:invalid {
+   background-image: none;
+}
+
+.form-check [type=checkbox]:checked+label::after {
+   border-color: #FBBF24;
+   background-color: #FBBF24;
+}
+
+/**
+ * Università della Calabria
+ * Style SCSS
+ */
+
+/**
+ * Università della Calabria COLORS
+ */
+
+:root {
+   --bordeaux_unical: #FBBF24;
+   --dark_grey_unical: #383838;
+   --light_grey_unical: #9d9d9c;
+   --white: #ffffff;
+}
+
+
+/**
+ * Generic elements
+ */
+a {
+   cursor: pointer;
+   color: var(--bordeaux_unical);
+}
+
+a:hover,
+a:active {
+   color: var(--dark_grey_unical);
+}
+
+a.read-more {
+   color: var(--light_grey_unical);
+}
+
+.badge-primary {
+   background: var(--bordeaux_unical);
+}
+
+.badge-secondary {
+   background: var(--dark_grey_unical);
+}
+
+.btn-primary {
+   background: var(--dark_grey_unical);
+}
+
+.btn-primary:hover {
+   background: var(--light_grey_unical);
+}
+
+.btn-outline-primary {
+   color: var(--dark_grey_unical);
+   -webkit-box-shadow: inset 0 0 0 1px var(--dark_grey_unical);
+   box-shadow: inset 0 0 0 1px var(--dark_grey_unical);
+}
+
+.btn-outline-primary:hover {
+   color: var(--light_grey_unical);
+   -webkit-box-shadow: inset 0 0 0 1px var(--light_grey_unical);
+   box-shadow: inset 0 0 0 1px var(--light_grey_unical);
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+   color: var(--dark_grey_unical) !important;
+   box-shadow: inset 0 1px 0 var(--light_grey_unical), 0 1px 1px var(--light_grey_unical), 0 0 0 0.2rem rgba(101, 101, 102, 0.5) !important;
+}
+
+.btn-secondary {
+   background: var(--bordeaux_unical);
+}
+
+.btn-secondary:hover {
+   background: var(--dark_grey_unical);
+}
+
+.btn:not(.btn-outline-primary):not(.btn-outline-secondary):active,
+.btn:not(.btn-outline-primary):not(.btn-outline-secondary):focus {
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(101, 101, 102, 0.5) !important;
+   background-color: #475664 !important;
+}
+
+.text-primary {
+   color: var(--dark_grey_unical) !important;
+}
+
+.text-secondary {
+   color: var(--bordeaux_unical) !important;
+}
+
+/**
+ * Header Slim Wrapper
+ */
+.it-header-slim-wrapper {
+   background: var(--bordeaux_unical);
+}
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button {
+   background: var(--dark_grey_unical);
+}
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button:hover {
+   background: var(--light_grey_unical);
+   color: var(--dark_grey_unical);
+}
+
+/**
+ * Header Center Wrapper
+ */
+@media (min-width : 992px) {
+   .it-header-center-wrapper {
+      height: 130px;
+   }
+}
+
+.it-header-center-wrapper {
+   background: var(--white);
+}
+
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a,
+.it-header-center-wrapper .it-header-center-content-wrapper .it-right-zone {
+   color: var(--dark_grey_unical);
+}
+
+.it-header-center-wrapper .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon,
+.it-header-center-wrapper .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
+   fill: var(--dark_grey_unical);
+}
+
+
+/**
+ * Logo
+ */
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .img {
+   width: 100%;
+}
+
+/**
+ * Header Navbar Wrapper
+ */
+
+/* Desktops and laptops ----------- */
+@media (min-width : 992px) {
+   .it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .logo_icon image {
+      width: 100%;
+   }
+}
+
+/* Others than desktop ----------- */
+@media (max-width : 991px) {
+   .it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a .logo_icon image {
+      height: 100%;
+   }
+}
+
+
+/**
+ * Header Navbar Wrapper
+ */
+
+/* Desktops and laptops ----------- */
+@media (min-width : 992px) {
+   .it-header-navbar-wrapper {
+      background: var(--dark_grey_unical);
+   }
+}
+
+/* Others than desktop ----------- */
+@media (max-width : 991px) {
+   .it-header-navbar-wrapper {
+      background: none;
+   }
+
+   .custom-navbar-toggler svg {
+      fill: var(--dark_grey_unical);
+   }
+}
+
+/**
+ * Main Body
+ */
+
+/**
+ * Footer Main
+ */
+.it-footer-main {
+   background: var(--dark_grey_unical);
+}
+
+/**
+ * Footer Small Prints
+ */
+.it-footer-small-prints {
+   background: var(--bordeaux_unical);
+}
+
+/**
+ * -------------------------------------------------------------
+ */
+
+
+/**
+ * Carousel
+ */
+.it-carousel-wrapper .owl-dots .owl-dot {
+   background: var(--dark_grey_unical);
+}
+
+/**
+ * Back to top
+ */
+.back-to-top {
+   background: var(--light_grey_unical);
+}
+
+.back-to-top:hover {
+   background: var(--dark_grey_unical);
+}
+
+/**
+ * Form Bootstrap Italia
+ */
+.toggles label input[type="checkbox"]:checked+.lever::after {
+   background-color: var(--bordeaux_unical);
+}
+
+.form-check [type=radio]:checked+label::after,
+.form-check [type=checkbox]:checked+label::after {
+   background-color: var(--bordeaux_unical);
+   border-color: var(--bordeaux_unical);
+}
+
+.form-check [type=radio]:checked+label::before {
+   border-color: var(--bordeaux_unical);
+}
+
+/**
+ * Section muted
+ */
+.section.section-muted {
+   background-color: #f7f7f7;
+}
+
+
+
+.row .form-check.override {
+   margin-top: 0;
+}
+
+.form-check.override [type="checkbox"]+label,
+.form-check.override [type="radio"]+label {
+   position: relative;
+   padding-left: 28px;
+   cursor: pointer;
+   display: inline-block;
+   height: 32px;
+   line-height: 32px;
+   font-size: 1rem;
+   font-weight: 300;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.form-check.override [type="checkbox"]+label::before {
+   top: 0;
+   width: 14px;
+   height: 14px;
+   border: 1px solid #e6e9f2;
+   border-top-color: rgb(230, 233, 242);
+   border-right-color: rgb(230, 233, 242);
+   border-bottom-color: rgb(230, 233, 242);
+   border-left-color: rgb(230, 233, 242);
+   border-radius: 0px;
+   margin: 2px;
+   -webkit-transform: rotateZ(37deg);
+   transform: rotateZ(37deg);
+   -webkit-transform-origin: 100% 100%;
+   transform-origin: 100% 100%;
+}
+
+.form-check.override [type="checkbox"]+label::after,
+.form-check.override [type="checkbox"]+label::before {
+   content: '';
+   left: 0;
+   position: absolute;
+   -webkit-transition: .2s;
+   transition: .2s;
+   z-index: 1;
+   border-style: solid;
+   border-width: 2px;
+   border-radius: 0;
+   height: 17px;
+   width: 17px;
+   margin: 8px 3px;
+   top: 0;
+}
+
+.form-check.override [type="checkbox"]:checked+label::after {
+   border-color: #FBBF24;
+   background-color: transparent;
+}
+
+.form-check.override [type="checkbox"]:checked+label::before {
+   top: 1px;
+   left: 0px;
+   width: 8px;
+   height: 13px;
+   border-style: solid;
+   border-width: 2px;
+   border-color: transparent #FBBF24 #FBBF24 transparent;
+   -webkit-transform: rotate(40deg);
+   transform: rotate(40deg);
+   -webkit-backface-visibility: hidden;
+   backface-visibility: hidden;
+   -webkit-transform-origin: 100% 100%;
+   transform-origin: 100% 100%;
+   opacity: 1;
+}
+
+
+.form-control-plaintext+label.override,
+.form- group input.form-control-file+label.override,
+.form-group label.override.active,
+.input-group+label.override,
+.input-group:disabled .form-group label.override {
+   transform: translateY(0%);
+}
+
+.form-control.override,
+.form-control.override.inout-password {
+   border: 0;
+   background-color: #27272a;
+   border-radius: 6px;
+   height: 32px
+}
+
+.form-group.override {
+   padding: 7px 0;
+}
+
+.form-row.override {
+   margin-bottom: 16px;
+}
+
+.btn.btn-lg.btn-success.btn-block.unical-background.override {
+   box-shadow: none;
+   color: #000;
+   border-radius: 8px;
+   padding-top: 4px;
+   padding-bottom: 4px;
+   height: 32px;
+   font-weight: 700;
+   font-size: 13px;
+}
+
+.btn.btn-lg.btn-success.btn-block.unical-background.override:hover {
+   box-shadow: none;
+   background-color: #27272A;
+   color: #FBBF24;
+   border: 0;
+}
+
+.form-check.override [type="checkbox"]+label,
+.form-check.override [type="radio"]+label {
+   color: #a1a1aa;
+   font-size: 12px;
+   font-weight: 300;
+}

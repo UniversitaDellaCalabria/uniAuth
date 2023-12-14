@@ -19,8 +19,14 @@ from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 # from uniauth_saml2_idp.views import LoginAuthView
 
+import os
+
+admin.site.site_title = os.getenv("ADMIN_UI_HEADER", 'uniAuth-IAM')
+admin.site.index_title = os.getenv("ADMIN_UI_HEADER", 'uniAuth Administration Backend')
+admin.site.site_header = os.getenv("ADMIN_UI_HEADER",'uniAuth Administration Backend')
+
+
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('{}/'.format(getattr(settings, 'ADMIN_PATH', 'admin')),
          admin.site.urls),
     path('logout/', LogoutView.as_view(),
@@ -35,3 +41,12 @@ if 'uniauth_saml2_idp' in settings.INSTALLED_APPS:
         'idp/', include((uniauth_saml2_idp.urls, 'uniauth_saml2_idp',))
     ),
 
+if 'allauth' in settings.INSTALLED_APPS:
+    urlpatterns += path('accounts/', include('allauth.urls')),
+    
+if 'password_reset' in settings.INSTALLED_APPS:
+    import password_reset.urls
+    urlpatterns += (path("", include(password_reset.urls)),)
+
+if 'mfa' in settings.INSTALLED_APPS:
+    urlpatterns += (path('mfa/', include('mfa.urls', namespace='mfa')),)

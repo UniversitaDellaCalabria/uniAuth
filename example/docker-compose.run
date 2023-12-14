@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /opt/uniauth/
+python3 manage.py migrate
+python3 manage.py createsuperuser --noinput
+uwsgi --ini ./uwsgi.ini

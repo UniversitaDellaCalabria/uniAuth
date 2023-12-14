@@ -1,0 +1,39 @@
+{% extends 'mfa/auth_base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block mfa_form %}
+
+{% load static mfa %}
+
+<p>{% trans 'A recovery code can be used when you lose access to your other two-factor authentication options. Each recovery code can only be used once' %}.</p>
+<p>{% trans 'Make sure to store it in a safe place! If you lose your login keys and don’t have the recovery codes you will lose access to your account' %}.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+    <label>
+        {{ form.name.label }}
+        {{ form.name }}
+    </label>
+    <label>
+        {{ form.code.label }}
+        <input name="code" value="{{ mfa_data.code }}" readonly>
+    </label>
+    <label>
+        <input type="checkbox" required>
+        I have safely stored the code
+    </label>
+    <input 
+        type="submit" 
+        name="confirm" 
+        class="btn btn-success ml-2 unical-background override" 
+        value="{% trans 'Create' %}" 
+        style="background: #383838;"
+    />
+</form>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    height: 100vh;
+    font-family: 'Wix Madefor Text', HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+}
+
+.grey-color {
+    color: #435a70;
+}
+
+.unical-background {
+    background: #FBBF24;
+}
+
+.password-icon {
+    padding: 0 15px;
+}
+
+.input-password.is-invalid,
+.was-validated .input-password:invalid {
+    background-image: none;
+}
+
+.form-check [type=checkbox]:checked+label::after {
+    border-color: #FBBF24;
+    background-color: #FBBF24;
+}
+
+/*
+SOCIAL AUTH STYLES 
+*/
+
+.hrdivider {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  opacity: .5;
+}
+
+.acsia_text {
+  color: #A1A1AA;
+}
+
+.acsia_border {
+  border-color: #A1A1AA;
+}
+
+.hrdivider span {
+  position: absolute;
+  top: -11px;
+  background: #18181B;
+  padding: 0 5px;
+  left: 45%;
+}
+
+.btn-socialauth {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd;
+    padding: 3px 3px;
+    border-radius: 8px;
+    font-weight: 700; 
+    font-size: 13px;
+}

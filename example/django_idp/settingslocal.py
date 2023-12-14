@@ -1,21 +1,42 @@
+import json
 import os
+
+from . idp_pysaml2 import HOST, ENTITY_URL
+from . settingslocal_logging import LOGGING
+
+MFA_DOMAIN = ENTITY_URL
+MFA_SITE_TITLE = os.getenv("MFA_SITE_TITLE", "uniAuth-IDP-example")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lrx(fg&+2e=$l=y8$!+l68_=-lm3*n+myg%r3z!yjm(lg*l%-z'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'lrx(fg&+2e="$TDdssdG$%TSFFDSFfdfsmyg%r3z!yjm(lg*l%-z')
+
+# CORS are needed for OAS3 app
+CORS_ORIGIN_ALLOW_ALL = bool(int(os.environ.get("CORS_ORIGIN_ALLOW_ALL", 0)))
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-SESSION_COOKIE_AGE = 60 * 10 # minutes
+DEBUG = int(os.environ.get("DEBUG", 1))
+if not DEBUG:
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+    SESSION_COOKIE_AGE = os.environ.get(
+        "SESSION_COOKIE_AGE",
+        60 * 15 # 10 minutes
+    )
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 # the path corresponding the admin backend, default if not defined: admin/
-ADMIN_PATH = 'admin_access'
+ADMIN_PATH = os.environ.get("ADMIN_PATH", 'admin_access')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', [HOST, "localhost", "127.0.0.1", "*"])
 AUTH_USER_MODEL = 'accounts.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 INSTALLED_APPS = [
     'accounts',
@@ -26,35 +47,117 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sass_processor',
+
     # templates
-    'uniauth_unical_template',
-    'django_unical_bootstrap_italia',
+    'custom_template',
+    #  'django_unical_bootstrap_italia',
     'bootstrap_italia_template',
+
     # uniauth idp
     'uniauth_saml2_idp',
     # 'ldap_peoples',
-    'multildap',
-    'rangefilter']
+    
+    # file upload/change/delete cleanup
+    'django_cleanup.apps.CleanupConfig',
+    
+    # 'multildap',
+    # 'rangefilter'
 
-DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'uniauth',
-        # 'HOST': 'localhost',
-        # 'USER': 'that-user',
-        # 'PASSWORD': 'that-password',
-        # 'PORT': '',
-        # 'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
-    # },
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-   }
-}
+    "corsheaders",
+    
+    # proxy
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.microsoft",
+    
+    # custom
+    "socialauth",
+    
+    # password reset
+    "django_form_builder",
+    "password_reset",
+    
+    # mfa
+    "mfa"
+]
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    
+    # GETTEXT
+    "django.middleware.locale.LocaleMiddleware",
+    
+    # SameSite Cookie workaround
+    "djangosaml2.middleware.SamlSessionMiddleware",
+]
+
+if 'mfa' in INSTALLED_APPS:
+    MIDDLEWARE.append("mfa.middleware.MfaSessionMiddleware")
+    
+    if os.environ.get("MFA", 0):
+        # Enforce MFA
+        MIDDLEWARE.append("mfa.middleware.MFAEnforceMiddleware")
+
+if "allauth" in INSTALLED_APPS:
+    MIDDLEWARE.append("allauth.account.middleware.AccountMiddleware")
+
+if 'multildap' in INSTALLED_APPS:
+    from . settingslocal_ldap import *
+
+if 'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS:
+    # ldap_peoples related
+    # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
+    # LDAP_CONNECTION_PASSWD = 'Thatpassword'
+    # LDAP_DB_URL = 'ldap://localhost:389/'
+    LDAP_BASE_DOMAIN = 'local'
+    # LDAP_PEOPLE_DN = 'dc=proxy'
+
+if os.getenv("DATABASES", None):
+    DATABASES = json.loads(os.getenv("DATABASES"))
+else:
+    DATABASES = {
+        # 'default': {
+            # 'ENGINE': 'django.db.backends.mysql',
+            # 'NAME': 'uniauth',
+            # 'HOST': 'localhost',
+            # 'USER': 'that-user',
+            # 'PASSWORD': 'that-password',
+            # 'PORT': '',
+            # 'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
+        # },
+        #  'default': {
+            #  'ENGINE': 'django.db.backends.postgresql',
+            #  'NAME': os.environ.get("DB-NAME", 'uniauth'),
+            #  'USER': os.environ.get("DB-USER", 'uniauth'),
+            #  'PASSWORD': os.environ.get("DB-PASS", 'that-pass'),
+            #  'HOST': os.environ.get("DB-HOST", 'uniauth-db'),
+            #  'PORT': os.environ.get("DB-PORT", '5432'),
+            #  'OPTIONS': {
+                #  'options': os.getenv("POSTGRESQL_OPTION_CLI", '-c statement_timeout=5000'),
+                #  'connect_timeout': os.getenv("POSTGRESQL_CONNECT_TIMEOUT", 5)
+            #  }
+        #  }
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+       }
+    }
 
 # needed for ldap admin forms
-DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S',
-                          '%d/%m/%Y %H:%M:%S']
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%d %H:%M:%S',
+    '%d/%m/%Y %H:%M:%S'
+]
 
 DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y']
 
@@ -70,7 +173,7 @@ USE_TZ = True
 # email notification on error 500
 DEFAULT_FROM_EMAIL = 'idp-noreply@DOMAIN'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
-EMAIL_HOST = 'smtpservizi.unical.it'
+EMAIL_HOST = 'smtp.example.org'
 # EMAIL_HOST_USER = 'myemail@hotmail.com'
 # EMAIL_HOST_PASSWORD = 'mypassword'
 EMAIL_PORT = 587
@@ -79,211 +182,97 @@ EMAIL_USE_TLS = True
 ADMINS = [('name surname', 'user1@DOMAIN'),
           ('name surnale', 'user2@DOMAIN'),]
 
-# LOGGING
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            # exact format is not important, this is the minimum information
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-        },
-        'detailed': {
-            'format': '[%(asctime)s] %(message)s [(%(levelname)s)]' # %(name)s.%(funcName)s:%(lineno)s]'
-        },
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+            'openid',
+            # 'https://www.googleapis.com/auth/calendar.readonly'
+        ],
     },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'formatter': 'detailed',
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'console': {
-            'formatter': 'detailed',
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'uniauth_saml2_idp': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'multildap': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-    }
+    #  'microsoft': {"SCOPE": ["https://outlook.office365.com/.default", "email", "openid"]}
+    # 'azure' :{}
 }
 
-if 'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS:
-    # ldap_peoples related
-    # LDAP_CONNECTION_USER = 'cn=thatuser,dc=unical,dc=it'
-    # LDAP_CONNECTION_PASSWD = 'Thatpassword'
-    # LDAP_DB_URL = 'ldap://localhost:389/'
-    LDAP_BASE_DOMAIN = 'testunical.it'
-    # LDAP_PEOPLE_DN = 'dc=proxy'
+# Mail is sent using the SMTP host and port specified in the 
+# EMAIL_HOST and EMAIL_PORT settings. The EMAIL_HOST_USER and EMAIL_HOST_PASSWORD 
+# settings, if set, are used to authenticate to the SMTP server, and the 
+# EMAIL_USE_TLS and EMAIL_USE_SSL settings control whether a secure connection is used.
 
-if 'multildap' in INSTALLED_APPS:
-    #####################
-    # pyMutliLDAP related
-    #####################
-    import ldap3
-    from multildap.client import LdapClient
-    # GLOBALS
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_HOST = os.getenv(
+    "EMAIL_BACKEND",
+    None
+)
+EMAIL_PORT = os.getenv(
+    "EMAIL_PORT",
+    None
+)
+EMAIL_HOST_USER = os.getenv(
+    "EMAIL_HOST_USER",
+    None
+)
+EMAIL_HOST_PASSWORD = os.getenv(
+    "EMAIL_HOST_PASSWORD",
+    None
+)
+EMAIL_USE_TLS = os.getenv(
+    "EMAIL_USE_TLS",
+    None
+)
+EMAIL_USE_SSL = os.getenv(
+    "EMAIL_USE_SSL",
+    None
+)
+EMAIL_FROM = os.getenv(
+    "EMAIL_FROM",
+    "no-reply@example.org"
+)
+EMAIL_SUBJECT_PASSWD_RESET = os.getenv(
+    "EMAIL_SUBJECT_PASSWD_RESET",
+    "A password reset was requested"
+)
+EMAIL_MSG_PASSWD_RESET = os.getenv(
+    "EMAIL_MSG_PASSWD_RESET",
+    """
+    Dear {user},
+    
+    You have requested a password change for {host}.
+    Please click on the link below to confirm the password 
+    that you have provided previously during your request:
+    
+    {link}
+    
+    best regards 
+    """
+)
 
-    # encoding
-    ldap3.set_config_parameter('DEFAULT_SERVER_ENCODING',
-                               'UTF-8')
-    # some broken LDAP implementation may have different encoding
-    # than those expected by RFCs
-    # ldap3.set_config_paramenter('ADDITIONAL_ENCODINGS', ...)
+LOGIN_REDIRECT_URL = "/idp/login/process/"
 
-    # timeouts
-    ldap3.set_config_parameter('RESTARTABLE_TRIES', 3)
-    ldap3.set_config_parameter('POOLING_LOOP_TIMEOUT', 2)
-    ldap3.set_config_parameter('RESET_AVAILABILITY_TIMEOUT', 2)
-    ldap3.set_config_parameter('RESTARTABLE_SLEEPTIME', 2)
+# DISABLE USER SIGNUP
+ACCOUNT_ADAPTER = 'socialauth.account_adapter.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'socialauth.socialaccount_adapter.CustomSocialAccountAdapter'
 
-    # _REWRITE_DN_TO = 'dc=proxy'
-    _RS_ATTRIBUTES = ['cn',
-                      'eduPersonPrincipalName',
-                      'eduPersonEntitlement',
-                      'schacHomeOrganizationType',
-                      'schacHomeOrganization',
-                      'mail',
-                      'uid',
-                      'givenName',
-                      'sn',
-                      'eduPersonScopedAffiliation',
-                      'schacPersonalUniqueID',
-                      'schacPersonalUniqueCode']
 
-    DEFAULT = dict(server =
-                       dict(host = 'ldap://ldap.testunical.it:389',
-                            connect_timeout = 5,
-                            # TLS...
-                            ),
-                   connection =
-                       dict(user = 'uid=idpuser,ou=idp,dc=testunical,dc=it',
-                            password = 'idpsecret',
-                            read_only = True,
-                            version = 3,
-                            # see ldap3 client_strategies
-                            client_strategy = ldap3.RESTARTABLE,
-                            auto_bind = True,
-                            pool_size = 10,
-                            pool_keepalive = 10),
-                    search =
-                        dict(search_base = 'ou=people,dc=testunical,dc=it',
-                             search_filter = '(objectclass=person)',
-                             search_scope = ldap3.SUBTREE,
+# account linking based on email
+# ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
-                             # general purpose for huge resultsets
-                             # TODO: implement paged resultset, see: examples/paged_resultset.py
-                             # size_limit = 500,
-                             # paged_size = 1000, # up to 500000 results
-                             # paged_criticality = True, # check if the server supports paged results
-                             # paged_cookie = True, # must be sent back while requesting subsequent entries
+# This option can be used to set whether an email verification is necessary for a user to log in after he registers an account.
+# ACCOUNT_EMAIL_REQUIRED = True
 
-                             # to get all = # '*'
-                             attributes = _RS_ATTRIBUTES
-                            ),
-                        encoding = 'utf-8',
-                      rewrite_rules =
-                            [
-                             # {'package': 'multildap.attr_rewrite',
-                              # 'name': 'replace',
-                              # 'kwargs': {'from_str': 'unical', 'to_str': 'lacinu',}},
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-                             # {'package': 'multildap.attr_rewrite',
-                              # 'name': 'regexp_replace',
-                              # 'kwargs': {'regexp': 'unical', 'sub': 'gnocc',}},
+# SOCIALACCOUNT_EMAIL_REQUIRED = True
+# SOCIALACCOUNT_AUTO_SIGNUP = False
 
-                             # {'package': 'multildap.attr_rewrite',
-                              # 'name': 'add_static_attribute',
-                              # 'kwargs': {'name': 'eduPersonOrcid', 'value': 'ingoalla',}},
-
-                             # {'package': 'multildap.attr_rewrite',
-                              # 'name': 'copy_attribute_value',
-                              # 'kwargs': {'from_attr': 'uid',
-                                         # 'to_attr': 'schacPersonalUniqueID',
-                                         # 'suffix': '',
-                                         # 'prefix': 'urn:schac:personalUniqueID:IT:CF:',
-                                         # }},
-                            ],
-
-                      # Authentication settings
-                      # only needed if behind multildap proxy
-                      # rewrite_dn_to = _REWRITE_DN_TO,
-                      allow_authentication = True,
-                )
-
-    LOCAL = dict(server =
-                       dict(host = 'ldap://localhost:389',
-                            connect_timeout = 5,
-                            # TLS...
-                            ),
-                   connection =
-                       dict(user = 'cn=thatuser,ou=thatou,dc=unical,dc=it',
-                            password = 'thatpassword',
-                            read_only = True,
-                            version = 3,
-                            # see ldap3 client_strategies
-                            client_strategy = ldap3.RESTARTABLE,
-                            auto_bind = True,
-                            pool_size = 10,
-                            pool_keepalive = 10),
-                    search =
-                        dict(search_base = 'ou=people,dc=unical,dc=it',
-                             search_filter = '(objectclass=person)',
-                             search_scope = ldap3.SUBTREE,
-
-                             # general purpose for huge resultsets
-                             # TODO: implement paged resultset, see: examples/paged_resultset.py
-                             # size_limit = 500,
-                             # paged_size = 1000, # up to 500000 results
-                             # paged_criticality = True, # check if the server supports paged results
-                             # paged_cookie = True, # must be sent back while requesting subsequent entries
-
-                             # to get all = # '*'
-                             attributes = _RS_ATTRIBUTES
-                            ),
-                      encoding = 'utf-8',
-                      rewrite_rules =
-                            [
-
-                             # {'package': 'multildap.attr_rewrite',
-                              # 'name': 'append',
-                              # 'kwargs': {'value': '@unical.it',
-                                         # 'to_attrs': ['eduPersonPrincipalName',]}},
-
-                             # {'package': 'attr_rewrite',
-                              # 'name': 'regexp_replace',
-                              # 'kwargs': {'regexp': '', 'sub': '',}},
-
-                            ],
-                      # Authentication settings
-                      # only needed if behind multildap proxy
-                      # rewrite_dn_to = _REWRITE_DN_TO,
-                      allow_authentication = True,
-                )
-
-    # put multiple connections here
-    LDAP_CONNECTIONS = {'DEFAULT' : DEFAULT,
-                        # 'LOCAL' : LOCAL
-                        }
-    LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]
+# TODO REMOVE
+# EMAIL_VERIFICATION = None
+# SOCIALACCOUNT_EMAIL_VERIFICATION = None

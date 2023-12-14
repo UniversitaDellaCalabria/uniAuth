@@ -1,0 +1,970 @@
+DEBUG 2023-10-22 02:16:17,675 views 10038 140066444801600 SAML Authn request Response [
+<?xml version="1.0" ?>
+<samlp:Response xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="id-AVAIV6ZfnTXFEK9lU" InResponseTo="id-hf5rpORZmYISuojkh" Version="2.0" IssueInstant="2023-10-22T02:16:17Z" Destination="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-AVAIV6ZfnTXFEK9lU">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>9Sg06C961p1skChLWBVZ2hqnQnNyat94YnNs0yX++s0=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>CtOGjEe+0f5dMkqST/YxGou2UGSAqyvB92/0tmjqexNY3Ce69NDaEYDHMBL1jBfN
+WbcwcX2klGmDVkRXBDp/MqoJfTLK1Yrsy4zOECriBHvV1+9spR44eTHx5s9Szzwv
+MSu/sdI9IXhWITyOW9eBDCSkDFg3csXDcd6euKIee5O2dLyNvtMOMZLQICHCFrgb
+G6JTSxPD4ar1ZHUS+p2+L4xkSnYkZsEyamrEwRJPKTvPPqMgdF647kgfyADXqr+a
+0mDvQ+7/8wgvtk1KW5opFy9WWH3iHZQAiTuviqhemZ8VALoVPrtAVcU1gLad6mDK
+pAOPwwJzqyuLUheXc0DX7g==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+	<saml:Assertion Version="2.0" ID="id-MvZmTyYcWTefxqMRa" IssueInstant="2023-10-22T02:16:17Z">
+		<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+		<ds:Signature Id="Signature2">
+			<ds:SignedInfo>
+				<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+				<ds:Reference URI="#id-MvZmTyYcWTefxqMRa">
+					<ds:Transforms>
+						<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+						<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+					</ds:Transforms>
+					<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+					<ds:DigestValue>QO5JcgpmQ2RXacgm5tYH7+3yAYX5Dt3pDNGvPOaQSWU=</ds:DigestValue>
+				</ds:Reference>
+			</ds:SignedInfo>
+			<ds:SignatureValue>WWSUWyjNjZ1nQ69XiIFiOhAl4Rl6/4EZyeZQ8h8IuEUxcHMmtuZMEXHx287RTk5s
+iARxypK0xzH6jFZZdvh2AKrG5zfA5/3ziWZGQHiAZrh+uspiqLUTaRgoMisEXFAn
+VOrMTc9uJOUSi1aC/8qKanmTXxw9DAjcyOdCdRVE5WyzPQCBwoih6vqTQJWhEXHS
+SqeXa824aClOs38bGZikAOWFcmELvrIM0XNTj5z0Y/+gXoKVfPkW2O81BIictWz6
+W8+dhRpJXHAn0AswDN3/DPhcGU6a4TxkMfkoR5MRrnZ8SkKxPtCiWD7khONhjmWy
+OD4kguCUFySWCaG8LwalYw==</ds:SignatureValue>
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</ds:Signature>
+		<saml:Subject>
+			<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData NotOnOrAfter="2023-10-22T02:31:17Z" Recipient="http://localhost:8000/saml2/acs/" InResponseTo="id-hf5rpORZmYISuojkh"/>
+			</saml:SubjectConfirmation>
+		</saml:Subject>
+		<saml:Conditions NotBefore="2023-10-22T02:16:17Z" NotOnOrAfter="2023-10-22T02:31:17Z">
+			<saml:AudienceRestriction>
+				<saml:Audience>http://localhost:8000/saml2/metadata/</saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		<saml:AuthnStatement AuthnInstant="2023-10-22T02:16:17Z" SessionIndex="id-Hkn2P1YGQsMsV2Ufu">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+		<saml:AttributeStatement>
+			<saml:Attribute Name="urn:oid:0.9.2342.19200300.100.1.3" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="mail">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao@email.com</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="sn">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mondo</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="givenName">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao</saml:AttributeValue>
+			</saml:Attribute>
+		</saml:AttributeStatement>
+	</saml:Assertion>
+</samlp:Response>
+]
+DEBUG 2023-10-22 02:16:17,676 views 10038 140066444801600 Redirecting to process_user_agreement
+DEBUG 2023-10-22 02:16:30,646 decorators 10038 140066444801600 SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-ki5gNZIOZSnZn15zc" Version="2.0" IssueInstant="2023-10-22T02:16:30Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-ki5gNZIOZSnZn15zc">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>qCvvOQqFYhy3Fq08V212eOcJYKlTcKNfHNVITmQl/7o=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>Vv5RiSrjrKdi6lQCVP+4tutjSXPd3zA8glk0xXeUDlnbxjm85nIdR6hjxFR07h4E
+Lu8jCkbmnXCTt31jxAkMukrSdpJI8InCFr8KTmsJ0cI3mNdEWaJYQr/SqnEY8C3r
+Zidpub1XsiQdZzpZSvwys6NgWdJgO+RNhNQK9/XAKt2B5YWRUW3e24bdjWhmRksb
+WTTN27NRknMj4fJhxkUoMhxaWLBWfUFIlT/1loskTEDWSs5S7HAa4HyVqnTOIIQn
+3poJX0Vn5t/dEiMgDhcOAekZXS1nIilVQylWeSd16w8c4jc6kFH2Lk7YHUdTaSIx
+8F8LlIGn/nXzVkmM+8ls4Q==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-Hkn2P1YGQsMsV2Ufu</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 02:16:30,647 views 10038 140066444801600 Single LogOut Service
+DEBUG 2023-10-22 02:16:30,647 views 10038 140066444801600 Single LogOut requested [
+urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST] to IDP
+INFO 2023-10-22 02:16:30,658 views 10038 140066444801600 Single LogOut from http://localhost:8000/saml2/metadata/ for [75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d]
+DEBUG 2023-10-22 02:16:30,658 views 10038 140066444801600 Single LogOut SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-ki5gNZIOZSnZn15zc" Version="2.0" IssueInstant="2023-10-22T02:16:30Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-ki5gNZIOZSnZn15zc">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>qCvvOQqFYhy3Fq08V212eOcJYKlTcKNfHNVITmQl/7o=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>Vv5RiSrjrKdi6lQCVP+4tutjSXPd3zA8glk0xXeUDlnbxjm85nIdR6hjxFR07h4E
+Lu8jCkbmnXCTt31jxAkMukrSdpJI8InCFr8KTmsJ0cI3mNdEWaJYQr/SqnEY8C3r
+Zidpub1XsiQdZzpZSvwys6NgWdJgO+RNhNQK9/XAKt2B5YWRUW3e24bdjWhmRksb
+WTTN27NRknMj4fJhxkUoMhxaWLBWfUFIlT/1loskTEDWSs5S7HAa4HyVqnTOIIQn
+3poJX0Vn5t/dEiMgDhcOAekZXS1nIilVQylWeSd16w8c4jc6kFH2Lk7YHUdTaSIx
+8F8LlIGn/nXzVkmM+8ls4Q==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-Hkn2P1YGQsMsV2Ufu</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 02:16:30,667 views 10038 140066444801600 Single LogOut Response [
+<?xml version="1.0" ?>
+<samlp:LogoutResponse xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-TkVLkO9AWApvfYJxn" InResponseTo="id-ki5gNZIOZSnZn15zc" Version="2.0" IssueInstant="2023-10-22T02:16:30Z" Destination="http://localhost:8000/saml2/ls/post/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-TkVLkO9AWApvfYJxn">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>9CQcEbG9lX+8rQjOfwxbNkIZ3P9wbhTvG++STmTgGJk=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>fV9qBQlaEmZ90QxY0vfaHyKqzeGwSS2DlvgFUTIakxlYL0HO5lmnqGUscRgslT+Z
+g4S7ZiT8N1prfgkQ9az1ZofH2mipoMyB5gsgHMvyOsA2aTzxPIxK3oDts98g40Ou
+VbeBTXrDrTc09Q2wPU/BVHLBwgRIqkZLJj7kRApt1BtxJFi1FUm1upR43SozXZX6
+D7pir6qwYXKUO/bEy9x4qH35SL4xM9eZI/Xl+H0CBNo5PDHfQCsJ/D6d35rKqJk9
+vhQ83ZHy/8gP46Ch0nfVSXjUtHk0ckAq5NRea2oltdCo5wvORa7i4Vz2AAsRqfAY
+C4ZsnbPjH9gVG6rePFabhA==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+</samlp:LogoutResponse>
+]
+DEBUG 2023-10-22 02:16:30,667 views 10038 140066444801600 binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST destination:http://localhost:8000/saml2/ls/post/ relay_state:id-ki5gNZIOZSnZn15zc|1697940990|fa88b5686708f31eebac497f2f0a4aa0c59b83c6
+WARNING 2023-10-22 02:16:30,668 views 10038 140066444801600 Single LogOut: logging out an unauthenticated user?
+INFO 2023-10-22 02:16:34,399 decorators 10038 140066444801600 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/admin_access/'>
+DEBUG 2023-10-22 02:18:18,822 decorators 10038 140066444801600 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-UKzx51cSuqvA49r4V" Version="2.0" IssueInstant="2023-10-22T02:18:18Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-UKzx51cSuqvA49r4V">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>AiYsFyTsDtKYhfQdeXXenGUHyKAMLMOU3sK9WHhZh5I=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>FgK09DcjFQbupyZpjmvuAffGYOmtmLklg77IFS0pxE3w9jpB0gwI4UQjijaZZL1U
+m+OYiFpB8WCMVmdLk42ptosnQqR6LnAjcWoh+m4I5n/ZzY1owxhyb49zn7T/HyRh
+oJMhcbRVVGQCy9xehrFVpJ6fxxprGqHly1ukuOBzCFWJDcVhe0ZzAXcTQL5Qv196
+As9ZiB5lyTVNTCS1zgM5kUZ77Qth///MtoWNA3XFQMa1wlftHJVAN9Jzt8lB8aqw
+Y3BmHXUIq1tQMMcmSUkSfD9hvXwyp2oqlAQHLZXUsy7+PqXQGbPL2KIhFWqvHCpV
+nPrmqh+lAxqTQir4963ouw==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 02:18:18,825 views 10038 140066444801600 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 02:18:19,048 decorators 10038 140066444801600 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+DEBUG 2023-10-22 02:29:12,790 decorators 10504 140435679868480 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-AbbIpTuZkvgi6kmP0" Version="2.0" IssueInstant="2023-10-22T02:29:12Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-AbbIpTuZkvgi6kmP0">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>AW8PvDIyP9Ys4D8+hGSFlUUZEhymlBMR9BAFalb1nPo=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>XZIr5wsXx+LeIZqEhv0ZEJyOTYbVZWtiAl4c9c9HBJT++Ba7nX+R1kVBdpVINI6b
+frPkfQ1lV1Ls/wmwbZrw5RD0GWsoRZkhCtGZ9z9qyDiDpRtJ9E4PZJdo3rFbg0bg
+PHy4dksS9wbJOzl5B9JethKRDkkyJBJ5GahK2JznGjYtBGpz3eHXQMNC1sa31uz1
+JHh0BixmU/hBiL9YVsg8oFWrteHxQ6ba8q3E1P8hcTs51xKmjFRwRgDuM/6XmkQ/
+b0c0uAff98T7640f+tomPrtigNQAqbkyb45XWNgrLd7uvYFOz+E95jqy/alse9j1
+fm0TIdc4rI6UMYPLTBHKLQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 02:29:12,793 views 10504 140435679868480 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 02:29:13,055 decorators 10504 140435679868480 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 02:29:22,866 decorators 10504 140435679868480 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 02:29:41,936 views 10504 140435679868480 wert: already logged in.
+INFO 2023-10-22 02:29:42,104 views 10504 140435679868480 SSO AuthnResponse [urn:oasis:names:tc:SAML:2.0:nameid-format:transient] to http://localhost:8000/saml2/metadata/ [id-AbbIpTuZkvgi6kmP0]: 3 attrs (mail,sn,givenName) on 3 filtered by policy
+DEBUG 2023-10-22 02:29:42,129 views 10504 140435679868480 SAML Authn request Response [
+<?xml version="1.0" ?>
+<samlp:Response xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="id-VzxlLfbUGWsn5cxrQ" InResponseTo="id-AbbIpTuZkvgi6kmP0" Version="2.0" IssueInstant="2023-10-22T02:29:42Z" Destination="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-VzxlLfbUGWsn5cxrQ">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>qp9tLF/bvstM7BmqFzvEAv+3p8g7rS0SbDTF0+PbtYQ=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>OVAN8fDLt7qOj0Sai1aHnDkt30w19Tiydmczu5DcEml+DPPqT87CmjY9wueb2p5L
+k56gl+yhaaVpUTGU5BHgjTGSltS8xBWpHdpAQdE39ZkVOT2pwEfawzL860G8OZBC
+QEFMFQqr/sfvXsS4Ke1DS00LdFALnzd+j2PpNUn++mJPcaiihIeayKNy64vit4mv
+9+zUlOteRm8d6NIbdJISqb3/uZEbl7X60peDh0Du2GoTU5D28hoYGc1bsiXGZgVB
+xXso1Plt4VDgJ7jgcFcn5F8BKueWXECawYCCbbptUogZ9t8d3R55S0Ky353nwUOd
+G0tclH88MbN5hwRk8bfzHQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+	<saml:Assertion Version="2.0" ID="id-LM8h9M4QfTRSXZ0NX" IssueInstant="2023-10-22T02:29:42Z">
+		<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+		<ds:Signature Id="Signature2">
+			<ds:SignedInfo>
+				<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+				<ds:Reference URI="#id-LM8h9M4QfTRSXZ0NX">
+					<ds:Transforms>
+						<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+						<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+					</ds:Transforms>
+					<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+					<ds:DigestValue>D88HrRtUxS02jKhF4ZI7FufADFSN70hjDm0pr9SAiQ4=</ds:DigestValue>
+				</ds:Reference>
+			</ds:SignedInfo>
+			<ds:SignatureValue>gobO0Z/vF//k2WVsSJeSofBzFrv2yjUw2e/OUgzmGQeq6Oq80TAg1bdKxIdPq+1x
+vJNFQa2rAvVNkBVY/RwXZPkUS9J3ySrWaX9rvd71iLg/Dhn1XFbQCqu6iyLcV3PF
+ybCzbE5PSfKR1bgXmTIi6pRjAsFfKKTfz9s3PAZsxHUlOmgFjEbveAdgYSdlLA5d
+Uebo+lDRYWYKQ5GHUrZOlmM59NXFlyadeHMyla45hmVTzGHov0d1VFr5x9zc6a+x
+0h7MW50ZHtLdmuIAB+lGXX5q2g6G2KkyqIVHgAFjPvexWfd6yA5nkOV3neKfxhcQ
+zwqaiA2TQ6vp6QOvkBw6RQ==</ds:SignatureValue>
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</ds:Signature>
+		<saml:Subject>
+			<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData NotOnOrAfter="2023-10-22T02:44:42Z" Recipient="http://localhost:8000/saml2/acs/" InResponseTo="id-AbbIpTuZkvgi6kmP0"/>
+			</saml:SubjectConfirmation>
+		</saml:Subject>
+		<saml:Conditions NotBefore="2023-10-22T02:29:42Z" NotOnOrAfter="2023-10-22T02:44:42Z">
+			<saml:AudienceRestriction>
+				<saml:Audience>http://localhost:8000/saml2/metadata/</saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		<saml:AuthnStatement AuthnInstant="2023-10-22T02:29:42Z" SessionIndex="id-3rDJHZOTDZiWPbbYh">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+		<saml:AttributeStatement>
+			<saml:Attribute Name="urn:oid:0.9.2342.19200300.100.1.3" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="mail">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao@email.com</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="sn">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mondo</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="givenName">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao</saml:AttributeValue>
+			</saml:Attribute>
+		</saml:AttributeStatement>
+	</saml:Assertion>
+</samlp:Response>
+]
+DEBUG 2023-10-22 02:29:42,130 views 10504 140435679868480 Redirecting to process_user_agreement
+DEBUG 2023-10-22 02:29:50,873 decorators 10504 140435679868480 SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-fc60mbmbsB0WaHQsf" Version="2.0" IssueInstant="2023-10-22T02:29:50Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-fc60mbmbsB0WaHQsf">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>HcKlOZa+tL9s15jOaeJjeTsnDaNPxDUeBsvCTzxGewI=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>QSc4pyO1PjXZgEAx+YIpAeXMXGANXr05MqrzFKeqePNndH0D2YQHJYNTjl2FgIia
+Tlgjs0YKiNBfrlMjumgkBihGcNKdcX9Ry0N+T0Bpxsec1zxBj/GG+W1gniFvZv/k
+XX2PFK0wcD/qz/Wp/wpiUYzlCqMU8KjnJOjHlv8mddev5J2mcJMsDdcxK/wkqS6l
+3a4mZykF5+mCzDFMin2Jwf9WeHYt58mWEZQYo0xxDd9imtEhadJZ6nG8hmQNSRhQ
+0GxUfce6/fdTTlwWDCL3cqRLo1XL737F1cDERezvMgMjlMgOp6CgK4gvRYlg6RyD
+xav9LXjBI2OzL9gor+Czow==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-3rDJHZOTDZiWPbbYh</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 02:29:50,874 views 10504 140435679868480 Single LogOut Service
+DEBUG 2023-10-22 02:29:50,874 views 10504 140435679868480 Single LogOut requested [
+urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST] to IDP
+INFO 2023-10-22 02:29:50,892 views 10504 140435679868480 Single LogOut from http://localhost:8000/saml2/metadata/ for [75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d]
+DEBUG 2023-10-22 02:29:50,893 views 10504 140435679868480 Single LogOut SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-fc60mbmbsB0WaHQsf" Version="2.0" IssueInstant="2023-10-22T02:29:50Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-fc60mbmbsB0WaHQsf">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>HcKlOZa+tL9s15jOaeJjeTsnDaNPxDUeBsvCTzxGewI=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>QSc4pyO1PjXZgEAx+YIpAeXMXGANXr05MqrzFKeqePNndH0D2YQHJYNTjl2FgIia
+Tlgjs0YKiNBfrlMjumgkBihGcNKdcX9Ry0N+T0Bpxsec1zxBj/GG+W1gniFvZv/k
+XX2PFK0wcD/qz/Wp/wpiUYzlCqMU8KjnJOjHlv8mddev5J2mcJMsDdcxK/wkqS6l
+3a4mZykF5+mCzDFMin2Jwf9WeHYt58mWEZQYo0xxDd9imtEhadJZ6nG8hmQNSRhQ
+0GxUfce6/fdTTlwWDCL3cqRLo1XL737F1cDERezvMgMjlMgOp6CgK4gvRYlg6RyD
+xav9LXjBI2OzL9gor+Czow==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-3rDJHZOTDZiWPbbYh</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 02:29:50,908 views 10504 140435679868480 Single LogOut Response [
+<?xml version="1.0" ?>
+<samlp:LogoutResponse xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-81u7rlVpwh1aUTDjs" InResponseTo="id-fc60mbmbsB0WaHQsf" Version="2.0" IssueInstant="2023-10-22T02:29:50Z" Destination="http://localhost:8000/saml2/ls/post/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-81u7rlVpwh1aUTDjs">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>JAnooa/Xb6jFzV0m4v8lrKi85pL4LyV45kZFRuG+waA=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>V0LonVW1r2ToQJIOcTNPvCRisbzxxtxEjjoKlrVCaY495ytdrbzP744NNbYhSfh8
+SzErp+ZpVP1aGXQ+HO2QDcbEK/mANLAJQh5k0VetdinRNB/kZ23/MyxA9sIOoyEM
+GUltm6Id8kKBn9xJQDr5hGxorqCadRVi74EeseaTkMjBhQFOogw4A4llBzsVRpCe
+NPl0QNKSNK9plhssuVKd7irl1ovBA4UpcCWm1WyhY9jO64faF/ZJrJfcGmoyf9Bw
+4G7ZNTZhFNoULRRFwmK5QqDMsKt0152VAYcpanzzBg2HhyZ6Rw8+dIniIlf4Xy89
+hcwQqkKoL/mySAK0WogqjQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+</samlp:LogoutResponse>
+]
+DEBUG 2023-10-22 02:29:50,908 views 10504 140435679868480 binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST destination:http://localhost:8000/saml2/ls/post/ relay_state:id-fc60mbmbsB0WaHQsf|1697941790|f056261fd51cd97174f7be2f252f67a50f6173cf
+WARNING 2023-10-22 02:29:50,909 views 10504 140435679868480 Single LogOut: logging out an unauthenticated user?
+DEBUG 2023-10-22 02:29:53,011 decorators 10504 140435679868480 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-ZjULzNzt7cdhPxUwf" Version="2.0" IssueInstant="2023-10-22T02:29:52Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-ZjULzNzt7cdhPxUwf">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>+dj4qWg14i/6iP2Cev1PUCedmYV1pCJO0eiJ32BnJ10=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>ZeV9nLI26dkxlhWjCHz3HGE4WRdfSF0R3FTAV+cbN+H68uYrnI9MiPyeDNk2cxaQ
+JotuDE+w4x8ZLQDcQmnvD2Ux9yBdAodTrcI3b6cLBuiXPEcRX0OMI5jcB4BL8Dsk
+eZ52A3ScurPcCHfDlmsVdBTeXh3WLbvABM4x0SnXyuvlUbHTEC3gpWq9PnkpwO6D
+frT4ZfceYaC3RtmgbaOD0TG48QwwCntKWF4SmRUPRwzIrX6loclRZA5cRwoP43Ip
+dEvX+tuSS4DbbzD27dwBvhMHV7tINloCwmZAeTs2zjfjFWj5cAnYBzHsv5Lz29Qq
+UYZaxsLLCsfVUpiOmtI3OA==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 02:29:53,014 views 10504 140435679868480 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 02:29:53,276 decorators 10504 140435679868480 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 02:30:00,937 decorators 10504 140435679868480 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:24:14,716 decorators 3761 139902094145088 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/admin_access/'>
+INFO 2023-10-22 13:24:20,380 decorators 3761 139902066869824 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/admin_access/'>
+DEBUG 2023-10-22 13:24:27,595 decorators 3761 139902066869824 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-jVzwVO8O0tNzIgTgM" Version="2.0" IssueInstant="2023-10-22T13:24:27Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-jVzwVO8O0tNzIgTgM">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>VYZkVEqVNYRdwazzj9Pfh3F8ccm/gw3rVN6OCDDcK9s=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>VW/m1qiOE6FIB7P/3kP9LrRWXvN1MsaZ32Lyl1E5GXdiSHSRlTGji9CmtD0dKyFU
+Tqlm0RC72OVnxecjn/jKx2/3AwB1jCln+bWRWKKoxjyRFh7Gh0msnhKHXJP/vgsd
+7J1tsXBnyemwBk8L4hOPTcy0wdnl8QQSqz5pIuoEOEU1rseInQ6Arv0nm++clx5Z
+1wKc/6AwNBIaMfWuUcvXrryqJnFiBDOE89kc14JnJBFkvnEH6Onau5QBZDm35WVs
+3ujlmBVvOjbXvbguNQACIVzSIeSh22az02F9MbaqIv9pS+kFogSTFap6jR3tZZtM
+Ve9Xuam8SiUGRHCXEm+VZA==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 13:24:27,597 views 3761 139902066869824 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 13:24:27,859 decorators 3761 139902066869824 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:24:37,687 decorators 3761 139902066869824 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:50:46,986 decorators 4876 139640325535296 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+DEBUG 2023-10-22 13:50:48,757 decorators 4876 139640325535296 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-3V3mQidvpHBpVKgA3" Version="2.0" IssueInstant="2023-10-22T13:50:48Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-3V3mQidvpHBpVKgA3">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>IS1d+D2wbI5gHTM7IR0xYA8K6wN8HxugyDgENlIaPe0=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>Fl0gHk1QuzouqvJoh3JgW+ck0w340TeVt+lrl+TYtPk6RCjdOTCgK87KOyOvz9Gw
+v2DsCnWr1wZRIBmHmc86MJHvz+D0a0P0+K/TO35Lal2GtKDndszgvRvzjtfgZX8F
+AAdlZhSAnbUIZdB4sLxGv5hjA6PM9UumfOXR9DWX8ByH8jAVQN04uJd/20PGqE6M
+MTSo21iqXJ8fbs/Gi/23L890Lptppccbaops4qziPY7WcqS/qm5O0Z5gyO4Hvg+8
+/6p7xjc4YzGcNlG0yXG5XpMbXovgS7zNCr/nnCoanD1wQ7h6IvuXtwxzmoyUmptS
+WC1Y8VRgiwwCbsS08xEnaQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 13:50:48,760 views 4876 139640325535296 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 13:50:48,997 decorators 4876 139640325535296 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:50:57,704 decorators 4876 139640325535296 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:51:11,313 views 4876 139640325535296 wert: already logged in.
+INFO 2023-10-22 13:51:11,485 views 4876 139640325535296 SSO AuthnResponse [urn:oasis:names:tc:SAML:2.0:nameid-format:transient] to http://localhost:8000/saml2/metadata/ [id-3V3mQidvpHBpVKgA3]: 3 attrs (mail,sn,givenName) on 3 filtered by policy
+DEBUG 2023-10-22 13:51:11,509 views 4876 139640325535296 SAML Authn request Response [
+<?xml version="1.0" ?>
+<samlp:Response xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="id-Acpm0dye4ng2mlJNW" InResponseTo="id-3V3mQidvpHBpVKgA3" Version="2.0" IssueInstant="2023-10-22T13:51:11Z" Destination="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-Acpm0dye4ng2mlJNW">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>Rfoeo4IYmCcxPMvVPNI4xu9e4pd0qklP9/T/ExGfBnE=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>NGN9bR4JMK8SfxQPL1q3GIAUoZr0YRyGKICg2rhiyEDheKf5x7q2V+OS6JBVayAT
+yscJ+maD5JUpFW1Stov7Ztbo/acAbl7kLu7TuTUGVmScmEBegIUj9sHnbASeVSSh
+SpYRlzAdwxTz13HKFqRPl7EykxGMwL7qC0ZvhnjI16dyQm13yU+AZIvJOrpOpILG
+HPNM0apo1DyxfS2PkaEepgFCmB4q36YKC35k4nsXx/DhENLCP3Zb6CbTUTqqaQsq
++Sc9fTCUGFoIVLGNzTpubMx+FsgQ1lqL5Kji5xVQLi0hplA/VvuFOZ/Gso3rMr9b
+SQaxoPZa4y7PcbbaOdRRCw==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+	<saml:Assertion Version="2.0" ID="id-1BMwkeJcXb09gZ8VZ" IssueInstant="2023-10-22T13:51:11Z">
+		<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+		<ds:Signature Id="Signature2">
+			<ds:SignedInfo>
+				<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+				<ds:Reference URI="#id-1BMwkeJcXb09gZ8VZ">
+					<ds:Transforms>
+						<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+						<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+					</ds:Transforms>
+					<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+					<ds:DigestValue>fti8PQJ6/IatZeMAHT0LJ73PgBBumIiUHeedK1yjT0Y=</ds:DigestValue>
+				</ds:Reference>
+			</ds:SignedInfo>
+			<ds:SignatureValue>QKhnuh6Xsx4PqqLg/9HrA3Qh9i/IwuY8ZFZxqISUhtYeH4G4O/WuGP2HLbmMWP1y
+KxplM++jktR+emm98fmR4o0AQ8UboAEUGM7bk1BO+ksgFjpNjx6XM/RFRmxZTTU2
+TR5dpVMQHqY2ZP/QwvFKYsG+I7tvOY/+LxeBqnXkx66w6HIGRi7c8aNHx/rDKeUt
+BlLFhiduF5F9wwWQg+aG1DPH5SfoTppCkzo6azumSicetoNjCeHkVN+vv6qcoTNy
+2G0SNPIWt2Ff2pjyQcamGCOJVMB0U4W9cDr0de7BqziTehIPF76WTsWvx78Zvt2e
+N2EShB4mkODuV1RSwNV3sA==</ds:SignatureValue>
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</ds:Signature>
+		<saml:Subject>
+			<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData NotOnOrAfter="2023-10-22T14:06:11Z" Recipient="http://localhost:8000/saml2/acs/" InResponseTo="id-3V3mQidvpHBpVKgA3"/>
+			</saml:SubjectConfirmation>
+		</saml:Subject>
+		<saml:Conditions NotBefore="2023-10-22T13:51:11Z" NotOnOrAfter="2023-10-22T14:06:11Z">
+			<saml:AudienceRestriction>
+				<saml:Audience>http://localhost:8000/saml2/metadata/</saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		<saml:AuthnStatement AuthnInstant="2023-10-22T13:51:11Z" SessionIndex="id-traX2fCHAX8ZRBDJ8">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+		<saml:AttributeStatement>
+			<saml:Attribute Name="urn:oid:0.9.2342.19200300.100.1.3" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="mail">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao@email.com</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="sn">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mondo</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="givenName">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao</saml:AttributeValue>
+			</saml:Attribute>
+		</saml:AttributeStatement>
+	</saml:Assertion>
+</samlp:Response>
+]
+DEBUG 2023-10-22 13:51:11,510 views 4876 139640325535296 Redirecting to process_user_agreement
+DEBUG 2023-10-22 13:51:16,401 decorators 4876 139640325535296 SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-zhHjo8N94hpyDJN9P" Version="2.0" IssueInstant="2023-10-22T13:51:16Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-zhHjo8N94hpyDJN9P">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>vuv0D+pVoFWz5vMhDvxaeDJEVCtaiOVyr0n4Bdqtefo=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>YpLKsBMeEIYmUDM/sFLr3WcwUIuGDYgRmh7wfzgSXok4niOm5cOtcJBGaoyxXP64
+bOrTjCXwZ/Dn/WVxsx//coBj+D8PMkb7MhJXM9sbT8K4vESOwowgW9udMG5/BGUn
+OaHJ97Il5NsaKpqlGcBItGaFQ2FFZWPRTkWv9IvE6wpX7Q50iW0cGXpWyHJ8Va7I
+wMNZyrbuvz0Q/7jt0itC0gMoCIFEEhYOUDRNKYMHWoHkR3Jc4sB+ehMMxYyfADlJ
+C4WsJhEzmrCcKNnowHzcKpsb66T0QhBpsVBTyI0uYlLF5M0gRhzZVLx9xX4cDVUR
+T2La+HL4H6KuRohLPWQriQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-traX2fCHAX8ZRBDJ8</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 13:51:16,403 views 4876 139640325535296 Single LogOut Service
+DEBUG 2023-10-22 13:51:16,403 views 4876 139640325535296 Single LogOut requested [
+urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST] to IDP
+INFO 2023-10-22 13:51:16,419 views 4876 139640325535296 Single LogOut from http://localhost:8000/saml2/metadata/ for [75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d]
+DEBUG 2023-10-22 13:51:16,420 views 4876 139640325535296 Single LogOut SAML request [
+<?xml version="1.0" ?>
+<samlp:LogoutRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-zhHjo8N94hpyDJN9P" Version="2.0" IssueInstant="2023-10-22T13:51:16Z" Destination="http://localhost:9000/idp/slo/post" Reason="">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-zhHjo8N94hpyDJN9P">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>vuv0D+pVoFWz5vMhDvxaeDJEVCtaiOVyr0n4Bdqtefo=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>YpLKsBMeEIYmUDM/sFLr3WcwUIuGDYgRmh7wfzgSXok4niOm5cOtcJBGaoyxXP64
+bOrTjCXwZ/Dn/WVxsx//coBj+D8PMkb7MhJXM9sbT8K4vESOwowgW9udMG5/BGUn
+OaHJ97Il5NsaKpqlGcBItGaFQ2FFZWPRTkWv9IvE6wpX7Q50iW0cGXpWyHJ8Va7I
+wMNZyrbuvz0Q/7jt0itC0gMoCIFEEhYOUDRNKYMHWoHkR3Jc4sB+ehMMxYyfADlJ
+C4WsJhEzmrCcKNnowHzcKpsb66T0QhBpsVBTyI0uYlLF5M0gRhzZVLx9xX4cDVUR
+T2La+HL4H6KuRohLPWQriQ==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+	<samlp:SessionIndex>id-traX2fCHAX8ZRBDJ8</samlp:SessionIndex>
+</samlp:LogoutRequest>
+]
+DEBUG 2023-10-22 13:51:16,431 views 4876 139640325535296 Single LogOut Response [
+<?xml version="1.0" ?>
+<samlp:LogoutResponse xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-DNtDaj77z3pMUlgCQ" InResponseTo="id-zhHjo8N94hpyDJN9P" Version="2.0" IssueInstant="2023-10-22T13:51:16Z" Destination="http://localhost:8000/saml2/ls/post/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-DNtDaj77z3pMUlgCQ">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>Vqg5v/kFBX3ZiMGKeQUn7+rZ6xx4w5AGVKLdm+BhFhI=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>WXdINR6FSXXp8x5c/NHuNoTQsthXhNPPBHsPxfQO5S5431FznDFEb3POvo+bsqCH
+C/Mjkzk1CVq06jeLpW9SwleoYKh5OwXFY/9WCdnIr5MBdeF0qoGpf/BfkfITEFYn
+Pb+mOSHIItIeOkeyR3eJTtkaMDcQydxIMg1yBdH1zjbriBbJaHVuzdcONMHcmr9O
+LRJAjmp2/WOlVjN6B+QINvonuDZtwJKq3ZbGKLXYbDY8uPvEf7f7GLbX9uIqRVyG
+32Fd7IdGRDudRibvwemQ6YnuAgnPPC+ZDvK/94IPA3l3bD7LsM4hAc6kycbsq5b8
+SVlQAXhcdUa+krtXje5QaA==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+</samlp:LogoutResponse>
+]
+DEBUG 2023-10-22 13:51:16,431 views 4876 139640325535296 binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST destination:http://localhost:8000/saml2/ls/post/ relay_state:id-zhHjo8N94hpyDJN9P|1697982676|50b194ea8489fc7cdc9b1626e446e326af38c2c7
+WARNING 2023-10-22 13:51:16,432 views 4876 139640325535296 Single LogOut: logging out an unauthenticated user?
+DEBUG 2023-10-22 13:51:18,261 decorators 4876 139640325535296 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-4LoMhyEoaDp6EHJOi" Version="2.0" IssueInstant="2023-10-22T13:51:18Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-4LoMhyEoaDp6EHJOi">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>Fext4f8fGJcweHgJaIlOn/uBwIC8hWa86T+wU2PRhlA=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>TgbuciQ/yO2UI5CXz2Ynjr+gqk7Uv9x+4XXCmoEGPtHqkbq/+f/McnYsym9G/ehR
+RM7qU9HNMpl56wVDU0eQDlkH2hMGw80Pm6ON/t1x2fSFeaNPm+pNMF44ybkzqT7+
+55yC17rDrPCSBrrZTbzYqJ3OscN1mUAANtdVQzAddq5e1VzWSpcnppAiBUQoYun7
+6utYPb4ORQ7zHTMogit6GO/pvFIHiFhAtFAch63tkBI1mqH4bBIJ5CKzg2eqNAOK
+Ditw7TUdBw3M025k3vmzlsyQOi1pSoxPfJcYcmZsBu/wc4+6BrUxNC2AC53uQXmf
+06fzJkSEIjWpCeTLKHZZTg==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 13:51:18,262 views 4876 139640325535296 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 13:51:18,489 decorators 4876 139640325535296 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:54:06,583 decorators 5368 139637609723456 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/admin_access/'>
+DEBUG 2023-10-22 13:54:07,932 decorators 5368 139637583496768 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-lRFoGk58K5GMxPOPM" Version="2.0" IssueInstant="2023-10-22T13:54:07Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-lRFoGk58K5GMxPOPM">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>Y2c7YrdiHlnxBNtdXxTuGrceiDK0+OmCWFxuePRJMM8=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>cD9YP66+8G3yYyG1trosE3rPJIOJnA9540QMQu6kgbc0kMaDmI7A4fWqK7+D36nr
+PZzha013aAB86HSNi7km3JaJHD981Qw02jgkSn6V2QgJ7sxWDehZC5YHD4ZAYk7E
+j/3QajamCBl4qG6kdnX6HrE1XaaAxt0p+4wxEU6tt+jdFKunLFQRGEdvvViVhx4E
+kyvzDfJHRfjqkVAdZUPC32r7KkecD+5crtLQJsdc+FaCeJ/4NcnHKssLdzRc8Ier
+NgJ2cXNLeSdu2ERxjBTE3TauVsH/IAoUxv04zoy0CNT3bafr/BR1AT/ls7ICCPvG
+gdaqgD/RrprIS7ewJD7Icg==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 13:54:07,935 views 5368 139637583496768 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 13:54:08,177 decorators 5368 139637583496768 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:54:20,282 decorators 5368 139637583496768 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:54:42,712 views 5368 139637583496768 wert: already logged in.
+INFO 2023-10-22 13:54:42,876 views 5368 139637583496768 SSO AuthnResponse [urn:oasis:names:tc:SAML:2.0:nameid-format:transient] to http://localhost:8000/saml2/metadata/ [id-lRFoGk58K5GMxPOPM]: 3 attrs (mail,sn,givenName) on 3 filtered by policy
+DEBUG 2023-10-22 13:54:42,900 views 5368 139637583496768 SAML Authn request Response [
+<?xml version="1.0" ?>
+<samlp:Response xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="id-BbCG86RULWeKr154h" InResponseTo="id-lRFoGk58K5GMxPOPM" Version="2.0" IssueInstant="2023-10-22T13:54:42Z" Destination="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-BbCG86RULWeKr154h">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>KKxXUUeeFF3UbQJRnur0qob/suMr7e/N6G/kxbhYVXQ=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>lJ0rXVDpvbXeeCMR3aZX2qvgHX+J8In+PfjKixDKgSo8NLdhbStUhHRIcJYSh5hw
+16UpqDyVpA4BvoeeABhKbvBJNr3wEdLmaSyt6Q0jTJHv/dKGjZIClPcaukCztMND
+FPCA/Nx8IB4WGyhPe/yOJhkFVb9joqugtGQWzQXDrhrPthxUVs7oV3t+Dcza6emZ
+WezVONUrKz1HxEPxM/pYkYOWfWbFGYu6XwY9fWUi7WOr/SKUb1ernYhEKlVvboLe
+wtfrm2V9JzztQo/Gs6GzKTOE6Cf3TZaRiBG5dQb0rrUxm43FDk2P15Z/4gy6LNMy
+PBRJuqcqejycuwE9tgbL9g==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+	</samlp:Status>
+	<saml:Assertion Version="2.0" ID="id-hAx92a7x4tr3wsGv1" IssueInstant="2023-10-22T13:54:42Z">
+		<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:9000/idp/metadata</saml:Issuer>
+		<ds:Signature Id="Signature2">
+			<ds:SignedInfo>
+				<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+				<ds:Reference URI="#id-hAx92a7x4tr3wsGv1">
+					<ds:Transforms>
+						<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+						<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+					</ds:Transforms>
+					<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+					<ds:DigestValue>wKf+Ox10mIhcRyWFxA3nYxSdogQGKluFb4vvGITE4bI=</ds:DigestValue>
+				</ds:Reference>
+			</ds:SignedInfo>
+			<ds:SignatureValue>aOfObL3KDDNqVocaZGhau4EvCfcjrC0CjmI8uRb2SvMBxsavxRj/gWrFlnl8kKGx
+9XwaZi6GYuGG08ZcRcmFZrDu5hlF7JRHVrfG8RS0Nu0i8T3sba9HyDjNoirNGk3/
+y+67TDzq6p9L9yBwUp2tiJZPsBjQbaJlwCtvG+3yyFIBVngsaVFvu+d+3qvN/cXO
+QKb9h7v6r0fwddksbGWwGKDbYCCP4Nxl0Ox+Im5teHgi7PVbT5zG829kNjUxSJUG
+57uj7qu9yHvLlymiLAnyRXEdqizbMUVN/0321MMc1ysOhokVvczU4rjfJabzZqW8
+aE5cV9GcLYIsXshRKJNeQQ==</ds:SignatureValue>
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIFHzCCBAegAwIBAgISA+RR0oabh9vUDADDY/sj3E/QMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJSMzAeFw0yMzA2MTMxMzUxMDNaFw0yMzA5MTExMzUxMDJaMBgxFjAUBgNVBAMTDWRldjMuYWNzaWEuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5XS6fJsqSgwdX0JZVPGIfMHJwEwokfyZx4OSVS2ZkWA/JjUR1wmdxNw5nLnmWDia2VJK4CXGr3gZ+SST+L8QG0qH2OV52FNK14wFy4UbnTzhQusvi57KI306JTe4W/JAK2tMVk1x9+S+JgqVq97AW/DLecaUmK3DCYnlw6q3ymk1wH9LMOu6rKlCGHeJIB253P4a4vq8SQkgO0+B7Qxin2FlajIJew03hgcjv1JA5jdZryqXzjuZbUnk6ME6HZBYeDRS09ecyi7ui8oPLbyYmlq+KNJY84vJG3snX8YY6qXnZxtTKaEBY8ms3DRfdqxsswDAzBuQNbUg8TFSDaUTZAgMBAAGjggJHMIICQzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEsfOFuWV8d2Jz5zM5/D0Mbnfrk0MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMBgGA1UdEQQRMA+CDWRldjMuYWNzaWEuaW8wTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdQC3Pvsk35xNunXyOcW6WPRsXfxCz3qfNcSeHQmBJe20mQAAAYi1PSesAAAEAwBGMEQCIGAdesNxZs+zMk5laA7ogaHIphRTKR6gYR7Ug1NjPodVAiABM4F+ViEB03Av5RCoNhTR52b4iMoUffRdt37O8TwW6gB2AHoyjFTYty22IOo44FIe6YQWcDIThU070ivBOlejUutSAAABiLU9J88AAAQDAEcwRQIgFzeYQlKD8KemoPXnkholaQ+29Avn++ompynAeLsZUjECIQCUnrsyW0uJQ/x4FPs92Ff/PXjG9mElq2gt+MkxtSgBNjANBgkqhkiG9w0BAQsFAAOCAQEAMtABdAT7MZfeL6/Za5GfG52hIWGmPglXXlJ0ihLbe+m0OkGDXIS8fBGAv7/MCSD8iqxaa0UnwL98CGAEMIbScep9dL2H5sfUC4oZgRp5H8LtLvnnC6IJ4pIYvUQ/GB6p66PanuyI9FDrw28OaFMDwCawDCqa7oOYLORU6Z+tyTfCDFn/PUsqZ9EN0tu8N9VT4eGEokLZX075Hr6mFo5m2aNNpmD9mZVzdcC2doTHuoegRbfbPd/lCM2aFhHj5A7/Gtb+9b4ifrKcm/HnL4LORSA7wD+uzCti81qYe2yF6akzEmjDbPvUOwkNGoQ29QVyEndxBSNciUxA26e1r/7LSQ==</ds:X509Certificate>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</ds:Signature>
+		<saml:Subject>
+			<saml:NameID SPNameQualifier="http://localhost:8000/saml2/metadata/" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">75c518f1b85c0f802c34f3662a41341fff47e78269325513efa19b1538895c4d</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData NotOnOrAfter="2023-10-22T14:09:42Z" Recipient="http://localhost:8000/saml2/acs/" InResponseTo="id-lRFoGk58K5GMxPOPM"/>
+			</saml:SubjectConfirmation>
+		</saml:Subject>
+		<saml:Conditions NotBefore="2023-10-22T13:54:42Z" NotOnOrAfter="2023-10-22T14:09:42Z">
+			<saml:AudienceRestriction>
+				<saml:Audience>http://localhost:8000/saml2/metadata/</saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		<saml:AuthnStatement AuthnInstant="2023-10-22T13:54:42Z" SessionIndex="id-bma3gI1OVaM3cmofz">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+		<saml:AttributeStatement>
+			<saml:Attribute Name="urn:oid:0.9.2342.19200300.100.1.3" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="mail">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao@email.com</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="sn">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mondo</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="givenName">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ciao</saml:AttributeValue>
+			</saml:Attribute>
+		</saml:AttributeStatement>
+	</saml:Assertion>
+</samlp:Response>
+]
+DEBUG 2023-10-22 13:54:42,901 views 5368 139637583496768 Redirecting to process_user_agreement
+INFO 2023-10-22 13:55:16,474 decorators 5368 139637583496768 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/admin_access/mfa/mfakey/2/delete/'>
+DEBUG 2023-10-22 13:55:32,228 decorators 5538 140198840104512 SAML request [
+<?xml version="1.0" ?>
+<samlp:AuthnRequest xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="id-itwxXF3KTav4NF8Tz" Version="2.0" IssueInstant="2023-10-22T13:55:32Z" Destination="http://localhost:9000/idp/sso/post" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" AssertionConsumerServiceURL="http://localhost:8000/saml2/acs/">
+	<saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://localhost:8000/saml2/metadata/</saml:Issuer>
+	<ds:Signature Id="Signature1">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<ds:Reference URI="#id-itwxXF3KTav4NF8Tz">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<ds:DigestValue>l7w8iA5UvcJDgKACJ0TM1JeMyaxb+/J8YUOJRMPpttM=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>HuCIhF5iPkE2y/up3nkVrR5HioFg+Whf8t/17VVCXbvPWZqQ1VK4+S7Vt86Ip0iN
+lRCR0ihl8c91/dhg8m18VGgz6Kh4fJP7yBAZPAw2ScfHzBfPXTl3oQX/mKwzh8mD
+eqTcotSn8AAHOcHaBY2eJLW6/N94oV7/6+gNcKRaU1LnYS9gv1XNUOTFHsm5cJGX
+Y/Da34yR6sYBNVCzieEy8wA49POp2aIWzJT+aLKTQ+oyh2T4XeWs8K5sH0N2Z28e
+0uuDF8asxmGoAhy3Aod7uD0mojA+C1JzvmlO/QOHyItU4Xs5cpbV89C/VYXChPc8
+d3l8lSxGcw1Kp8YQdfl5nA==</ds:SignatureValue>
+		<ds:KeyInfo>
+			<ds:X509Data>
+				<ds:X509Certificate>MIIDETCCAfmgAwIBAgIUPw12Gkt4agBtLBntd7RzTWwLKAYwDQYJKoZIhvcNAQELBQAwGDEWMBQGA1UEAwwNc3AxLnVuaWNhbC5pdDAeFw0xOTAzMjAxNDMxMTVaFw0yOTAzMTcxNDMxMTVaMBgxFjAUBgNVBAMMDXNwMS51bmljYWwuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCj0BzOt58ECsSwT049bIhmD0p7q0Y+4L7cjrvvJYcMT7HZE+tbO4M6upkXnP+3gvPpRccaEtwJoda3gYzvF35VMzp0fCW7OmXIR8cJtySIfzkdmmO385Tbxlp1jRxZyQtc2nPzCKeV4xlQNEinQr94nI7tMFReDejjXKwS5RABk8KQMo2M78xa9RQyxqDC1e0ioeVQRR2og99fF3u/WOJ/JB2aETTfvInrFIyFA5XB0roBDyM44877nRKYeMBd4kVk+fs4yu6kZm7WOXHUXFLKRuXLeVxEbZYzSSMjncsB1U35OAt+Ozkp+12qaqMAVdGKP+xso3zGAr/5AC6CuPnrAgMBAAGjUzBRMB0GA1UdDgQWBBR6RRoajGB1UmdiMAKSmgpL3RD0mzAfBgNVHSMEGDAWgBR6RRoajGB1UmdiMAKSmgpL3RD0mzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBzRUa++T0EiR+Fq4iTpKIysigV+1CeMbS+u1JaPOnMXfWmboOOVDrHhnitbpfxm+SpbafPTz40THtfw9EKvReMjNa4HQ4vFBMwZtmYZ4piGS5PferFDzYdZG1dS/2vcCQA4Dya/R675XKEhBdWO8JfUOL1ImMoJBa5Z+ApU8OCk8hpiJUV0akpw7jA+VO8+VR2T+SH+3h28KOrNdraWozZ99NKqB7GUFcaxouaOkPE7mi8JyAgLZMZvJaeQeJEUI9sfavSLmvBsfbusAeCjFYCVM9MM7uZNvK6gI0Dzppl+rN7vRWcBF+oYyiS1EX9j2GqG1yWcdGvY60GJu5Er5id</ds:X509Certificate>
+			</ds:X509Data>
+		</ds:KeyInfo>
+	</ds:Signature>
+	<samlp:NameIDPolicy Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
+</samlp:AuthnRequest>
+]
+INFO 2023-10-22 13:55:32,232 views 5538 140198840104512 SSO req from client 127.0.0.1 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0)
+INFO 2023-10-22 13:55:32,464 decorators 5538 140198840104512 SAML Request absent from <WSGIRequest: GET '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:55:40,926 decorators 5538 140198840104512 SAML Request absent from <WSGIRequest: POST '/idp/login/?next=/idp/login/process/'>
+INFO 2023-10-22 13:56:17,670 views 5538 140198830663232 wert: already logged in.
+INFO 2023-10-22 13:56:17,834 views 5538 140198830663232 SSO AuthnResponse [urn:oasis:names:tc:SAML:2.0:nameid-format:transient] to http://localhost:8000/saml2/metadata/ [id-itwxXF3KTav4NF8Tz]: 3 attrs (mail,sn,givenName) on 3 filtered by policy

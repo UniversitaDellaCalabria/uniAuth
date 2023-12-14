@@ -27,9 +27,13 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
         lu = None
         dn = None
 
+        uid_value = 'uid'
+
         username = conv.escape_filter_chars(username, encoding=None)
         for lc in settings.LDAP_CONNECTIONS:
-            search_filter = '(uid={})'.format(username)
+            # rewrites uid value if necessary
+            uid_value = lc.conf.get('uid_alias', 'uid')
+            search_filter = f"({uid_value}={username})"
             lu = lc.get(search=search_filter)
             if lu:
                 logger.info(
@@ -51,25 +55,32 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
         else:
             msg = "--- LDAP user {} succesfully authenticated to {} ---"
             logger.info(msg.format(dn, lc))
-            attrs = ','.join([i for i in list(lu.values())[0]])
+            attrs = ",".join([i for i in list(lu.values())[0]])
             logger.info("--- LDAP user attributes: [{}]".format(attrs))
-        username = lu_obj.uid[0]
+
+        username = getattr(lu_obj, uid_value)[0]
         user = get_user_model().objects.filter(username=username).first()
+        mail = lu_obj.mail[0] if lu_obj.mail else ""
+        sn = lu_obj.sn[0] if lu_obj.sn else ""
+        gn = lu_obj.givenName[0] if lu_obj.givenName else ""
+
         if user:
             # update attrs:
-            user.email = lu_obj.mail[0]
-            user.first_name = lu_obj.givenName[0]
-            user.last_name = lu_obj.sn[0]
+            user.email = mail
+            user.first_name = gn
+            user.last_name = sn
             user.origin = lc.__repr__()
             user.save()
         else:
             logger.info("--- Creating user: {}".format(username))
-            user = get_user_model().objects.create(username=username,
-                                                   email=lu_obj.mail[0],
-                                                   first_name=lu_obj.givenName[0],
-                                                   last_name=lu_obj.sn[0],
-                                                   origin=lc.__repr__())
+            user = get_user_model().objects.create(
+                username=username,
+                email=mail,
+                first_name=gn,
+                last_name=sn,
+                origin=lc.__repr__(),
+            )
 
         # avoids another LDAP query in Attributes processors
-        request.saml_session['identity_attributes'] = lu[dn]
+        request.saml_session["identity_attributes"] = lu[dn]
         return user

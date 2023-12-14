@@ -1,0 +1,74 @@
+{% load i18n %}
+{% load static %}
+{% load socialauth_buttons %}
+
+{% is_social_auth_enabled as sae %}
+{% if sae %}
+	<div class="container  p-0" style="overflow: hidden;">
+		<div class="row p-0">
+
+			<div class="col-12 p-0  mt-4 mb-4">
+
+
+				<div class="hrdivider container border-25 acsia_border position-relative">
+
+					<hr class="container border-25 acsia_border" data-content="OR" style="background: #FBBF24"/>
+
+					<span class="acsia_text" style="position: absolute; left: 50%; transform: translateX(-50%); background:#18181B; padding:2px 8px; top: -12px; color: #fafafa;">{% trans "OR" %}</span>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+		{% is_google_enabled as google %}
+		{% if google %}
+			<div class="row mt-3">
+				<form name="gauth" class="col-md-12" method="post" action="/accounts/google/login/">
+					{% csrf_token %}
+					<div class="col-md-12">
+						<span class="btn btn-lg btn-socialauth btn-block" onclick="gauth.submit()" style="background-color:#fafafa">
+							<img src="{% static '/img/icons/google-logo.png' %}">
+							{% trans "Signup Using Google" %}
+						</span>
+					</div>
+				</form>
+			</div>
+		{% endif %}
+
+		{% is_azure_enabled as azure %}
+		{% if azure %}
+			<div class="row">
+				<form name="azauth" class="col-md-12" method="post" action="/accounts/azure/login/">
+					{% csrf_token %}
+					<div class="col-md-12">
+						<span class="btn btn-lg btn-socialauth btn-block" onclick="azauth.submit()" style="background-color:#fafafa">
+							<img src="{% static '/img/icons/azure.png' %}">
+							{% trans "Signup Using Azure" %}
+						</span>
+					</div>
+				</form>
+			</div>
+		{% endif %}
+
+		{% is_microsoft_enabled as microsoft %}
+		{% if microsoft %}
+			<div class="row">
+				<form name="microsoft_auth" class="col-md-12" method="post" action="/accounts/microsoft/login/">
+					{% csrf_token %}
+					<div class="col-md-12">
+						<span class="btn btn-lg btn-socialauth btn-block" onclick="microsoft_auth.submit()" style="background-color:#fafafa">
+
+							<img src="{% static '/img/icons/microsoft.ico' %}">
+							{% trans "Signup Using Microsoft" %}
+						</span>
+					</div>
+				</form>
+			</div>
+		{% endif %}
+
+	</div>
+	<!-- end container -->
+{% endif %}

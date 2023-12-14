@@ -8,7 +8,7 @@ from .admin_inlines import PersistentIdInline
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    readonly_fields = ('date_joined', 'last_login',)
+    readonly_fields = ('date_joined', 'last_login', 'uuid')
     list_display = ('username', 'email', 'is_active',
                     'is_staff', 'is_superuser', )
     list_editable = ('is_active', 'is_staff', 'is_superuser',)
@@ -16,12 +16,13 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': (('username', 'is_active', 'is_staff', 'is_superuser', ),
                            ('password'),
-                           ('origin'),
+                           ('origin'), ('uuid')
                            )
                 }),
         (_('Anagrafica'), {'fields': (('first_name', 'last_name'),
                                           'email',
-                                         ('taxpayer_id',)
+                                         ('taxpayer_id',),
+                                         'attributes'
                                         )
                           }),
 

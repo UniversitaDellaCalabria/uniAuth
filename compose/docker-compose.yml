@@ -1,0 +1,93 @@
+version: '3.1'
+services:
+
+  uniauth-db:
+    image: postgres:9.6-bullseye
+    container_name: uniauth-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: that-pass
+      POSTGRES_USER: uniauth
+      POSTGRES_DB: uniauth
+      ON_ERROR_STOP: 1
+    volumes:
+      - ./compose/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      #- db-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    networks:
+      - uniauth
+
+  uniauth:
+    #image: uniauth:latest
+    build: ../
+    container_name: uniauth
+    # depends_on:
+      # - uniauth_openldap
+      # - uniauth-db
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=that-pass
+      - DJANGO_SUPERUSER_EMAIL=that@email.local
+      - HOSTNAME=localhost
+      - HTTPS=1
+      - PORT=0
+      
+      - DB-NAME=uniauth
+      - DB-USER=uniauth
+      - DB-PASS=that-pass
+      - DB-HOST=uniauth-db
+      
+    networks:
+      - uniauth
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    volumes:
+       - uniauth_proj:/opt/uniauth
+    entrypoint: ["bash", "/opt/uniauth/docker-compose.run"]
+    
+  uniauth-nginx:
+    image: nginx:alpine
+    container_name: uniauth-nginx
+    depends_on:
+      - uniauth
+    networks:
+      - uniauth
+    ports:
+      # - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf_uwsgi_pass:/etc/nginx/nginx.conf:ro
+      - ./nginx/static/50x.html:/usr/share/nginx/html/50x.html:ro
+      - ./nginx/static/404.html:/usr/share/nginx/html/404.html:ro
+      - ./nginx/static/403.html:/usr/share/nginx/html/403.html:ro
+      - uniauth_nginx_certs:/etc/nginx/certs:ro
+      - uniauth_nginx_static:/var/www/html
+
+networks:
+  uniauth:
+    driver: bridge
+
+volumes:
+
+  uniauth_nginx_certs:
+    external: true
+    name: uniauth_nginx_certs
+
+  uniauth_nginx_static:
+    external: true
+    name: uniauth_nginx_static
+
+  uniauth_proj:
+    external: true
+    name: uniauth_proj
+
+#  nginx_conf:
+#    driver_opts:
+#      type: none
+#      device: $PWD/nginx/
+#      o: bind

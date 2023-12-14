@@ -101,10 +101,12 @@ MIDDLEWARE = [
     "djangosaml2.middleware.SamlSessionMiddleware",
 ]
 
-if os.environ.get("MFA", 0):
-    # Enforce MFA
-    MIDDLEWARE.append("mfa.middleware.MFAEnforceMiddleware"
-)
+if 'mfa' in INSTALLED_APPS:
+    MIDDLEWARE.append("mfa.middleware.MfaSessionMiddleware")
+    
+    if os.environ.get("MFA", 0):
+        # Enforce MFA
+        MIDDLEWARE.append("mfa.middleware.MFAEnforceMiddleware")
 
 if "allauth" in INSTALLED_APPS:
     MIDDLEWARE.append("allauth.account.middleware.AccountMiddleware")

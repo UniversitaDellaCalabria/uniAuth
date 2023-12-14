@@ -35,7 +35,7 @@ def store_params_in_session(request):
 
     saml_request = passed_data.get("SAMLRequest")
     if saml_request:
-        msg = "SAML request [\n{}]"
+        msg = "SAML request [{}]"
         logger.debug(msg.format(repr_saml(saml_request, b64=True)))
     else:  # pragma: no cover
         msg = _("not a valid SAMLRequest: {}").format(
@@ -83,7 +83,7 @@ def store_params_in_session_func(func_to_decorate):
 
 
 def require_saml_request(func_to_decorate):
-    """store_params_in_session as a funcion decorator"""
+    """require_saml_request as a function decorator"""
 
     def new_func(*original_args, **original_kwargs):
         request = original_args[0]

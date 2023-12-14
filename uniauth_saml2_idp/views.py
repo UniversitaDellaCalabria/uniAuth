@@ -695,10 +695,6 @@ class LoginAuthView(LoginView):
     template_name = "saml_login.html"
     form_class = LoginForm
 
-    def clean_mfa(self):
-        if self.request.session.get('mfa_user'):
-            del self.request.session['mfa_user']
-
     def form_invalid(self, form):
         """If the form is invalid, returns a generic message
         status code 200 to prevent brute force attack based to response code!
@@ -723,14 +719,6 @@ class LoginAuthView(LoginView):
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-        
-        # check if admin access
-        ac = urllib.parse.splitquery(self.request.get_full_path())
-        if f'next=/{settings.ADMIN_PATH}' in ac[1]:
-            self.clean_mfa()
-            return super().form_valid(form)
-        # end check admin access
-        
         # check issue instant
         now = timezone.localtime()
         issue_instant = now
@@ -755,9 +743,7 @@ class LoginAuthView(LoginView):
                 break
             except Exception as e:
                 logger.debug(
-                    "{} not parseable with {}: {}".format(
-                        authn_issue_instant, tformat, e
-                    )
+                    f"{authn_issue_instant} not parseable with {tformat}: {e}"
                 )
         # end check
         mins = getattr(settings, "SESSION_COOKIE_AGE", 600)
@@ -768,7 +754,7 @@ class LoginAuthView(LoginView):
                 timezone.get_current_timezone(),
             )
         except Exception as e:
-            logger.error("Issue instant time comparison failed: {}".format(e))
+            logger.error(f"Issue instant time comparison failed: {e}")
         if dt_check:
             return render(
                 self.request,
@@ -795,10 +781,8 @@ class LoginAuthView(LoginView):
 
         if self.request.POST.get("forget_login"):
             self.request.saml_session["forget_login"] = 1
-        
-        self.clean_mfa()
-        return super().form_valid(form)
-        # return HttpResponseRedirect(self.get_success_url())
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @method_decorator(never_cache, name="dispatch")
@@ -870,8 +854,7 @@ class LoginProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         )
 
         logger.debug(
-            "SAML Authn request Response [\n{}]".format(
-                repr_saml(self.authn_resp))
+            f"SAML Authn request Response [{repr_saml(self.authn_resp)}]"
         )
         return self.render_response(request, html_response)
 
@@ -968,6 +951,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
         context["form"] = AgreementForm()
         html_response = render_to_string(
             template, context=context, request=request)
+        
         return HttpResponse(html_response)
 
     def post(self, request, *args, **kwargs):
@@ -1007,43 +991,7 @@ class UserAgreementScreen(ErrorHandler, LoginRequiredMixin, View):
 
 
 @method_decorator(never_cache, name="dispatch")
-@method_decorator(require_saml_request, name="dispatch")
-class ProcessMultiFactorView(LoginRequiredMixin, View):
-    """This view is used in an optional step is to perform 'other'
-    user validation, for example 2nd factor checks.
-    Override this view per the documentation if using this
-    functionality to plug in your custom validation logic.
-    """
-
-    def multifactor_is_valid(self, request):  # pragma: no cover
-        """The code here can do whatever it needs to validate your
-        user (via request.user or elsewise).
-        It must return True for authentication
-        to be considered a success.
-        """
-        return True
-
-    def get(self, request, *args, **kwargs):  # pragma: no cover
-        if self.multifactor_is_valid(request):
-            logger.debug("MultiFactor succeeded for %s" % request.user)
-
-            # Check if user agreement redirect needed
-            if request.saml_session.get("sp_display_info"):
-                # Arbitrary value that's only set if user agreement needed.
-                return HttpResponseRedirect(
-                    reverse("uniauth_saml2_idp:saml_user_agreement")
-                )
-            return HttpResponse(request.saml_session["response"])
-        logger.debug(
-            _("MultiFactor failed; %s will not be able to log in") % request.user
-        )
-        logout(request)
-        raise PermissionDenied(_("MultiFactor authentication factor failed"))
-
-
-@method_decorator(never_cache, name="dispatch")
 @method_decorator(csrf_exempt, name="dispatch")
-# @method_decorator(require_saml_request, name="dispatch")
 class LogoutProcessView(IdPHandlerViewMixin, View):
     """View which processes the actual SAML Single Logout request
     The login_required decorator ensures the user authenticates
@@ -1177,4 +1125,21 @@ def test500(request):
 
 
 class LoginMfaView(LoginAuthView, MfaLoginAuthView):
-    pass
+    
+    def clean_mfa(self):
+        if getattr(self.request, "mfa_session", {}).get('mfa_user'):
+            del self.request.mfa_session['mfa_user']
+    
+    def form_valid(self, form):
+        # check if admin access
+        ac = urllib.parse.splitquery(self.request.get_full_path())
+        if f'next=/{settings.ADMIN_PATH}' in ac[1]:
+            self.clean_mfa()
+            return super(LoginAuthView, self).form_valid(form)
+        # end check admin access
+        
+        self.clean_mfa()
+        _redirect = super(LoginAuthView, self).form_valid(form)
+        return _redirect
+        
+        #  return super(MfaLoginAuthView, self).form_valid(form)

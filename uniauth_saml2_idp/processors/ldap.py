@@ -3,7 +3,7 @@ import logging
 from django.conf import settings
 from . base import BaseProcessor
 from . unical_attributes_generator import UnicalAttributeGenerator
-
+from .. utils import get_ldap_connections
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +99,7 @@ class LdapUnicalMultiAcademiaProcessor(LdapUnicalAcademiaProcessor):
         # otherwise do another query ...
         username = _get_username(user)
         identity = None
-        for lc in settings.LDAP_CONNECTIONS:  # pragma: no coverage
+        for lc in get_ldap_connections():  # pragma: no coverage
             ldapfilter = '(uid={})'.format(username)
             logging.debug("Processor {} searches for {} in {}".format(self.__class__,
                                                                       username,

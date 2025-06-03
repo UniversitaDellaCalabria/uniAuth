@@ -6,6 +6,8 @@ from django.conf import settings
 
 from ldap3.utils import conv
 
+from .. utils import get_ldap_connections
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ class LdapUnicalMultiAcademiaAuthBackend(ModelBackend):
         dn = None
 
         username = conv.escape_filter_chars(username, encoding=None)
-        for lc in settings.LDAP_CONNECTIONS:
+        for lc in get_ldap_connections():
             search_filter = '(uid={})'.format(username)
             lu = lc.get(search=search_filter)
             if lu:

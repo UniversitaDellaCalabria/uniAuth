@@ -324,7 +324,7 @@ if 'multildap' in INSTALLED_APPS:
     LDAP_CONNECTIONS = {'DEFAULT' : DEFAULT,
                         # 'LOCAL' : LOCAL
                         }
-    LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]
+    # LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]
 
 if 'uniauth_saml2_idp' in INSTALLED_APPS:
     from . idp_pysaml2 import *

@@ -5,6 +5,7 @@ import xml.etree.ElementTree
 import zlib
 
 from django.conf import settings
+from multildap.client import LdapClient
 from saml2.config import IdPConfig
 from saml2.server import Server
 from xml.parsers.expat import ExpatError
@@ -72,3 +73,7 @@ def get_client_id(request):
         ip = request.META.get('REMOTE_ADDR')
     ua = request.META.get('HTTP_USER_AGENT', '')
     return '{} ({})'.format(ip, ua)
+
+
+def get_ldap_connections():
+    return [LdapClient(conf) for conf in settings.LDAP_CONNECTIONS.values()]

@@ -128,6 +128,44 @@ LOGGING = {
     }
 }
 
+#################
+# LDAP, optional
+#################
+if 'ldap_peoples' in INSTALLED_APPS:
+    # load default and overrides as you prefer
+    from ldap_peoples.settings import *
+    DEFAULT_EDUPERSON_ENTITLEMENT = ['urn:mace:terena.org:tcs:personal-user',
+                                     'urn:mace:terena.org:tcs:escience-user']
+    SCHAC_HOMEORGANIZATIONTYPE_DEFAULT = ['educationInstitution',
+                                          'university']
+    SCHAC_HOMEORGANIZATION_DEFAULT = LDAP_BASE_DOMAIN
+
+    LDAP_CONNECTION_OPTIONS = {ldap.OPT_PROTOCOL_VERSION: 3,
+                               ldap.OPT_NETWORK_TIMEOUT: 5,
+                               # ldap.OPT_DEBUG_LEVEL: 255,
+                               # ldap.OPT_X_TLS_CACERTFILE: LDAP_CACERT,
+                               # force /etc/ldap.conf configuration.
+                               # ldap.OPT_X_TLS_REQUIRE_CERT: ldap.OPT_X_TLS_NEVER,
+                               # ldap.OPT_X_TLS_REQUIRE_CERT: ldap.OPT_X_TLS_DEMAND,
+                               # ldap.OPT_X_TLS: ldap.OPT_X_TLS_DEMAND,
+                               # ldap.OPT_X_TLS_DEMAND: True,
+                               # ldap.OPT_X_TLS: ldap.OPT_X_TLS_NEVER,
+                               # ldap.OPT_X_TLS_DEMAND: False,
+                              }
+
+    DATABASES['ldap'] = {
+        'ENGINE': 'ldapdb.backends.ldap',
+        # only in localhost
+        #'NAME': 'ldapi://',
+        'NAME': LDAP_DB_URL,
+        'USER': LDAP_CONNECTION_USER,
+        'PASSWORD': LDAP_CONNECTION_PASSWD,
+        'RETRY_DELAY': 8,
+        'RETRY_MAX': 3,
+        'CONNECTION_OPTIONS': LDAP_CONNECTION_OPTIONS
+     }
+
+    DATABASE_ROUTERS = ['ldapdb.router.Router']
 
 if 'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS:
     # ldap_peoples related
@@ -136,7 +174,6 @@ if 'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS:
     # LDAP_DB_URL = 'ldap://localhost:389/'
     LDAP_BASE_DOMAIN = 'testunical.it'
     # LDAP_PEOPLE_DN = 'dc=proxy'
-
 
 if 'multildap' in INSTALLED_APPS:
     #####################
@@ -288,3 +325,13 @@ if 'multildap' in INSTALLED_APPS:
                         # 'LOCAL' : LOCAL
                         }
     LDAP_CONNECTIONS = [LdapClient(conf) for conf in LDAP_CONNECTIONS.values()]
+
+if 'uniauth_saml2_idp' in INSTALLED_APPS:
+    from . idp_pysaml2 import *
+
+if 'uniauth_saml2_idp' in INSTALLED_APPS and (
+    'multildap' in INSTALLED_APPS or 'ldap_peoples' in INSTALLED_APPS):
+    AUTHENTICATION_BACKENDS.append('uniauth_saml2_idp.auth.multildap.LdapUnicalMultiAcademiaAuthBackend')
+
+# from django 3.2
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

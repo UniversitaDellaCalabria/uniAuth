@@ -14,7 +14,9 @@ SESSION_COOKIE_AGE = 60 * 10 # minutes
 # the path corresponding the admin backend, default if not defined: admin/
 ADMIN_PATH = 'admin_access'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['yourhost']
+CSRF_TRUSTED_ORIGINS = ['https://yourhost']
+
 AUTH_USER_MODEL = 'accounts.User'
 
 INSTALLED_APPS = [

@@ -124,23 +124,23 @@ IDP: {% trans "Auth login" %}
     <!-- SP logo or description -->
     <div class="row">
 
-            {% if request.saml_session.SAML.sp_logo  %}
+            {% if request.saml_session.sp_logo  %}
             <div class="col-lg-2 px-5 pb-2 pb-lg-4 pr-lg-0 offset-lg-3 align-self-center text-center text-lg-left">
                 <p>{% trans "Requested by" %}:</p>
                 <div class="mx-5 mx-lg-0">
                     <div class="mx-md-5 mx-lg-0">
-                        <img src="{{ request.saml_session.SAML.sp_logo }}"
-                             alt="{{ request.saml_session.SAML.sp_display_name }}" width="70%">
+                        <img src="{{ request.saml_session.sp_logo }}"
+                             alt="{{ request.saml_session.sp_display_name }}" width="70%">
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 px-5 pb-5 pl-lg-0 pb-lg-4 align-self-center small text-center text-lg-left">
-                {{ request.saml_session.SAML.sp_display_description }}
+                {{ request.saml_session.sp_display_description }}
             </div>
            {% else %}
            <div class="col-lg-2 px-5 pb-2 pb-lg-4 pr-lg-0 offset-lg-3 align-self-center text-center text-lg-left">
                  <p>{% trans "Requested by" %}:</p>
-                 <p>{{ request.saml_session.SAML.sp_display_description }}</p>
+                 <p>{{ request.saml_session.sp_display_description }}</p>
        </div>
            {% endif %}
 

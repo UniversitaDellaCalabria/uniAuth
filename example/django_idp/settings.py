@@ -87,12 +87,6 @@ WSGI_APPLICATION = 'django_idp.wsgi.application'
 
 #DATABASES = settingslocal.DATABASES
 
-AUTHENTICATION_BACKENDS = [
-                            'django.contrib.auth.backends.ModelBackend',
-                            # TODO
-                            # 'unical_ict.auth.SessionUniqueBackend',
-                          ]
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 

@@ -51,6 +51,12 @@ DATABASES = {
    }
 }
 
+AUTHENTICATION_BACKENDS = [
+                            'django.contrib.auth.backends.ModelBackend',
+                            # TODO
+                            # 'unical_ict.auth.SessionUniqueBackend',
+                          ]
+
 # needed for ldap admin forms
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S',
                           '%d/%m/%Y %H:%M:%S']

@@ -44,6 +44,7 @@ def store_params_in_session(request):
     request.saml_session['SAMLRequest'] = saml_request
     request.saml_session['Binding'] = binding
     request.saml_session['RelayState'] = passed_data.get('RelayState', '')
+    return None
 
 
 def store_params_in_session_func(func_to_decorate):
@@ -52,7 +53,9 @@ def store_params_in_session_func(func_to_decorate):
     def new_func(*original_args, **original_kwargs):
         request = original_args[0]
         try:
-            store_params_in_session(request)
+            response = store_params_in_session(request)
+            if response:
+                return response
             return func_to_decorate(*original_args, **original_kwargs)
         except Exception as e:  # pragma: no cover
             msg = _('not a valid SAMLRequest: {}').format(e)

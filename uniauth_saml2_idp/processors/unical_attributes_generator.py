@@ -56,11 +56,29 @@ class UnicalAttributeGenerator:
         if attributes.get('schacPersonalUniqueID'):
             return UnicalAttributeProcessor.codice_fiscale_rs(attributes['schacPersonalUniqueID'])
 
+
+    # GARR - European Student Identifier
+    @staticmethod
+    def schacPersonalUniqueCodeESI(orgname='unical.it', matricola_studente=matricola_studente):
+        return f"urn:schac:personalUniqueCode:int:esi:{orgname}:{matricola_studente}"
+
+
     @classmethod
     def process(cls, attributes, sp_mapping):
-        cattr = dict(matricola_dipendente=cls.matricola_dipendente(attributes),
-                     matricola_studente=cls.matricola_studente(attributes),
-                     codice_fiscale=cls.codice_fiscale(attributes))
+        codice_fiscale = cls.codice_fiscale(attributes)
+        matricola_dipendente = cls.matricola_dipendente(attributes)
+        matricola_studente = cls.matricola_studente(attributes)
+        
+        cattr = dict(
+            matricola_dipendente=matricola_dipendente,
+            matricola_studente=matricola_studente,
+            codice_fiscale=codice_fiscale,
+        )
+
+        if matricola_studente:
+            schacPersonalUniqueCodeESI = cls.schacPersonalUniqueCodeESI(matricola_studente=matricola_studente)
+            cattr['schacPersonalUniqueCode'] = schacPersonalUniqueCodeESI
+            
         for k, v in cattr.items():
             if v and k in sp_mapping:
                 attributes[k] = v

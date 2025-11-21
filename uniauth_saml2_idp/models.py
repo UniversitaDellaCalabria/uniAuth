@@ -226,11 +226,16 @@ class MetadataStore(models.Model):
         error = None
         if self.type == 'mdq':  # pragma: no cover
             try:
-                r = requests.head(self.url + '/entities/')
+                # without slash
+                entities_url = f"{self.url}/entities"
+                r = requests.head(entities_url)
                 if r.status_code != 200:
-                    logger.error(
-                        '{} /entities query failed: {}'.format(self, r.content))
-                    self.is_active = False
+                    # append slash
+                    r = requests.head(f"{entities_url}/")
+                    if r.status_code != 200:
+                        logger.error(
+                            '{} /entities query failed: {}'.format(self, r.content))
+                        self.is_active = False
             except Exception as e:
                 error = 'Endpoint is not reachable: {}'.format(e)
                 self.is_active = False

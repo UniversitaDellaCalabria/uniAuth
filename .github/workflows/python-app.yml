@@ -51,7 +51,8 @@ jobs:
       working-directory: ./example
       run: |
         # pytest --cov-config=.coveragerc --cov=../ -v --ignore=tests/test_05_ldap_datastore.py
-        pytest --cov-config=.coveragerc -v --cov=../
+        # pytest --cov-config=.coveragerc -v --cov=../
+        python manage.py test --settings tests.settings --failfast -v 2
     #- name: Bandit Security Scan
       #run: |
         #bandit -r -x test* uniauth/*

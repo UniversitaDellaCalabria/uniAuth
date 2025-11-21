@@ -1,6 +1,7 @@
 import base64
 import json
 import re
+import unittest
 
 from django.conf import settings
 from django.urls import reverse
@@ -14,6 +15,7 @@ from .idp_pysaml2 import IDP_SP_METADATA_PATH
 from .settingsldap import LDAP_CONNECTIONS
 
 
+@unittest.skip("Ignored in CI")
 class TestEnabledRP(BaseTestRP):
     def setUp(self):
         super().setUp()

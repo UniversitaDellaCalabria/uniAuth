@@ -59,7 +59,7 @@ class UnicalAttributeGenerator:
 
     # GARR - European Student Identifier
     @staticmethod
-    def schacPersonalUniqueCodeESI(orgname='unical.it', matricola_studente=matricola_studente):
+    def schacPersonalUniqueCodeESI(matricola_studente, orgname='unical.it'):
         return f"urn:schac:personalUniqueCode:int:esi:{orgname}:{matricola_studente}"
 
 

@@ -106,8 +106,6 @@ __FROM = {
         OPENOSI_OID+'107': 'osiOtherEmail',
         OPENOSI_OID+'109': 'osiOtherHomePhone',
         OPENOSI_OID+'120': 'osiWorkURL',
-        "urn:oid:0.9.2342.19200300.100.1.3": 'email',
-        "urn:oid:0.9.2342.19200300.100.1.3": 'mail',
         SCHAC+'1': 'schacMotherTongue',
         SCHAC+'2': 'schacGender',
         SCHAC+'3': 'schacDateOfBirth',
@@ -130,7 +128,8 @@ __FROM = {
         SCHAC+'21': 'schacProjectSpecificRole',
         SIS+'1': 'sisLegalGuardianFor',
         SIS+'2': 'sisSchoolGrade',
-        "urn:oid:0.9.2342.19200300.100.1.1": 'uid',
+        UCL_DIR_PILOT+'1': 'uid',
+        UCL_DIR_PILOT+'3': 'email',
         UCL_DIR_PILOT+'3': 'mail',
         UCL_DIR_PILOT+'25': 'dc',
         UCL_DIR_PILOT+'37': 'associatedDomain',
@@ -186,6 +185,11 @@ __FROM = {
         X500ATTR_OID+'53': 'deltaRevocationList',
         X500ATTR_OID+'54': 'dmdName',
         X500ATTR_OID+'65': 'pseudonym',
+
+        # UniCal attributes
+        'codice_fiscale': 'codice_fiscale',
+        'matricola_dipendente': 'matricola_dipendente',
+        'matricola_studente': 'matricola_studente'
 }
 
 MAP = {

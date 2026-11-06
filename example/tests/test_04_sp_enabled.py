@@ -134,3 +134,12 @@ class TestEnabledRP(BaseTestRP):
         logout_response = self.client.post(logout_url,
                                            data={'SAMLRequest': saml_req_logout},
                                            follow=True)
+
+        # logout with an expired/missing IdP session must not fail:
+        # the IdP should answer the SP with a regular LogoutResponse
+        self.client.cookies.clear()
+        expired_logout_response = self.client.post(
+            logout_url, data={'SAMLRequest': saml_req_logout[0]})
+        assert expired_logout_response.status_code == 200
+        assert re.findall(samlresponse_form_regexp,
+                          expired_logout_response.content.decode())

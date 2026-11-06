@@ -910,7 +910,6 @@ class ProcessMultiFactorView(LoginRequiredMixin, View):
 
 @method_decorator(never_cache, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(require_saml_request, name='dispatch')
 class LogoutProcessView(IdPHandlerViewMixin, View):
     """ View which processes the actual SAML Single Logout request
         The login_required decorator ensures the user authenticates
@@ -978,13 +977,16 @@ class LogoutProcessView(IdPHandlerViewMixin, View):
                                                                         relay_state))
 
         # logout user from IDP, this won't work in crossdomains because of SameSite
-        user = get_user_model().objects.filter(
-            pk=request.saml_session['_auth_user_id'])
+        # if the IdP session is already expired the user is de facto
+        # logged out: answer the SP with a regular LogoutResponse
+        # instead of raising an error (SAML2 Profiles, 4.4.4.2)
+        user_id = request.saml_session.get('_auth_user_id')
+        user = get_user_model().objects.filter(pk=user_id).first() if user_id else None
         if user:
-            user.first().clear_sessions()
+            user.clear_sessions()
         else:
-            logger.warn('{}: logging out an unauthenticated user?'.format(
-                self.__service_name))
+            logger.info('{}: IdP session already expired or not found, '
+                        'nothing to clear'.format(self.__service_name))
 
         if hinfo['method'] == 'GET':
             return HttpResponseRedirect(hinfo['headers'][0][1])
